@@ -140,8 +140,9 @@ class dWMShop_c : public dActor_c {
 
 extern int PtrToWM_CS_SEQ_MNG;
 extern "C" bool FUN_801017c0(int, int, int, int, int);
+extern "C" void FUN_808fbd10(int);
 extern "C" void dCourseSelectGuide_c__loadLives(int);
-
+bool isFrozen = false;
 
 CREATE_STATE(dWMShop_c, Hidden);
 CREATE_STATE(dWMShop_c, ShowWait);
@@ -410,6 +411,8 @@ int dWMShop_c::onExecute() {
 	//OSReport("Shop state: %s\n", this->state.getCurrentState()->getName());
 	state.execute();
 
+	//OSReport("isFrozen: %s\n\n", isFrozen ? "true" : "false");
+
 	if (visible) {
 		lakituModel->execute();
 
@@ -453,19 +456,21 @@ void dWMShop_c::show(int shopNumber) {
 	state.setState(&StateID_ShowWait);
 }
 
-bool shopOpen = false;
-
 // Hidden
 void dWMShop_c::beginState_Hidden() { }
 void dWMShop_c::executeState_Hidden() {
 	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
 
 	if (nowPressed & WPAD_B) {
-		state.setState(&StateID_ShowWait);
-		FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
-		dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-		*(u8*)((int)(csMng) + 0x53C) = 0;
-		shopOpen = true;
+		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
+		//if(*(u8*)(PtrToWM_CS_SEQ_MNG + 0x394) == 1) {
+			
+			state.setState(&StateID_ShowWait);
+			FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
+			dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
+			*(u8*)((int)(csMng) + 0x53C) = 0;					//hide gameScene
+			//*(u8*)((int)(csMng) + 0x545) = 1;			//startedSomeMsgThing = true
+		//}
 	}
 }
 void dWMShop_c::endState_Hidden() { }
@@ -524,7 +529,6 @@ void dWMShop_c::executeState_Wait() {
 
 	if (nowPressed & WPAD_ONE) {
 		// Hide the thing
-		FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x36, 0, 0, 0x80);
 		state.setState(&StateID_HideWait);
 
 	} else if (nowPressed & WPAD_UP) {
@@ -592,7 +596,14 @@ void dWMShop_c::executeState_HideWait() {
 			scaleEase = 0.0f;
 	} else {
 		dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-		*(u8*)((int)(csMng) + 0x53C) = 1;
+		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
+		*(u8*)((int)(csMng) + 0x53C) = 1;			//unhide gameScene
+		FUN_808fbd10((int)wmDirector);				//unfreeze map
+		
+		//*(u8*)((int)(csMng) + 0x548) = 0;			//doesStockItemSelectWait=false
+		//*(u8*)((int)(csMng) + 0x546) = 1;			//endedSomeMsgThing = true
+		//*(u8*)((int)(csMng) + 0x545) = 0;			//startedSomeMsgThing = false
+		  
 	}
 
 	if (!layout.isAnimOn(HIDE_ALL))

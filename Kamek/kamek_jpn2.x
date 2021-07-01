@@ -76,7 +76,10 @@ SECTIONS {
 	PtrToWM_CS_SEQ_MNG = 0x80429ECC;
 	FUN_801017c0 = 0x80101630;
 	dCourseSelectGuide_c__loadLives = 0x80010800;
-	continueFromShopCheck = 0x809149D0;
+	returnForCalledFromExecute = 0x808FBA38;
+	continueInCalledFromExecute = 0x808FB064;
+	FUN_808fbd00 = 0x808FBA50;
+	FUN_808fbd10 = 0x808FBA60;
 
 	aLightMainscene = 0x8098CE40;
 	aLightChikascen = 0x8098CE58;

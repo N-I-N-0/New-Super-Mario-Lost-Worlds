@@ -10,8 +10,20 @@ hooks:
     type: nop_insn
     area_pal: 0x80926800
     
-  - name: noMapMovementIfShop
+  - name: newShopCommand
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80914c7c
-    target_func: 'isShopOpen'
+    src_addr_pal: 0x808fb310
+    target_func: 'checkIfCommandOpenShop'
+
+#  - name: setFrozen
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x808fbd00
+#    target_func: 'setFrozen'
+
+#  - name: unsetFrozen
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x808fbd10
+#    target_func: 'unsetFrozen'

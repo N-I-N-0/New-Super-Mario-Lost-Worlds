@@ -3,22 +3,64 @@
 
 #include <asm_setup.S>
 
-.extern shopOpen
-.extern continueFromShopCheck
+.extern returnForCalledFromExecute
+.extern continueInCalledFromExecute
+.extern FUN_808fbd00
 
-.global isShopOpen
-isShopOpen:
-	lis     r4, shopOpen@h
-	ori     r4, r4, shopOpen@l
-	lbz     r4, 0(r4)
-	#lbz     r0, shopOpen@l(r0)
-	cmpwi   r4, 0
-	bgt     li4InR5
-	cmpwi   r5, 0x0
-	b       continueFromShopCheck
+.global checkIfCommandOpenShop
+checkIfCommandOpenShop:
+	beq     return
+	cmpwi   r4, 0xA9					#new command 169
+	beq     spawnThisShop
+	b       continueInCalledFromExecute
+
+return:
+	b       returnForCalledFromExecute
+
+spawnThisShop:
+	bl      FUN_808fbd00
+	b       continueInCalledFromExecute
+
+
+.extern isFrozen
+.global setFrozen
+setFrozen:
+	stwu    sp, -0x10(sp)
+	#mflr    r0
+	stw     r3, 0xC(sp)
 	
-li4InR5:
-	li      r5, 0x4
-	cmpwi   r5, 0x0
-	b       continueFromShopCheck
+	li      r0, 0x1
+	lis     r3, isFrozen@h
+	stb     r0, isFrozen@l(r3)
 	
+	lwz     r3, 0xC(sp)
+	#mtlr    r0
+	addi    sp, sp, 0x10
+	
+	stb     r0, 0x1a8(r3)
+    stw     r0, 0x1ac(r3)
+
+	blr
+
+.extern PtrToWM_CS_SEQ_MNG
+.global unsetFrozen
+unsetFrozen:
+	stwu    sp, -0x10(sp)
+	#mflr    r0
+	stw     r3, 0xC(sp)
+
+	li      r0, 0x0
+	lis     r3, isFrozen@h
+	stb     r0, isFrozen@l(r3)
+	
+	lwz     r3, 0xC(sp)
+	#mtlr    r0
+	addi    sp, sp, 0x10
+	
+	stb     r0, 0x1a8(r3)
+    lis     r3, PtrToWM_CS_SEQ_MNG@h
+    lwz     r3, PtrToWM_CS_SEQ_MNG@l(r3)
+    stb     r0, 0x394(r3)
+
+	
+	blr

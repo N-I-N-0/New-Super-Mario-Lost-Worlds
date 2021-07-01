@@ -846,29 +846,19 @@ ScriptCommand Z_GameStart[] = {
     {5, 0},
 };
 
-ScriptCommand Z_Shop_Menu_Open[] = {
-	{154, 1},
-	{92, 0},
+ScriptCommand Z_Shop_Menu[] = {
+    {154, 1},
+    {0, 2},
+    {92, 0},
     {134, 0},
     {114, 0},
     {123, 0},
-    //{132, 0},
-    //{122, 0},
-    //{130, 0},
-    //{115, 0},
-    //{154, 0},
-	
-	{5, 0},
-};
-
-ScriptCommand Z_Shop_Menu_Close[] = {
-	//{154, 0},
-	
+    {169, 0},						//new command - added in worldmapShop
     {122, 0},
     {130, 0},
     {115, 0},
     {154, 0},
-	{5, 0},
+    {5, 0},
 };
 
 ScriptCommand *custom_world_map_scripts_table[] = {
@@ -927,6 +917,5 @@ ScriptCommand *custom_world_map_scripts_table[] = {
     Z_GameStart,					//0x34
 	
 	// new scripts
-	Z_Shop_Menu_Open,				//0x35
-	Z_Shop_Menu_Close,				//0x36
+	Z_Shop_Menu,					//0x35
 };
