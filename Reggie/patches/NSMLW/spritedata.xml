@@ -3302,7 +3302,8 @@
   </sprite> <!-- #530: Stats Menu -->
 	
   <sprite id="531" name="Green Ring" asmhacks="True" notes="This ring will look forward 5 green coins placed in the level. Once collected the 5 green coins, it will reward a powerup." >
-	<list nybble="5" title="Reward" comment="This will set the item rewarded when all coins are collected." comment2="If the player has already a powerup, a 1-UP will be spawned.">
+	  <value nybble="4" title="Ring ID" comment="This is the ID of the ring, needed to link the green coins to this ring."/>
+	  <list nybble="5" title="Reward" comment="This will set the item rewarded when all coins are collected." comment2="If the player has already a powerup, a 1-UP will be spawned.">
 		<entry value="0">Fire suit</entry>
 		<entry value="1">Ice suit</entry>
 		<entry value="2">Propeller</entry>
@@ -3313,12 +3314,13 @@
   </sprite> <!-- #531: Green Ring -->
 	
   <sprite id="532" name="Green Coin" asmhacks="True" notes="A group of green coins. They are connected with the Green Ring." >
+	<value nybble="4" title="Ring ID" comment="Set the Ring ID of the green ring you are refering to."/>
 	<list nybble="5" title="Coin ID" comment="Select the coin ID for this coin. The coin ID determines what coin appear first.">
-		<entry value="0">1</entry>
-		<entry value="1">2</entry>
-		<entry value="2">3</entry>
-		<entry value="3">4</entry>
-		<entry value="4">5</entry>
+		<entry value="0">0</entry>
+		<entry value="1">1</entry>
+		<entry value="2">2</entry>
+		<entry value="3">3</entry>
+		<entry value="4">4</entry>
 	  </list>
   </sprite> <!-- #532: Green Coin -->
   
