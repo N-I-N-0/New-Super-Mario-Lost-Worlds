@@ -16,14 +16,8 @@ hooks:
     src_addr_pal: 0x808fb310
     target_func: 'checkIfCommandOpenShop'
 
-#  - name: setFrozen
-#    type: branch_insn
-#    branch_type: b
-#    src_addr_pal: 0x808fbd00
-#    target_func: 'setFrozen'
-
-#  - name: unsetFrozen
-#    type: branch_insn
-#    branch_type: b
-#    src_addr_pal: 0x808fbd10
-#    target_func: 'unsetFrozen'
+  - name: newButtonBPressed
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80904154
+    target_func: 'checkIfBIsPressed'

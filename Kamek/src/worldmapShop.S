@@ -22,45 +22,77 @@ spawnThisShop:
 	b       continueInCalledFromExecute
 
 
-.extern isFrozen
-.global setFrozen
-setFrozen:
-	stwu    sp, -0x10(sp)
-	#mflr    r0
-	stw     r3, 0xC(sp)
-	
-	li      r0, 0x1
-	lis     r3, isFrozen@h
-	stb     r0, isFrozen@l(r3)
-	
-	lwz     r3, 0xC(sp)
-	#mtlr    r0
-	addi    sp, sp, 0x10
-	
-	stb     r0, 0x1a8(r3)
-    stw     r0, 0x1ac(r3)
 
-	blr
 
-.extern PtrToWM_CS_SEQ_MNG
-.global unsetFrozen
-unsetFrozen:
-	stwu    sp, -0x10(sp)
-	#mflr    r0
-	stw     r3, 0xC(sp)
+.extern continueAt80904158  #if not condition for button check met
+.extern continueAt8090415C  #if not B pressed
+.extern LAB_809042ec       #if B pressed
+.extern makeShopShowUp__Fv
+.extern isBPressed__Fv
+.extern ActiveWiimoteID
 
-	li      r0, 0x0
-	lis     r3, isFrozen@h
-	stb     r0, isFrozen@l(r3)
-	
-	lwz     r3, 0xC(sp)
-	#mtlr    r0
-	addi    sp, sp, 0x10
-	
-	stb     r0, 0x1a8(r3)
-    lis     r3, PtrToWM_CS_SEQ_MNG@h
-    lwz     r3, PtrToWM_CS_SEQ_MNG@l(r3)
-    stb     r0, 0x394(r3)
+.global checkIfBIsPressed
+checkIfBIsPressed:
+	cmpwi      r3, 0x0
+	beq        doBCheckFirst
+	b          continueAt80904158
 
+doBCheckFirst:
+	stwu sp, -0x40(sp)
+	stw r0, 0x44(sp)
+	mflr r0
+	stw r0, 0x3C(sp)
+	stw r3, 0x38(sp)
+	stw r5, 0x34(sp)
+	stw r6, 0x30(sp)
+	stw r24, 0x2C(sp)
+	stw r25, 0x28(sp)
+	stw r26, 0x24(sp)
+	stw r27, 0x20(sp)
+	stw r28, 0x1C(sp)
+	stw r29, 0x18(sp)
+	stw r30, 0x14(sp)
+	stw r31, 0x10(sp)
+
+	bl isBPressed__Fv
+	cmpwi      r3, 0
+	bgt        showShop
 	
-	blr
+	lwz r31, 0x10(sp)
+	lwz r30, 0x14(sp)
+	lwz r29, 0x18(sp)
+	lwz r28, 0x1C(sp)
+	lwz r27, 0x20(sp)
+	lwz r26, 0x24(sp)
+	lwz r25, 0x28(sp)
+	lwz r24, 0x2C(sp)
+	lwz r6, 0x30(sp)
+	lwz r5, 0x34(sp)
+	lwz r3, 0x38(sp)
+	lwz r0, 0x3C(sp)
+	mtlr	r0
+	lwz r0, 0x44(sp)
+	addi	sp, sp, 0x40
+	b       continueAt8090415C
+
+
+showShop:
+	bl makeShopShowUp__Fv
+
+	lwz r31, 0x10(sp)
+	lwz r30, 0x14(sp)
+	lwz r29, 0x18(sp)
+	lwz r28, 0x1C(sp)
+	lwz r27, 0x20(sp)
+	lwz r26, 0x24(sp)
+	lwz r25, 0x28(sp)
+	lwz r24, 0x2C(sp)
+	lwz r6, 0x30(sp)
+	lwz r5, 0x34(sp)
+	lwz r3, 0x38(sp)
+	lwz r0, 0x3C(sp)
+	mtlr	r0
+	lwz r0, 0x44(sp)
+	addi	sp, sp, 0x40
+	
+	b LAB_809042ec

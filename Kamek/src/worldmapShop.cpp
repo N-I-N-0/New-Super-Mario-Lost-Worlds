@@ -47,6 +47,8 @@ class dWMShop_c : public dActor_c {
 		int shopKind;
 
 		int coinsRemaining, timerForCoinCountdown;
+		
+		bool showShop;
 
 		enum Animation {
 			SHOW_ALL = 0,
@@ -300,6 +302,7 @@ dWMShop_c::dWMShop_c() : state(this, &StateID_Hidden) {
 }
 
 int dWMShop_c::onCreate() {
+	showShop = false;
 	if (!layoutLoaded) {
 		bool gotFile = layout.loadArc("shop.arc", false);
 		if (!gotFile)
@@ -456,14 +459,27 @@ void dWMShop_c::show(int shopNumber) {
 	state.setState(&StateID_ShowWait);
 }
 
+void makeShopShowUp() {
+	dWMShop_c::instance->showShop = true;
+}
+
+bool isBPressed() {
+	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
+	return nowPressed & WPAD_B;
+}
+
 // Hidden
 void dWMShop_c::beginState_Hidden() { }
 void dWMShop_c::executeState_Hidden() {
-	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
+	/*int nowPressed = Remocon_GetPressed(GetActiveRemocon());
 
-	if (nowPressed & WPAD_B) {
-		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
-		//if(*(u8*)(PtrToWM_CS_SEQ_MNG + 0x394) == 1) {
+	OSReport("PtrToWM_CS_SEQ_MNG+0x394: %x\n\n", PtrToWM_CS_SEQ_MNG + 0x394);
+	OSReport("PtrToWM_CS_SEQ_MNG+0x394: %p\n\n", (u8*)(PtrToWM_CS_SEQ_MNG + 0x394));*/
+
+	if (showShop) {
+		//dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
+		showShop = false;
+		//if(*(u8*)((int)(wmDirector) + 0x1A8) == 0) {			//if map is not frozen
 			
 			state.setState(&StateID_ShowWait);
 			FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
