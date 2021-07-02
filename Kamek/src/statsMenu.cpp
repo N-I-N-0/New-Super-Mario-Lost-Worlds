@@ -109,6 +109,8 @@ dStatsMenu_c::dStatsMenu_c() : state(this, &StateID_Hidden) {
 }
 
 int dStatsMenu_c::onCreate() {
+	if(RESTART_CRSIN_LevelStartStruct.isReplay) this->Delete(1);
+	
 	count = 180;
 	autoselectCountdown = 180;
 
@@ -376,21 +378,32 @@ void dStatsMenu_c::GoMap() {
 }
 
 void dStatsMenu_c::GoAgain() { 
-	/*RESTART_CRSIN_LevelStartStruct.purpose = 0;
+	RESTART_CRSIN_LevelStartStruct.screenType = ST_NORMAL;
 	RESTART_CRSIN_LevelStartStruct.world1 = CurrentWorld;
 	RESTART_CRSIN_LevelStartStruct.world2 = CurrentWorld;
 	RESTART_CRSIN_LevelStartStruct.level1 = CurrentLevel;
 	RESTART_CRSIN_LevelStartStruct.level2 = CurrentLevel;
-	RESTART_CRSIN_LevelStartStruct.areaMaybe = 0;
+	RESTART_CRSIN_LevelStartStruct.area = 0;
 	RESTART_CRSIN_LevelStartStruct.entrance = 0xFF;
-	RESTART_CRSIN_LevelStartStruct.unk4 = 0; // load replay
-	DoSceneChange(RESTART_CRSIN, 0, 0);*/
+	RESTART_CRSIN_LevelStartStruct.isReplay = false;
+	//DoSceneChange(RESTART_CRSIN, 0, 0);
 	DontShowPreGame = true;
 	ExitStage(RESTART_CRSIN, 0, BEAT_LEVEL, MARIO_WIPE);
 }
 
 void dStatsMenu_c::GoReplay() { 
-
+	RESTART_CRSIN_LevelStartStruct.screenType = ST_HINT_MOVIE;		//Otekara folder
+	RESTART_CRSIN_LevelStartStruct.replayType = RT_SUPER_SKILLS;
+	RESTART_CRSIN_LevelStartStruct.world1 = CurrentWorld;
+	RESTART_CRSIN_LevelStartStruct.world2 = CurrentWorld;
+	RESTART_CRSIN_LevelStartStruct.level1 = CurrentLevel;
+	RESTART_CRSIN_LevelStartStruct.level2 = CurrentLevel;
+	RESTART_CRSIN_LevelStartStruct.area = 0;
+	RESTART_CRSIN_LevelStartStruct.entrance = 0xFF;
+	RESTART_CRSIN_LevelStartStruct.isReplay = true;
+	//DoSceneChange(RESTART_CRSIN, 0, 0);
+	DontShowPreGame = true;
+	ExitStage(RESTART_CRSIN, 0, BEAT_LEVEL, MARIO_WIPE);
 }
 
 

@@ -77,17 +77,28 @@ extern int Player_Flags[4];
 extern int Player_Lives[4];
 extern int Player_Coins[4];
 
+#define RT_SUPER_SKILLS 0
+#define RT_INFINITE_1UP 1
+#define RT_STAR_COINS 2
+#define RT_SECRET_EXIT 3
+#define ST_NORMAL 0
+#define ST_SUPER_GUIDE 1
+#define ST_TITLE 2
+#define ST_TITLE_REPLAY 3
+#define ST_HINT_MOVIE 4
+	
+
 struct StartLevelInfo {
-	int maybeUnused;
-	unsigned char replayTypeMaybe; // 0x04
-	unsigned char entrance; // 0x05
-	unsigned char areaMaybe; // 0x06
-	unsigned char unk4; // 0x07
-	unsigned int purpose; // 0x08
-	unsigned char world1; // 0x0C
-	unsigned char level1; // 0x0D
-	unsigned char world2; // 0x0E
-	unsigned char level2; // 0x0F
+	u32 replayDuration;
+	u8 replayType; // 0x04
+	u8 entrance; // 0x05
+	u8 area; // 0x06
+	bool isReplay; // 0x07
+	u32 screenType; // 0x08
+	u8 world1; // 0x0C
+	u8 level1; // 0x0D
+	u8 world2; // 0x0E
+	u8 level2; // 0x0F
 };
 extern bool DontShowPreGame;
 extern StartLevelInfo RESTART_CRSIN_LevelStartStruct;
