@@ -3,6 +3,7 @@
 #include "sfx.h"
 
 extern int globalCoins;
+extern char CurrentLevel, CurrentWorld;
 
 class dStatsMenu_c : public dStageActor_c {
 	public:
@@ -24,6 +25,8 @@ class dStatsMenu_c : public dStageActor_c {
 		void GoMap();
 		void GoAgain();
 		void GoReplay();
+		void activate();
+		bool wasActiveAlready;
 
 		m2d::EmbedLayout_c layout;
 		bool layoutLoaded;
@@ -60,6 +63,7 @@ class dStatsMenu_c : public dStageActor_c {
 
 		USING_STATES(dStatsMenu_c);
 		DECLARE_STATE(Hidden);
+		DECLARE_STATE(WaitForWipe);
 		DECLARE_STATE(CountdownWait);
 		DECLARE_STATE(ShowWait);
 		DECLARE_STATE(ButtonActivateWait);
@@ -68,6 +72,7 @@ class dStatsMenu_c : public dStageActor_c {
 };
 
 CREATE_STATE(dStatsMenu_c, Hidden);
+CREATE_STATE(dStatsMenu_c, WaitForWipe);
 CREATE_STATE(dStatsMenu_c, CountdownWait);
 CREATE_STATE(dStatsMenu_c, ShowWait);
 CREATE_STATE(dStatsMenu_c, ButtonActivateWait);
@@ -110,6 +115,7 @@ dStatsMenu_c::dStatsMenu_c() : state(this, &StateID_Hidden) {
 
 int dStatsMenu_c::onCreate() {
 	if(RESTART_CRSIN_LevelStartStruct.isReplay) this->Delete(1);
+	wasActiveAlready = false;
 	
 	count = 180;
 	autoselectCountdown = 180;
@@ -263,11 +269,20 @@ int dStatsMenu_c::onDelete() {
 
 // Hidden
 void dStatsMenu_c::beginState_Hidden() { }
-void dStatsMenu_c::executeState_Hidden() { 
+void dStatsMenu_c::executeState_Hidden() { }
+void dStatsMenu_c::endState_Hidden() { }
+
+void dStatsMenu_c::beginState_WaitForWipe() { }
+void dStatsMenu_c::executeState_WaitForWipe() { 
 	if (count <= 0) state.setState(&StateID_ShowWait);
 	else count--;
 }
-void dStatsMenu_c::endState_Hidden() { }
+void dStatsMenu_c::endState_WaitForWipe() { }
+
+void dStatsMenu_c::activate() {
+	state.setState(&StateID_WaitForWipe);
+	this->wasActiveAlready = true;
+}
 
 // ShowWait
 void dStatsMenu_c::beginState_ShowWait() {

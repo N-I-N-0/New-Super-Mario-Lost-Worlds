@@ -8,6 +8,15 @@ extern bool secretGemCollected;
 extern bool secretGemAfterMidwayFlag;
 
 extern "C" void ExitStageWrapper(int scene, int sceneParams, int powerupStoreType, int wipe) {
+	
+	if(dStatsMenu_c::instance) {
+		if(!dStatsMenu_c::instance->wasActiveAlready) {
+			ActivateWipe(wipe);								//don't know why but this doesn't work here :thinking:
+			dStatsMenu_c::instance->activate();
+			return;
+		}
+	}
+	
 	// TO RE-ENABLE CUTSCENES, UNCOMMENT THIS
 	// if (scene == WORLD_MAP && powerupStoreType == BEAT_LEVEL) {
 	// 	if (CurrentWorld == 6 && CurrentLevel == STAGE_DOOMSHIP) {

@@ -16,7 +16,6 @@ modules:
   - processed/leafPile.yaml
   # - processed/fileselect.yaml
   - processed/magicplatform.yaml
-  - processed/cutScene.yaml
   - processed/bonepiece.yaml
   - processed/bugfixes.yaml
   #- processed/worldmap.yaml
@@ -36,6 +35,8 @@ modules:
   # - processed/gakenoko.yaml
   - processed/boomeranghax.yaml
   - processed/poweruphax.yaml
+  - processed/statsMenu.yaml
+  - processed/cutScene.yaml
   # - processed/poweruphax_old.yaml
   # - processed/heapbar.yaml
   - processed/pregame.yaml
@@ -129,4 +130,4 @@ modules:
   - processed/goombaTower.yaml
   - processed/busuBusu.yaml
   - processed/tiki.yaml
-  - processed/statsMenu.yaml
+  #- processed/fireball.yaml
