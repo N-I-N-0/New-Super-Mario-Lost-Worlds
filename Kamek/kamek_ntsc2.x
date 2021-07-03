@@ -17,6 +17,9 @@ SECTIONS {
 	dCourseSelectGuide_c__loadLives = 0x80010800;
 	returnForCalledFromExecute = 0x808FBCF8;
 	continueInCalledFromExecute = 0x808FB324;
+	continueAt80904158 = 0x80904168;
+	continueAt8090415C = 0x8090416C;
+	LAB_809042ec = 0x809042FC;
 	FUN_808fbd00 = 0x808FBD10;
 	FUN_808fbd10 = 0x808FBD20;
 

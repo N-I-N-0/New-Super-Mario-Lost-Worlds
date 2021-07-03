@@ -1006,12 +1006,12 @@ const char* effects_name_list [] = {
 	"Wm_jr_electricglow",
 	"Wm_jr_electricspark",
 	"Wm_jr_electricline",
+
+	//NEW EFFECTS
 	"rk_karehayama",
 	"rk_karehayama0",
 	"rk_karehayama0S",
 	"rk_karehayamaS",
-
-	//NEW EFFECTS
 
 	"Wm_mr_firegold",
 	"Wm_mr_firegold_a",
