@@ -16,6 +16,7 @@ modules:
   - processed/leafPile.yaml
   # - processed/fileselect.yaml
   - processed/magicplatform.yaml
+  - processed/cutScene.yaml
   - processed/bonepiece.yaml
   - processed/bugfixes.yaml
   #- processed/worldmap.yaml
@@ -130,4 +131,5 @@ modules:
   - processed/goombaTower.yaml
   - processed/busuBusu.yaml
   - processed/tiki.yaml
-  #- processed/fireball.yaml
+  - processed/fireball.yaml
+  - processed/newSfx.yaml

@@ -1,0 +1,57 @@
+---
+#Replaces Actor 327 EN_TESTMAN (Sprite 415)
+
+
+source_files: [../src/fireball.S, ../src/fireball.cpp]
+hooks:
+  - name: GoldFireballBuild
+    type: add_func_pointer
+    src_addr_pal: 0x80B0B090
+    target_func: 'daGoldFireBall_c::build(void)'
+
+  - name: newPlayFireballHitEffect
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80040EC0
+    target_func: 'newPlayFireballHitEffect'
+
+  - name: newDirectWallHit
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8011A898
+    target_func: 'newDirectWallHit'
+
+  - name: dontDieUntilITellYouTo1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800409BC
+    target_func: 'dontDieUntilITellYouTo'
+
+  - name: dontDieUntilITellYouTo2
+    type: patch
+    addr_pal: 0x80041384
+    data: '38000014' #Old: 3800000A
+
+  - name: replaceGoldHitSFX1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8011A888
+    target_func: 'replaceGoldHitSFX'
+
+  - name: replaceGoldHitSFX2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8011ADD4
+    target_func: 'replaceGoldHitSFX'
+
+  - name: replaceGoldHitSFX3
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8011AE18
+    target_func: 'replaceGoldHitSFX'
+
+  - name: replaceGoldHitSFX4
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8011AE68
+    target_func: 'replaceGoldHitSFX'

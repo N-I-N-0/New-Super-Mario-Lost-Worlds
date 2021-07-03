@@ -212,6 +212,19 @@ hooks:
 #    area_pal: 0x80926ff4
 #############################################
 
+
+    
+  - name: GoldFlowerAppearSound
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800225D0
+    target_func: 'GoldFlowerAppearSound'
+
+
+
+#############################################
+
+
   #! -> done for jam
   #? -> started for jam
   #: -> not needed for jam

@@ -1,0 +1,20 @@
+---
+
+source_files: [../src/newSfx.S, ../src/newSfx.cpp]
+hooks:
+  - name: newPlaySoundCheck
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80198D70
+    target_func: 'newPlaySoundCheck'
+
+  - name: newPlaySoundCheck2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80057ED0
+    target_func: 'newPlaySoundCheck2'
+
+  # - name: newItemSfx
+  #   type: patch
+  #   addr_pal: 0x800225D0
+  #   data: '388007D1' #Old: 38800257

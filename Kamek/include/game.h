@@ -86,7 +86,7 @@ extern int Player_Coins[4];
 #define ST_TITLE 2
 #define ST_TITLE_REPLAY 3
 #define ST_HINT_MOVIE 4
-	
+
 
 struct StartLevelInfo {
 	u32 replayDuration;
@@ -271,7 +271,7 @@ public:
 			// This array has been verified as safe to replace
 			u8 secretGems;						//0x6FC
 			u8 new_powerups_available[14];		//0x6FD
-			char additional[55];
+			char additional[55];				//0x70B
 
 
 
@@ -2906,6 +2906,13 @@ public:
 	// TODO, a lot
 
 	u16 *getPointerToTile(int x, int y, int layer, int *pBlockNum = 0, bool unused = false);
+	u32 getPointerToTile2(int x, int y, int layer, int *pBlockNum = 0, bool unused = false);
+	u32 getTileNumAtPositionWithoutSpecial(int x, int y, int layer);
+	u32 getTileNumAtPosition(int x, int y, int layer, int sp);
+	u64 getBehaviourForTileNum(u32 tilenum);
+	u64 getEffectiveTileBehaviour(u16 tilenum);
+	u32 getTileBit(int x, int y, int layer);
+	u32 getCollisionInfo(int x, int y, u8 layer);
 
 	// Note: these tile numbers are kinda weird and involve GetTileFromTileTable
 	void placeTile(u16 x, u16 y, int layer, int tile);
@@ -3493,6 +3500,7 @@ public:
 	// Size: 0x17C
 	
 	void PlaySoundAtPosition(int id, Vec2 *pos, u32 flags); // 80198D70
+	void PlaySoundForSoundPlayingClass(int id, u32 dunno, u32 *handle);
 	
 	static SoundPlayingClass *instance1; // 8042A03C
 	static SoundPlayingClass *instance2; // 8042A03C

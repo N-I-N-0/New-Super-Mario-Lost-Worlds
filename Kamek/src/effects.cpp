@@ -1009,7 +1009,20 @@ const char* effects_name_list [] = {
 	"rk_karehayama",
 	"rk_karehayama0",
 	"rk_karehayama0S",
-	"rk_karehayamaS"
+	"rk_karehayamaS",
+
+	//NEW EFFECTS
+
+	"Wm_mr_firegold",
+	"Wm_mr_firegold_a",
+	"Wm_mr_firegold_b",
+	"Wm_mr_firegold_hit",
+	"Wm_mr_firegold_hit01",
+
+	"Wm_ob_powgold_ind",
+	"Wm_ob_powgold_ind_a",
+	"Wm_ob_powgold_ind_c",
+	"Wm_ob_powgold_ind_b"
 };
 
 extern "C" bool SpawnEffect(const char*, int, Vec*, S16Vec*, Vec*);

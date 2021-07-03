@@ -124,7 +124,7 @@ void dHammerSuitRenderer_c::draw() {
 	}
 
 	if(victim->powerup_id == 7) {
-		if (victim->player_id_2 <= 1) {
+		/*if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -136,7 +136,7 @@ void dHammerSuitRenderer_c::draw() {
 			hammerHelmet.calcWorld(false);
 	
 			hammerHelmet.scheduleForDrawing();
-		}
+		}*/
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -148,7 +148,7 @@ void dHammerSuitRenderer_c::draw() {
 		hammerShell.scheduleForDrawing();
 	}
 	if(victim->powerup_id == 9) {
-		if (victim->player_id_2 <= 1) {
+		/*if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -160,7 +160,7 @@ void dHammerSuitRenderer_c::draw() {
 			spikeHelmet.calcWorld(false);
 	
 			spikeHelmet.scheduleForDrawing();
-		}
+		}*/
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -172,7 +172,7 @@ void dHammerSuitRenderer_c::draw() {
 		spikeShell.scheduleForDrawing();
 	}
 	if(victim->powerup_id == 10) {
-		if (victim->player_id_2 <= 1) {
+		/*if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -184,7 +184,7 @@ void dHammerSuitRenderer_c::draw() {
 			boomerHelmet.calcWorld(false);
 	
 			boomerHelmet.scheduleForDrawing();
-		}
+		}*/
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -195,7 +195,7 @@ void dHammerSuitRenderer_c::draw() {
 	
 		boomerShell.scheduleForDrawing();
 	}
-	if(victim->powerup_id == 11) {
+	/*if(victim->powerup_id == 11) {
 		if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
@@ -212,7 +212,7 @@ void dHammerSuitRenderer_c::draw() {
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
-	}
+	}*/
 	if(victim->powerup_id == 12) {
 		if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible

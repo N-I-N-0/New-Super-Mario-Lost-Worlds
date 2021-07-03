@@ -116,6 +116,10 @@ inline char *BrsarInfoOffset(u32 offset) {
 void FixFilesize(u32 streamNameOffset);
 
 u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int channelCount, int trackCount, int *wantRealStreamID) {
+	hijackMusicWithSongName(songName, themeID, hasFast, channelCount, trackCount, wantRealStreamID, false);
+}
+
+u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int channelCount, int trackCount, int *wantRealStreamID, bool doTheResetThing) {
 	Hijacker *hj = &Hijackers[channelCount==4?1:0];
 
 	// do we already have this theme in this slot?
@@ -123,11 +127,14 @@ u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int 
 	// if we do, NSMBW will think it's a different song, and restart it ...
 	// but if it's just an area transition where both areas are using the same
 	// song, we don't want that
-	if ((themeID >= 0) && hj->currentCustomTheme == themeID)
-		return hj->stream[hj->currentStream].originalID;
+	if(!doTheResetThing) {
+		if ((themeID >= 0) && hj->currentCustomTheme == themeID) {
+			return hj->stream[hj->currentStream].originalID;
+		}
+	}
 
 	// which one do we use this time...?
-	int toUse = (hj->currentStream + 1) & 1;
+	int toUse = 0;//(hj->currentStream + 1) & 1;
 
 	hj->currentStream = toUse;
 	hj->currentCustomTheme = themeID;

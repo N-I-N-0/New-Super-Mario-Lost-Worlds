@@ -117,7 +117,7 @@ void daChengeBlock_c::doStuff(Action action, bool wasCalledOnCreation) {
 			if (perTilePatternFlag) {
 				u16 *pExistingTile = dBgGm_c::instance->getPointerToTile(worldX, worldY, currentLayerID);
 				u16 existingTile = pExistingTile ? *pExistingTile : 0;
-
+				//OSReport("tile: %X; WY=%d\n", tile, worldY);
 				dBgGm_c::instance->placeTile(worldX, worldY, currentLayerID, tile);
 
 				if (!wasCalledOnCreation) {
