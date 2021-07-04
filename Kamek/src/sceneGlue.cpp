@@ -12,7 +12,7 @@ extern "C" void ExitStageWrapper(int scene, int sceneParams, int powerupStoreTyp
 	if(dStatsMenu_c::instance) {
 		if(!dStatsMenu_c::instance->wasActiveAlready) {
 			ActivateWipe(wipe);								//don't know why but this doesn't work here :thinking:
-			dStatsMenu_c::instance->activate();
+			dStatsMenu_c::instance->activate(scene, sceneParams, powerupStoreType, wipe);
 			return;
 		}
 	}

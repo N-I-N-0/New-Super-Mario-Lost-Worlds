@@ -22,10 +22,12 @@ class dStatsMenu_c : public dStageActor_c {
 		int beforeDraw() { return true; }
 		int afterDraw(int) { return true; }
 
-		void GoMap();
-		void GoAgain();
-		void GoReplay();
-		void activate();
+		void goMap();
+		void goAgain();
+		void goReplay();
+		void switchButtons(int oldButton, int newButton);
+		void setStats();
+		void activate(int pScene, int pSceneParams, int pPowerupStoreType, int pWipe);
 		bool wasActiveAlready;
 
 		m2d::EmbedLayout_c layout;
@@ -43,6 +45,8 @@ class dStatsMenu_c : public dStageActor_c {
 		int selected;
 		
 		int coinsAtStart;
+		
+		int scene, sceneParams, powerupStoreType, wipe;
 
 		nw4r::lyt::TextBox
 			*coinCount;
@@ -52,7 +56,11 @@ class dStatsMenu_c : public dStageActor_c {
 
 		nw4r::lyt::Picture
 			*BtnLeft[3], *BtnMid[3], *BtnRight[3];
-		
+
+		nw4r::lyt::TexMap
+			*selectedMapLeft, *selectedMapMid, *selectedMapRight,
+			*notSelectedMapLeft, *notSelectedMapMid, *notSelectedMapRight;
+
 		nw4r::lyt::Picture
 			*starCoinCircle, *starCoin;
 
@@ -66,18 +74,14 @@ class dStatsMenu_c : public dStageActor_c {
 		DECLARE_STATE(WaitForWipe);
 		DECLARE_STATE(CountdownWait);
 		DECLARE_STATE(ShowWait);
-		DECLARE_STATE(ButtonActivateWait);
 		DECLARE_STATE(Wait);
-		DECLARE_STATE(HideWait);
 };
 
 CREATE_STATE(dStatsMenu_c, Hidden);
 CREATE_STATE(dStatsMenu_c, WaitForWipe);
 CREATE_STATE(dStatsMenu_c, CountdownWait);
 CREATE_STATE(dStatsMenu_c, ShowWait);
-CREATE_STATE(dStatsMenu_c, ButtonActivateWait);
 CREATE_STATE(dStatsMenu_c, Wait);
-CREATE_STATE(dStatsMenu_c, HideWait);
 
 dStatsMenu_c *dStatsMenu_c::instance = 0;
 dActor_c *dStatsMenu_c::build() {
@@ -101,12 +105,6 @@ Profile StatsMenuProfile(&dStatsMenu_c::build, SpriteId::StatsMenu, StatsMenuSpr
 #define ANIM_BUTTON_OFF 9 //9, 10, 11
 #define ANIM_BUTTON_ON 12 //12, 13, 14
 
-int numberToSelect;
-int num1 = -1;
-int num2 = -1;
-int num3 = -1;
-int finalNumber;
-
 
 dStatsMenu_c::dStatsMenu_c() : state(this, &StateID_Hidden) {
 	layoutLoaded = false;
@@ -123,16 +121,14 @@ int dStatsMenu_c::onCreate() {
 	coinsAtStart = globalCoins;
 	
 	if (!layoutLoaded) {
-		OSReport("1\n");
 		bool gotFile = layout.loadArc("statsMenu.arc", false);
 		if (!gotFile)
 			return false;
 
-		selected = 1;
+		selected = 0;
 
 		layout.build("statsMenu.brlyt");
 
-		OSReport("2\n");
 		if (IsWideScreen()) {
 			layout.layout.rootPane->scale.x = 1.0f;
 		} else {
@@ -145,7 +141,6 @@ int dStatsMenu_c::onCreate() {
 			layout.layout.rootPane->scale.y = 0.7711f;
 		}
 
-		OSReport("3\n");
 		static const char *brlanNames[] = {
 			"statsMenu_hitButton.brlan",
 			"statsMenu_idleButton.brlan",
@@ -156,7 +151,6 @@ int dStatsMenu_c::onCreate() {
 			"statsMenu_outWindow.brlan",
 		};
 
-		OSReport("4\n");
 		static const char *groupNames[] = {
 			"A00_inWindow",     "A00_inWindow",   "A00_inWindow", 
 			"B00_tuzukuButton", "B02_menuButton", "Group_00",
@@ -172,46 +166,12 @@ int dStatsMenu_c::onCreate() {
 			5,  5,  5,  //Buttons      (on)
 		};
 
-		OSReport("5\n");
-
 		layout.loadAnimations(brlanNames, 7);
-		OSReport("loadAnimations\n");
 		layout.loadGroups(groupNames, brlanIDs, 15);
-		OSReport("loadGroups\n");
 		layout.disableAllAnimations();
-		OSReport("disableAllAnimations\n");
-
+		
 		layout.drawOrder = 140;
-		OSReport("6\n");
-
-		/*static const char *tbNames[] = {
-			"T_numberS_00", "T_number_00",
-			"T_one_00", "T_one_01",
-			"T_two_00", "T_two_01",
-			"T_three_00", "T_three_01",
-			"T_four_00", "T_four_01",
-			"T_five_00", "T_five_01",
-			"T_six_00", "T_six_01",
-			"T_seven_00", "T_seven_01",
-			"T_eight_00", "T_eight_01",
-			"T_nine_00", "T_nine_01",
-		};
-		layout.getTextBoxes(tbNames, &T_numberS_00, 20);*/
-
-		OSReport("7\n");
-		/*for (int i = 1; i < 10; i++) {
-			char middle[16];
-			sprintf(middle, "YesButtonMidd_0%d", i);
-			BtnMid[i - 1] = layout.findPictureByName(middle);
-
-			char right[16];
-			sprintf(right, "YesButtonRigh_0%d", i);
-			BtnRight[i - 1] = layout.findPictureByName(right);
-			
-			char left[16];
-			sprintf(left, "YesButtonLeft_0%d", i);
-			BtnLeft[i - 1] = layout.findPictureByName(left);
-		}*/
+		
 		
 		BtnLeft[0]  = layout.findPictureByName("Btn1_Left");
 		BtnMid[0]   = layout.findPictureByName("Btn1_Middle");
@@ -223,14 +183,19 @@ int dStatsMenu_c::onCreate() {
 		BtnMid[2]   = layout.findPictureByName("Btn2_Middle_00");
 		BtnRight[2] = layout.findPictureByName("Btn2_Right_00");
 		
+		selectedMapLeft = BtnLeft[0]->material->texMaps;
+		selectedMapMid = BtnMid[0]->material->texMaps;
+		selectedMapRight = BtnRight[0]->material->texMaps;
+		notSelectedMapLeft = BtnLeft[1]->material->texMaps;
+		notSelectedMapMid = BtnMid[1]->material->texMaps;
+		notSelectedMapRight = BtnRight[1]->material->texMaps;
+		
+		Buttons[0] = layout.findPictureByName("P_SBBase_00");
+		Buttons[1] = layout.findPictureByName("P_SBBase_02");
+		Buttons[2] = layout.findPictureByName("P_SBBase_01");
+		
 		Countdown = layout.findTextBoxByName("Countdown");
 		coinCount = layout.findTextBoxByName("coinCount");
-		
-		OSReport("8\n");
-		//Buttons[0] = layout.findPaneByName("W_SButton_0");
-		//Buttons[1] = layout.findPaneByName("W_SButton_2");
-		//Buttons[2] = layout.findPaneByName("W_SButton_00");
-		//OSReport("Found buttons: %p, %p, %p, %p, %p, %p, %p, %p, %p\n", Buttons[0], Buttons[1], Buttons[2], Buttons[3], Buttons[4], Buttons[5], Buttons[6], Buttons[7], Buttons[8]);
 		
 		layoutLoaded = true;
 	}
@@ -240,88 +205,19 @@ int dStatsMenu_c::onCreate() {
 	return true;
 }
 
-int dStatsMenu_c::onExecute() {
-	state.execute();
-
-	layout.execAnimations();
-	layout.update();
-
-	return true;
-}
-
-int dStatsMenu_c::onDraw() {
-	if (visible) {
-		layout.scheduleForDrawing();
-	}
+void dStatsMenu_c::switchButtons(int oldButton, int newButton) {
+	BtnLeft[oldButton]->material->texMaps = notSelectedMapLeft;
+	BtnMid[oldButton]->material->texMaps = notSelectedMapMid;
+	BtnRight[oldButton]->material->texMaps = notSelectedMapRight;
+	BtnLeft[newButton]->material->texMaps = selectedMapLeft;
+	BtnMid[newButton]->material->texMaps = selectedMapMid;
+	BtnRight[newButton]->material->texMaps = selectedMapRight;
 	
-	return true;
+	layout.enableNonLoopAnim(ANIM_BUTTON_OFF+oldButton);
+	layout.enableNonLoopAnim(ANIM_BUTTON_ON+newButton);	
 }
 
-int dStatsMenu_c::onDelete() {
-	instance = 0;
-	if (StageC4::instance)
-		StageC4::instance->_1D = 0; // disable no-pause
-
-	return layout.free();
-}
-
-
-
-// Hidden
-void dStatsMenu_c::beginState_Hidden() { }
-void dStatsMenu_c::executeState_Hidden() { }
-void dStatsMenu_c::endState_Hidden() { }
-
-void dStatsMenu_c::beginState_WaitForWipe() { }
-void dStatsMenu_c::executeState_WaitForWipe() { 
-	if (count <= 0) state.setState(&StateID_ShowWait);
-	else count--;
-}
-void dStatsMenu_c::endState_WaitForWipe() { }
-
-void dStatsMenu_c::activate() {
-	state.setState(&StateID_WaitForWipe);
-	this->wasActiveAlready = true;
-}
-
-// ShowWait
-void dStatsMenu_c::beginState_ShowWait() {
-	OSReport("9\n");
-	nw4r::snd::SoundHandle handle;
-	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_SYS_KO_DIALOGUE_IN, 1);
-	OSReport("10\n");
-
-	layout.disableAllAnimations();
-	layout.enableNonLoopAnim(ANIM_WINDOW_IN);
-	OSReport("11\n");
-	visible = true;
-	scaleEase = 0.0;
-	StageC4::instance->_1D = 1; // enable no-pause
-}
-void dStatsMenu_c::executeState_ShowWait() {
-	OSReport("12\n");
-	if (!layout.isAnimOn(ANIM_WINDOW_IN)) {
-		selected = 1;
-		OSReport("13\n");
-		layout.enableNonLoopAnim(ANIM_BUTTON_ON);
-		OSReport("13.33\n");
-		layout.enableNonLoopAnim(ANIM_BUTTON_ON+1);
-		OSReport("13.66\n");
-		layout.enableNonLoopAnim(ANIM_BUTTON_ON+2);
-		OSReport("14\n");
-		state.setState(&StateID_CountdownWait);
-	}
-}
-void dStatsMenu_c::endState_ShowWait() {
-	OSReport("15\n");
-	nw4r::snd::SoundHandle handle;
-	// PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_CLOUD_BLOCK_TO_JUGEM, 1);
-	
-	//SaveBlock *save = GetSaveFile()->GetBlock(-1);
-	//structWithWorldData = (int*)&(save->completions[0][0]);
-	//OSReport("structWithWorldData: %x, %p", structWithWorldData, structWithWorldData);
-	//OSReport("Star Coins: %d, %d, %d\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN1), CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN2), CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN3));
-	//u32 conds = save->GetLevelCondition(CurrentWorld, CurrentLevel);
+void dStatsMenu_c::setStats() {
 	if (dGameDisplay_c::instance->layout.findPictureByName("P_collection_00")->flag == 1) {
 		starCoinCircle = layout.findPictureByName("starCoinCircle1");
 		starCoin = layout.findPictureByName("starCoin1");
@@ -354,6 +250,99 @@ void dStatsMenu_c::endState_ShowWait() {
 	OSReport("digits: %d\n\n\n", digits);
 	OSReport("textCount: %s\n\n\n", textCount);
 	coinCount->SetString(textCount, 0, 9);
+}
+
+int dStatsMenu_c::onExecute() {
+	state.execute();
+
+	layout.execAnimations();
+	layout.update();
+
+	return true;
+}
+
+int dStatsMenu_c::onDraw() {
+	if (visible) {
+		layout.scheduleForDrawing();
+	}
+	
+	return true;
+}
+
+int dStatsMenu_c::onDelete() {
+	instance = 0;
+	OSReport("onDeleteeeeeeeeeeeeeeeeeeeee\n");
+	if (StageC4::instance)
+		StageC4::instance->_1D = 0; // disable no-pause
+
+	return layout.free();
+}
+
+
+
+// Hidden
+void dStatsMenu_c::beginState_Hidden() { }
+void dStatsMenu_c::executeState_Hidden() { }
+void dStatsMenu_c::endState_Hidden() { }
+
+void dStatsMenu_c::beginState_WaitForWipe() { }
+void dStatsMenu_c::executeState_WaitForWipe() { 
+	if (count <= 0) state.setState(&StateID_ShowWait);
+	else count--;
+}
+void dStatsMenu_c::endState_WaitForWipe() { }
+
+void dStatsMenu_c::activate(int pScene, int pSceneParams, int pPowerupStoreType, int pWipe) {
+	this->scene = pScene;
+	this->sceneParams = pSceneParams;
+	this->powerupStoreType = pPowerupStoreType;
+	this->wipe = pWipe;
+	
+
+	if(powerupStoreType == LOSE_LEVEL) {
+		//Buttons[2]->SetVisible(false);
+		switchButtons(selected++, selected);
+		Buttons[0]->trans = (Vec){100.0f, -100.0f, 0.0f};
+		Buttons[1]->trans = (Vec){-100.0f, -100.0f, 0.0f};
+		Buttons[2]->SetVisible(false);
+	}
+	
+	state.setState(&StateID_WaitForWipe);
+	this->wasActiveAlready = true;
+}
+
+// ShowWait
+void dStatsMenu_c::beginState_ShowWait() {
+	nw4r::snd::SoundHandle handle;
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_SYS_KO_DIALOGUE_IN, 1);
+
+	layout.disableAllAnimations();
+	layout.enableNonLoopAnim(ANIM_WINDOW_IN);
+	visible = true;
+	scaleEase = 0.0;
+	StageC4::instance->_1D = 1; // enable no-pause
+}
+void dStatsMenu_c::executeState_ShowWait() {
+	if (!layout.isAnimOn(ANIM_WINDOW_IN)) {
+		if(powerupStoreType == BEAT_LEVEL) selected = 0;
+		else                               selected = 1;
+		layout.enableNonLoopAnim(ANIM_BUTTON_ON);
+		layout.enableNonLoopAnim(ANIM_BUTTON_ON+1);
+		layout.enableNonLoopAnim(ANIM_BUTTON_ON+2);
+		state.setState(&StateID_CountdownWait);
+	}
+}
+void dStatsMenu_c::endState_ShowWait() {
+	nw4r::snd::SoundHandle handle;
+	// PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_CLOUD_BLOCK_TO_JUGEM, 1);
+	
+	//SaveBlock *save = GetSaveFile()->GetBlock(-1);
+	//structWithWorldData = (int*)&(save->completions[0][0]);
+	//OSReport("structWithWorldData: %x, %p", structWithWorldData, structWithWorldData);
+	//OSReport("Star Coins: %d, %d, %d\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN1), CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN2), CheckIfWeHaveASpecificStarCoin(structWithWorldData, CurrentWorld, CurrentLevel, COND_COIN3));
+	//u32 conds = save->GetLevelCondition(CurrentWorld, CurrentLevel);
+
+	setStats();
 	
 	timer = 1;
 }
@@ -363,14 +352,16 @@ void dStatsMenu_c::executeState_CountdownWait() {
 	wchar_t textCount[1];
 	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
 	if(nowPressed == WPAD_TWO) {
-		GoMap();
+		if(powerupStoreType == BEAT_LEVEL) goMap();
+		else                               goAgain();
 	} else if(nowPressed == WPAD_RIGHT) {
 		//set new selected Button and go to Wait State
 		textCount[0] = ' ';
 		Countdown->SetString(textCount, 0, 3);
-		layout.enableNonLoopAnim(ANIM_BUTTON_OFF);
-		selected++;
-		layout.enableNonLoopAnim(ANIM_BUTTON_HIT+1);
+		
+		if(powerupStoreType == BEAT_LEVEL) switchButtons(selected++, selected);
+		else                               switchButtons(selected--, selected);
+		
 		state.setState(&StateID_Wait);
 	} else if(nowPressed != 0) {
 		textCount[0] = ' ';
@@ -381,18 +372,20 @@ void dStatsMenu_c::executeState_CountdownWait() {
 	if (autoselectCountdown % 60 == 0) {
 		textCount[0] = '0'+autoselectCountdown/60;
 		Countdown->SetString(textCount, 0, 3);
-		if (autoselectCountdown / 60 == 0) GoMap();
+		if (autoselectCountdown / 60 == 0) 
+			if(powerupStoreType == BEAT_LEVEL) goMap();
+			else                               goAgain();
 	}
 	autoselectCountdown--;
 }
 void dStatsMenu_c::endState_CountdownWait() { }
 
 
-void dStatsMenu_c::GoMap() { 
+void dStatsMenu_c::goMap() { 
 	ExitStage(WORLD_MAP, 0, BEAT_LEVEL, MARIO_WIPE);
 }
 
-void dStatsMenu_c::GoAgain() { 
+void dStatsMenu_c::goAgain() { 
 	RESTART_CRSIN_LevelStartStruct.screenType = ST_NORMAL;
 	RESTART_CRSIN_LevelStartStruct.world1 = CurrentWorld;
 	RESTART_CRSIN_LevelStartStruct.world2 = CurrentWorld;
@@ -403,10 +396,10 @@ void dStatsMenu_c::GoAgain() {
 	RESTART_CRSIN_LevelStartStruct.isReplay = false;
 	//DoSceneChange(RESTART_CRSIN, 0, 0);
 	DontShowPreGame = true;
-	ExitStage(RESTART_CRSIN, 0, BEAT_LEVEL, MARIO_WIPE);
+	ExitStage(RESTART_CRSIN, 0, powerupStoreType, MARIO_WIPE);	
 }
 
-void dStatsMenu_c::GoReplay() { 
+void dStatsMenu_c::goReplay() { 
 	RESTART_CRSIN_LevelStartStruct.screenType = ST_HINT_MOVIE;		//Otekara folder
 	RESTART_CRSIN_LevelStartStruct.replayType = RT_SUPER_SKILLS;
 	RESTART_CRSIN_LevelStartStruct.world1 = CurrentWorld;
@@ -418,55 +411,43 @@ void dStatsMenu_c::GoReplay() {
 	RESTART_CRSIN_LevelStartStruct.isReplay = true;
 	//DoSceneChange(RESTART_CRSIN, 0, 0);
 	DontShowPreGame = true;
-	ExitStage(RESTART_CRSIN, 0, BEAT_LEVEL, MARIO_WIPE);
+	ExitStage(RESTART_CRSIN, 0, powerupStoreType, MARIO_WIPE);
 }
-
-
-// ButtonActivateWait
-void dStatsMenu_c::beginState_ButtonActivateWait() { }
-void dStatsMenu_c::executeState_ButtonActivateWait() {
-	if (!layout.isAnyAnimOn())
-		state.setState(&StateID_Wait);
-}
-void dStatsMenu_c::endState_ButtonActivateWait() { }
 
 // Wait
 void dStatsMenu_c::beginState_Wait() {
 }
 void dStatsMenu_c::executeState_Wait() {
-	if (timer < 90) {
+	/*if (timer < 90) {
 		scaleEase = -((cos(timer * 3.14 /20)-0.9)/timer*10)+1;
 		timer++;
 		return;
-	}
+	}*/
 
 	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
 	
-	if (nowPressed & WPAD_ONE) {														//remove this later
-		// Hide the thing
-		state.setState(&StateID_HideWait);
-	} else if (nowPressed & WPAD_RIGHT) {
-		if(selected < 3) {
-			layout.enableNonLoopAnim(ANIM_BUTTON_OFF+selected-1);
-			selected++;
-			layout.enableNonLoopAnim(ANIM_BUTTON_HIT+selected-1);
+	if (nowPressed & WPAD_RIGHT) {
+		if(powerupStoreType == BEAT_LEVEL) {
+			if(selected < 2) switchButtons(selected++, selected); 
+		} else {
+			if(selected > 0) switchButtons(selected--, selected); 
 		}
 	} else if (nowPressed & WPAD_LEFT) {
-		if(selected > 1) {
-			layout.enableNonLoopAnim(ANIM_BUTTON_OFF+selected-1);
-			selected--;
-			layout.enableNonLoopAnim(ANIM_BUTTON_HIT+selected-1);
+		if(powerupStoreType == BEAT_LEVEL) {
+			if(selected > 0) switchButtons(selected--, selected);
+		} else {
+			if(selected < 1) switchButtons(selected++, selected);	
 		}
 	} else if (nowPressed & WPAD_TWO) {
 		switch(selected) {
+			case 0:
+				goMap();
+				break;
 			case 1:
-				GoMap();
+				goAgain();
 				break;
 			case 2:
-				GoAgain();
-				break;
-			case 3:
-				GoReplay();
+				goReplay();
 				break;
 		}
 		
@@ -475,29 +456,11 @@ void dStatsMenu_c::executeState_Wait() {
 }
 void dStatsMenu_c::endState_Wait() { }
 
-// HideWait
-void dStatsMenu_c::beginState_HideWait() {
-	nw4r::snd::SoundHandle handle;
-	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_SYS_DIALOGUE_OUT_AUTO, 1);
-	layout.enableNonLoopAnim(ANIM_WINDOW_OUT);
-	//layout.enableNonLoopAnim(ANIM_BUTTON_DESELECT+selected);
 
-	timer = 26;
-	// PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_CS_KINOHOUSE_DISAPP, 1);
-
-	HideSelectCursor(SelectCursorPointer, 0);
-}
-void dStatsMenu_c::executeState_HideWait() {
-	if (timer > 0) {
-		timer--;
-		scaleEase = -((cos(timer * 3.14 /13.5)-0.9)/timer*10)+1;
-		if (scaleEase < 0.0f)
-			scaleEase = 0.0f;
-	}
-
-	if (!layout.isAnimOn(ANIM_WINDOW_OUT))
-		this->Delete(1);
-}
-void dStatsMenu_c::endState_HideWait() {
-	visible = false;
-}
+#undef ANIM_WINDOW_IN
+#undef ANIM_WINDOW_LOOP
+#undef ANIM_WINDOW_OUT
+#undef ANIM_BUTTON_HIT
+#undef ANIM_BUTTON_IDLE
+#undef ANIM_BUTTON_OFF
+#undef ANIM_BUTTON_ON
