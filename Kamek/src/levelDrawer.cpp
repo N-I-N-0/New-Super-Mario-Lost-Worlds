@@ -19,11 +19,12 @@ class WandDot {
 	public:
 		WandDot();
 	
-		float x, y, size;
+		float x, y;
+		u8 size;
 		int timer;
 		bool drawMe, amISetUp;
 
-		void setMeUp(float, float, bool, float);
+		void setMeUp(float, float, bool, u8);
 		void sizeUpdate();
 };
 
@@ -31,7 +32,7 @@ WandDot::WandDot() {
 	amISetUp = false;
 }
 
-void WandDot::setMeUp(float pX, float pY, bool pDrawMe, float pSize = 1.0f) {
+void WandDot::setMeUp(float pX, float pY, bool pDrawMe, u8 pSize = 16) {
 	this->x = pX;
 	this->y = pY;
 	this->drawMe = pDrawMe;
@@ -41,15 +42,15 @@ void WandDot::setMeUp(float pX, float pY, bool pDrawMe, float pSize = 1.0f) {
 
 void WandDot::sizeUpdate() {
 	if(timer >= 60) {
-		size -= 0.01;
-		if(timer == 120) {
+		if(timer % 5 == 0)	size -= 1;
+		if(timer >= 120) {
 			timer = 0;
 			return;
 		}
 	} else {
-		size += 0.01;
-		timer++;
+		if(timer % 5 == 0) size += 1;
 	}
+	timer++;
 }
 
 #define wandDotAmount 10
@@ -154,7 +155,8 @@ void LevelDrawer::drawXlu() {
 	GXSetCullMode(GX_CULL_NONE);
 	
 	GXSetDither(GX_TRUE);
-	GXSetLineWidth(18, GX_TO_ZERO);
+	//GXSetLineWidth(8, GX_TO_ZERO);
+	GXSetPointSize(16, GX_TO_ZERO);
 	
 	GXSetTevColor(GX_TEVREG0, (GXColor){255,255,255,255});
 	GXSetTevColor(GX_TEVREG1, (GXColor){0,0,0,255});
@@ -176,43 +178,13 @@ void LevelDrawer::drawXlu() {
 
 			if(!lotsOfDots[i][j].amISetUp || !lotsOfDots[i][j].drawMe) continue;
 
+			GXSetPointSize(lotsOfDots[i][j].size, GX_TO_ZERO);
 
-			GXBegin(GX_LINES, GX_VTXFMT0, 8);
-			float size = lotsOfDots[i][j].size;
-
-			float tlX = lotsOfDots[i][j].x - size / 2;
-			float tlY = lotsOfDots[i][j].y + size / 2;
-			float trX = lotsOfDots[i][j].x + size / 2;
-			float trY = lotsOfDots[i][j].y + size / 2;
-			float blX = lotsOfDots[i][j].x - size / 2;
-			float blY = lotsOfDots[i][j].y - size / 2;
-			float brX = lotsOfDots[i][j].x + size / 2;
-			float brY = lotsOfDots[i][j].y - size / 2;
-			
 			lotsOfDots[i][j].sizeUpdate();
 
-			// Top
-			GXPosition3f32(tlX, tlY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-			GXPosition3f32(trX, trY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-
-			// Left
-			GXPosition3f32(tlX, tlY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-			GXPosition3f32(blX, blY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-
-			// Right
-			GXPosition3f32(trX, trY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-			GXPosition3f32(brX, brY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-
-			// Bottom
-			GXPosition3f32(blX, blY, 9000.0f);
-			GXColor4u8(r,g,b,a);
-			GXPosition3f32(brX, brY, 9000.0f);
+			GXBegin(GX_POINTS, GX_VTXFMT0, 1);
+			
+			GXPosition3f32(lotsOfDots[i][j].x, lotsOfDots[i][j].y, 9000.0f);
 			GXColor4u8(r,g,b,a);
 
 			GXEnd();

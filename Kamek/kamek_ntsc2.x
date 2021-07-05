@@ -1830,6 +1830,7 @@ SECTIONS {
 	GXSetNumTexGens = 0x801C4A20;
 	GXBegin = 0x801C5570;
 	GXSetLineWidth = 0x801C57A0;
+	GXSetPointSize = 0x801C57E0;
 	GXSetCullMode = 0x801C5860;
 	GXInitLightAttn = 0x801C6430;
 	GXInitLightSpot = 0x801C6470;
