@@ -132,3 +132,4 @@ modules:
   - processed/tiki.yaml
   - processed/fireball.yaml
   - processed/newSfx.yaml
+  - processed/poihana.yaml

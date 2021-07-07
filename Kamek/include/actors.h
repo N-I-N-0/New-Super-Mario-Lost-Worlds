@@ -806,7 +806,8 @@ enum Actors {
 	TikiTongCrown = 796,
 	StatsMenu = 797,
 	GreenRing = 798,
-	GreenCoin = 799
+	GreenCoin = 799,
+	Poihana = 800
 };
 
 struct Actor {

@@ -1,6 +1,14 @@
 SECTIONS {
 	/* instance__14dWorldCamera_c = 0x8156d728; /* wrong??? */
 
+	StateID_Turn__Goomba = 0x8035382C;
+	StateID_Ice__Goomba = 0x80358304;
+	StateID_DieFall__Goomba = 0x80357EF4;
+	StateID_DieOther__Goomba = 0x80358074;
+	StateID_Walk__Goomba = 0x803537EC;
+
+	daEnKuriboBase_c__isFrozen = 0x80032800;
+
 	it_is_right = 0x807B1030;
 	not_right = 0x807B1044;
 	it_is_right2 = 0x807B1284;

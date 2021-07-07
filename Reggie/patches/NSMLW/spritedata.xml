@@ -3325,5 +3325,8 @@
 	  </list>
   </sprite> <!-- #532: Green Coin -->
   
+  <sprite id="533" name="Cataquack" asmhacks="True" notes="A Cataquack!" >
+  </sprite> <!-- #533: Cataquack -->
+  
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

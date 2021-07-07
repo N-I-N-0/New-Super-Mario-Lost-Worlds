@@ -534,8 +534,6 @@ enum
 	BoomBoom = 514,
 	CutsceneMgr = 515,
 	SecretGem = 516,
-
-	//Baddy's Stuff
 	ShroobUfo = 517,
 	StarChip = 518,
 	ShyCart = 519,
@@ -550,10 +548,9 @@ enum
 	TikiTongHand = 528,
 	TikiTongCrown = 529,
 	StatsMenu = 530,
-	
-	// Besti's Stuff
 	GreenRing = 531,
 	GreenCoin = 532,
+	Poihana = 533,
 
 	Num
 };
@@ -1351,7 +1348,6 @@ enum
 	BoomBoom = 781,
 	CutsceneMgr = 782,
 	SecretGem = 783,
-
 	ShroobUfo = 784,
 	StarChip = 785,
 	ShyCart = 786,
@@ -1366,10 +1362,10 @@ enum
 	TikiTongHand = 795,
 	TikiTongCrown = 796,
 	StatsMenu = 797,
-	
 	GreenRing = 798,
 	GreenCoin = 799,
-
+	Poihana = 800,
+	
 	Num
 };
 
