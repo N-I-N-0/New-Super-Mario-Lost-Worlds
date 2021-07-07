@@ -43,3 +43,8 @@ hooks:
     branch_type: b
     src_addr_pal: 0x80AA85AC
     target_func: 'StoreIsLoopToR9_2'
+
+  - name: FixNonSlowCrash
+    type: patch
+    addr_pal: 0x80AA8688
+    data: '2C170002' #Old: 7C170000
