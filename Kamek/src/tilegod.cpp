@@ -38,7 +38,7 @@ daChengeBlock_c *daChengeBlock_c::build() {
 
 
 
-int daChengeBlock_c::onCreate() {
+int daChengeBlock_c::onCreate() { //So IDK if it's a treeki error or not but this actually isn't executed and the original onCreate is used
 	hasTriggered = 0;
 
 	height = settings & 0xF;
@@ -87,14 +87,15 @@ int daChengeBlock_c::onExecute() {
 // Red, Brick, Blank/Unused, Stone, Wood, Blank
 static const u16 Tiles[] = {124, 2, 12, 123, 15, 0};
 
-void daChengeBlock_c::doStuff(Action action, bool wasCalledOnCreation) {
+void daChengeBlock_c::doStuff(Action action, bool wasCalledOnCreation) { 
+	int actualPattern = (settings & 0x20000) ? CheckerB : ((settings & 0x10000) ? CheckerA : Fill);
 	u16 perTilePatternFlag = 1, perRowPatternFlag = 1;
 
 	u16 worldX = ((u16)pos.x) & 0xFFF0;
 	u16 baseWorldX = worldX;
 	u16 worldY = ((u16)(-pos.y)) & 0xFFF0;
 
-	if (pattern == CheckerB) {
+	if (actualPattern == CheckerB) {
 		perTilePatternFlag = 0;
 		perRowPatternFlag = 0;
 	}
@@ -170,14 +171,14 @@ void daChengeBlock_c::doStuff(Action action, bool wasCalledOnCreation) {
 				}
 			}
 
-			if (pattern != Fill) {
+			if (actualPattern != Fill) {
 				perTilePatternFlag ^= 1;
 			}
 
 			worldX += 16;
 		}
 
-		if (pattern != Fill) {
+		if (actualPattern != Fill) {
 			perRowPatternFlag ^= 1;
 			perTilePatternFlag = perRowPatternFlag;
 		}
