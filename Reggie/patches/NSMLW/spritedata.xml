@@ -3280,7 +3280,8 @@
   </sprite> <!-- #524: Cloud Plattform -->
   
   <sprite id="525" name="Goomba Tower" asmhacks="True" notes="Where am I going">
-  </sprite> <!-- #525: Goomba Tower -->
+	<value bit="33-36" title="Goomba Tower Height" comment="How many additional goombas" />
+  </sprite> <!-- #524: Goomba Tower -->
   
   <sprite id="526" name="BusuBusu" asmhacks="True" notes="Where am I going">
 	<checkbox bit="17" title="face right" comment="Loop" />
