@@ -261,7 +261,7 @@ newSetUpCollSensor:
 
 .extern EffectSpawnerThatTakesPlayerCountIntoAccount
 .extern _doGoldTileChange
-.extern doGoldTileChange__16daGoldFireBall_cFv
+#.extern doGoldTileChange__16daGoldFireBall_cFv
 .extern returnFromNewDirectWallHit
 .extern Delete__7fBase_cFv
 .extern continueFromDontKillYourself
@@ -287,8 +287,10 @@ newPlayFireballHitEffect:
 	lwz r0, 0x560(r31) #daGoldFireBall_c.isGold
 	cmpwi r0, 1
 	bne _dontDoGoldTileChange
-	mr r3, r31
-	bl doGoldTileChange__16daGoldFireBall_cFv
+#	mr r3, r31
+#	bl doGoldTileChange__16daGoldFireBall_cFv
+	li r3, 1
+	stw r3, 0x564(r31)
 
 _dontDoGoldTileChange:
 	lwz r31, 0xC(r1)
@@ -299,8 +301,10 @@ _dontDoGoldTileChange:
 
 .global newDirectWallHit
 newDirectWallHit:
-	mr r3, r30
-	bl doGoldTileChange__16daGoldFireBall_cFv
+#	mr r3, r30
+#	bl doGoldTileChange__16daGoldFireBall_cFv
+	li r3, 1
+	stw r3, 0x564(r30)
 	li r3, 0
 	b returnFromNewDirectWallHit
 
@@ -320,7 +324,36 @@ returnByteAtPointer__FUiUi:
 	blr
 
 
+#==========Trigger death in case of bouncing on a brick==========#
+
+.extern continueFromCheckBouncingBlock
+.extern checkForTriggerableBlock__16daGoldFireBall_cFv
+.extern goldFireHitAdjacent
+
+.global checkBouncingBlock
+checkBouncingBlock:
+	lwz r3, 0x560(r30) #daGoldFireBall_c.isGold
+	cmpwi r3, 0
+	beq _notGoldFire
+	mr r3, r30
+	bl checkForTriggerableBlock__16daGoldFireBall_cFv
+	cmpwi r3, 1
+	li r3, 0
+	li r4, 0
+	li r5, 0
+	beq _goldFireHitAdjacent
+_notGoldFire:
+	addi r3, r30, 0x1EC
+	b continueFromCheckBouncingBlock
+_goldFireHitAdjacent:
+	b goldFireHitAdjacent
+
+
 #==========New SFXs==========#
+
+.extern continueFromReplaceGoldHitSFXEnemy
+.extern ConvertStagePositionIntoScreenPosition__Maybe
+.extern PlaySoundAtPosition__17SoundPlayingClassFiP7Point2dUi
 
 .global replaceGoldHitSFX
 replaceGoldHitSFX:
@@ -333,10 +366,28 @@ _useGoldHitSFX:
 	li r4, 2000
 	blr
 
+.global replaceGoldHitSFXEnemy
+replaceGoldHitSFXEnemy:
+	lwz r4, 0x560(r30)
+	cmpwi r4, 1
+	bne _dontUseGoldHitSFXEnemy
+	lwz r31, -0x5940(r13)
+	addi r3, r1, 8
+	addi r4, r30, 0xAC
+	bl ConvertStagePositionIntoScreenPosition__Maybe
+	mr r3, r31
+	addi r5, r1, 8
+	li r4, 2000
+	li r6, 0
+	bl PlaySoundAtPosition__17SoundPlayingClassFiP7Point2dUi
+_dontUseGoldHitSFXEnemy:
+	b continueFromReplaceGoldHitSFXEnemy
+
 
 #==========New vtable==========#
 
 .data
+.align 4
 .global newgoldvtable
 newgoldvtable:
 	.long 0
@@ -422,6 +473,7 @@ newgoldvtable:
 	.long 0, 0, 0, 0, 0
 
 #==========Effects name==========#
+.align 4
 
 .global Wm_mr_firegold
 Wm_mr_firegold:
@@ -448,6 +500,7 @@ Wm_mr_fireball_hit:
 	.string "Wm_mr_fireball_hit"
 
 #==========New Collisions==========#
+.align 4
 
 .global goldfireCollision
 goldfireCollision:
@@ -464,6 +517,8 @@ goldfireCollision:
 	.byte 0, 0
 	.long collisionCallback__16daGoldFireBall_cFP13ActivePhysicsP13ActivePhysics  # callback
 	.long 0
+
+.align 4
 
 .global firstColliderThing
 firstColliderThing:

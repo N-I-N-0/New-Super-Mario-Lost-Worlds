@@ -2427,10 +2427,28 @@ SECTIONS {
 	getBlockTypeFromTilenum = 0x80088210;
 
 	continueFromOldPlaySound = 0x80198C34;
+	continueFromCheckBouncingBlock = 0x8011AD54;
+	goldFireHitAdjacent = 0x8011ACC0;
+	continueFromReplaceGoldHitSFXEnemy = 0x8011AB10;
 
 	dword_80357158 = 0x80356E58;
 	dword_803572A0 = 0x80356FA0;
 	EffectRelated = 0x8016D640;
+
+	daEnSnakeBlock_c__StateID_Move = 0x80B1B438;
+	doSomethingElseWithTravelInfoBuffer__SnakeSubEx = 0x80AA7420;
+	continueFromFirstLoop = 0x80AA7C50;
+	continueFromNodeLoop = 0x80AA7CC0;
+	continueFromSnakeBlockLoop3 = 0x80AA7494;
+	continueFromStoreIsLoopToR9_1 = 0x80AA85E0;
+	continueFromStoreIsLoopToR9_2 = 0x80AA85F0;
+	cancelNodeLoop = 0x80AA8178;
+	firstLoop = 0x80AA7C00;
+	loopForNodes = 0x80AA7C6C;
+	finishNodeLoop = 0x80AA8178;
+	abs = 0x802DE514;
+	dRail__getRailByID_static = 0x800D90C0;
+	loc_80AA86FC = 0x80AA873C;
 
 	.text : {
 		FILL (0)

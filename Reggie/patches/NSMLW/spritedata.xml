@@ -1007,6 +1007,7 @@
       <entry value="2">Stop, Fall Piece by Piece</entry>
       <entry value="3">Stop, Fall All at Once</entry>
     </list>
+    <checkbox nybble="6" title="Autostart" comment="If this box is checked, the snake block will start moving as soon as it is loaded."/>
 	<!--<list bit="21-26" title="Color" requiredbit="28">
       <entry value="0">Ice</entry>
 	  <entry value="1">Normal Green</entry>

@@ -32,6 +32,12 @@ hooks:
     addr_pal: 0x80041384
     data: '38000014' #Old: 3800000A
 
+  - name: checkBouncingBlock
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8011AE90
+    target_func: 'checkBouncingBlock'
+
   - name: replaceGoldHitSFX1
     type: branch_insn
     branch_type: bl
@@ -55,3 +61,9 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x8011AE68
     target_func: 'replaceGoldHitSFX'
+
+  - name: replaceGoldHitSFX5
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8011AC0C
+    target_func: 'replaceGoldHitSFXEnemy'

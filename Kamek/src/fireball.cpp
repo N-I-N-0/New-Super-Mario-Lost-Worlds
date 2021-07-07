@@ -46,8 +46,9 @@ public:
 	void executeState_Move_orig();
 	void endState_Move_orig();
 
-	void doGoldTileChange();
+	//void doGoldTileChange();
 	void doTileThing(int tX, int tY);
+	int checkForTriggerableBlock();
 
 	USING_STATES(daGoldFireBall_c);
 	DECLARE_STATE(Move);
@@ -56,14 +57,12 @@ public:
 daGoldFireBall_c *daGoldFireBall_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daGoldFireBall_c));
 
-	OSReport("sizeof: %d\n", sizeof(daGoldFireBall_c));
-
 	return new(buffer) daGoldFireBall_c;
 }
 
 CREATE_STATE(daGoldFireBall_c, Move);
 
-void daGoldFireBall_c::doGoldTileChange() {
+/*void daGoldFireBall_c::doGoldTileChange() {
 	int currentX = this->pos.x;
 	int currentY = this->pos.y;
 
@@ -73,9 +72,59 @@ void daGoldFireBall_c::doGoldTileChange() {
 	int tileX = ((currentX - moduloX) / 16);
 	int tileY = -((currentY - moduloY) / 16);
 
-	OSReport("Gold hit wall: %d %d\n", tileX, tileY);
-
 	this->isDying = 1;
+}*/
+
+int daGoldFireBall_c::checkForTriggerableBlock() {
+	int currentX = this->pos.x;
+	int currentY = this->pos.y - 16;
+
+	int moduloX = currentX % 16;
+	int moduloY = currentY % 16;
+
+	int roundedX = currentX - moduloX - 16;
+	int roundedY = currentY - moduloY - 16;
+
+	int tileX = ((currentX - moduloX) / 16);
+	int tileY = ((currentY - moduloY) / 16);
+
+	int tn = (int)(dBgGm_c::instance->getTileNumAtPositionWithoutSpecial(currentX, -currentY, 0));
+	u32 tilebehaviour0 = collMgr.getTileBehaviour1At((float)(currentX), (float)(currentY), 0);
+
+	if((tn == 0x30 || tn == 0x31) && (tilebehaviour0 == 0x10 || tilebehaviour0 == 0x5)) {
+		return 1;
+	}
+
+    while (true) {
+		if(dataBank != (daEnBlockMain_c*)1) {
+			dataBank = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_HATENA_BLOCK, dataBank);
+		}
+		if(dataBank2 != (daEnBlockMain_c*)1) {
+			dataBank2 = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_RENGA_BLOCK, dataBank2);
+		}
+
+		if(dataBank == 0) { dataBank = (daEnBlockMain_c*)1; }
+		if(dataBank2 == 0) { dataBank2 = (daEnBlockMain_c*)1; }
+
+		if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1) {
+			dataBank = 0;
+			dataBank2 = 0;
+			break;
+		}
+
+        if (dataBank->pos.x == roundedX && dataBank->pos.y == roundedY && dataBank->_68D == 0) {
+			dataBank = 0;
+			dataBank2 = 0;
+            return 1;
+        }
+        if (dataBank2->pos.x == roundedX && dataBank2->pos.y == roundedY && dataBank2->_68D == 0) {
+			dataBank = 0;
+			dataBank2 = 0;
+            return 1;
+        }
+    }  
+
+	return 0;
 }
 
 int daGoldFireBall_c::onCreate() {
@@ -84,8 +133,9 @@ int daGoldFireBall_c::onCreate() {
 
 	int orig_val = this->onCreate_orig();
 
-	OSReport("Hello :p\n");
+	/*OSReport("Hello :p\n");
 	OSReport("Sprite: %d %X\n", this->name, this->name);
+	dAcPy_c::findByID(this->which_player)->addMyActivePhysics();*/
 
 	return orig_val;
 }
@@ -129,7 +179,7 @@ void daGoldFireBall_c::doTileThing(int tX, int tY) {
 
 	if(tn == 0x30 || tn == 0x31) {
 		if(tilebehaviour0 == 0x10 || tilebehaviour0 == 0x5) {
-			//OSReport("tilebehaviour=%X-%X-%d-%d-%X-%X-%X at %d %d\n", tilebehaviour0, tilebehaviour2, tn, bt, bh, tb, tb2, tX, tY);
+			/*//OSReport("tilebehaviour=%X-%X-%d-%d-%X-%X-%X at %d %d\n", tilebehaviour0, tilebehaviour2, tn, bt, bh, tb, tb2, tX, tY);
 			OSReport("tilebehaviour=%X-", tilebehaviour0);
 			OSReport("%X-%X-", tn, tv);
 			//OSReport("%d-%X-", bt, bh);
@@ -137,7 +187,7 @@ void daGoldFireBall_c::doTileThing(int tX, int tY) {
 			//OSReport("%X-%X-%X-", pt, newptr, vv);
 			OSReport("%X-%X ", ci, ci2);
 			OSReport("at %d %d ", tX, tY);
-			OSReport("/ %d %d\n", ttX, ttY);
+			OSReport("/ %d %d\n", ttX, ttY);*/
 
 			dBgGm_c::instance->placeTile(tX, -tY, currentLayerID, 0);
 			if(tilebehaviour0 & 0x10 && tv == 0) {
@@ -204,9 +254,6 @@ int daGoldFireBall_c::onExecute() {
 		}
 
 		while(this->radius <= 64 && this->waitingTime == 0) {
-			// Set dataBank equal to a pointer towards the first dat bank found, and then every time
-			// after that find the one after the one just found (that's what the second parameter does).
-			// If the loop finishes:
 			if(dataBank != (daEnBlockMain_c*)1) {
 				dataBank = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_HATENA_BLOCK, dataBank);
 			}

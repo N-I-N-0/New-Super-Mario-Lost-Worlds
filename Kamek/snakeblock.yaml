@@ -1,0 +1,45 @@
+---
+
+
+source_files: [../src/snakeblock.S]
+hooks:
+  - name: AutoStartSnakeBlock
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA83D0
+    target_func: 'AutoStartSnakeBlock'
+
+  - name: SnakeBlockLoop1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA7C0C
+    target_func: 'SnakeBlockLoop1'
+
+  - name: SnakeBlockLoop2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA8134
+    target_func: 'SnakeBlockLoop2'
+
+  - name: SnakeBlockLoop3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA7450
+    target_func: 'SnakeBlockLoop3'
+
+  - name: ExtendSnakeBlockClass
+    type: patch
+    addr_pal: 0x80AA67E8
+    data: '38602B44' #Old: 38602B40
+
+  - name: StoreIsLoopToR9_1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA859C
+    target_func: 'StoreIsLoopToR9_1'
+
+  - name: StoreIsLoopToR9_2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA85AC
+    target_func: 'StoreIsLoopToR9_2'
