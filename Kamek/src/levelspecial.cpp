@@ -75,7 +75,7 @@ void MarioStateChanger(void *Mario, dStateBase_c *state, u32 unk) {
 
 bool ResetAfterLevel(bool didItWork) {
 	// TimeStopFlag = 0;
-	MarioDescentRate = -4;
+	MarioDescentRate = MarioDescentRate < 0 ? -4 : 4;
 	MarioJumpMax = 3.628;
 	MarioJumpArc = 2.5;
 	MiniMarioJumpArc = 2.5;
@@ -163,20 +163,11 @@ void LevelSpecial_Update(LevelSpecial *self) {
 		
 	
 			case 3:											// Mario Gravity
-				if (self->effect == 0)
-				{											//Low grav
-					MarioDescentRate = -2;
-					MarioJumpArc = 0.5;
-					MiniMarioJumpArc = 0.5;
-					MarioJumpMax = 4.5;
-				}
-				else
-				{											//Anti-grav
-					MarioDescentRate = 0.5;
-					MarioJumpArc = 4.0;
-					MiniMarioJumpArc = 4.0;
-					MarioJumpMax = 0.0;
-				}
+				MarioDescentRate = MarioDescentRate < 0 ? -2 : 2;
+				MarioJumpArc = 0.5;
+				MiniMarioJumpArc = 0.5;
+				MarioJumpMax = 4.5;
+				
 				break;
 	
 			case 4:											// Set Time
@@ -245,7 +236,7 @@ void LevelSpecial_Update(LevelSpecial *self) {
 		
 	
 			case 3:											// Mario Gravity
-				MarioDescentRate = -4;
+				MarioDescentRate = MarioDescentRate < 0 ? -4 : 4;
 				MarioJumpArc = 2.5;
 				MiniMarioJumpArc = 2.5;
 				MarioJumpMax = 3.628;
