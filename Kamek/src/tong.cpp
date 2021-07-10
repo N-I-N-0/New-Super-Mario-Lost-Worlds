@@ -41,16 +41,26 @@ public:
 	//bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 
 	daTikiTongBody_c* body;
-
+	
+	Vec2 moveGoal;
+	Vec2 moveStep;
+	S16Vec moveGoalRotation;
+	S16Vec moveStepRotation;
+	int moveStepCount;
+	
+	dStateBase_c* nextState;
+	
 	mHeapAllocator_c allocator;
 	m3d::mdl_c bodyModel;
 	m3d::anmChr_c chrAnimation;
 
 	USING_STATES(daTikiTongHand_c);
 	DECLARE_STATE(Wait);
+	DECLARE_STATE(MoveTo);
 };
 
 CREATE_STATE(daTikiTongHand_c, Wait);
+CREATE_STATE(daTikiTongHand_c, MoveTo);
 
 dActor_c* daTikiTongHand_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daTikiTongHand_c));
@@ -205,6 +215,15 @@ int daTikiTongBody_c::onCreate() {
 	rightHand->body = this;
 	crown->body = this;
 
+	Vec2 goal;
+	goal.x = this->pos.x - 160;
+	goal.y = this->pos.y - 40;
+	leftHand->moveGoal = goal;
+	leftHand->moveStepCount = 180;
+	leftHand->moveGoalRotation = (S16Vec){-0x8000, 0, 0x8000};
+	leftHand->nextState = &daTikiTongHand_c::StateID_Wait;
+	leftHand->doStateChange(&daTikiTongHand_c::StateID_MoveTo);
+
 	OSReport("Tiki 3\n");
 
 	return true;
@@ -321,6 +340,38 @@ void daTikiTongHand_c::executeState_Wait() {
 	this->pos = this->body->pos;
 }
 void daTikiTongHand_c::endState_Wait() {}
+
+
+void daTikiTongHand_c::beginState_MoveTo() {				//moveGoal, moveStepCount and nextState have to be set before starting this state
+	float xDiff = this->moveGoal.x - this->pos.x;
+	float yDiff = this->moveGoal.y - this->pos.y;
+	float length = sqrtf((xDiff*xDiff) + (yDiff*yDiff));
+	float stepLength = length / this->moveStepCount;
+	this->moveStep = (Vec2){(xDiff/length)*stepLength, (yDiff/length)*stepLength};
+	
+	s16 xRotDiff = this->moveGoalRotation.x - this->rot.x;
+	s16 yRotDiff = this->moveGoalRotation.y - this->rot.y;
+	s16 zRotDiff = this->moveGoalRotation.z - this->rot.z;
+	
+	this->moveStepRotation = (S16Vec){xRotDiff / moveStepCount, yRotDiff / moveStepCount, zRotDiff / moveStepCount};
+}
+void daTikiTongHand_c::executeState_MoveTo() {
+	if(this->moveStepCount > 0) {
+		this->pos.x += this->moveStep.x;
+		this->pos.y += this->moveStep.y;
+		
+		this->rot.x += this->moveStepRotation.x;
+		this->rot.y += this->moveStepRotation.y;
+		this->rot.z += this->moveStepRotation.z;
+		
+		this->moveStepCount--;
+	} else {
+		doStateChange(this->nextState);
+	}
+}
+void daTikiTongHand_c::endState_MoveTo() {
+	this->rot = this->moveGoalRotation;		//to fix possible rounding errors
+}
 
 
 /*===========================================================================*/
