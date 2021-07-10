@@ -1,0 +1,102 @@
+hooks:
+- branch_type: b
+  name: Test
+  src_addr_jpn: 2148409024
+  src_addr_jpn2: 2148409024
+  src_addr_ntsc: 2148409152
+  src_addr_ntsc2: 2148409152
+  src_addr_pal: 2148409392
+  src_addr_pal2: 2148409392
+  target_func: Test(void)
+  type: branch_insn
+- addr_jpn: 2148409028
+  addr_jpn2: 2148409028
+  addr_ntsc: 2148409156
+  addr_ntsc2: 2148409156
+  addr_pal: 2148409396
+  addr_pal2: 2148409396
+  data: 4E800020
+  name: patchReturn
+  type: patch
+- branch_type: b
+  name: addSpecialToLevelNum
+  src_addr_jpn: 2148504980
+  src_addr_jpn2: 2148504980
+  src_addr_ntsc: 2148505108
+  src_addr_ntsc2: 2148505108
+  src_addr_pal: 2148505380
+  src_addr_pal2: 2148505380
+  target_func: AddToLevelNum(int)
+  type: branch_insn
+- addr_jpn: 2148504984
+  addr_jpn2: 2148504984
+  addr_ntsc: 2148505112
+  addr_ntsc2: 2148505112
+  addr_pal: 2148505384
+  addr_pal2: 2148505384
+  data: 4E800020
+  name: patchReturn2
+  type: patch
+- addr_jpn: 2157101000
+  addr_jpn2: 2157101016
+  addr_ntsc: 2157101704
+  addr_ntsc2: 2157101720
+  addr_pal: 2157101704
+  addr_pal2: 2157101720
+  data: 4E800020
+  name: patchReturn3
+  type: patch
+- branch_type: bl
+  name: SetLevelIdentifierRewrite
+  src_addr_jpn: 2156973148
+  src_addr_jpn2: 2156973164
+  src_addr_ntsc: 2156973852
+  src_addr_ntsc2: 2156973868
+  src_addr_pal: 2156973852
+  src_addr_pal2: 2156973868
+  target_func: SetLevelIdentifier(unsigned char, unsigned char, unsigned char *, unsigned
+    char *)
+  type: branch_insn
+- branch_type: b
+  name: SetConditionInWorldDataForWorldAndLevel
+  src_addr_jpn: 2148328304
+  src_addr_jpn2: 2148328304
+  src_addr_ntsc: 2148328432
+  src_addr_ntsc2: 2148328432
+  src_addr_pal: 2148328672
+  src_addr_pal2: 2148328672
+  target_func: SetConditionInWorldDataForWorldAndLevel(int *, int, int, unsigned int)
+  type: branch_insn
+- branch_type: b
+  name: CheckIfConditionIsCompletedForWorldAndLevel
+  src_addr_jpn: 2148328256
+  src_addr_jpn2: 2148328256
+  src_addr_ntsc: 2148328384
+  src_addr_ntsc2: 2148328384
+  src_addr_pal: 2148328624
+  src_addr_pal2: 2148328624
+  target_func: CheckIfConditionIsCompletedForWorldAndLevel(int *, int, int, unsigned
+    int)
+  type: branch_insn
+- branch_type: b
+  name: SetSpecificStarCoinToCollected
+  src_addr_jpn: 2148327680
+  src_addr_jpn2: 2148327680
+  src_addr_ntsc: 2148327808
+  src_addr_ntsc2: 2148327808
+  src_addr_pal: 2148328048
+  src_addr_pal2: 2148328048
+  target_func: SetSpecificStarCoinToCollected(int *, int, int, unsigned int)
+  type: branch_insn
+- branch_type: b
+  name: CheckIfWeHaveASpecificStarCoin
+  src_addr_jpn: 2148327824
+  src_addr_jpn2: 2148327824
+  src_addr_ntsc: 2148327952
+  src_addr_ntsc2: 2148327952
+  src_addr_pal: 2148328192
+  src_addr_pal2: 2148328192
+  target_func: CheckIfWeHaveASpecificStarCoin(int *, int, int, unsigned int)
+  type: branch_insn
+source_files:
+- ../src/0.cpp
