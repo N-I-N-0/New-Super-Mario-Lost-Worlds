@@ -1,6 +1,10 @@
 SECTIONS {
 	/* instance__14dWorldCamera_c = 0x8156d728; /* wrong??? */
 
+	continueIsWXS1 = 0x808e81c0;
+	continueWithPat0SetupFromWXS0 = 0x808e81b0;
+	LAB_808e81d4 = 0x808e81d4;
+
 	StateID_Turn__Goomba = 0x8035382C;
 	StateID_Ice__Goomba = 0x80358304;
 	StateID_DieFall__Goomba = 0x80357ef4;

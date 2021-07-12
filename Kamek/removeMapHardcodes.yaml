@@ -1,0 +1,11 @@
+---
+source_files: []
+hooks:
+  - name: removeAmbushes        #later use this to add own ambushes
+    type: nop_insn
+    area_pal: 0x808e00d4
+    
+  - name: removeKoopalings      #later use this to add own map bosses
+    type: patch
+    addr_pal: 0x808f7100
+    data: '4e800020'    #blr

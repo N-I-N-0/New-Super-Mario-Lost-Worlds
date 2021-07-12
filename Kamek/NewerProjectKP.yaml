@@ -109,7 +109,6 @@ modules:
   - processed/theGreatGoalPole.yaml
 #  - processed/poisontex.yaml
   - processed/gakenoko.yaml
-  - processed/removeMapAmbushes.yaml
   - processed/sidestepper.yaml
   - processed/minisidestepper.yaml
   - processed/waterlift.yaml
@@ -117,6 +116,8 @@ modules:
   - processed/worldmapScripts.yaml
   - processed/worldmapGrid.yaml
   - processed/worldmapShop.yaml
+  - processed/worldmapStartNode.yaml
+  - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
   - processed/cutsceneMgr.yaml
   - processed/secretGem.yaml

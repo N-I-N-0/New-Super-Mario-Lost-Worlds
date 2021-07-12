@@ -1,6 +1,0 @@
----
-source_files: []
-hooks:
-  - name: removeAmbushes
-    type: nop_insn
-    area_pal: 0x808e00d4

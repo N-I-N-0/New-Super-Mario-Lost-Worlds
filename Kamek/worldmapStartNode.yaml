@@ -1,0 +1,8 @@
+---
+source_files: [../src/worldmapStartNode.S]
+hooks:
+  - name: isWXS1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808e81bc
+    target_func: 'isWXS1'
