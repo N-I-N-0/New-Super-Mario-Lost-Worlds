@@ -34,5 +34,5 @@ pause
 exit
 
 :end
-echo Built all!
+echo Built all! %date% %time%
 pause

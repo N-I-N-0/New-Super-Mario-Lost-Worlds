@@ -1,4 +1,7 @@
 SECTIONS {
+	ContinueWithoutCourage = 0x80151540;
+	ContinueWithCourage = 0x80151508;
+
 	/* instance__14dWorldCamera_c = 0x8156d728; /* wrong??? */
 
 	continueIsWXS1 = 0x808E81D0;

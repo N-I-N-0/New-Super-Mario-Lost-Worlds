@@ -1,5 +1,5 @@
 ---
-source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S] #, ../src/yoshiStomp.cpp]
+source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S, ../src/yoshiCourage.S] #, ../src/yoshiStomp.cpp]
 
 hooks:
   # daYoshi_c
@@ -99,4 +99,9 @@ hooks:
     src_addr_pal: 0x80054B48
     target_func: 'flyNowMyCuteYoshi'
 
-
+  #Courage Yoshi
+  - name: YoshiCourage
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80151644
+    target_func: 'haveCourageMyCuteYoshi'
