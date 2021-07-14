@@ -2,11 +2,12 @@
 #include <game.h>
 #include <profile.h>
 #include "boomeranghax.h"
+#include "baddy.h"
 
 const char* CloudPlattformFileList[] = { "cloudM", 0 };
 
 
-class daEnCloudPlattform_c : public dEn_c {
+class daEnCloudPlattform_c : public dEnPath_c {
 public:
 	int onCreate();
 	int onExecute();
@@ -31,7 +32,7 @@ public:
 	StandOnTopCollider sotCollider;
 
 
-	u8 moveDirection;
+	/*u8 moveDirection;
 	float aTestFloat;
 	s16 leftRotPtr;
 	s16 rightRotPtr;
@@ -66,7 +67,7 @@ public:
 	int stepCount;
 	int stepsDone;
 
-	bool playerCollides;
+	bool playerCollides;*/
 
 
 	static dActor_c* build();
@@ -88,18 +89,18 @@ public:
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
 
-	USING_STATES(daEnCloudPlattform_c);
+	/*USING_STATES(daEnCloudPlattform_c);
 
 	DECLARE_STATE(Wait);
-	DECLARE_STATE(Run);
+	DECLARE_STATE(Run);*/
 };
 
 
-CREATE_STATE(daEnCloudPlattform_c, Wait);
-CREATE_STATE(daEnCloudPlattform_c, Run);
+//CREATE_STATE(daEnCloudPlattform_c, Wait);
+//CREATE_STATE(daEnCloudPlattform_c, Run);
 
 
-void daEnCloudPlattform_c::beginState_Wait() { OSReport("HI 0.7 \n");}
+/*void daEnCloudPlattform_c::beginState_Wait() { OSReport("HI 0.7 \n");}
 void daEnCloudPlattform_c::executeState_Wait() {
 	if (stepsDone == 0 && followPath)
 	{
@@ -229,7 +230,7 @@ void daEnCloudPlattform_c::executeState_Run() {
 	}
 }
 
-void daEnCloudPlattform_c::endState_Run() { OSReport("HI 5.3\n"); }
+void daEnCloudPlattform_c::endState_Run() { OSReport("HI 5.3\n"); }*/
 
 
 
@@ -266,6 +267,8 @@ void daEnCloudPlattform_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* 
 	{
 		this->active = false;
 	}
+
+	playerCollides = true;
 }
 bool daEnCloudPlattform_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
 	daPlBase_c* player = (daPlBase_c*)apOther->owner;
@@ -342,7 +345,7 @@ int daEnCloudPlattform_c::onCreate() {
 
 	allocator.unlink();
 
-	this->followPath = this->settings >> 31 & 1;
+	/*this->followPath = this->settings >> 31 & 1;
 
 	this->loop = this->settings >> 30 & 1;
 
@@ -391,7 +394,7 @@ int daEnCloudPlattform_c::onCreate() {
 	}
 
 
-	playerCollides = false;
+	playerCollides = false;*/
 
 
 	// Stuff I do understand
@@ -475,6 +478,8 @@ int daEnCloudPlattform_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 	acState.execute();
+
+	//OSReport("Execute\n");
 
 	if (!active)
 	{
@@ -595,7 +600,7 @@ int daEnCloudPlattform_c::onExecute() {
 		}
 	}*/
 
-	playerCollides = false;
+	//playerCollides = false;
 
 	sotCollider.update();
 	return true;

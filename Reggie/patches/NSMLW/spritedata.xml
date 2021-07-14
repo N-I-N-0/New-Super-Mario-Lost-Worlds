@@ -3273,11 +3273,16 @@
   </sprite> <!-- #523: Boshi -->
   
   <sprite id="524" name="Cloud Plattform" asmhacks="True" notes="Where am I going">
-  <checkbox bit="17" title="follow path" comment="Loop" />
+	<checkbox bit="17" title="follow path" comment="Loop" />
 	<value bit="41-48" title="Path ID" comment="ID" />
 	<value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
 	<value bit="29-32" title="Speed" comment="speed" />
 	<checkbox bit="18" title="Loop" comment="Loop" />
+	<list bit="19-20" title="WaitMode" comment="This determines the WaitMode" >
+      <entry value="0">Do not wait for Player</entry>
+      <entry value="1">Wait for one Player to start</entry>
+      <entry value="2">Wait for one player always to move</entry>
+    </list>
   </sprite> <!-- #524: Cloud Plattform -->
   
   <sprite id="525" name="Goomba Tower" asmhacks="True" notes="Where am I going">

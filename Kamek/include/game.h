@@ -38,6 +38,8 @@ float cos(float x);
 float sin(float x);
 float ceil(float x);
 float floor(float x);
+
+float pow(float x, float y);
 }
 enum Direction {
 	RIGHT = 0,

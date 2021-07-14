@@ -39,11 +39,20 @@ public:
 	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
 
 	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
+	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
+
+	//setDeathInfo_IceBreak -> what should be done when in an iceblock and crashes a wall -> normally the sprite should die
+	void _vf148();
+	//setDeathInfo_IceVanish -> what should be done when collision with an iceblock thrown by Mario -> normally the sprite should die
+	void _vf14C();
+	//create an ice block when collided with Iceball
+	bool CreateIceActors();
+
+	//void addScoreWhenHit(void* other);
 };
 
 const SpriteData BusuBusuSpriteData = { ProfileId::BusuBusu, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
@@ -59,38 +68,70 @@ void daEnBusuBusu_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOth
 void daEnBusuBusu_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 }
 bool daEnBusuBusu_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
 bool daEnBusuBusu_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
 bool daEnBusuBusu_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
 bool daEnBusuBusu_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
+	if ((this->facingRight && apOther->owner->pos.x < this->pos.x) || (!this->facingRight && apOther->owner->pos.x > this->pos.x))
+	{
+		this->Delete(1);
+		return true;
+	}
 	return false;
 }
 
 bool daEnBusuBusu_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
-bool daEnBusuBusu_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
+/*bool daEnBusuBusu_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
 
 	return false;
-}
+}*/
 bool daEnBusuBusu_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
 
 	return false;
 }
 bool daEnBusuBusu_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
 bool daEnBusuBusu_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
 }
 
 bool daEnBusuBusu_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	this->Delete(1);
+	return true;
+}
+
+
+void daEnBusuBusu_c::_vf148() {
+	dEn_c::_vf148();
+}
+
+void daEnBusuBusu_c::_vf14C() {
+	dEn_c::_vf14C();
+}
+
+//this does weird shit, but it creates the iceblock around it
+bool daEnBusuBusu_c::CreateIceActors() {
+	struct DoSomethingCool my_struct = { 0, this->pos, {1.5, 2.0, 1.8}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	this->frzMgr.Create_ICEACTORs((void*)&my_struct, 1);
+	__destroy_arr((void*)&my_struct, sub_80024C20, 0x3C, 1);
+	//this->chrAnimation.setCurrentFrame(0.0);
+	this->chrAnimation.setUpdateRate(0.0);
+	//this->frozen = true;
+	return true;
 }
 
 
