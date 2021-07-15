@@ -801,7 +801,8 @@ ScriptCommand Z_WorldSelect_Menu[] = {
     {134, 0},
     {114, 0},
     {123, 0},
-    {133, 0},
+    {170, 0}, 						//new command - added in newScriptCommands
+	//{133, 0},
     {122, 0},
     {130, 0},
     {115, 0},

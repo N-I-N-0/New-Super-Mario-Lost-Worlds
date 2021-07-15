@@ -3,33 +3,11 @@
 
 #include <asm_setup.S>
 
-.extern returnForCalledFromExecute
-.extern continueInCalledFromExecute
-.extern FUN_808fbd00
-
-.global checkIfCommandOpenShop
-checkIfCommandOpenShop:
-	beq     return
-	cmpwi   r4, 0xA9					#new command 169
-	beq     spawnThisShop
-	b       continueInCalledFromExecute
-
-return:
-	b       returnForCalledFromExecute
-
-spawnThisShop:
-	bl      FUN_808fbd00
-	b       continueInCalledFromExecute
-
-
-
-
 .extern continueAt80904158  #if not condition for button check met
 .extern continueAt8090415C  #if not B pressed
 .extern LAB_809042ec       #if B pressed
 .extern makeShopShowUp__Fv
 .extern isBPressed__Fv
-.extern ActiveWiimoteID
 
 .global checkIfBIsPressed
 checkIfBIsPressed:

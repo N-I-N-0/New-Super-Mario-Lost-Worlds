@@ -2,9 +2,13 @@ bool showGrid = false;
 dActor_c* theGrid;
 
 int wmtest() {
-	dActor_c* shop = (dActor_c*)fBase_c::search(WM_GRID);
+	/*dActor_c* shop = (dActor_c*)fBase_c::search(WM_GRID);
 	if(!shop) {
 		dActor_c::create(WM_GRID, 0, 0, 0);
+	}*/
+	dActor_c* worldSelect = (dActor_c*)fBase_c::search(WM_NOTE);
+	if(!worldSelect) {
+		dActor_c::create(WM_NOTE, 0, 0, 0);
 	}
 	if(Remocon_GetPressed(GetActiveRemocon()) & WPAD_HOME){
 		showGrid = !showGrid;

@@ -1,8 +1,14 @@
 ---
-source_files: [../src/worldmapScripts.cpp, ../src/worldmapScripts.S]
+source_files: [../src/worldmapScripts.cpp, ../src/worldmapScripts.S, ../src/worldmapScriptsCommands.S]
 hooks:
   - name: useCustomScripts
     type: branch_insn
     branch_type: b
     src_addr_pal: 0x801016C8
     target_func: 'useCustomScripts'
+    
+  - name: checkIfNewCommand
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808fb310
+    target_func: 'checkIfNewCommand'

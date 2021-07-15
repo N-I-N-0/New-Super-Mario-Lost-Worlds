@@ -1,34 +1,14 @@
-// TODO:  - 0x80926ba0 LoadFilesForWorldMap: re-add lakitu and items
-//          - Warning: eventually the poweruplist was already changed before in boomeranghax, poweruphax or some stockItemFix file ...
-//                     WorldMap folder list handled in worldmapGrid.S
-//          - also add all new items
-//        - The cursor doesn't get deleted together with the rest of the actor
-//        - eventually make the shop have 2 pages with the first one being a new stockItem and the second the shop
-//          - in this case bind the spawning of this actor to button 1
-//          - no need for a mushroom house shop on the map
-//        - unhardcode shop names and items
-//          - load from planned worldInfo.bin
-//        - re-add texmapcolouriser functionality with colours from worldInfo.bin
-//        - check why the game crashes after the following sequence of events:
-//          - open shop while on level node
-//          - press 2 -> buying something while starting the level
-//          - finish the level
-//          - try to re-open/spawn the shop
-//          >> probably the problem is that the bool containing the info whether the shop is spawned is true while there is no shop
-//             the code in worldmapGird.cpp then tries to delete the non existend shop and crashes the game ...
+#ifndef __WORLDSELECTION_H
+#define __WORLDSELECTION_H
 
-#ifndef __KOOPATLAS_SHOP_H
-#define __KOOPATLAS_SHOP_H
-
-//#include "koopatlas/core.h"
 #include "texmapcolouriser.h"
 
-class dWMShop_c : public dActor_c {
+class dWMSelection_c : public dActor_c {
 	public:
-		static dWMShop_c *build();
-		static dWMShop_c *instance;
+		static dWMSelection_c *build();
+		static dWMSelection_c *instance;
 
-		dWMShop_c();
+		dWMSelection_c();
 
 		int onCreate();
 		int onDelete();
@@ -127,9 +107,9 @@ class dWMShop_c : public dActor_c {
 
 		void showSelectCursor();
 
-		dStateWrapper_c<dWMShop_c> state;
+		dStateWrapper_c<dWMSelection_c> state;
 
-		USING_STATES(dWMShop_c);
+		USING_STATES(dWMSelection_c);
 		DECLARE_STATE(Hidden);
 		DECLARE_STATE(ShowWait);
 		DECLARE_STATE(ButtonActivateWait);
@@ -145,38 +125,15 @@ extern "C" bool FUN_801017c0(int, int, int, int, int);
 extern "C" void FUN_808fbd10(int);
 extern "C" void dCourseSelectGuide_c__loadLives(int);
 
-CREATE_STATE(dWMShop_c, Hidden);
-CREATE_STATE(dWMShop_c, ShowWait);
-CREATE_STATE(dWMShop_c, ButtonActivateWait);
-CREATE_STATE(dWMShop_c, CoinCountdown);
-CREATE_STATE(dWMShop_c, Wait);
-CREATE_STATE(dWMShop_c, HideWait);
+CREATE_STATE(dWMSelection_c, Hidden);
+CREATE_STATE(dWMSelection_c, ShowWait);
+CREATE_STATE(dWMSelection_c, ButtonActivateWait);
+CREATE_STATE(dWMSelection_c, CoinCountdown);
+CREATE_STATE(dWMSelection_c, Wait);
+CREATE_STATE(dWMSelection_c, HideWait);
 
 
-int getUnspentStarCoinCount() {
-	SaveBlock *save = GetSaveFile()->GetBlock(-1);
-	int coinsSpent = save->spentStarCoins;
-	return getStarCoinCount() - coinsSpent;
-}
-
-int getStarCoinCount() {
-	SaveBlock *save = GetSaveFile()->GetBlock(-1);
-	int coinsEarned = 0;
-
-	for (int w = 0; w < 10; w++) {
-		for (int l = 0; l < 42; l++) {
-			u32 conds = save->GetLevelCondition(w, l);
-
-			if (conds & COND_COIN1) { coinsEarned++; }
-			if (conds & COND_COIN2) { coinsEarned++; }
-			if (conds & COND_COIN3) { coinsEarned++; }
-		}
-	}
-
-	return coinsEarned;
-}
-
-void dWMShop_c::ShopModel_c::setupItem(float x, float y, ItemTypes type) {
+void dWMSelection_c::ShopModel_c::setupItem(float x, float y, ItemTypes type) {
 	static const char* Produce[ITEM_TYPE_COUNT][4] = { 
 		{ "I_kinoko", 		"g3d/I_kinoko.brres", 			"I_kinoko", 			"wait2" },
 		{ "I_fireflower", 	"g3d/I_fireflower.brres", 		"I_fireflower", 		"wait2" },
@@ -219,7 +176,7 @@ void dWMShop_c::ShopModel_c::setupItem(float x, float y, ItemTypes type) {
 	allocator.unlink();
 }
 
-void dWMShop_c::ShopModel_c::setupLakitu(int id) {
+void dWMSelection_c::ShopModel_c::setupLakitu(int id) {
 	static const char* models[10] = { 
 		"g3d/yoshi.brres", "g3d/desert.brres", "g3d/mountain.brres", "g3d/sakura.brres", "g3d/santa.brres", 
 		"g3d/ghost.brres", "g3d/space.brres", "g3d/koopa.brres", "g3d/sewer.brres", "g3d/goldwood.brres" 
@@ -245,14 +202,14 @@ void dWMShop_c::ShopModel_c::setupLakitu(int id) {
 	allocator.unlink();
 }
 
-void dWMShop_c::ShopModel_c::playAnim(const char *name, float rate, char loop) {
+void dWMSelection_c::ShopModel_c::playAnim(const char *name, float rate, char loop) {
 	nw4r::g3d::ResAnmChr anmChr = res.GetResAnmChr(name);
 	animation.bind(&model, anmChr, loop);
 	model.bindAnim(&animation, 0.0f);
 	animation.setUpdateRate(rate);
 }
 
-void dWMShop_c::ShopModel_c::execute() {
+void dWMSelection_c::ShopModel_c::execute() {
 	model._vf1C();
 
 	if(this->animation.isAnimationDone()) {
@@ -269,7 +226,7 @@ void dWMShop_c::ShopModel_c::execute() {
 	}	
 }
 
-void dWMShop_c::ShopModel_c::draw() {
+void dWMSelection_c::ShopModel_c::draw() {
 	mMtx mtx;
 	mtx.translation(x, y, 1000.0f);
 	model.setDrawMatrix(mtx);
@@ -285,25 +242,25 @@ void dWMShop_c::ShopModel_c::draw() {
 
 
 
-dWMShop_c *dWMShop_c::instance = 0;
+dWMSelection_c *dWMSelection_c::instance = 0;
 
-dWMShop_c *dWMShop_c::build() {
-	void *buffer = AllocFromGameHeap1(sizeof(dWMShop_c));
-	dWMShop_c *c = new(buffer) dWMShop_c;
+dWMSelection_c *dWMSelection_c::build() {
+	void *buffer = AllocFromGameHeap1(sizeof(dWMSelection_c));
+	dWMSelection_c *c = new(buffer) dWMSelection_c;
 
 	instance = c;
 	return c;
 }
 
-dWMShop_c::dWMShop_c() : state(this, &StateID_Hidden) {
+dWMSelection_c::dWMSelection_c() : state(this, &StateID_Hidden) {
 	layoutLoaded = false;
 	visible = false;
 }
 
-int dWMShop_c::onCreate() {
+int dWMSelection_c::onCreate() {
 	showShop = false;
 	if (!layoutLoaded) {
-		bool gotFile = layout.loadArc("shop.arc", false);
+		bool gotFile = layout.loadArc("worldSelect.arc", false);
 		if (!gotFile)
 			return false;
 
@@ -403,13 +360,13 @@ int dWMShop_c::onCreate() {
 }
 
 
-int dWMShop_c::onDelete() {
+int dWMSelection_c::onDelete() {
 	deleteModels();
 	return layout.free();
 }
 
 
-int dWMShop_c::onExecute() {
+int dWMSelection_c::onExecute() {
 	//OSReport("Shop state: %s\n", this->state.getCurrentState()->getName());
 	state.execute();
 
@@ -428,14 +385,14 @@ int dWMShop_c::onExecute() {
 	return true;
 }
 
-int dWMShop_c::onDraw() {
+int dWMSelection_c::onDraw() {
 	if (visible)
 		layout.scheduleForDrawing();
 
 	return true;
 }
 
-void dWMShop_c::specialDraw1() {
+void dWMSelection_c::specialDraw1() {
 	if (visible) {
 		lakituModel->scaleEase = scaleEase * 2.5f;
 		lakituModel->draw();
@@ -453,23 +410,18 @@ void dWMShop_c::specialDraw1() {
 }
 
 
-void dWMShop_c::show(int shopNumber) {
+void dWMSelection_c::show(int shopNumber) {
 	shopKind = shopNumber;
 	state.setState(&StateID_ShowWait);
 }
 
-void makeShopShowUp() {
-	dWMShop_c::instance->showShop = true;
-}
-
-bool isBPressed() {
-	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
-	return nowPressed & WPAD_B;
+void makeWorldSelectionShowUp() {
+	dWMSelection_c::instance->showShop = true;
 }
 
 // Hidden
-void dWMShop_c::beginState_Hidden() { }
-void dWMShop_c::executeState_Hidden() {
+void dWMSelection_c::beginState_Hidden() { }
+void dWMSelection_c::executeState_Hidden() {
 	/*int nowPressed = Remocon_GetPressed(GetActiveRemocon());
 
 	OSReport("PtrToWM_CS_SEQ_MNG+0x394: %x\n\n", PtrToWM_CS_SEQ_MNG + 0x394);
@@ -488,10 +440,10 @@ void dWMShop_c::executeState_Hidden() {
 		//}
 	}
 }
-void dWMShop_c::endState_Hidden() { }
+void dWMSelection_c::endState_Hidden() { }
 
 // ShowWait
-void dWMShop_c::beginState_ShowWait() {
+void dWMSelection_c::beginState_ShowWait() {
 	MapSoundPlayer(SoundRelatedClass, SE_SYS_DIALOGUE_IN, 1);
 
 	layout.disableAllAnimations();
@@ -502,7 +454,7 @@ void dWMShop_c::beginState_ShowWait() {
 	loadInfo();
 	loadModels();
 }
-void dWMShop_c::executeState_ShowWait() {
+void dWMSelection_c::executeState_ShowWait() {
 	OSReport("1");
 	if (!layout.isAnimOn(SHOW_ALL)) {
 	OSReport("2");
@@ -514,24 +466,24 @@ void dWMShop_c::executeState_ShowWait() {
 	OSReport("5");
 	}
 }
-void dWMShop_c::endState_ShowWait() {
+void dWMSelection_c::endState_ShowWait() {
 	MapSoundPlayer(SoundRelatedClass, SE_OBJ_CLOUD_BLOCK_TO_JUGEM, 1);
 	timer = 1;
 }
 
 // ButtonActivateWait
-void dWMShop_c::beginState_ButtonActivateWait() { }
-void dWMShop_c::executeState_ButtonActivateWait() {
+void dWMSelection_c::beginState_ButtonActivateWait() { }
+void dWMSelection_c::executeState_ButtonActivateWait() {
 	if (!layout.isAnyAnimOn())
 		state.setState(&StateID_Wait);
 }
-void dWMShop_c::endState_ButtonActivateWait() { }
+void dWMSelection_c::endState_ButtonActivateWait() { }
 
 // Wait
-void dWMShop_c::beginState_Wait() {
+void dWMSelection_c::beginState_Wait() {
 	showSelectCursor();
 }
-void dWMShop_c::executeState_Wait() {
+void dWMSelection_c::executeState_Wait() {
 	if (timer < 90) {
 		scaleEase = -((cos(timer * 3.14 /20)-0.9)/timer*10)+1;
 		timer++;
@@ -590,10 +542,10 @@ void dWMShop_c::executeState_Wait() {
 		showSelectCursor();
 	}
 }
-void dWMShop_c::endState_Wait() { }
+void dWMSelection_c::endState_Wait() { }
 
 // HideWait
-void dWMShop_c::beginState_HideWait() {
+void dWMSelection_c::beginState_HideWait() {
 	MapSoundPlayer(SoundRelatedClass, SE_SYS_DIALOGUE_OUT_AUTO, 1);
 	layout.enableNonLoopAnim(HIDE_ALL);
 	layout.enableNonLoopAnim(DEACTIVATE_BUTTON+selected);
@@ -603,7 +555,7 @@ void dWMShop_c::beginState_HideWait() {
 
 	HideSelectCursor(SelectCursorPointer, 0);
 }
-void dWMShop_c::executeState_HideWait() {
+void dWMSelection_c::executeState_HideWait() {
 	if (timer > 0) {
 		timer--;
 		scaleEase = -((cos(timer * 3.14 /13.5)-0.9)/timer*10)+1;
@@ -624,7 +576,7 @@ void dWMShop_c::executeState_HideWait() {
 	if (!layout.isAnimOn(HIDE_ALL))
 		state.setState(&StateID_Hidden);
 }
-void dWMShop_c::endState_HideWait() {
+void dWMSelection_c::endState_HideWait() {
 	deleteModels();
 	visible = false;
 }
@@ -646,11 +598,11 @@ void dWMShop_c::endState_HideWait() {
 // Possible 5 coin combos =  2,2,2  /  1,2,3  /  2,3,2  /  3,2,3  /  3,3,3
 // Possible 8 coin combos =  1,1,2,3,3  /  1,2,2,3,3  /  1,2,3,3,3  /  2,2,2,3,3  /  2,2,3,3,3  /  1,3,3,3,3  /  2,3,3,3,3  /  3,3,3,3,3
 
-const dWMShop_c::ItemTypes dWMShop_c::Inventory[10][12] = { 
+const dWMSelection_c::ItemTypes dWMSelection_c::Inventory[10][12] = { 
 	{ // Yoshi's Island
-		MUSHROOM, FIRE_FLOWER, ICE_FLOWER, PROPELLER,
-		HAMMER, GOLD_FLOWER, SPIKE_SHROOM,
-		BOOMERANG, FROG, CLOUD, WAND, ONE_UP
+		MUSHROOM, MUSHROOM, MUSHROOM, MUSHROOM,
+		MUSHROOM, MUSHROOM, MUSHROOM,
+		MUSHROOM, MUSHROOM, MUSHROOM, MUSHROOM, MUSHROOM
 	},
 	{ // Desert
 		MUSHROOM, FIRE_FLOWER, ICE_FLOWER, PROPELLER,
@@ -699,7 +651,7 @@ const dWMShop_c::ItemTypes dWMShop_c::Inventory[10][12] = {
 	}
 };
 
-void dWMShop_c::loadModels() {
+void dWMSelection_c::loadModels() {
 	lakituModel = new ShopModel_c;
 	lakituModel->setupLakitu(shopKind);
 	lakituModel->x = 240.0f;
@@ -746,7 +698,7 @@ void dWMShop_c::loadModels() {
 		OSReport("setupItem\n");
 	}
 }
-void dWMShop_c::deleteModels() {
+void dWMSelection_c::deleteModels() {
 	if (lakituModel)
 		delete lakituModel;
 	lakituModel = 0;
@@ -757,7 +709,7 @@ void dWMShop_c::deleteModels() {
 }
 
 
-void dWMShop_c::loadInfo() {
+void dWMSelection_c::loadInfo() {
 	SaveBlock *save = GetSaveFile()->GetBlock(-1);
 
 	//missing color information in original save file!
@@ -802,7 +754,7 @@ void dWMShop_c::loadInfo() {
 }
 
 
-void dWMShop_c::buyItem(int item) {
+void dWMSelection_c::buyItem(int item) {
 	static int itemDefs[6][3] = {
 		// Cost, Start Index, Count
 		{1, 0, 1}, {2, 1, 1}, {2, 2, 1}, {3, 3, 1},
@@ -868,13 +820,13 @@ void dWMShop_c::buyItem(int item) {
 }
 
 
-void dWMShop_c::beginState_CoinCountdown() {
+void dWMSelection_c::beginState_CoinCountdown() {
 	timerForCoinCountdown = 8;
 }
 
-void dWMShop_c::endState_CoinCountdown() { }
+void dWMSelection_c::endState_CoinCountdown() { }
 
-void dWMShop_c::executeState_CoinCountdown() {
+void dWMSelection_c::executeState_CoinCountdown() {
 	/* removed for testing
 	timerForCoinCountdown--;
 	if (timerForCoinCountdown <= 0) {
@@ -927,7 +879,7 @@ void dWMShop_c::executeState_CoinCountdown() {
 }
 
 
-void dWMShop_c::showSelectCursor() {
+void dWMSelection_c::showSelectCursor() {
 	switch (selected) {
 		case 4: UpdateSelectCursor(Btn1Base, 0, false); break;
 		case 5: UpdateSelectCursor(Btn2Base, 0, false); break;
