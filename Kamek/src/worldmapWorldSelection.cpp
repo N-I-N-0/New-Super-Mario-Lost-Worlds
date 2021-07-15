@@ -433,7 +433,7 @@ void dWMSelection_c::executeState_Hidden() {
 		//if(*(u8*)((int)(wmDirector) + 0x1A8) == 0) {			//if map is not frozen
 			
 			state.setState(&StateID_ShowWait);
-			FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
+			//FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
 			dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
 			*(u8*)((int)(csMng) + 0x53C) = 0;					//hide gameScene
 			//*(u8*)((int)(csMng) + 0x545) = 1;			//startedSomeMsgThing = true
