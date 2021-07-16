@@ -2447,6 +2447,7 @@ class daPlBase_c : public dStageActor_c {
 		//bool sub_8004DD00(int unk); //maybe isPlayerStunned ???
 
 		static daPlBase_c *findByID(int id);
+		void newHipAttackStage4();
 };
 
 

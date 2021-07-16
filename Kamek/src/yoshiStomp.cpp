@@ -2,7 +2,7 @@
 #include <game.h>
 #include <g3dhax.h>
 #include <sfx.h>
-//#include "yoshiquick.h"
+#include "yoshiquick.h"
 
 int blueTime = 720;			//Time on which blue yoshi keeps a shell in his mouth if he ate one
 int yellowTime = 960;		  //Time on which yellow yoshi keeps a shell in his mouth if he ate one
@@ -200,7 +200,7 @@ void hideJauges() {
 	jaugeBlue->SetVisible(false);																				//Make the blue jauge invisible
 }*/
 
-int daYoshi_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
+int daYoshi2_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
 	/*******************************/
 	/*Execute the original onCreate*/
 	/*******************************/
@@ -260,7 +260,7 @@ int daYoshi_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
 		//shellJauge->size.y -= (49.0f / ((getNybbleValue(this->settings, 12, 12) == 2) ? yellowTime : blueTime));				//-Decrease the correct jauge's Y Scale by its rate (its maximum scale divided by the waiting frames until swallowing the shell)
 	}
 	if(this->isTimerEnabled && this->swallowTimer <= 0) {				//If the swallow timer is enabled and the swallow timer is less or equal to 0:
-		this->eatenId = 0;												//-Remove the current eaten shell from yoshi's mouth
+		this->eatenID = 0;												//-Remove the current eaten shell from yoshi's mouth
 		this->settings ^= 0x10000000;									//-Untrigger nybble 5 (is there a shell in yoshi's mouth)
 	}
 
@@ -270,16 +270,16 @@ int daYoshi_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
 	return orig_val;
 }
 
-void daYoshi_c::newEndState_HipAttack() {
+void daYoshi2_c::newEndState_HipAttack() {
 	endState_HipAttack_orig();	//Execute the original endState_HipAttack
 	this->doneGP = false;		//Untrigger the groundpounding check
 }
 
 extern void ewhipAttackStage4();
-/*void daPlBase_c::newHipAttackStage4() {
+void daPlBase_c::newHipAttackStage4() {
 	ewhipAttackStage4();																												//Execute the original hipAttackStage4
 	// OSReport("hipAttackStage4 %08X\n", this->which_player);																			//Debugging
-	daYoshi_c *CuteYoshi = dAcPy_c::findByID(this->which_player)->getYoshi();															//Get the current yoshi
+	daYoshi2_c *CuteYoshi = (daYoshi2_c*)dAcPy_c::findByID(this->which_player)->getYoshi();															//Get the current yoshi
 	// OSReport("meh %08X\n", CuteYoshi->settings);																						//Debugging
 	if(CuteYoshi->settings != 0) {																										//If its settings aren't null (so the yoshi exists):
 		if((getNybbleValue(CuteYoshi->settings, 12, 12) == 2) && getNybbleValue(CuteYoshi->settings, 5, 5) && !CuteYoshi->doneGP) {		//-If this yoshi is yellow, has a shell in his mouth and the groundpounding check isn't triggered:
@@ -302,7 +302,7 @@ extern void ewhipAttackStage4();
 					sa->name == EN_DOWN_DOKAN_FPAKKUN || sa->name == EN_RIGHT_DOKAN_FPAKKUN ||											//---or a DOWNPipe fire piranha plant, or a RIGHTPipe fire piranha plant,
 					sa->name == EN_LEFT_DOKAN_FPAKKUN ||																				//---or a LEFTPipe fire piranha plant,
 					sa->name == EN_JIMEN_FPAKKUN ||																						//---or a fire piranha plant,
-					sa->name == EN_WATERPAKKUN || sa->name == EN_WALK_PAKKUN) && CuteYoshi->eatenId != sa->id) {						//---or a river piranha plant, or a walking piranha plant, and it's not the shell currently in yoshi's mouth:
+					sa->name == EN_WATERPAKKUN || sa->name == EN_WALK_PAKKUN) && CuteYoshi->eatenID != sa->id) {						//---or a river piranha plant, or a walking piranha plant, and it's not the shell currently in yoshi's mouth:
 					int range = 64; //one tile = 16																						//----Set the range to 64 (4 tiles)
 					if(sa->pos.x < (CuteYoshi->pos.x + range) && sa->pos.x > (CuteYoshi->pos.x - range)) {								//----If the actor is in the range in the X axis:
 						if(sa->pos.y < (CuteYoshi->pos.y + range) && sa->pos.y > (CuteYoshi->pos.y - range)) {							//-----If the actor is in the range in the Y axis:
@@ -314,5 +314,4 @@ extern void ewhipAttackStage4();
 			CuteYoshi->doneGP = true;																									//--Trigger the groundpounding check
 		}
 	}
-}*/
-
+}

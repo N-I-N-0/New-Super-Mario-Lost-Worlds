@@ -2,7 +2,7 @@
 #define QUICKYOSHI_H 
 
 
-class daYoshi_c : public daPlBase_c {	//Yoshi's class, still incomplete because of my lazyness:
+class daYoshi2_c : public daPlBase_c {	//Yoshi's class, still incomplete because of my lazyness:
 public:
 	u32 modelHandler;
 	u32 wut[13];						//-Things forgot by modelHandler or daPlBase_c, probably ?

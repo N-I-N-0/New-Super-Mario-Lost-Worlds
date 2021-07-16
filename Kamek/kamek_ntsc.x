@@ -1,6 +1,9 @@
 SECTIONS {
 	ContinueWithoutCourage = 0x80151540;
 	ContinueWithCourage = 0x80151508;
+	ContinueEatNoneExecute = 0x8014ED68;
+	daYoshi_c__endState_EatNone = 0x8014ED40;
+
 
 	/* instance__14dWorldCamera_c = 0x8156d728; /* wrong??? */
 
@@ -282,8 +285,11 @@ SECTIONS {
 	daYoshi_c_sub_8014EE40 = 0x8014ED00;
 	endState_HipAttack_orig__9daYoshi_cFv = 0x8014E660;
 	onExecute_orig__9daYoshi_cFv = 0x80046BB0;
+	endState_HipAttack_orig__10daYoshi2_cFv = 0x8014E660;
+	onExecute_orig__10daYoshi2_cFv = 0x80046BB0;
 	doSwallow__9daYoshi_cFv = 0x8014F840;
 	doThisStupidAnimationYouAsshole = 0x8014F86C;
+	originalHipAttackStage4Continue = 0x80049544;
 
 	/* dGameDisplay_c */
 	instance__14dGameDisplay_c = 0x8042A328;
