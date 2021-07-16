@@ -296,7 +296,6 @@ SECTIONS {
 	onCreate_orig__14dGameDisplay_cFv = 0x80157A30;
 	onExecute_orig__14dGameDisplay_cFv = 0x80157F90;
 
-	hipAttackStage4 = 0x80049544;
 	ContinueFromFlyingYoshi = 0x80054B4C;
 
 	/* daYoshiFire_c */

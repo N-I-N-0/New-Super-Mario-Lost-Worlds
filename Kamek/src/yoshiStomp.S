@@ -6,6 +6,6 @@
 
 .global ewhipAttackStage4__Fv
 ewhipAttackStage4__Fv:
-	.byte 0x94, 0x21, 0xff, 0xf0			#restores an instruction I don't know how to translate from Ghidra's representation
+	stwu sp, -0x10(sp)
 	b 	originalHipAttackStage4Continue
 

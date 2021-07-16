@@ -164,16 +164,6 @@ disableShellTrigger:
 ################################################################################
 ################################################################################
 
-.extern hipAttackStage4
-.global _Z17ewhipAttackStage4v
-_Z17ewhipAttackStage4v:
-    stwu r1, -0x10(r1)      # Patched Instruction
-    b    hipAttackStage4    # hipAttackStage4 but without its first instruction (which is why we restored it in the above line)
-
-################################################################################
-################################################################################
-################################################################################
-
 .global GetThoseSiblingsMoving
 
 # TODO: convert this to C
