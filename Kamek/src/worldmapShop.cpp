@@ -463,8 +463,15 @@ void makeShopShowUp() {
 }
 
 bool isBPressed() {
-	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
-	return nowPressed & WPAD_B;
+	Remocon* rem = GetActiveRemocon();
+	int nowPressed = Remocon_GetPressed(rem);
+	if(rem->controllerType == 0) {	//Wiimote
+		return nowPressed & WPAD_B;
+	} else {						// == 1 <-> Wiimote + Nunchuck 
+		//OSReport("nowPressed: 0x%x\n", nowPressed);
+		//return false;
+		return nowPressed & 0x2000;
+	}
 }
 
 // Hidden
