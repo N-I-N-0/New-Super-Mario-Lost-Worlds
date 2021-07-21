@@ -22,9 +22,15 @@ flyNowMyCuteYoshi:
 	# check that Yoshi's colour is blue
 	lwz		r11, 4(r29)
 	clrlwi	r3, r11, 28
-	cmpwi	r3, 4
-	bne		ignoreFly
+	cmpwi	r3, 4			#blue
+	bne		notBlue
+	b		canFly
 
+notBlue:
+	cmpwi	r3, 7			#black
+	bne		ignoreFly
+	
+canFly:
 	# check that Yoshi has a shell in his mouth
 	srwi.	r11, r11, 28
 	beq		ignoreFly

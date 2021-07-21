@@ -228,18 +228,20 @@ int daYoshi2_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
 	/*Jauges Updating*/
 	/*****************/
 	/*nw4r::lyt::Picture *shellJauge = dGameDisplay_c::instance->layout.findPictureByName((getNybbleValue(this->settings, 12, 12) == 2) ? "P_yellowJauge_00" : "P_blueJauge_00"); //Store the Picture Pane of the jauge to use in shellJauge
-	*/if(getNybbleValue(this->settings, 5, 5)) {							//If nybble 5 (is there a shell in yoshi's mouth) is triggered, then:
+	*/
+	u32 color = getNybbleValue(this->settings, 12, 12);
+	if(getNybbleValue(this->settings, 5, 5)) {							//If nybble 5 (is there a shell in yoshi's mouth) is triggered, then:
 		if(!this->isTimerEnabled) {										//-If the swallow timer isn't enabled yet:
 			this->isTimerEnabled = true;								//--Enable it
 			S16Vec nullRot = {0,0,0};
-			if(getNybbleValue(this->settings, 12, 12) == 4) {
+			if(color == 4 || color == 7) {
 				dStageActor_c *wings = create(EN_YOSHIWINGS, this->id, &this->pos, &nullRot, 0);
 				this->wingID = wings->id;
 			}
 		}
 		if(!this->doOneTime) {											//-If not done yet:
 			//showJauges((getNybbleValue(this->settings, 12, 12) == 2));	//--Show the correct jauge depending of yoshi's color (yellow or blue)
-			this->swallowTimer = ((getNybbleValue(this->settings, 12, 12) == 2) ? yellowTime : blueTime);						//--Set the time before swallowing the shell
+			this->swallowTimer = ((color == 2 || color == 3) ? yellowTime : blueTime);						//--Set the time before swallowing the shell
 			//shellJauge->size.y = 49.0;									//--Set the correct jauge's maximum scale
 			this->doOneTime = true;										//--Set the check to "done"
 		}
@@ -248,7 +250,7 @@ int daYoshi2_c::newOnExecute() { //demoStateTracker (1418), states2 (1464)
 		if(this->isTimerEnabled) {										//-If the swallow timer is enabled:
 			this->isTimerEnabled = false;								//--Disable it
 			this->doOneTime = false;									//--Set the check to "not done yet"
-			if(getNybbleValue(this->settings, 12, 12) == 4) {
+			if(color == 4 || color == 7) {
 				Actor_SearchByID(this->wingID)->Delete(1);
 			}
 			//hideJauges();												//--Hide the jauges
@@ -282,7 +284,8 @@ void daPlBase_c::newHipAttackStage4() {
 	daYoshi2_c *CuteYoshi = (daYoshi2_c*)dAcPy_c::findByID(this->which_player)->getYoshi();															//Get the current yoshi
 	// OSReport("meh %08X\n", CuteYoshi->settings);																						//Debugging
 	if(CuteYoshi->settings != 0) {																										//If its settings aren't null (so the yoshi exists):
-		if((getNybbleValue(CuteYoshi->settings, 12, 12) == 2) && getNybbleValue(CuteYoshi->settings, 5, 5) && !CuteYoshi->doneGP) {		//-If this yoshi is yellow, has a shell in his mouth and the groundpounding check isn't triggered:
+		u32 color = getNybbleValue(CuteYoshi->settings, 12, 12);
+		if((color == 2 || color == 3) && getNybbleValue(CuteYoshi->settings, 5, 5) && !CuteYoshi->doneGP) {								//-If this yoshi is yellow or green, has a shell in his mouth and the groundpounding check isn't triggered:
 			S16Vec nullRot = {0,0,0};																									//--Set the ongoing effect's rotation to 0 on all axes
 			VEC3 vecOne = {0.2f, 0.2f, 0.2f};																							//--Set the ongoing effect's scale to 0.2 on all axes
 			SpawnEffect("Wm_ob_powdown_ind", 0, &CuteYoshi->pos, &nullRot, &vecOne);													//--Create a POW effect with the rotation and scale from above

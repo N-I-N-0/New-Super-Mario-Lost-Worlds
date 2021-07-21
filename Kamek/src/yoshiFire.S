@@ -41,23 +41,26 @@ addMoreFireBalls_ate_koopa: #80e3fd50 (NTSC)
     #########################
     # Compare Yoshi's color #
     #########################
-    # Remove neutral yoshis
     cmpwi r0, 1
-    beq addMoreFireBalls_end # if pink, return
+    beq addMoreFireBalls_end		# if pink, return
     cmpwi r0, 3
-    beq addMoreFireBalls_end # if green, return
-    cmpwi r0, 6
-    bge addMoreFireBalls_end # if orange, brown, white or purple, return
-    # Remove Yoshis that don't have edited projectiles
+    beq addMoreFireBalls_end		# if purple, return
     cmpwi r0, 2
-    beq addMoreFireBalls_shell # if yellow, return
+    beq addMoreFireBalls_shell		# if yellow, return
     cmpwi r0, 4
-    beq addMoreFireBalls_shell # if blue, return
-    # Add Yoshis that have edited projectiles
+    beq addMoreFireBalls_shell		# if green, return
+    cmpwi r0, 9
+    beq addMoreFireBalls_shell		# if blue, return
+	cmpwi r0, 7
+	beq addMoreFireBalls_shell		# if brown, return
     cmpwi r0, 0
-    beq addMoreFireBalls_make_ice # if light blue, create ice
+    beq addMoreFireBalls_make_ice	# if light blue, create ice
+    cmpwi r0, 8
+	beq addMoreFireBalls_make_ice	# if white, create ice
     cmpwi r0, 5
-    beq addMoreFireBalls_make_fire # if light blue, create ice
+    beq addMoreFireBalls_make_fire	# if red, create fire
+	cmpwi r0, 6
+	beq addMoreFireBalls_make_fire	# if orange, create fire
     # In the case it arrives here for some reason ???
     b addMoreFireBalls_end
 
