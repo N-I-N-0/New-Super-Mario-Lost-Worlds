@@ -551,6 +551,7 @@ enum
 	GreenRing = 531,
 	GreenCoin = 532,
 	Poihana = 533,
+	FlipPanel = 534,
 
 	Num
 };
@@ -1365,6 +1366,7 @@ enum
 	GreenRing = 798,
 	GreenCoin = 799,
 	Poihana = 800,
+	FlipPanel = 801,
 	
 	Num
 };

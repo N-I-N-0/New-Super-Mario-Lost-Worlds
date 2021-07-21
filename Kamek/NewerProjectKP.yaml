@@ -136,3 +136,4 @@ modules:
   - processed/newSfx.yaml
   - processed/poihana.yaml
   - processed/snakeblock.yaml
+  - processed/flippanel.yaml

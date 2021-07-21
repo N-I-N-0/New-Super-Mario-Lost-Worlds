@@ -3334,5 +3334,8 @@
   <sprite id="533" name="Cataquack" asmhacks="True" notes="A Cataquack!" >
   </sprite> <!-- #533: Cataquack -->
   
+  <sprite id="534" name="Flip Swap Panel" asmhacks="True" notes="A SMG Flip Swap Panel!" >
+  </sprite> <!-- #534: Flip Swap Panel -->
+    
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

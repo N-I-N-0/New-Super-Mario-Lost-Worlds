@@ -1,0 +1,8 @@
+---
+source_files: [../src/flippanel.cpp, ../src/flippanel.S]
+hooks:
+  - name: LetFlipPanelsFlipWhenPlayerJumped
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8005e71c
+    target_func: 'playerJumped'
