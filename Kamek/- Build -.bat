@@ -35,4 +35,4 @@ exit
 
 :end
 echo Built all! %date% %time%
-pause
+
