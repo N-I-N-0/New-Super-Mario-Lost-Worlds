@@ -115,7 +115,7 @@ int daEnFlipPanel_c::onCreate() {
 
 	allocator.unlink();
 
-	bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59);
+	bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 0);
 
 	scale = (Vec){0.5, 0.5, 0.5};
 	
@@ -170,6 +170,7 @@ int daEnFlipPanel_c::onDraw() {
 	model.setScale(&scale);
 	model.calcWorld(false);
 	model.scheduleForDrawing();
+	model._vf1C();
 
 	return true;
 }
