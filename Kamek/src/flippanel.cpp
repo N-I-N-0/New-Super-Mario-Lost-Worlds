@@ -17,14 +17,16 @@ public:
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile resFile;
 	m3d::mdl_c model;
+	m3d::anmChr_c chrAnimation;
 
-	s16 flipRotation;
-
+	s16 frame;
+	bool flipClockWise;
+	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate, int frame);
 	void flipThisPanel();
 
 	USING_STATES(daEnFlipPanel_c);
-	//DECLARE_STATE(Wait);
-	//DECLARE_STATE(Flipping);
+	DECLARE_STATE(Wait);
+	DECLARE_STATE(Flipping);
 
 	static dActor_c *build();
 };
@@ -34,8 +36,8 @@ const SpriteData flipPanelSpriteData = { ProfileId::FlipPanel, 8, -8 , 0 , 0, 0x
 Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, flipPanelSpriteData, ProfileId::WM_GRID, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
 
 
-//CREATE_STATE(daEnFlipPanel_c, Wait);
-//CREATE_STATE(daEnFlipPanel_c, Flipping);
+CREATE_STATE(daEnFlipPanel_c, Wait);
+CREATE_STATE(daEnFlipPanel_c, Flipping);
 
 
 void flipAllPanels() {
@@ -45,22 +47,78 @@ void flipAllPanels() {
 	}
 }
 
-void daEnFlipPanel_c::flipThisPanel() {
-	OSReport("This Panel should be rotated now!\n");
+s16 flipPanelRotations[] = { 0x0, 0x13, 0x14, 0x39, 0xb6, 0x183, 0x280, 0x3b9, 0x53e, 0x71c, 0x93b, 0xb76, 0xdcd, 0x103c, 0x12c4, 0x1563, 0x1816, 0x1add, 0x1db6, 0x209f, 0x2398, 0x269e, 0x29b0, 0x2ccc, 0x2ff2, 0x331f, 0x3652, 0x3989, 0x3cc4, 0x4000, 0x433c, 0x4677, 0x49ae, 0x4ce1, 0x500e, 0x5334, 0x5650, 0x5962, 0x5c68, 0x5f61, 0x624a, 0x6523, 0x67ea, 0x6a9d, 0x6d3c, 0x6fc4, 0x7233, 0x748a, 0x76c5, 0x78e4, 0x7ac3, 0x7c49, 0x7d84, 0x7e80, 0x7f4a, 0x7fcc, 0x7ffc, 0x7ffd, 0x7ff3, 0x8000 };
+
+void daEnFlipPanel_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate, int frame) {
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr(name);
+	this->chrAnimation.bind(&this->model, anmChr, unk);
+	chrAnimation.setCurrentFrame(frame);
+	this->model.bindAnim(&this->chrAnimation, unk2);
+	this->chrAnimation.setUpdateRate(rate);
 }
+
+void daEnFlipPanel_c::flipThisPanel() {
+	if(acState.getCurrentState() == &StateID_Wait) {
+		if(frame < 0) {
+			frame = 0;
+			flipClockWise = false;
+		}
+		if(frame > 59) {
+			frame = 59;
+			flipClockWise = true;
+		}
+		if(flipClockWise) {
+			bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 0);
+		} else {
+			bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 0);
+		}
+		doStateChange(&StateID_Flipping);
+	} else {
+		flipClockWise = !flipClockWise;
+		if(flipClockWise) {
+			bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59-frame);
+		} else {
+			bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, frame);
+		}
+	}
+}
+
+void daEnFlipPanel_c::beginState_Wait() {}
+void daEnFlipPanel_c::executeState_Wait() {}
+void daEnFlipPanel_c::endState_Wait() {}
+
+void daEnFlipPanel_c::beginState_Flipping() {}
+void daEnFlipPanel_c::executeState_Flipping() {
+	if(frame < 0 || frame > 59) {
+		doStateChange(&StateID_Wait);
+	} else {
+		physics.setPtrToRotation(&flipPanelRotations[frame]);
+		if(flipClockWise) {
+			frame--;
+		} else {
+			frame++;
+		}
+	}
+}
+void daEnFlipPanel_c::endState_Flipping() {}
 
 int daEnFlipPanel_c::onCreate() {
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
 	resFile.data = getResource("FlipSwapPanel", "g3d/FlipSwapPanel.brres");
-	model.setup(resFile.GetResMdl("FlipSwapPanel"), &allocator, 0, 1, 0);
+	nw4r::g3d::ResMdl mdl = resFile.GetResMdl("FlipSwapPanel");
+	model.setup(mdl, &allocator, 0, 1, 0);
 	//SetupTextures_MapObj(&model, 0);
+
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("rotatePlateClockR-L");
+	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
 
 	allocator.unlink();
 
-	scale = (Vec){0.5, 0.5, 0.5};
-	flipRotation = 0;
+	bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59);
 
+	scale = (Vec){0.5, 0.5, 0.5};
+	
 	physicsInfo.x1 = -100;
 	physicsInfo.y1 = 6;
 	physicsInfo.x2 = 6;
@@ -75,10 +133,9 @@ int daEnFlipPanel_c::onCreate() {
 	physics.callback1 = &daEnBlockMain_c::PhysicsCallback1;
 	physics.callback2 = &daEnBlockMain_c::PhysicsCallback2;
 	physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
-	physics.setPtrToRotation(&flipRotation);
 	physics.addToList();
 
-	//doStateChange(&daEnFlipPanel_c::StateID_Wait);
+	doStateChange(&daEnFlipPanel_c::StateID_Wait);
 
 	return true;
 }
@@ -94,7 +151,6 @@ int daEnFlipPanel_c::onDelete() {
 int daEnFlipPanel_c::onExecute() {
 	acState.execute();
 	
-	flipRotation += 0x800;
 	physics.update();
 
 	// now check zone bounds based on state
