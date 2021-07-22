@@ -1,5 +1,5 @@
 ---
-source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S, ../src/yoshiCourage.S] #, ../src/yoshiStomp.cpp]
+source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S, ../src/yoshiCourage.S, ../src/yoshiCourage.cpp, ../src/yoshiStomp.cpp, ../src/yoshiStomp.S]
 
 hooks:
   # daYoshi_c
@@ -60,16 +60,16 @@ hooks:
     data: 'C0800000' # orig: C0000000 = -2.0 | new: C0800000 = -4.0 | (https://gregstoll.com/~gregstoll/floattohex/) 
 
   #Stomp Yoshi
-#  - name: Yoshi_DoJaugesChecks
-#    type: add_func_pointer
-#    src_addr_pal: 0x80326AFC
-#    target_func: 'daYoshi_c::newOnExecute(void)'
+  - name: Yoshi_DoJaugesChecks
+    type: add_func_pointer
+    src_addr_pal: 0x80326AFC
+    target_func: 'daYoshi2_c::newOnExecute(void)'
 
-#  - name: disableShellTrigger
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x8015094C #actually 803267b4 in dolphin debugger (NTSC)
-#    target_func: 'disableShellTrigger'
+  - name: disableShellTrigger
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8015094C #actually 803267b4 in dolphin debugger (NTSC)
+    target_func: 'disableShellTrigger'
 
 #  - name: GDisplay_EnableHideJauges
 #    type: add_func_pointer
@@ -81,16 +81,16 @@ hooks:
 #    src_addr_pal: 0x80327A58
 #    target_func: 'dGameDisplay_c::newOnExecute(void)'
 
-#  - name: TriggerPowEffectWhenGroundpoundStage4
-#    type: branch_insn
-#    branch_type: b
-#    src_addr_pal: 0x80049540
-#    target_func: 'daPlBase_c::newHipAttackStage4(void)'
+  - name: TriggerPowEffectWhenGroundpoundStage4
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80049540
+    target_func: 'daPlBase_c::newHipAttackStage4(void)'
 
-#  - name: ResetPowEffectFlagWhenGroundpoundEnds
-#    type: add_func_pointer
-#    src_addr_pal: 0x80326DE8
-#    target_func: 'daYoshi_c::newEndState_HipAttack(void)'
+  - name: ResetPowEffectFlagWhenGroundpoundEnds
+    type: add_func_pointer
+    src_addr_pal: 0x80326DE8
+    target_func: 'daYoshi2_c::newEndState_HipAttack(void)'
 
   #Fly Yoshi
   - name: BlueYoshiFly
@@ -105,3 +105,12 @@ hooks:
     branch_type: b
     src_addr_pal: 0x80151644
     target_func: 'haveCourageMyCuteYoshi'
+
+  - name: YoshiStarAnimation
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8014eea4
+    target_func: 'haveStarAnimationMyCuteYoshi'
+
+
+
