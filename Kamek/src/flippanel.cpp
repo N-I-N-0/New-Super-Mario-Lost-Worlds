@@ -59,11 +59,11 @@ void daEnFlipPanel_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 
 void daEnFlipPanel_c::flipThisPanel() {
 	if(acState.getCurrentState() == &StateID_Wait) {
-		if(frame < 0) {
+		if(frame <= 0) {
 			frame = 0;
 			flipClockWise = false;
 		}
-		if(frame > 59) {
+		if(frame >= 59) {
 			frame = 59;
 			flipClockWise = true;
 		}
@@ -115,25 +115,34 @@ int daEnFlipPanel_c::onCreate() {
 
 	allocator.unlink();
 
-	bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 0);
-
-	scale = (Vec){0.5, 0.5, 0.5};
+	scale = (Vec){0.25, 0.25, 0.25};
 	
-	physicsInfo.x1 = -100;
+	physicsInfo.x1 = -50;
 	physicsInfo.y1 = 6;
-	physicsInfo.x2 = 6;
+	physicsInfo.x2 = 3;
 	physicsInfo.y2 = -6;
 
-	physicsInfo.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
-	physicsInfo.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
-	physicsInfo.otherCallback3 = &daEnBlockMain_c::OPhysicsCallback3;
+	//Callbacks from magicplatform.cpp because daEnBlockMain_c callbacks crash the game somehow
+	physicsInfo.otherCallback1 = (void*)&PhysCB1;
+	physicsInfo.otherCallback2 = (void*)&PhysCB2;
+	physicsInfo.otherCallback3 = (void*)&PhysCB3;
 
 	physics.setup(this, &physicsInfo, 3, currentLayerID);
 	physics.flagsMaybe = 0x260;
-	physics.callback1 = &daEnBlockMain_c::PhysicsCallback1;
-	physics.callback2 = &daEnBlockMain_c::PhysicsCallback2;
-	physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
+	physics.callback1 = (void*)&PhysCB4;
+	physics.callback2 = (void*)&PhysCB5;
+	physics.callback3 = (void*)&PhysCB6;
 	physics.addToList();
+
+	if(this->settings & 1) {	//bit 48: dual box start left or start right
+		OSReport("Start right\n");
+		bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 59);
+		frame = 59;
+		flipClockWise = true;
+		physics.setPtrToRotation(&flipPanelRotations[frame]);
+	} else {
+		bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59);
+	}
 
 	doStateChange(&daEnFlipPanel_c::StateID_Wait);
 

@@ -55,7 +55,7 @@
       <suggested sprite="320"/> <!-- chestnut -->
       <suggested sprite="273"/> <!-- OpeningScene -->
     </dependency>
-	<external type="models" nybble="11-12" title="Model ID" comment="Use this external window to select your Model.&lt;br&gt;&lt;br&gt;This determines which Model will be used. If [Animate Model] is checked, then the Models will run their coded animation instead of standing still. Values with '---' were not used in Newer levels." />
+    <external type="models" nybble="11-12" title="Model ID" comment="Use this external window to select your Model.&lt;br&gt;&lt;br&gt;This determines which Model will be used. If [Animate Model] is checked, then the Models will run their coded animation instead of standing still. Values with '---' were not used in Newer levels." />
     <value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
     <checkbox bit="40" title="Animate Model" comment="When enabled, the loaded model will activate its attached animation, otherwise the loaded model will be stationary." comment2="&lt;font color=&quot;red&quot;&gt;Will CRASH if Animation not present and this is checked.&lt;/font&gt; &lt;br&gt; &lt;br&gt;Known values that must have [Animate Model] left unchecked: &lt;br&gt;17: Perfect Title Peach's Castle &lt;br&gt;40-42, 49: Tree Canopy A/B/C/D"/>
     <list nybble="8" title="Z-Order" comment="This determines the Z-Order of the model." comment2="Some in-game Z-Order values: &lt;br&gt;Background: -5500.0 &lt;br&gt;Layer 2: -3300.0 &lt;br&gt;Layer 1: 0.0 &lt;br&gt;Player: 300.0 &lt;br&gt;Foreground: 1200.0 &lt;br&gt;Layer 0: 3300.0 &lt;br&gt;Above Layer 0: 5500.0">
@@ -301,7 +301,7 @@
       <entry value="6">Black</entry>
       <entry value="7">Sidestepper</entry>
     </list>
-	<checkbox bit="32" title="Unknown Flag 8" advanced="True" advancedcomment="Used in retail Ambush Stages. Causes a bugged attribute if the Spiny is placed non-adjacent to ceiling terrain with this checked. Unknown purpose."/>
+    <checkbox bit="32" title="Unknown Flag 8" advanced="True" advancedcomment="Used in retail Ambush Stages. Causes a bugged attribute if the Spiny is placed non-adjacent to ceiling terrain with this checked. Unknown purpose."/>
     <checkbox bit="48" title="Unknown Flag 12" advanced="True" advancedcomment="Used in Retail: 06-02. May relate to how the Spiny interacts with slanted terrain, blocks, POW effects, or causes the Spiny to load from much further away."/>
   </sprite> <!-- #26: Upside-Down Spiny -->
   
@@ -444,7 +444,7 @@
   <sprite id="43" name="Brick Block &quot;?&quot; Switch (Orange)" asmhacks="True" sizehacks="True" notes="This is the basic stand-alone switch stored inside a Brick Block. When triggered, it modifies the Target Event." advancednotes="A brick block containing or supporting a switch cannot be destroyed by sprites that destroy normal brick and solid blocks as long as the switch exists.">
     <list bit="29-32" title="Style" comment="This determines which Symbol is seen on the switch. This allows you to communicate different things about the expected function of the switch.">
       <entry value="0">Standard Question Mark</entry>
-	  <entry value="1">Two Arrows Forming a Circle (Flipper)</entry>
+      <entry value="1">Two Arrows Forming a Circle (Flipper)</entry>
       <entry value="2">Two Arrows Forming a Circle (Flipper)</entry>
     </list>
     <checkbox bit="48" title="Upside-Down" comment="When enabled, the switch will forcibly spawn on the underside of the block facing down, even if struck from below." comment2="Brick-Block switches cannot be set to fall, even if Upside-Down is unchecked."/>
@@ -469,7 +469,7 @@
     <dependency notes="Add Tileset / Puzzle dependency information relating to custom tileset settings."/>
     <list bit="29-32" title="Color" comment="This determines what color the switch is. Different colored switches do not activate different colors of blocks.">
       <entry value="0">Red (Original)</entry>
-	  <entry value="1">Green</entry>
+      <entry value="1">Green</entry>
       <entry value="2">Green</entry>
     </list>
     <checkbox bit="48" title="Upside-Down" comment="When enabled, the switch will forcibly spawn on the underside of the block facing down, even if struck from below." comment2="Brick-Block switches cannot be set to fall, even if Upside-Down is unchecked."/>
@@ -596,7 +596,7 @@
       <entry value="2">Orange</entry>
       <entry value="3">Black</entry>
       <entry value="4">Green w/Blue Coat (No Wings)</entry>
-	  <entry value="5">Pink</entry>
+      <entry value="5">Pink</entry>
     </list>
     <list nybble="6" title="Color" comment="This determines the color of the Koopa Paratroopa." requiredbit="48">
       <entry value="0">Red</entry>
@@ -604,13 +604,13 @@
       <entry value="2">Violet</entry>
       <entry value="3">White</entry>
       <entry value="4">Red w/Blue Coat (No Wings)</entry>
-	  <entry value="5">Cyan</entry>
+      <entry value="5">Cyan</entry>
     </list>
     <checkbox bit="32" title="Place Behind Chainlink Fence" comment="When enabled, the Koopa Paratroopa will be able to move behind Chainlink Fences." advancedcomment="Exact values are 1500.0 unchecked, -2500.0 checked."/>
     <value nybble="5" title="Unknown Value 5" advanced="True" advancedcomment="Used in Retail: 06-01 A1 as 12"/>
     <value bit="21" title="Unknown Flag 6 (8)" advanced="True" advancedcomment="Used in Retail: 06-01 A1"/>
     <checkbox nybble="7" title="Spiky" comment="No Comment."/>
-	<checkbox bit="31" title="Throw 413: Bouncing Wendy Ring" comment="You have to place a Bouncing Wendy Ring in the same area for this to work." requiredbit="43-44" requiredval="1-2"/>
+    <checkbox bit="31" title="Throw 413: Bouncing Wendy Ring" comment="You have to place a Bouncing Wendy Ring in the same area for this to work." requiredbit="43-44" requiredval="1-2"/>
   </sprite> <!-- #58: Koopa Paratroopa -->
   
   <sprite id="60" name="Spike Top" asmhacks="True" sizehacks="True" notes="A Buzzy Beetle type enemy with a spike on top of it. It will follow and wrap around terrain and blocks." advancednotes="Spiketops don't properly work on slopes.">
@@ -1008,11 +1008,11 @@
       <entry value="3">Stop, Fall All at Once</entry>
     </list>
     <checkbox nybble="6" title="Autostart" comment="If this box is checked, the snake block will start moving as soon as it is loaded."/>
-	<!--<list bit="21-26" title="Color" requiredbit="28">
+    <!--<list bit="21-26" title="Color" requiredbit="28">
       <entry value="0">Ice</entry>
-	  <entry value="1">Normal Green</entry>
+      <entry value="1">Normal Green</entry>
     </list> -->
-	
+    
   </sprite> <!-- #166: Snake Block (Ice) -->
 
 
@@ -1621,12 +1621,12 @@
       <suggested sprite="162"/>
       <suggested sprite="163"/>
     </dependency>
-	<list nybble="6" title="Color" comment="This determines the color of the Jumbo Rays.">
+    <list nybble="6" title="Color" comment="This determines the color of the Jumbo Rays.">
       <entry value="0">Normal</entry>
       <entry value="1">Red</entry>
       <entry value="2">Orange</entry>
       <entry value="3">Yellow</entry>
-	  <entry value="4">Green</entry>
+      <entry value="4">Green</entry>
       <entry value="5">Sky Blue</entry>
       <entry value="6">Blue</entry>
       <entry value="7">Purple</entry>
@@ -2070,7 +2070,7 @@
   <sprite id="283" name="World-1 Boss: Fuzzy Bear" asmhacks="True" noyoshi="True" notes="The giant Fuzzy boss that jumps around and occasionally rolls after the player. It can only be defeated by having grabbable items thrown at it.">
     <dependency notes="Kamek and his controller should be included in the Area.">
       <suggested sprite="391"/>
-	  <required sprite="427"/> <!-- Kamek -->
+      <required sprite="427"/> <!-- Kamek -->
       <required sprite="383"/> <!-- Kamek Controller -->
       <required sprite="343"/> <!-- Fuzzy -->
     </dependency>
@@ -2119,9 +2119,9 @@
       <entry value="4">Propeller Shroom</entry>
       <entry value="5">Penguin Suit</entry>
       <entry value="6">Mini Mushroom</entry>
-	  <entry value="8">Hammer Suit</entry>
-	  <!---<entry value="12">Mushroom / Hammer Suit</entry>-->
-	  <!---<entry value="13">Mushroom / Hammer Suit</entry>-->
+      <entry value="8">Hammer Suit</entry>
+      <!---<entry value="12">Mushroom / Hammer Suit</entry>-->
+      <!---<entry value="13">Mushroom / Hammer Suit</entry>-->
       <entry value="7">Star</entry>
       <entry value="9">Yoshi Egg + Fire Flower</entry>
       <entry value="11">1-Up</entry>
@@ -2162,14 +2162,14 @@
     <list nybble="11" title="Direction" comment="This determines what direction the Para-Beetle flies.">
       <entry value="0">Right</entry>
       <entry value="1">Left</entry>
-	  <entry value="2">Left</entry>
-	  <entry value="3">Left</entry>
+      <entry value="2">Left</entry>
+      <entry value="3">Left</entry>
     </list>
     <list nybble="12" title="Facing" comment="This determines what direction the Para-Beetle is facing.">
       <entry value="0">Right</entry>
       <entry value="1">Left</entry>
-	  <entry value="2">Right-ish</entry>
-	  <entry value="3">Towards Screen</entry>
+      <entry value="2">Right-ish</entry>
+      <entry value="3">Towards Screen</entry>
     </list>
   </sprite> <!-- #291: Para-Beetle -->
   
@@ -2217,7 +2217,7 @@
       <entry value="5">Blue</entry>
       <entry value="6">Violet</entry>
       <entry value="7">Black</entry>
-	  <entry value="8">Giant Shy Guy</entry>
+      <entry value="8">Giant Shy Guy</entry>
       <entry value="9">Giant Monty Mole</entry>
     </list>
     <value nybble="11" title="Speed" comment="This determines how quickly the Buzzy Beetle will move." comment2="When the speed value is set to 15, the Buzzy Beetle will sometimes not load. When the speed is 0, the Beetle won't move."/>
@@ -2334,8 +2334,8 @@
     <dependency notes="The Mega Icicle has several options that function specifically with the Snake Block.">
       <suggested sprite="166"/>
     </dependency>
-	<list nybble="7" title="Style" comment="This sets the style of the Mega Icicle.">
-	  <entry value="0">Icicle (Original)</entry>
+    <list nybble="7" title="Style" comment="This sets the style of the Mega Icicle.">
+      <entry value="0">Icicle (Original)</entry>
       <entry value="1">Crystal</entry>
     </list>
     <checkbox bit="20" title="Don't Fall" comment="When enabled, the Icicle will not fall."/>
@@ -2420,28 +2420,28 @@
   
   <!-- Add a page within the level editor where the full list of effects and sounds can be referenced. Additionally, clean up the list so it's not littered with German. :P -->
   <sprite id="332" name="Sound/Graphic Effects Spawner" asmhacks="True" phonebook="Effects" notes="Enables event-driven spawning of Sound Effects and Graphic Effects.&lt;br&gt;&lt;u&gt;Limitations&lt;/u&gt;&lt;br&gt; 1) Do not use 1000 or more sounds/effects per area.&lt;br&gt; 2) A single Event ID can only trigger one sound/effect per area&lt;br&gt; 3) Only a specific number of sounds/effects can be active at the same time&lt;br&gt; 4) Only two BRSTMs can be active at the same time." advancednotes="If spawning a Sound Efect, the placement of the sprite is crucial, as the sound is emitted from that position. If the player is ~3 screens away from the sprite, then they won't hear it anymore. Placing multiple sprites with the same settings at different locations is possible.">
-	  <value nybble="5-6" title="Triggering Event ID" comment="When this Event ID is activated, the associated sound or affect will be played." idtype="Triggering Event"/>
-	  <external type="sfx" nybble="10-12" title="Sfx ID" comment="Use this external window to select your Sound Effect." requiredbit="32" requiredval="0"/>
-	  <external type="gfx" nybble="10-12" title="Gfx ID" comment="Use this external window to select your Graphic Effect." requiredbit="32" requiredval="1"/>
-	  <dualbox bit="32" title1="Sound Effect" title2="Graphical Effect*" comment="This determines if you are spawning a sound effect or a graphical effect. The list of graphical effects is limited to the entries used by Newer. NewerGem does not have this limitation and uses all available 1004 Gfx." comment2="The volume of the sound effect is relative to the distance of the placement of the spawner."/>
-	  <list nybble="7" title="Effect Scale" comment="This determines the size of the spawned graphic effect." requiredbit="32">
-		  <entry value="1">x0.25 (25%)</entry>
-		  <entry value="2">x0.5 (50%)</entry>
-		  <entry value="3">x0.75 (75%)</entry>
-		  <entry value="0">x1.0 (100%)</entry>
-		  <entry value="5">x1.25</entry>
-		  <entry value="6">x1.5</entry>
-		  <entry value="7">x1.75</entry>
-		  <entry value="8">x2.0 (200%)</entry>
-		  <entry value="9">x2.25</entry>
-		  <entry value="10">x2.5</entry>
-		  <entry value="11">x2.75</entry>
-		  <entry value="12">x3.0 (300%)</entry>
-		  <entry value="13">x3.25</entry>
-		  <entry value="14">x3.5</entry>
-		  <entry value="15">x3.75</entry>
-	  </list>
-	  <value nybble="9" title="Loop Delay" comment="This determines the number of seconds between activations of the sound or graphic effect." comment2="The effect will only activate once if the delay is left at 0."/>
+      <value nybble="5-6" title="Triggering Event ID" comment="When this Event ID is activated, the associated sound or affect will be played." idtype="Triggering Event"/>
+      <external type="sfx" nybble="10-12" title="Sfx ID" comment="Use this external window to select your Sound Effect." requiredbit="32" requiredval="0"/>
+      <external type="gfx" nybble="10-12" title="Gfx ID" comment="Use this external window to select your Graphic Effect." requiredbit="32" requiredval="1"/>
+      <dualbox bit="32" title1="Sound Effect" title2="Graphical Effect*" comment="This determines if you are spawning a sound effect or a graphical effect. The list of graphical effects is limited to the entries used by Newer. NewerGem does not have this limitation and uses all available 1004 Gfx." comment2="The volume of the sound effect is relative to the distance of the placement of the spawner."/>
+      <list nybble="7" title="Effect Scale" comment="This determines the size of the spawned graphic effect." requiredbit="32">
+          <entry value="1">x0.25 (25%)</entry>
+          <entry value="2">x0.5 (50%)</entry>
+          <entry value="3">x0.75 (75%)</entry>
+          <entry value="0">x1.0 (100%)</entry>
+          <entry value="5">x1.25</entry>
+          <entry value="6">x1.5</entry>
+          <entry value="7">x1.75</entry>
+          <entry value="8">x2.0 (200%)</entry>
+          <entry value="9">x2.25</entry>
+          <entry value="10">x2.5</entry>
+          <entry value="11">x2.75</entry>
+          <entry value="12">x3.0 (300%)</entry>
+          <entry value="13">x3.25</entry>
+          <entry value="14">x3.5</entry>
+          <entry value="15">x3.75</entry>
+      </list>
+      <value nybble="9" title="Loop Delay" comment="This determines the number of seconds between activations of the sound or graphic effect." comment2="The effect will only activate once if the delay is left at 0."/>
   </sprite> <!-- #332: Effect/Sound Spawner -->
   
   <sprite id="341" name="Giant Koopa Shell Cave" asmhacks="True" notes="A decorative large shell that can be used as a cave with the right arrangement of invisible blocks and settings.">
@@ -2511,7 +2511,7 @@
       <entry value="3">Yellow</entry>
       <entry value="4">Dark Brown</entry>
       <entry value="5">Red</entry>
-	  <entry value="15">Forest Tree Leafs</entry>
+      <entry value="15">Forest Tree Leafs</entry>
     </list> <!-- Appears only if Use Bush Color is set -->
     <list bit="47-48" title="Size" comment="This determines the size of the Bush. Larger sizes use different models.">
       <entry value="0">Small</entry>
@@ -2524,7 +2524,7 @@
   <sprite id="391" name="Lighting - Glow Block" asmhacks="True" notes="A grabbable glowing block that is affected by gravity. It can be picked up and thrown by shaking the controller next to it. If it is thrown and it hits the ground, it will bounce slightly. Its effect is severely dimished as anything other than a weapon of destruction if not using Full Darkness lighting.">
     <list nybble="6" title="Color" advanced="True" comment="A recolor for the Glow Block." advancedcomment="More effects can be added for your hack.">
       <entry value="0">Yellow</entry>
-	  <entry value="1">Dark Purple</entry>
+      <entry value="1">Dark Purple</entry>
     </list>
     <value nybble="12" title="Unknown Value 12" advanced="True" advancedcomment="ASM shows Nybble 12 might affect something."/>
   </sprite> <!-- #391: Lighting - Glow Block -->
@@ -2629,7 +2629,7 @@
       <entry value="6">Violet</entry>
       <entry value="7">Black</entry>
     </list> <!-- Stone Spike colors -->
-	<list nybble="6" title="Color" comment="This determines the color of the Spike." requiredbit="48" requiredval="1">
+    <list nybble="6" title="Color" comment="This determines the color of the Spike." requiredbit="48" requiredval="1">
       <entry value="0">Original</entry>
       <entry value="1">Red</entry>
       <entry value="2">Orange</entry>
@@ -2638,7 +2638,7 @@
       <entry value="5">NSMBDS Snow Spike</entry>
     </list> <!-- Spike colors -->
     <dualbox bit="48" title1="Stone Spike (Throws Down)" title2="Spike (Throws to Side)" comment="This determines the type of enemy that will spawn." comment2="A Stone Spike throws spiked balls downwards, and a Spike throws spiked balls left or right."/>
-	<dualbox bit="40" title1="Faces Left" title2="Faces Right" comment="This determines the initial direction the Spike will face." comment2="This has limited use, as the Spike will turn to face the player when needed. It's most useful when placing the Spike in range of an entrance." requiredbit="48" requiredval="0"/>
+    <dualbox bit="40" title1="Faces Left" title2="Faces Right" comment="This determines the initial direction the Spike will face." comment2="This has limited use, as the Spike will turn to face the player when needed. It's most useful when placing the Spike in range of an entrance." requiredbit="48" requiredval="0"/>
     <checkbox bit="44" title="Always Throwing" comment="When enabled, the Spike will always throw spiked balls, even when off-screen." comment2="May only function with Stone Spikes."/>
     <value nybble="5" title="Throwing Delay" comment="This determines the delay between each time the Spike throws their spiked ball." comment2="The amount of delay is inconsistent between increases in value."/>
   </sprite> <!-- #414: Spike / Stone Spike -->
@@ -2950,15 +2950,15 @@
     <dualbox bit="17" title1="Launch Star" title2="Super Launch Star" comment="This determines whether the player will be shooted within the zone or out of the level to the world map." />
     <checkbox bit="18" title="Active" comment="When enabled, the Launch Star will be activated from the start." />
     <dualbox bit="19" title1="Star Pieces" title2="Event" comment="This determines whether the Launch Star gets activated by collecting Star Pieces with the same ID or by an event with the ID." />
-	
-	<dependency notes="You need 5 star chips with the same id if you check Star Pieces.">
+    
+    <dependency notes="You need 5 star chips with the same id if you check Star Pieces.">
       <suggested sprite="485"/>
-	  <suggested sprite="485"/>
-	  <suggested sprite="485"/>
-	  <suggested sprite="485"/>
-	  <suggested sprite="485"/>
+      <suggested sprite="485"/>
+      <suggested sprite="485"/>
+      <suggested sprite="485"/>
+      <suggested sprite="485"/>
     </dependency>
-	
+    
     <value bit="20-24" title="Launch Star ID" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="19" requiredval="0" />
     <value bit="20-24" title="Triggering Event ID" comment="You have to trigger the event with this ID to activate this Launch Star." requiredbit="19" requiredval="1" />
 
@@ -2967,7 +2967,7 @@
 
     <value bit="37-40" title="Destination World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="17" requiredval="1" />
     <value bit="41-44" title="Destination Sub World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="17" requiredval="1" />
-	
+    
     <value bit="37-44" title="Speed" comment="The speed." requiredbit="17" requiredval="0"/>
   </sprite> <!-- #495: Launch Star -->
 
@@ -3094,9 +3094,9 @@
   </sprite> <!-- #506: Pumpkin Goomba -->
 
   <sprite id="507" name="Ballon" asmhacks="True" notes="A Ballon that can follow a path.">
-	<value bit="41-48" title="Path ID" comment="0 means that this ballon won't ever fly as there is no path to follow." />
-	<value bit="33-40" title="Start Node" />
-	<value bit="29-32" title="Speed" />
+    <value bit="41-48" title="Path ID" comment="0 means that this ballon won't ever fly as there is no path to follow." />
+    <value bit="33-40" title="Start Node" />
+    <value bit="29-32" title="Speed" />
   </sprite> <!-- #507: Ballon -->
 
   <sprite id="508" name="Triple &quot;?&quot; Block" notes="Triple Question Block from NSMB2">
@@ -3195,9 +3195,9 @@
   </sprite>
   
   <sprite id="510" name="The Great Goal Pole" asmhacks="True" notes="A Goal Pole that flys along a path.">
-	<value bit="41-48" title="Path ID" comment="0 means that this goal pole won't ever fly as there is no path to follow." />
-	<value bit="33-40" title="Start Node" />
-	<value bit="29-32" title="Speed" />
+    <value bit="41-48" title="Path ID" comment="0 means that this goal pole won't ever fly as there is no path to follow." />
+    <value bit="33-40" title="Start Node" />
+    <value bit="29-32" title="Speed" />
   </sprite> <!-- #510: The Great Goal Pole -->
 
   <sprite id="511" name="Water Lift" asmhacks="True" notes="A Water Lift that was left in the game as an actor but not as a sprite.">
@@ -3207,14 +3207,14 @@
   </sprite> <!-- #512: Sidestepper Boss -->
   
   <sprite id="513" name="Sidestepper" asmhacks="True" notes="A Sidestepper. TICK ONLY ONE BOX IN EACH CATEGORY!!!">
-	<checkbox bit="48" title="1 Spawn Point" comment="Number of the Spawn Points." />
-	<checkbox bit="47" title="2 Spawn Points" comment="Number of the Spawn Points." />
-	<checkbox bit="46" title="3 Spawn Points" comment="Number of the Spawn Points." />
-	<checkbox bit="45" title="Point Distance = 1" comment="Number of blocks between the Spawn Points." />
-	<checkbox bit="44" title="Point Distance = 2" comment="Number of blocks between the Spawn Points." />
-	<checkbox bit="43" title="Point Distance = 3" comment="Number of blocks between the Spawn Points." />
-	<checkbox bit="42" title="Point Distance = 4" comment="Number of blocks between the Spawn Points." />
-	<checkbox bit="41" title="Point Distance = 5" comment="Number of blocks between the Spawn Points." />
+    <checkbox bit="48" title="1 Spawn Point" comment="Number of the Spawn Points." />
+    <checkbox bit="47" title="2 Spawn Points" comment="Number of the Spawn Points." />
+    <checkbox bit="46" title="3 Spawn Points" comment="Number of the Spawn Points." />
+    <checkbox bit="45" title="Point Distance = 1" comment="Number of blocks between the Spawn Points." />
+    <checkbox bit="44" title="Point Distance = 2" comment="Number of blocks between the Spawn Points." />
+    <checkbox bit="43" title="Point Distance = 3" comment="Number of blocks between the Spawn Points." />
+    <checkbox bit="42" title="Point Distance = 4" comment="Number of blocks between the Spawn Points." />
+    <checkbox bit="41" title="Point Distance = 5" comment="Number of blocks between the Spawn Points." />
   </sprite> <!-- #513: Sidestepper -->
   
   <sprite id="514" name="Boom Boom" asmhacks="True" notes="A Boom Boom boss.">
@@ -3231,19 +3231,19 @@
   </sprite> <!-- #517: Shroob Ufo -->
   
   <sprite id="518" name="Star Chip" asmhacks="True" notes="A collacteable fragment of a launch star">
-	<value bit="43-48" title="Launch Star ID" comment="The id of the launch Star which should activate when collected enough."/>
-	<value bit="17-19" title="Star Chip ID" comment="The id of the launch Star which should activate when collected enough."/>
+    <value bit="43-48" title="Launch Star ID" comment="The id of the launch Star which should activate when collected enough."/>
+    <value bit="17-19" title="Star Chip ID" comment="The id of the launch Star which should activate when collected enough."/>
   </sprite> <!-- #518: Star Chip -->
   
   <sprite id="519" name="Shy Cart" asmhacks="True" notes="A Shy Cart.">
-	<value bit="17-24" title="speed" comment="speed" />
+    <value bit="17-24" title="speed" comment="speed" />
   </sprite> <!-- #519: Shy Cart -->
   
   <sprite id="520" name="Rail" asmhacks="True" notes="Not a Rail.">
-	<value bit="17-24" title="Width" comment="Collision width." />
+    <value bit="17-24" title="Width" comment="Collision width." />
     <value bit="25-32" title="Height" comment="Collision height." />
-	
-	<list bit="33-48" title="Type" comment="This determines the type" >
+    
+    <list bit="33-48" title="Type" comment="This determines the type" >
       <entry value="0">Yeet Player</entry>
       <entry value="1">Stop Cart</entry>
       <entry value="2">disable Cart Movement</entry>
@@ -3252,33 +3252,33 @@
   </sprite> <!-- #520: Rail -->
   
   <sprite id="521" name="WhereAmIGoing" asmhacks="True" notes="Where am I going">
-	<list bit="17-20" title="Type" comment="This determines the type" >
+    <list bit="17-20" title="Type" comment="This determines the type" >
       <entry value="0">Left Right</entry>
       <entry value="1">Up Down</entry>
     </list>
-	<value bit="21-30" title="Pos X" comment="zone position x" requiredbit="17-20" requiredval="0"/>
+    <value bit="21-30" title="Pos X" comment="zone position x" requiredbit="17-20" requiredval="0"/>
     <value bit="21-30" title="Pos Y" comment="zone position y" requiredbit="17-20" requiredval="1"/>
-	<value bit="31-48" title="Width" comment="zone width." requiredbit="17-20" requiredval="0"/>
+    <value bit="31-48" title="Width" comment="zone width." requiredbit="17-20" requiredval="0"/>
     <value bit="31-48" title="Height" comment="zone height." requiredbit="17-20" requiredval="1"/>
   </sprite> <!-- #521: Where Am I Going -->
   
   <sprite id="522" name="WarpBox" asmhacks="True" notes="Where am I going">
-	<value bit="17-24" title="ID" comment="ID" />
+    <value bit="17-24" title="ID" comment="ID" />
   </sprite> <!-- #522: Warp Box -->
   
   <sprite id="523" name="Boshi" asmhacks="True" notes="Where am I going">
-	<value bit="29-32" title="Speed" comment="speed" />
-	<value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
-	<value bit="41-48" title="Path ID" comment="ID" />
+    <value bit="29-32" title="Speed" comment="speed" />
+    <value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
+    <value bit="41-48" title="Path ID" comment="ID" />
   </sprite> <!-- #523: Boshi -->
   
   <sprite id="524" name="Cloud Plattform" asmhacks="True" notes="Where am I going">
-	<checkbox bit="17" title="follow path" comment="Loop" />
-	<value bit="41-48" title="Path ID" comment="ID" />
-	<value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
-	<value bit="29-32" title="Speed" comment="speed" />
-	<checkbox bit="18" title="Loop" comment="Loop" />
-	<list bit="19-20" title="WaitMode" comment="This determines the WaitMode" >
+    <checkbox bit="17" title="follow path" comment="Loop" />
+    <value bit="41-48" title="Path ID" comment="ID" />
+    <value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
+    <value bit="29-32" title="Speed" comment="speed" />
+    <checkbox bit="18" title="Loop" comment="Loop" />
+    <list bit="19-20" title="WaitMode" comment="This determines the WaitMode" >
       <entry value="0">Do not wait for Player</entry>
       <entry value="1">Wait for one Player to start</entry>
       <entry value="2">Wait for one player always to move</entry>
@@ -3286,13 +3286,13 @@
   </sprite> <!-- #524: Cloud Plattform -->
   
   <sprite id="525" name="Goomba Tower" asmhacks="True" notes="Where am I going">
-	<value bit="33-36" title="Goomba Tower Height" comment="How many additional goombas" />
+    <value bit="33-36" title="Goomba Tower Height" comment="How many additional goombas" />
   </sprite> <!-- #524: Goomba Tower -->
   
   <sprite id="526" name="BusuBusu" asmhacks="True" notes="Where am I going">
-	<checkbox bit="17" title="face right" comment="Loop" />
-	<value bit="21-28" title="walking distance" comment="speed" />
-	<value bit="29-32" title="Speed" comment="speed" />
+    <checkbox bit="17" title="face right" comment="Loop" />
+    <value bit="21-28" title="walking distance" comment="speed" />
+    <value bit="29-32" title="Speed" comment="speed" />
   </sprite> <!-- #526: BusuBusu -->
   
   <sprite id="527" name="Tiki Tong" asmhacks="True" >
@@ -3304,37 +3304,38 @@
 
   <sprite id="529" name="Tiki Tong Crown" asmhacks="True" notes="Don't use this sprite! Only place the Tiki Tong sprite, it will spawn it's body parts on it's own." >
   </sprite> <!-- #529: Tiki Tong Crown -->
-	
+    
   <sprite id="530" name="Stats Menu" asmhacks="True" notes="Don't use this sprite!" >
   </sprite> <!-- #530: Stats Menu -->
-	
+    
   <sprite id="531" name="Green Ring" asmhacks="True" notes="This ring will look forward 5 green coins placed in the level. Once collected the 5 green coins, it will reward a powerup." >
-	  <value nybble="5" title="Ring ID" comment="This is the ID of the ring, needed to link the green coins to this ring."/>
-	  <list nybble="6" title="Reward" comment="This will set the item rewarded when all coins are collected." comment2="If the player has already a powerup, a 1-UP will be spawned.">
-		<entry value="0">Fire suit</entry>
-		<entry value="1">Ice suit</entry>
-		<entry value="2">Propeller</entry>
-		<entry value="3">Penguin suit</entry>
-		<entry value="4">Hammer suit</entry>
-		<entry value="5">Star</entry>
-	  </list>
+    <value nybble="5" title="Ring ID" comment="This is the ID of the ring, needed to link the green coins to this ring."/>
+    <list nybble="6" title="Reward" comment="This will set the item rewarded when all coins are collected." comment2="If the player has already a powerup, a 1-UP will be spawned.">
+      <entry value="0">Fire suit</entry>
+      <entry value="1">Ice suit</entry>
+      <entry value="2">Propeller</entry>
+      <entry value="3">Penguin suit</entry>
+      <entry value="4">Hammer suit</entry>
+      <entry value="5">Star</entry>
+    </list>
   </sprite> <!-- #531: Green Ring -->
-	
+    
   <sprite id="532" name="Green Coin" asmhacks="True" notes="A group of green coins. They are connected with the Green Ring." >
-	<value nybble="5" title="Ring ID" comment="Set the Ring ID of the green ring you are refering to."/>
-	<list nybble="6" title="Coin ID" comment="Select the coin ID for this coin. The coin ID determines what coin appear first.">
-		<entry value="0">0</entry>
-		<entry value="1">1</entry>
-		<entry value="2">2</entry>
-		<entry value="3">3</entry>
-		<entry value="4">4</entry>
-	  </list>
+    <value nybble="5" title="Ring ID" comment="Set the Ring ID of the green ring you are refering to."/>
+    <list nybble="6" title="Coin ID" comment="Select the coin ID for this coin. The coin ID determines what coin appear first.">
+      <entry value="0">0</entry>
+      <entry value="1">1</entry>
+      <entry value="2">2</entry>
+      <entry value="3">3</entry>
+      <entry value="4">4</entry>
+    </list>
   </sprite> <!-- #532: Green Coin -->
   
   <sprite id="533" name="Cataquack" asmhacks="True" notes="A Cataquack!" >
   </sprite> <!-- #533: Cataquack -->
   
   <sprite id="534" name="Flip Swap Panel" asmhacks="True" notes="A SMG Flip Swap Panel!" >
+    <dualbox bit="48" title1="Start Left" title2="Start Right" />
   </sprite> <!-- #534: Flip Swap Panel -->
     
 </sprites>
