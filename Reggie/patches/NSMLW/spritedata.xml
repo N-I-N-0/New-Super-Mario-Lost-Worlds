@@ -650,6 +650,11 @@
       <entry value="1">Same Momentum</entry>
     </list>
   </sprite> <!-- #63: Spiked Ball / Snowball -->
+
+  <sprite id="77" name="Poison Mushroom" asmhacks="True">
+    <dualbox bit="48" title1="Out Up" title2="Out Down"/>
+  </sprite> <!-- #77: Poison Mushroom -->
+
   
   <sprite id="78" name="Bouncy Cloud" asmhacks="True" noyoshi="True" notes="A cloud platform with a happy face that the player can bounce on to jump really high. NewerSMBW adds more style options including Mushrooms and Checkered Block.">
     <list nybble="6" title="Style" comment="This determines the color and style of the Bouncy Cloud." comment2="If you want the Angry Cloud to hurt players, you have to add an invisible tileset piece to do that for you. Sorry.">
@@ -1700,95 +1705,13 @@
     </list>
   </sprite> <!-- 231: Wiggling Mushroom Platform -->
   
-
-  
-  <sprite id="241" name="SMG2 Controller" notes="&lt;font color=&quot;red&quot;&gt;For use with Powerup Jam.&lt;/font&gt; Places an SMG2 element into the level">
-    <list nybble="5" title="Type" comment="This determines the object that will be spawned.">
-      <entry value="0">Windmill</entry>
-      <entry value="1">Decoration</entry>
-      <entry value="2">Platforms</entry>
-      <entry value="3">ZigZagCrush</entry>
-      <entry value="4">Needle Plant</entry>
-      <entry value="5">Complex Platforms</entry>
-      <entry value="6">Cloud Flower</entry>
-      <entry value="7">Cloud Platform</entry>
-      <entry value="8">Power Star</entry>
+  <sprite id="241" name="Trap Block" notes="">
+    <list nybble="6" title="Block Tile" >
+      <entry value="0">Invisible</entry>
+      <entry value="1">Brick Block</entry>
+      <entry value="2">? Block</entry>
     </list>
-    <value nybble="6-7" title="Wind Length" comment="This defines the length of the wind effect." requiredbit="17-20" requiredval="0"/>
-    <dualbox bit="32" title1="Right" title2="Left" comment="This determines which direction the Windmill will face." requiredbit="17-20" requiredval="0"/>
-    <value nybble="9-10" title="Wind Speed" comment="This defines the speed of the wind for the player's clouds." comment2="Every cloud spriteCollision trigger, this->pos.x will gets added or subtracted the speed divided by 10" requiredbit="17-20" requiredval="0"/>
-    <list nybble="6" title="Decoration Type" comment="This determines the decoration that will be spawned." requiredbit="17-20" requiredval="1">
-      <entry value="0">Castle Background</entry>
-      <entry value="1">Grass Platform</entry>
-      <entry value="2">SkyStepPart</entry>
-    </list>
-    <list nybble="7" title="Alternate" comment="This determines if the decoration will use an alternative form." requiredbit="17-20" requiredval="1">
-      <entry value="0">Facing Front</entry>
-      <entry value="1">Slightly Rotated</entry>
-    </list>
-    <list nybble="8" title="Shape" comment="This determines if the decoration will use an alternative shape." requiredbit="17-20" requiredval="1">
-      <entry value="0">Model A</entry>
-      <entry value="1">Model B</entry>
-      <entry value="2">Model C</entry>
-    </list>
-    <list nybble="6" title="Platform Type" comment="This determines the platform that will be spawned." requiredbit="17-20" requiredval="2">
-      <entry value="0">A</entry>
-      <entry value="1">B</entry>
-      <entry value="2">C</entry>
-      <entry value="3">D</entry>
-      <entry value="4">E</entry>
-      <entry value="5">F</entry>
-    </list>
-    <list nybble="7" title="Rotation" comment="This determines if the rotation of the platform." requiredbit="17-20" requiredval="2">
-      <entry value="0">0</entry>
-      <entry value="1">90</entry>
-      <entry value="2">180</entry>
-      <entry value="3">-90</entry>
-    </list>
-    <list nybble="8" title="Alternate" comment="This determines if the platform will use an alternative form." requiredbit="17-20" requiredval="2">
-      <entry value="0">Facing Front</entry>
-      <entry value="1">Slightly Rotated</entry>
-    </list>
-    <list nybble="6" title="Shape" comment="This determines which ZigZagCrush block will be used." requiredbit="17-20" requiredval="3">
-      <entry value="0">A</entry>
-      <entry value="1">B</entry>
-      <entry value="2">Both</entry>
-    </list>
-    <value nybble="7" title="Distance" comment="This defines the distance the ZigZagCrush block will do (in tiles)." requiredbit="17-20" requiredval="3"/>
-    <value nybble="8" title="Speed" comment="This defines the speed the ZigZagCrush will have when moving." requiredbit="17-20" requiredval="3"/>
-    <list nybble="9" title="Alternate" comment="This determines if the platform will use an alternative form." requiredbit="17-20" requiredval="3">
-      <entry value="0">Facing Front</entry>
-      <entry value="1">Slightly Rotated</entry>
-    </list>
-    <value nybble="10" title="Delay" comment="This defines the delay between every movement (in second)." requiredbit="17-20" requiredval="3"/>
-    <list nybble="6" title="Type" comment="This determines the type of the Needle Plant that will spawn." requiredbit="17-20" requiredval="4">
-      <entry value="0">Normal</entry>
-      <entry value="1">Fly</entry>
-    </list>
-    <list nybble="7" title="Size" comment="This determines the size of the Needle Plant that will spawn." requiredbit="17-20" requiredval="4">
-      <entry value="0">Normal</entry>
-      <entry value="1">Big</entry>
-    </list>
-    <dualbox bit="32" title1="Right" title2="Left" comment="This determines on which direction the Needle Plant spin." requiredbit="17-20" requiredval="4"/>
-    <list nybble="6" title="Platform Type" comment="This determines the platform that will be spawned." requiredbit="17-20" requiredval="5">
-      <entry value="0">A</entry>
-      <entry value="1">B</entry>
-      <entry value="2">C</entry>
-      <entry value="3">D</entry>
-    </list>
-    <list nybble="7" title="Rotation" comment="This determines if the rotation of the platform." requiredbit="17-20" requiredval="5">
-      <entry value="0">0</entry>
-      <entry value="1">90</entry>
-      <entry value="2">180</entry>
-      <entry value="3">-90</entry>
-    </list>
-    <list nybble="8" title="Alternate" comment="This determines if the platform will use an alternative form." requiredbit="17-20" requiredval="5">
-      <entry value="0">Facing Front</entry>
-      <entry value="1">Slightly Rotated</entry>
-    </list>
-    <checkbox nybble="6" title="Respawns" comment="When enabled, the Cloud Flower will respawn a short while after being taken." requiredbit="17-20" requiredval="6"/>
-    <checkbox nybble="6" title="Respawns" comment="When enabled, the Cloud Platform will respawn a short while after being taken." requiredbit="17-20" requiredval="7"/>
-  </sprite> <!-- #241: SMG2 Controller -->
+  </sprite> <!-- #241: Trap Block -->
   
   <sprite id="244" name="Line God Event" asmhacks="True" notes="The Line God can hide and unhide Line Guides within a specified area by using Events.">
     <dependency notes="The Line God cannot create new Line objects, only determine if the object within its affected area are displayed and functional."/>

@@ -1,7 +1,6 @@
 ---
 source_files: [../src/trapblock.cpp, ../src/poisonmushroom.cpp]
 hooks:
-
   #Replaces Actor 172 BIGHANA_MGR (Sprite 241)
   - name: TrapBlockBuild
     type: add_func_pointer
@@ -12,7 +11,6 @@ hooks:
     type: add_func_pointer
     src_addr_pal: 0x8031af10
     target_func: 'PMarcNameList'
-    # 0x8031AB4C + sprite num * 0x4 == offset
 
   - name: UpdateTrapBlockSpriteInfo
     type: patch
@@ -23,19 +21,12 @@ hooks:
     data: '00AC 0000  00000008 00000000  00000000 00000000 00000010 00000010  0000 0000 0000 0000  0000 0000'
 
   #Replaces Actor 329 AC_ITEM_KEY (Sprite 77)
-#  - name: PoisonShroomBuild
-#    type: add_func_pointer
-#    src_addr_pal: 0x8095E108
-#    target_func: 'daPoisonShroom_c::build(void)'
+  - name: PoisonShroomBuild
+    type: add_func_pointer
+    src_addr_pal: 0x8095E108
+    target_func: 'daPoisonShroom_c::build(void)'
 
-#  - name: PoisonShroomSpriteFileInfo
-#    type: add_func_pointer
-#    src_addr_pal: 0x8031ac80
-#    target_func: 'PMarcNameList'
-    # 0x8031AB4C + sprite num * 0x4 == offset
-
-
-  # - name: SomeBlockTest
-  #   type: add_func_pointer
-  #   src_addr_pal: 0x80302428
-  #   target_func: 'daEnBlockMain_c::calledWhenUpMoveBegins_new(void)'
+  - name: PoisonShroomSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac80
+    target_func: 'PMarcNameList'

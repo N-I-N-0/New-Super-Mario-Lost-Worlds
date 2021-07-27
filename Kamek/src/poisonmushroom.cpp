@@ -357,7 +357,11 @@ void daPoisonShroom_c::updateModelMatrices() {
 	void daPoisonShroom_c::beginState_Die() {
 		this->removeMyActivePhysics();
 	}
-	void daPoisonShroom_c::executeState_Die() { 
+	void daPoisonShroom_c::executeState_Die() {
+		S16Vec nullRot = {0,0,0};
+		Vec oneVec = {1.0f, 1.0f, 1.0f};
+		SpawnEffect("Wm_en_obakedoor_sm", 0, &this->pos, &nullRot, &oneVec);
+				
 		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
 		this->kill();
 		this->Delete(this->deleteForever);

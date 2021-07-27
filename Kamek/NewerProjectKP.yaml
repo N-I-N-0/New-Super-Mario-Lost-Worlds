@@ -83,7 +83,7 @@ modules:
   - processed/pumpkinGoomba.yaml
   # - processed/pengi.yaml
   # - processed/actorlog.yaml
-  # - processed/trapblock.yaml
+  - processed/trapblock.yaml
   #- processed/1.yaml#######################wm player fail
   - processed/purplecoin.yaml
   - processed/playerNumberEvent.yaml
