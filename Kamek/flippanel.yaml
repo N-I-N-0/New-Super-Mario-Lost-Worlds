@@ -6,3 +6,9 @@ hooks:
     branch_type: b
     src_addr_pal: 0x8005e71c
     target_func: 'playerJumped'
+
+  - name: LetFlipPanelsFlipWhenPlayerSpins
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80147210
+    target_func: 'playerSpinned'

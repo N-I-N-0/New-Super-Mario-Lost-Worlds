@@ -1,5 +1,6 @@
 SECTIONS {
 	continueAt8005e724 = 0x8005E724;
+	continueAt80147214 = 0x801470D4;
 
 	ContinueWithoutCourage = 0x80151540;
 	ContinueWithCourage = 0x80151508;

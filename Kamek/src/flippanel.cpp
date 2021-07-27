@@ -32,8 +32,7 @@ public:
 };
 
 const SpriteData flipPanelSpriteData = { ProfileId::FlipPanel, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
- // Using WM_GRID as the execute order profile ID fixes bugs; original FlipPanel uses it as well
-Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, flipPanelSpriteData, ProfileId::WM_GRID, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
+Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, flipPanelSpriteData, ProfileId::FlipPanel, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
 
 
 CREATE_STATE(daEnFlipPanel_c, Wait);
@@ -41,9 +40,13 @@ CREATE_STATE(daEnFlipPanel_c, Flipping);
 
 
 void flipAllPanels() {
-	daEnFlipPanel_c *panel = 0;
-	while ((panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, panel)) != 0) {
+	daEnFlipPanel_c *panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, 0);
+	if(panel) {
 		panel->flipThisPanel();
+		while((panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, panel)) != 0) {
+			panel->flipThisPanel();
+		}
+		NewSFXPlayer(5, true);
 	}
 }
 
