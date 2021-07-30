@@ -3261,7 +3261,7 @@
     <dualbox bit="48" title1="Start Left" title2="Start Right" />
   </sprite> <!-- #534: Flip Swap Panel -->
   
-  <sprite id="535" name="Typhoo" asmhacks="True" notes="A Typhoo!" >
-  </sprite> <!-- #535: Typhoo -->
+  <sprite id="535" name="Ty-Foo" asmhacks="True" notes="A Ty-Foo!" >
+  </sprite> <!-- #535: Ty-Foo -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
