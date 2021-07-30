@@ -552,6 +552,7 @@ enum
 	GreenCoin = 532,
 	Poihana = 533,
 	FlipPanel = 534,
+	Byugo = 535,
 
 	Num
 };
@@ -1367,6 +1368,7 @@ enum
 	GreenCoin = 799,
 	Poihana = 800,
 	FlipPanel = 801,
+	Byugo = 802,
 	
 	Num
 };

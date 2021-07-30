@@ -137,3 +137,4 @@ modules:
   - processed/poihana.yaml
   - processed/snakeblock.yaml
   - processed/flippanel.yaml
+  - processed/byugo.yaml

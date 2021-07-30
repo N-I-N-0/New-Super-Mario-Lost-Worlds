@@ -3260,6 +3260,8 @@
   <sprite id="534" name="Flip Swap Panel" asmhacks="True" notes="A SMG Flip Swap Panel!" >
     <dualbox bit="48" title1="Start Left" title2="Start Right" />
   </sprite> <!-- #534: Flip Swap Panel -->
-    
+  
+  <sprite id="535" name="Typhoo" asmhacks="True" notes="A Typhoo!" >
+  </sprite> <!-- #535: Typhoo -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
