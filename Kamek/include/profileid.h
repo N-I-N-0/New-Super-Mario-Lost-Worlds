@@ -553,6 +553,8 @@ enum
 	Poihana = 533,
 	FlipPanel = 534,
 	Byugo = 535,
+	ShroobUFOLaserBall = 536,
+	SwitchLayer = 537,
 
 	Num
 };
@@ -1369,6 +1371,8 @@ enum
 	Poihana = 800,
 	FlipPanel = 801,
 	Byugo = 802,
+	ShroobUFOLaserBall = 803,
+	SwitchLayer = 804,
 	
 	Num
 };

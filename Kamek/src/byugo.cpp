@@ -13,29 +13,15 @@ public:
 
 	static dActor_c* build();
 
-	//void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-
-	//bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat8_FencePunch(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
-
-
 	mHeapAllocator_c allocator;
 	m3d::mdl_c bodyModel;
 	m3d::anmChr_c animationChr;
 	nw4r::g3d::ResFile resFile;
 
 	int loopCount;
+	float radius;
+
+	mEf::es2 effect;
 
 	USING_STATES(daByugo_c);
 	DECLARE_STATE(Wait);
@@ -52,7 +38,7 @@ CREATE_STATE(daByugo_c, Loop);
 CREATE_STATE(daByugo_c, End);
 
 void daByugo_c::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.translation(pos.x, pos.y - 16, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 
 	bodyModel.setDrawMatrix(matrix);
@@ -80,40 +66,14 @@ Profile ByugoProfile(&daByugo_c::build, SpriteId::Byugo, ByugoSpriteData, Profil
 int daByugo_c::onCreate() {
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
-	OSReport("Byugo 1\n");
-
 	resFile.data = getResource("Byugo", "g3d/Byugo.brres");
-	OSReport("Byugo 2\n");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("Byugo");
-	OSReport("Byugo 3\n");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	OSReport("Byugo 4\n");
 	SetupTextures_Enemy(&bodyModel, 0);
-	OSReport("Byugo 5\n");
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("Wait");
-	OSReport("Byugo 6\n");
 	this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
-	OSReport("Byugo 7\n");
 
 	allocator.unlink(); 
-
-	ActivePhysics::Info HitMeBaby; 
-	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 0.0; 
-	HitMeBaby.xDistToEdge = 0.0; 
-	HitMeBaby.yDistToEdge = 0.0; 
-	HitMeBaby.category1 = 0x3; 
-	HitMeBaby.category2 = 0x0; 
-	HitMeBaby.bitfield1 = 0x4F; 
-	HitMeBaby.bitfield2 = 0xFFFFFFFF; 
-	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
-	this->aPhysics.initWithStruct(this, &HitMeBaby); 
-	this->aPhysics.addToList(); 
-
-	OSReport("Byugo 8\n");
-
-	OSReport("Byugo 9\n");
 
 	this->scale = (Vec){0.7, 0.7, 0.7};
 
@@ -179,9 +139,29 @@ void daByugo_c::endState_Start() {}
 void daByugo_c::beginState_Loop() {
 	bindAnimChr_and_setUpdateRate("BlowLoop", 1, 0.0, 1.0);
 	loopCount = 0;
+	radius = 8.0f;
 }
 void daByugo_c::executeState_Loop() {
-	
+	for(int i = 0; i < 4; i++) {
+		dAcPy_c *player;
+		if(player = dAcPy_c::findByID(i)) {
+			float dx = this->pos.x - player->pos.x;
+			float dy = this->pos.y - player->pos.y;
+			if(sqrtf(dx*dx + dy*dy) <= this->radius * 3) {
+				if(player->states2.getCurrentState() != &daPlBase_c::StateID_Quake) {
+					player->stunPlayer();
+				}
+			}
+		}
+	}
+
+
+	S16Vec nullRot = {0,0,0};
+	Vec oneVec = {0.75f*radius, 0.75f*radius, 0.75f*radius};
+	effect.spawn("Wm_mr_slipsmoke", 0, &(Vec){pos.x, pos.y - 16, 0}, &nullRot, &oneVec);
+
+	radius += 0.1f;
+
 	if (this->animationChr.isAnimationDone()) {
 		if(loopCount >= 9) {
 			doStateChange(&StateID_End);
@@ -191,7 +171,17 @@ void daByugo_c::executeState_Loop() {
 		}
 	}
 }
-void daByugo_c::endState_Loop() {}
+void daByugo_c::endState_Loop() {
+	for(int i = 0; i < 4; i++) {
+		dAcPy_c *player;
+		if(player = dAcPy_c::findByID(i)) {
+			if(player->states2.getCurrentState() == &daPlBase_c::StateID_Quake) {
+				player->unstunPlayer();
+				player->currentLayerID = 2;
+			}
+		}
+	}
+}
 
 void daByugo_c::beginState_End() {
 	bindAnimChr_and_setUpdateRate("BlowEnd", 1, 0.0, 1.0);
@@ -203,3 +193,76 @@ void daByugo_c::executeState_End() {
 }
 void daByugo_c::endState_End() {}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+const char* SwitchLayerFileList [] = { NULL };
+
+class daSwitchLayer_c : public dEn_c {
+public:
+	int onCreate();
+	int onExecute();
+	int onDelete();
+
+	static dActor_c* build();
+
+	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
+};
+
+
+dActor_c* daSwitchLayer_c::build() {
+	void *buffer = AllocFromGameHeap1(sizeof(daSwitchLayer_c));
+	return new(buffer) daSwitchLayer_c;
+}
+
+const SpriteData SwitchLayerSpriteData = { ProfileId::SwitchLayer, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile SwitchLayerProfile(&daSwitchLayer_c::build, SpriteId::SwitchLayer, SwitchLayerSpriteData, ProfileId::SwitchLayer, ProfileId::SwitchLayer, "SwitchLayer", SwitchLayerFileList);
+
+
+int daSwitchLayer_c::onCreate() {
+	ActivePhysics::Info HitMeBaby; 
+	HitMeBaby.xDistToCenter = 0.0; 
+	HitMeBaby.yDistToCenter = 0.0; 
+	HitMeBaby.xDistToEdge = this->settings; 
+	HitMeBaby.yDistToEdge = 3.0; 
+	HitMeBaby.category1 = 0x3; 
+	HitMeBaby.category2 = 0x0; 
+	HitMeBaby.bitfield1 = 0x4F; 
+	HitMeBaby.bitfield2 = 0xFFFFFFFF; 
+	HitMeBaby.unkShort1C = 0; 
+	HitMeBaby.callback = &dEn_c::collisionCallback; 
+	this->aPhysics.initWithStruct(this, &HitMeBaby); 
+	this->aPhysics.addToList(); 
+
+	return true;
+}
+
+int daSwitchLayer_c::onExecute() {
+	return true;
+}
+
+int daSwitchLayer_c::onDelete() {
+	return true;
+}
+
+void daSwitchLayer_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	dAcPy_c* player = (dAcPy_c*)apOther->owner;
+	/*OSReport("player pos.y %f\n", player->pos.y);
+	OSReport("player pos_delta.y %f\n", player->pos_delta.y);
+	OSReport("player pos_delta2.y %f\n", player->pos_delta2.y);
+	OSReport("player speed.y %f\n", player->speed.y);
+	OSReport("player y_speed_inc %f\n", player->y_speed_inc);*/
+	if(player->speed.y > 0) {
+		player->currentLayerID = 0;
+	}
+}

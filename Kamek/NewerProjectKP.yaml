@@ -123,7 +123,7 @@ modules:
   - processed/cutsceneMgr.yaml
   - processed/secretGem.yaml
   
-  # - processed/shroobUfo.yaml
+  - processed/shroobUfo.yaml
   - processed/shyCart.yaml
   - processed/whereAmIGoing.yaml
   - processed/warpBox.yaml

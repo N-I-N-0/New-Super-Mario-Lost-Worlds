@@ -1,3 +1,7 @@
 ---
 source_files: [../src/byugo.cpp]
-hooks: []
+hooks: 
+  - name: FixDrawOrderForLayer0
+    type: patch
+    addr_pal: 0x8042BC34
+    data: '45abe000' # = 5500.0 <-> old: 0xc4e10000 = -1800.0

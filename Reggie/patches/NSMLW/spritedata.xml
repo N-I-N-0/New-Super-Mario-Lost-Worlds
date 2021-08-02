@@ -3150,7 +3150,7 @@
   <sprite id="516" name="Secret Gem" asmhacks="True">
   </sprite> <!-- #516: Secret Gem -->
   
-  <sprite id="517" name="Shroob Ufo" asmhacks="True" notes="DO NOT USE THIS">
+  <sprite id="517" name="Shroob Ufo" asmhacks="True" notes="A Shroob UFO!">
   </sprite> <!-- #517: Shroob Ufo -->
   
   <sprite id="518" name="Star Chip" asmhacks="True" notes="A collacteable fragment of a launch star">
@@ -3262,6 +3262,15 @@
   </sprite> <!-- #534: Flip Swap Panel -->
   
   <sprite id="535" name="Ty-Foo" asmhacks="True" notes="A Ty-Foo!" >
+    <value bit="63-64" title="Layer" comment="Set this to 2!"/>
   </sprite> <!-- #535: Ty-Foo -->
+  
+  <sprite id="536" name="Shroob UFO Laser Ball" asmhacks="True" notes="A Laser Ball!" >
+  </sprite> <!-- #536: Shroob UFO Laser Ball -->
+
+  <sprite id="537" name="Switch Layer" asmhacks="True" notes="Revert the Ty-Foo's Layer Switching!" >
+    <value bit="63-64" title="Layer" comment="Set this to 2!"/>
+    <value bit="17-48" title="Width" />
+  </sprite> <!-- #537: Switch Layer -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

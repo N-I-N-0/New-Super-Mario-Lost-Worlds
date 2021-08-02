@@ -1022,7 +1022,9 @@ const char* effects_name_list [] = {
 	"Wm_ob_powgold_ind",
 	"Wm_ob_powgold_ind_a",
 	"Wm_ob_powgold_ind_c",
-	"Wm_ob_powgold_ind_b"
+	"Wm_ob_powgold_ind_b",
+	
+	"Ufo_Laser"
 };
 
 extern "C" bool SpawnEffect(const char*, int, Vec*, S16Vec*, Vec*);

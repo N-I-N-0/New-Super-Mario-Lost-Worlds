@@ -1,4 +1,13 @@
 SECTIONS {
+	disableDemoControl__10daPlBase_cFv = 0x80051EF0;
+	useDemoControl__10daPlBase_cFv = 0x80051E70;
+	stunPlayer__7dAcPy_cFv = 0x80137320;
+	unstunPlayer__7dAcPy_cFv = 0x80137460;
+	StateID_Quake__10daPlBase_c = 0x80376130;
+
+	sub_8004DD00__10daPlBase_cFv = 0x8004DD00;
+	daEnGlpole_c__CheckThis = 0x80A0AA90;
+
 	continueAt8005e724 = 0x8005E724;
 	continueAt80147214 = 0x80146EE4;
 

@@ -809,7 +809,9 @@ enum Actors {
 	GreenCoin = 799,
 	Poihana = 800,
 	FlipPanel = 801,
-	Byugo = 802
+	Byugo = 802, 
+	ShroobUFOLaserBall = 803,
+	SwitchLayer = 804
 };
 
 struct Actor {

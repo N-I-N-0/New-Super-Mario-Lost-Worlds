@@ -2431,7 +2431,8 @@ class daPlBase_c : public dStageActor_c {
 		u8 _1460;
 		dStateWrapper_c<daPlBase_c> states2;
 
-		void useDemoControl(daPlBase_c *playerOrYoshi);
+		void useDemoControl();
+		void disableDemoControl();
 
 		void justFaceSpecificDirection(int direction);
 		void moveInDirection(float *targetX, float *speed);
@@ -2446,8 +2447,13 @@ class daPlBase_c : public dStageActor_c {
 
 		//bool sub_8004DD00(int unk); //maybe isPlayerStunned ???
 
+		void sub_8004DD00();
+
 		static daPlBase_c *findByID(int id);
 		void newHipAttackStage4();
+		
+		USING_STATES(daPlBase_c);
+		REF_NINTENDO_STATE(Quake);
 };
 
 
