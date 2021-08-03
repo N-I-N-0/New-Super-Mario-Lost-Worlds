@@ -26,6 +26,7 @@ saveForWM:
 	stw r29, 0x18(sp)
 	stw r30, 0x14(sp)
 	stw r31, 0x10(sp)
+	stw r13, 0x0C(sp)
 	bl wmtest__Fv
 	cmpwi	r3, 1
 	blt-	restoreForWM
@@ -44,6 +45,7 @@ doCreateGrid:
 
 .global restoreForWM
 restoreForWM:
+	lwz r13, 0x0C(sp)
 	lwz r31, 0x10(sp)
 	lwz r30, 0x14(sp)
 	lwz r29, 0x18(sp)

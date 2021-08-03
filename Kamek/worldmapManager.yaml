@@ -1,0 +1,7 @@
+---
+source_files: [../src/worldmapManager.cpp]
+hooks: 
+  - name: worldmapManager                    #replaces WM_SINKSHIP
+    type: add_func_pointer
+    src_addr_pal: 0x80985434
+    target_func: 'dWMManager_c::build(void)'
