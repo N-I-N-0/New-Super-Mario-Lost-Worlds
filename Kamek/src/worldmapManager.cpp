@@ -62,7 +62,6 @@ int dWMManager_c::onCreate() {
 	convertedWorldName[31] = 0;
 
 	worldName->SetString(convertedWorldName);
-	//worldName->SetString(L"Test World Name");
 	shopText->SetString(L"Shop " L"\x0B\x0123");
 	
 	return true;
