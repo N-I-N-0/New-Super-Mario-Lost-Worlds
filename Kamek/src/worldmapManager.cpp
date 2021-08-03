@@ -1,3 +1,14 @@
+int getLevelInfoWorldNumber(int world, int subWorld) {
+	/*  for WXa this returns X      (00-07)
+	    for WXb this returns X + 8  (08-15)
+		for WXc this returns X + 16 (16-23)
+	    don't use W9!  */
+	return 8 * subWorld + world;
+}
+
+extern "C" u8 CurrentWorldNumForWorldMap;
+extern "C" u8 CurrentWorldNumForWorldMapSub;
+
 class dWMManager_c : public dActor_c {
 public:
 	static dWMManager_c *build();
@@ -37,9 +48,23 @@ int dWMManager_c::onCreate() {
 	worldName = layout->findTextBoxByName("T_world_name");
 	shopText = layout->findTextBoxByName("T_guideViewL_00");
 
-	worldName->SetString(L"Test World Name");
-	shopText->SetString(L"Shop " L"\x0B\x0123");
+	uint worldNum = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+	
+	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchByDisplayNum(worldNum+1, 100);
 
+	const char *worldNameText = dLevelInfo_c::s_info.getNameForLevel(level);
+	wchar_t convertedWorldName[32];
+	for (int i = 0; i < 32; i++) {
+		convertedWorldName[i] = worldNameText[i];
+		if (convertedWorldName[i] == 0)
+			break;
+	}
+	convertedWorldName[31] = 0;
+
+	worldName->SetString(convertedWorldName);
+	//worldName->SetString(L"Test World Name");
+	shopText->SetString(L"Shop " L"\x0B\x0123");
+	
 	return true;
 }
 

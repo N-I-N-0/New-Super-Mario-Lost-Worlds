@@ -3,9 +3,11 @@
 
 extern "C" void bindAnimCobCourse(u32 thisPtr, u32 animID, float unk1, float unk2);
 extern "C" u8 CurrentWorldNumForWorldMap;
+extern "C" u8 CurrentWorldNumForWorldMapSub;
+extern "C" int getLevelInfoWorldNumber(int world, int subWorld);
 
 void cobCourseNewColor(u32 thisPtr, u32 animID, float unk1, float unk2) {
-	uint worldNum = CurrentWorldNumForWorldMap;
+	uint worldNum = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
 	uint levelNum = *(u32*)(thisPtr + 4) & 0xFF;
 
 	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchBySlot(worldNum, levelNum);

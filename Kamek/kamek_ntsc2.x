@@ -3,6 +3,8 @@ SECTIONS {
     doneWithPatchAnimByte34Array = 0x808CE31C;
     bindAnimCobCourse = 0x808CE8F0;
     CurrentWorldNumForWorldMap = 0x8042A24D;
+    CurrentWorldNumForWorldMapSub = 0x8042A24E;
+	CurrentNodeNum = 0x815E4B13;	/* COURSE_SELECT_MANAGER + 0x71F */
 
 	disableDemoControl__10daPlBase_cFv = 0x80051EF0;
 	useDemoControl__10daPlBase_cFv = 0x80051E70;
