@@ -1,4 +1,9 @@
 SECTIONS {
+    doneWithPatchAnimNameArray = 0x808CE04C;
+    doneWithPatchAnimByte34Array = 0x808CE09C;
+    bindAnimCobCourse = 0x808CE670;
+    CurrentWorldNumForWorldMap = 0x80429F6D;
+
 	disableDemoControl__10daPlBase_cFv = 0x80051EF0;
 	useDemoControl__10daPlBase_cFv = 0x80051E70;
 	stunPlayer__7dAcPy_cFv = 0x80137320;

@@ -1,0 +1,165 @@
+---
+
+source_files: [../src/cobCourse.S, ../src/cobCourse.cpp]
+hooks:
+
+  # Change Arrays
+
+  - name: PatchAnimNameArray
+    type: branch_insn
+    src_addr_pal: 0x808CE2B8
+    branch_type: b
+    target_func: 'PatchAnimNameArray'
+
+  - name: PatchAnimByte34Array
+    type: branch_insn
+    src_addr_pal: 0x808CE308
+    branch_type: b
+    target_func: 'PatchAnimByte34Array'
+
+  - name: AddNewAnimInCCLoop
+    type: patch
+    addr_pal: 0x808CE320
+    data: '2C190004' # Orig: 2C190003
+
+  - name: CCResetR28
+    type: patch
+    addr_pal: 0x808CE2A8
+    data: '3B800000' # Orig: 3B9C0070
+
+  - name: CCResetR26
+    type: patch
+    addr_pal: 0x808CE2B0
+    data: '3B400000' # Orig: 3B5F0014
+
+  # Extend WMCourse CLR Pointer
+
+  - name: WMCourseCtor
+    type: patch
+    addr_pal: 0x808CDC90
+    data: '387E0254' # Orig: 387E01B4
+
+  - name: WMCourseCtor2
+    type: patch
+    addr_pal: 0x808CDCA0
+    data: '38E00004' # Orig: 38E00003
+
+  - name: WMCourseDtor
+    type: patch
+    addr_pal: 0x808CDD04
+    data: '38630254' # Orig: 386301B4
+
+  - name: WMCourseDtor2
+    type: patch
+    addr_pal: 0x808CDD00
+    data: '38C00004' # Orig: 38C00003
+
+  - name: WMCourseExecute
+    type: patch
+    addr_pal: 0x808CE190
+    data: '85830254' # Orig: 858301B4
+
+  - name: WMCourseAnimSetup
+    type: patch
+    addr_pal: 0x808CE2AC
+    data: '3B7E0254' # Orig: 3B7E01B4
+
+  - name: WMCourseAnimBind
+    type: patch
+    addr_pal: 0x808CE930
+    data: '3BE40254' # Orig: 3BE401B4
+
+  - name: WMCourseAnim2Query
+    type: patch
+    addr_pal: 0x808CEA9C
+    data: '387E02AC' # Orig: 387E020C
+
+  - name: WMCourseAnim2Bind1
+    type: patch
+    addr_pal: 0x808CEC70
+    data: '387B02AC' # Orig: 387B020C
+
+  - name: WMCourseAnim2Bind2
+    type: patch
+    addr_pal: 0x808CEC84
+    data: '387B02AC' # Orig: 387B020C
+
+  - name: WMCourseAnim2Bind3
+    type: patch
+    addr_pal: 0x808CEC94
+    data: '387B02AC' # Orig: 387B020C
+
+  - name: WMCourseAnim2IDK
+    type: patch
+    addr_pal: 0x808CECF4
+    data: '386302AC' # Orig: 3863020C
+
+  - name: WMCourseAnim2Execute1
+    type: patch
+    addr_pal: 0x808CEF3C
+    data: '387F02AC' # Orig: 387F020C
+
+  - name: WMCourseAnim2Execute2
+    type: patch
+    addr_pal: 0x808CEF54
+    data: '387F02AC' # Orig: 387F020C
+
+  - name: WMCourseAnim2Execute3
+    type: patch
+    addr_pal: 0x808CEF78
+    data: '387F02AC' # Orig: 387F020C
+
+  - name: ExtendCWMCourseStruct
+    type: patch
+    addr_pal: 0x808CDC18
+    data: '38600304' # Orig: 38600254
+
+  # Change Cob Course Anim
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE394
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE3AC
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE440
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE458
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE4BC
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE500
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE534
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'
+
+  - name: ChangeAnimFunc1
+    type: branch_insn
+    src_addr_pal: 0x808CE568
+    branch_type: bl
+    target_func: 'cobCourseNewColor(unsigned int, unsigned int, float, float)'

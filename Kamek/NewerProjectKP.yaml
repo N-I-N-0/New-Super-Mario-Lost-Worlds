@@ -118,6 +118,7 @@ modules:
   - processed/worldmapScripts.yaml
   - processed/worldmapGrid.yaml
   - processed/worldmapStartNode.yaml
+  - processed/worldmapCobCourse.yaml
   - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
   - processed/cutsceneMgr.yaml

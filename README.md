@@ -16,7 +16,7 @@ See the `LICENSE` file in this repository for full details.
 
 Copyright (c) 2010-2013 Treeki, Tempus, megazig
 
-Copyright (c) 2020-2021 Nin0, Baddy, Mihi, Bestimum, LiQ, RedStoneMatt, Grop
+Copyright (c) 2020-2021 Nin0, Baddy, Mihi, Bestimum, LiQ, RedStoneMatt, Grop, Asu-chan
 
 
 ### Requirements
