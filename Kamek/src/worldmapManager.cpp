@@ -13,14 +13,14 @@ class dWMManager_c : public dActor_c {
 public:
 	static dWMManager_c *build();
 	static dWMManager_c *instance;
-
+	
 	dWMManager_c();
-
+	
 	int onCreate();
 	int onDelete();
 	int onExecute();
 	int onDraw();
-
+	
 	m2d::EmbedLayout_c* layout;
 	
 	nw4r::lyt::TextBox
@@ -63,6 +63,10 @@ int dWMManager_c::onCreate() {
 
 	worldName->SetString(convertedWorldName);
 	shopText->SetString(L"Shop " L"\x0B\x0123");
+	
+	dActor_c* player = (dActor_c*)fBase_c::search(WM_PLAYER);
+	OSReport("Player: %p\n", player);
+	dActor_c::create(AC_ITEM_KEY, 0, &player->pos, 0);		//spawn a paratroopa
 	
 	return true;
 }

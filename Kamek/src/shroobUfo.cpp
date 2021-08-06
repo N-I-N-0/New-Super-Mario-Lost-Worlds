@@ -74,11 +74,13 @@ public:
 	USING_STATES(daShroobUFO_c);
 	DECLARE_STATE(Wait);
 	DECLARE_STATE(Arm);
+	DECLARE_STATE(Shoot);
 	DECLARE_STATE(FlyAway);
 };
 
 CREATE_STATE(daShroobUFO_c, Wait);
 CREATE_STATE(daShroobUFO_c, Arm);
+CREATE_STATE(daShroobUFO_c, Shoot);
 CREATE_STATE(daShroobUFO_c, FlyAway);
 
 void daShroobUFO_c::updateModelMatrices() {
@@ -113,8 +115,8 @@ int daShroobUFO_c::onCreate() {
 	resFile.data = getResource("shroobUfo", "g3d/shroobUfo.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("shroobUfo");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	//SetupTextures_Player(&bodyModel, 0);
-	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("Fly");
+	SetupTextures_Enemy(&bodyModel, 0);
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("FlyNoTurret");
 	this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
 
 	allocator.unlink(); 
@@ -135,7 +137,7 @@ int daShroobUFO_c::onCreate() {
 
 	this->scale = (Vec){0.1, 0.1, 0.1};
 	
-	this->rot.y = -0x4000;
+	this->rot.y = -0x2000;
 	
 	//this->disableEatIn();
 
@@ -170,7 +172,7 @@ int daShroobUFO_c::onDraw() {
 }
 
 void daShroobUFO_c::beginState_Wait() {
-	bindAnimChr_and_setUpdateRate("Fly", 1, 0.0, 1.0);
+	bindAnimChr_and_setUpdateRate("FlyNoTurret", 1, 0.0, 1.0);
 	cooldown = 120;											//I'm reusing cooldown here since I don't want to add new integers if I don't need them ¯\_(ツ)_/¯
 }
 void daShroobUFO_c::executeState_Wait() {
@@ -188,49 +190,42 @@ void daShroobUFO_c::executeState_Wait() {
 		}
 	}
 }
-void daShroobUFO_c::endState_Wait() {}
-
-void daShroobUFO_c::beginState_Arm() {
+void daShroobUFO_c::endState_Wait() {
 	bindAnimChr_and_setUpdateRate("ArmOut", 1, 0.0, 1.0);
-	cooldown = 0;
 }
+
+void daShroobUFO_c::beginState_Arm() {}
 void daShroobUFO_c::executeState_Arm() {
 	if(this->animationChr.isAnimationDone()) {
-		if(cooldown > 0) {
-			cooldown--;
+		if(GenerateRandomNumber(10) == 0) {
+			doStateChange(&StateID_FlyAway);
 		} else {
-			daShroobUFOLaserBall_c* laserBall = (daShroobUFOLaserBall_c*)dStageActor_c::create(ShroobUFOLaserBall, 0, &(Vec){pos.x-16, pos.y, pos.z}, 0, this->currentLayerID);
-			laserBall->moveVec.x = -0.5;
-			laserBall->moveVec.y = -0.5;
-			cooldown = 60;
-
-			if(GenerateRandomNumber(10) == 0) {
-				cooldown = 30;
-				doStateChange(&StateID_FlyAway);
-			}
-		}
+			doStateChange(&StateID_Shoot);
+		}	
 	}
 }
-void daShroobUFO_c::endState_Arm() {
+void daShroobUFO_c::endState_Arm() {}
+
+void daShroobUFO_c::beginState_Shoot() {
+	bindAnimChr_and_setUpdateRate("GunOutFire", 1, 0.0, 1.0);
+}
+void daShroobUFO_c::executeState_Shoot() {
+	if(this->animationChr.isAnimationDone()) {
+		daShroobUFOLaserBall_c* laserBall = (daShroobUFOLaserBall_c*)dStageActor_c::create(ShroobUFOLaserBall, 0, &(Vec){pos.x-10.5, pos.y-10, 6000}, 0, this->currentLayerID);
+		laserBall->moveVec.x = -0.5;
+		laserBall->moveVec.y = -0.5;
+		doStateChange(&StateID_Arm);
+	}
+}
+void daShroobUFO_c::endState_Shoot() {}
+
+void daShroobUFO_c::beginState_FlyAway() {
 	bindAnimChr_and_setUpdateRate("ArmIn", 1, 0.0, 1.0);
 }
-
-
-void daShroobUFO_c::beginState_FlyAway() {}
 void daShroobUFO_c::executeState_FlyAway() {
-	if(cooldown > 0) {
-		cooldown--;
-	} else if(cooldown == 0){
-		bindAnimChr_and_setUpdateRate("Fly", 1, 0.0, 1.0);
-		cooldown = -1;
-	} else {
-		this->pos.x -= 2;
-		if(this->animationChr.isAnimationDone()) {
-			this->animationChr.setCurrentFrame(0.0);
-		}
-		if(GenerateRandomNumber(180) == 0) {
-			doStateChange(&StateID_Arm);
-		}
+	if(this->animationChr.isAnimationDone()) {
+		cooldown = 0;
+		doStateChange(&StateID_Wait);
 	}
 }
 void daShroobUFO_c::endState_FlyAway() {}

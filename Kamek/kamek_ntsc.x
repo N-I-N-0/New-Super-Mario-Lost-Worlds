@@ -1,4 +1,10 @@
 SECTIONS {
+	continueFromChangeSmallScore100Color = 0x80015474;
+	continueFromChangeSmallScore1000Color1 = 0x80015344;
+	continueFromChangeSmallScore1000Color2 = 0x80015374;
+	continueFromChangeSmallScore1UPColor1 = 0x800B4874;
+	continueFromChangeSmallScore1UPColor2 = 0x800B48A4;
+
     doneWithPatchAnimNameArray = 0x808CE2BC;
     doneWithPatchAnimByte34Array = 0x808CE30C;
     bindAnimCobCourse = 0x808CE8E0;

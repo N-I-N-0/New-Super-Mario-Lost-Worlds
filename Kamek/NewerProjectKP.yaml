@@ -120,11 +120,11 @@ modules:
   - processed/worldmapStartNode.yaml
   - processed/worldmapCobCourse.yaml
   - processed/worldmapManager.yaml
+  - processed/worldmapParatroopa.yaml
   - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
   - processed/cutsceneMgr.yaml
   - processed/secretGem.yaml
-  
   - processed/shroobUfo.yaml
   - processed/shyCart.yaml
   - processed/whereAmIGoing.yaml
@@ -140,3 +140,4 @@ modules:
   - processed/snakeblock.yaml
   - processed/flippanel.yaml
   - processed/byugo.yaml
+  - processed/smallScoreMgr.yaml

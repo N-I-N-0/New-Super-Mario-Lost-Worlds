@@ -18,6 +18,7 @@ const char* PMarcNameList [] = {
 
 
 class daPoisonShroom_c : public dEn_c {
+public:
 	int onCreate();
 	int onDelete();
 	int onExecute();
@@ -34,7 +35,7 @@ class daPoisonShroom_c : public dEn_c {
 	u32 cmgr_returnValue;
 	bool isOnTopOfTile;
 
-	static daPoisonShroom_c *build();
+	static dActor_c *build();
 
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
 	void updateModelMatrices();
@@ -61,10 +62,13 @@ class daPoisonShroom_c : public dEn_c {
 	DECLARE_STATE(Die);
 };
 
-daPoisonShroom_c *daPoisonShroom_c::build() {
+dActor_c *daPoisonShroom_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daPoisonShroom_c));
 	return new(buffer) daPoisonShroom_c;
 }
+
+const SpriteData PoisonShroomSpriteData = { ProfileId::PoisonShroom, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile PoisonShroomProfile(&daPoisonShroom_c::build, SpriteId::PoisonShroom, PoisonShroomSpriteData, ProfileId::PoisonShroom, ProfileId::PoisonShroom, "PoisonShroom", PMarcNameList);
 
 ///////////////////////
 // States

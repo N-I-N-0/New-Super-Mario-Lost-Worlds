@@ -555,6 +555,7 @@ enum
 	Byugo = 535,
 	ShroobUFOLaserBall = 536,
 	SwitchLayer = 537,
+	PoisonShroom = 538,
 
 	Num
 };
@@ -1373,6 +1374,7 @@ enum
 	Byugo = 802,
 	ShroobUFOLaserBall = 803,
 	SwitchLayer = 804,
+	PoisonShroom = 805,
 	
 	Num
 };

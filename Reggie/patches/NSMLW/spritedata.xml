@@ -650,11 +650,6 @@
       <entry value="1">Same Momentum</entry>
     </list>
   </sprite> <!-- #63: Spiked Ball / Snowball -->
-
-  <sprite id="77" name="Poison Mushroom" asmhacks="True">
-    <dualbox bit="48" title1="Out Up" title2="Out Down"/>
-  </sprite> <!-- #77: Poison Mushroom -->
-
   
   <sprite id="78" name="Bouncy Cloud" asmhacks="True" noyoshi="True" notes="A cloud platform with a happy face that the player can bounce on to jump really high. NewerSMBW adds more style options including Mushrooms and Checkered Block.">
     <list nybble="6" title="Style" comment="This determines the color and style of the Bouncy Cloud." comment2="If you want the Angry Cloud to hurt players, you have to add an invisible tileset piece to do that for you. Sorry.">
@@ -3272,5 +3267,9 @@
     <value bit="63-64" title="Layer" comment="Set this to 2!"/>
     <value bit="17-48" title="Width" />
   </sprite> <!-- #537: Switch Layer -->
+  
+  <sprite id="538" name="Poison Mushroom" asmhacks="True">
+    <dualbox bit="48" title1="Out Up" title2="Out Down"/>
+  </sprite> <!-- #538: Poison Mushroom -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

@@ -112,7 +112,7 @@ daTrapBlock_c *daTrapBlock_c::build() {
 void daTrapBlock_c::blockWasHit(bool isDown) {
 	pos.y = initialY;
 	int shroomSettings = isGroundPound ? 1 : 0;
-	dStageActor_c *PoisonMushroom = dStageActor_c::create(AC_ITEM_KEY, shroomSettings, &this->pos, 0, 0); //Creating Poison Mushroom
+	dStageActor_c *PoisonMushroom = dStageActor_c::create(PoisonShroom, shroomSettings, &this->pos, 0, 0); //Creating Poison Mushroom
 	PoisonMushroom->pos.z = this->pos.z - 200;
 	nw4r::snd::SoundHandle handle;
 	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_ITEM_APPEAR, 1);

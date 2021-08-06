@@ -19,14 +19,3 @@ hooks:
     #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
     # Orig 00AC 0000  00000000 00000000  00000000 00000000 00000010 00000010  0000 0000 0000 0000  0000 0000
     data: '00AC 0000  00000008 00000000  00000000 00000000 00000010 00000010  0000 0000 0000 0000  0000 0000'
-
-  #Replaces Actor 329 AC_ITEM_KEY (Sprite 77)
-  - name: PoisonShroomBuild
-    type: add_func_pointer
-    src_addr_pal: 0x8095E108
-    target_func: 'daPoisonShroom_c::build(void)'
-
-  - name: PoisonShroomSpriteFileInfo
-    type: add_func_pointer
-    src_addr_pal: 0x8031ac80
-    target_func: 'PMarcNameList'

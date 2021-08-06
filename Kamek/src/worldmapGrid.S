@@ -98,12 +98,17 @@ newAlwaysLoadedList:
 	.long cobGrid
 	.long I_kinoko_bundle
 	.long Rosalina
+	.long nokonoko
+	.long wing
 
-.global cobGrid
+nokonoko:
+	.string "nokonokoA"
+
+wing:
+	.string "wing"
+
 cobGrid:
 	.string	"cobGrid"
-	.byte	0
-	.byte	0
 
 I_kinoko_bundle:
 	.string "I_kinoko_bundle"

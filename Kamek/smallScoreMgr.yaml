@@ -1,0 +1,40 @@
+---
+
+source_files: [../src/smallScoreMgr.S]
+hooks:
+
+  #100
+
+  - name: SmallScoreChange100Color
+    type: branch_insn
+    src_addr_pal: 0x80015470
+    branch_type: b
+    target_func: 'ChangeSmallScore100Color'
+
+  #1000
+
+  - name: SmallScoreChange1000Color1
+    type: branch_insn
+    src_addr_pal: 0x80015340
+    branch_type: b
+    target_func: 'ChangeSmallScore1000Color1'
+
+  - name: SmallScoreChange1000Color2
+    type: branch_insn
+    src_addr_pal: 0x80015370
+    branch_type: b
+    target_func: 'ChangeSmallScore1000Color2'
+
+  #1UP
+
+  - name: SmallScoreChange1UPColor1
+    type: branch_insn
+    src_addr_pal: 0x800B48C0
+    branch_type: b
+    target_func: 'ChangeSmallScore1UPColor1'
+
+  - name: SmallScoreChange1UPColor2
+    type: branch_insn
+    src_addr_pal: 0x800B48F0
+    branch_type: b
+    target_func: 'ChangeSmallScore1UPColor2' 
