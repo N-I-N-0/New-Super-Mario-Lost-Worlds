@@ -38,10 +38,7 @@ public:
     u8 unk4[11];                                // 0x2B1
     
 	//size at 0x80928818: 0x2BC
-	
-	//daCometModel_c *comets[9];                    // 0x2BC
-    //u32 worldCount;                                // 0x2E0
-    //Total Size: 0x2E4
+    //Total Size: 0x2BC
 };
 
 #endif
