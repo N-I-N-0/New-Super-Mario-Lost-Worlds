@@ -99,10 +99,10 @@ int dWMParatroopa_c::onExecute() {
 	}
 	switch(currentCommand) {
 		case 164:
-			state.setState(&StateID_PlayerLost);
+			if(state.getCurrentState() != &StateID_PlayerLost) state.setState(&StateID_PlayerLost);
 			break;
 		case 161:
-			state.setState(&StateID_PlayerWon);
+			if(state.getCurrentState() != &StateID_PlayerWon) state.setState(&StateID_PlayerWon);
 			break;
 	}
 	
@@ -193,7 +193,7 @@ void dWMParatroopa_c::executeState_PlayerLost() {
 void dWMParatroopa_c::endState_PlayerLost() {}
 
 void dWMParatroopa_c::beginState_PlayerWon() {
-	bindAnimChr_and_setUpdateRate("revival", 1, 79.0, -1.0, false);
+	bindAnimChr_and_setUpdateRate("revival", 1, 0.0, 1.0, false);
 }
 void dWMParatroopa_c::executeState_PlayerWon() {
 	if (this->animationChr.isAnimationDone()) {

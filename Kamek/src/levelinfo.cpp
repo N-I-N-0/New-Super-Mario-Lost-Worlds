@@ -34,7 +34,6 @@ dLevelInfo_c::entry_s *dLevelInfo_c::searchBySlot(int world, int level) {
 
 		for (int j = 0; j < sect->levelCount; j++) {
 			entry_s *entry = &sect->levels[j];
-			OSReport("level slot: %d; %s\n", entry->levelSlot, dLevelInfo_c::getCreatorForLevel(entry));
 			if (entry->worldSlot == world && entry->levelSlot == level)
 				return entry;
 		}
@@ -49,7 +48,6 @@ dLevelInfo_c::entry_s *dLevelInfo_c::searchByDisplayNum(int world, int level) {
 
 		for (int j = 0; j < sect->levelCount; j++) {
 			entry_s *entry = &sect->levels[j];
-			OSReport("level slot: %d; %s\n", entry->levelSlot, dLevelInfo_c::getCreatorForLevel(entry));
 			if (entry->displayWorld == world && entry->displayLevel == level)
 				return entry;
 		}
