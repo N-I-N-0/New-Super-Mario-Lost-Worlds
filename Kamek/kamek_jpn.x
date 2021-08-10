@@ -56,6 +56,7 @@ SECTIONS {
 	continueLeftLoop = 0x807B0690;
 
 	PtrToWM_CS_SEQ_MNG = 0x80429ECC;
+	dCsSeqMng_c__GetCutName = 0x80101560;
 	FUN_801017c0 = 0x80101630;
 	dCourseSelectGuide_c__loadLives = 0x80010800;
 	returnForCalledFromExecute = 0x808FBA28;

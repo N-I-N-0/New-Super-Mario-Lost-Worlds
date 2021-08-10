@@ -9,6 +9,7 @@ public:
 	int onExecute();
 	void updateModelMatrices();
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate, bool isWing);
+	bool checkCollision();
 	
 	mHeapAllocator_c allocator;
 	
@@ -20,16 +21,22 @@ public:
 	m3d::mdl_c wing;
 	m3d::anmChr_c wingChr;
 	
-	bool moveUp;
 	int frames;
+	Vec startPos;
 	
 	dStateWrapper_c<dWMParatroopa_c> state;
 	
 	USING_STATES(dWMParatroopa_c);
 	DECLARE_STATE(Wait);
+	DECLARE_STATE(Attack);
+	DECLARE_STATE(PlayerLost);
+	DECLARE_STATE(PlayerWon);
 };
 
 CREATE_STATE(dWMParatroopa_c, Wait);
+CREATE_STATE(dWMParatroopa_c, Attack);
+CREATE_STATE(dWMParatroopa_c, PlayerLost);
+CREATE_STATE(dWMParatroopa_c, PlayerWon);
 
 dWMParatroopa_c *dWMParatroopa_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(dWMParatroopa_c));
@@ -60,13 +67,11 @@ int dWMParatroopa_c::onCreate() {
 
 	allocator.unlink();
 	
-	bindAnimChr_and_setUpdateRate("flyA", 1, 0.0, 1.0, false);
-	bindAnimChr_and_setUpdateRate("wing_pata", 1, 0.0, 1.0, true);
-	
 	this->scale = (Vec){2.0, 2.0, 2.0};
 	this->rot.y = -0x4000;
 	this->pos.x += 300;
-	this->pos.y += 60;
+	
+	this->startPos = this->pos;
 	
 	return true;
 }
@@ -76,6 +81,9 @@ int dWMParatroopa_c::onDelete() {
 	return true;
 }
 
+extern int PtrToWM_CS_SEQ_MNG;
+extern "C" bool FUN_801017c0(int, int, int, int, int);
+extern "C" int dCsSeqMng_c__GetCutName(int);
 
 int dWMParatroopa_c::onExecute() {
 	state.execute();
@@ -84,11 +92,18 @@ int dWMParatroopa_c::onExecute() {
 	bodyModel._vf1C();
 	wing._vf1C();
 	
-	if (this->animationChr.isAnimationDone()) {
-		this->animationChr.setCurrentFrame(0.0);
+	int currentCommand = dCsSeqMng_c__GetCutName(PtrToWM_CS_SEQ_MNG);
+	
+	if(currentCommand != -1) {
+		OSReport("GetCutName: %d\n", currentCommand);
 	}
-	if (this->wingChr.isAnimationDone()) {
-		this->wingChr.setCurrentFrame(0.0);
+	switch(currentCommand) {
+		case 164:
+			state.setState(&StateID_PlayerLost);
+			break;
+		case 161:
+			state.setState(&StateID_PlayerWon);
+			break;
 	}
 	
 	return true;
@@ -112,6 +127,7 @@ void dWMParatroopa_c::updateModelMatrices() {
 	wing.scheduleForDrawing();
 }
 
+
 void dWMParatroopa_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate, bool isWing) {
 	if(isWing) {
 		nw4r::g3d::ResAnmChr anmChr = this->wingBrres.GetResAnmChr(name);
@@ -126,17 +142,62 @@ void dWMParatroopa_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 	}
 }
 
-void dWMParatroopa_c::beginState_Wait() {}
+bool dWMParatroopa_c::checkCollision() {
+	dActor_c* player = 0;
+	do {
+		player = (dActor_c*)fBase_c::search(WM_PLAYER, player);
+		float dx = this->pos.x - player->pos.x;
+		float dy = this->pos.y - player->pos.y;
+		float dz = this->pos.z - player->pos.z;
+		if(sqrtf(dx*dx + dy*dy + dz*dz) <= 20) {
+			return true;
+		}
+	} while(player);
+	return false;
+}
+
+void dWMParatroopa_c::beginState_Wait() {
+	bindAnimChr_and_setUpdateRate("flyA", 1, 0.0, 1.0, false);
+	bindAnimChr_and_setUpdateRate("wing_pata", 1, 0.0, 1.0, true);
+}
 void dWMParatroopa_c::executeState_Wait() {
-	if(moveUp) {
-		pos.y += 1;
-	} else {
-		pos.y -= 1;
+	this->pos.y = startPos.y + (cos(this->frames * 3.14 / 200.0) * 120.0);
+	this->frames++;
+	if(checkCollision()) {
+		state.setState(&StateID_Attack);
 	}
-	frames++;
-	if(frames >= 120) {
-		frames = 0;
-		moveUp = !moveUp;
+	
+	if (this->animationChr.isAnimationDone()) {
+		this->animationChr.setCurrentFrame(0.0);
+	}
+	if (this->wingChr.isAnimationDone()) {
+		this->wingChr.setCurrentFrame(0.0);
 	}
 }
 void dWMParatroopa_c::endState_Wait() {}
+
+void dWMParatroopa_c::beginState_Attack() {
+	FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x29, 0, 0, 0x80);
+}
+void dWMParatroopa_c::executeState_Attack() {}
+void dWMParatroopa_c::endState_Attack() {}
+
+void dWMParatroopa_c::beginState_PlayerLost() {
+	bindAnimChr_and_setUpdateRate("revival", 1, 0.0, 1.0, false);
+}
+void dWMParatroopa_c::executeState_PlayerLost() {
+	if (this->animationChr.isAnimationDone()) {
+		state.setState(&StateID_Wait);
+	}
+}
+void dWMParatroopa_c::endState_PlayerLost() {}
+
+void dWMParatroopa_c::beginState_PlayerWon() {
+	bindAnimChr_and_setUpdateRate("revival", 1, 79.0, -1.0, false);
+}
+void dWMParatroopa_c::executeState_PlayerWon() {
+	if (this->animationChr.isAnimationDone()) {
+		this->Delete();
+	}
+}
+void dWMParatroopa_c::endState_PlayerWon() {}
