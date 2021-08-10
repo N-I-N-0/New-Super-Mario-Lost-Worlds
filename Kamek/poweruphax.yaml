@@ -1142,156 +1142,156 @@ hooks:
 
 
 
-  - name: AddHSToBattleItem_AddHammerArcName
-    type: add_func_pointer
-    target_func: 'I_hammerArcFilename'               #Not Needed
-    src_addr_pal: 0x80951A48
-  - name: AddHSToBattleItem_AddGoldArcName
-    type: add_func_pointer
-    target_func: 'I_goldArcFilename'              #Done!
-    src_addr_pal: 0x80951A4C
-  - name: AddHSToBattleItem_AddSpikeArcName
-    type: add_func_pointer
-    target_func: 'I_spikeArcFilename'                #Done!
-    src_addr_pal: 0x80951A50
-  - name: AddHSToBattleItem_AddBoomerangArcName
-    type: add_func_pointer
-    target_func: 'I_boomerangArcFilename'            #Done:
-    src_addr_pal: 0x80951A54
-  - name: AddHSToBattleItem_AddFrogArcName
-    type: add_func_pointer
-    target_func: 'I_frogArcFilename'                 #Done!
-    src_addr_pal: 0x80951A58
-  - name: AddHSToBattleItem_AddCloudArcName
-    type: add_func_pointer
-    target_func: 'I_cloudArcFilename'                #Done!
-    src_addr_pal: 0x80951A5C
-  - name: AddHSToBattleItem_AddWandArcName
-    type: add_func_pointer
-    target_func: 'I_wandArcFilename'               #Done!
-    src_addr_pal: 0x80951A60
+#  - name: AddHSToBattleItem_AddHammerArcName
+#    type: add_func_pointer
+#    target_func: 'I_hammerArcFilename'               #Not Needed
+#    src_addr_pal: 0x80951A48
+#  - name: AddHSToBattleItem_AddGoldArcName
+#    type: add_func_pointer
+#    target_func: 'I_goldArcFilename'              #Done!
+#    src_addr_pal: 0x80951A4C
+#  - name: AddHSToBattleItem_AddSpikeArcName
+#    type: add_func_pointer
+#    target_func: 'I_spikeArcFilename'                #Done!
+#    src_addr_pal: 0x80951A50
+#  - name: AddHSToBattleItem_AddBoomerangArcName
+#    type: add_func_pointer
+#    target_func: 'I_boomerangArcFilename'            #Done:
+#    src_addr_pal: 0x80951A54
+#  - name: AddHSToBattleItem_AddFrogArcName
+#    type: add_func_pointer
+#    target_func: 'I_frogArcFilename'                 #Done!
+#    src_addr_pal: 0x80951A58
+#  - name: AddHSToBattleItem_AddCloudArcName
+#    type: add_func_pointer
+#    target_func: 'I_cloudArcFilename'                #Done!
+#    src_addr_pal: 0x80951A5C
+#  - name: AddHSToBattleItem_AddWandArcName
+#    type: add_func_pointer
+#    target_func: 'I_wandArcFilename'               #Done!
+#    src_addr_pal: 0x80951A60
 
-  - name: ReplaceLostFireflower
-    type: add_func_pointer
-    target_func: 'I_hammerResFile'                   #Done!
-    src_addr_pal: 0x80951AD0
-  - name: AddHSToBattleItem_FixKinokoBrres1
-    type: add_func_pointer
-    target_func: 'g3d_I_kinoko_brres'                #Not Needed
-    src_addr_pal: 0x80951ACC
-  - name: AddHSToBattleItem_FixKinokoBrres2
-    type: add_func_pointer
-    target_func: 'g3d_I_kinoko_brres'                #Not Needed
-    src_addr_pal: 0x80951ADC
+#  - name: ReplaceLostFireflower
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951AD0
+#  - name: AddHSToBattleItem_FixKinokoBrres1
+#    type: add_func_pointer
+#    target_func: 'g3d_I_kinoko_brres'                #Not Needed
+#    src_addr_pal: 0x80951ACC
+#  - name: AddHSToBattleItem_FixKinokoBrres2
+#    type: add_func_pointer
+#    target_func: 'g3d_I_kinoko_brres'                #Not Needed
+#    src_addr_pal: 0x80951ADC
 
-  - name: AddHSToBattleItem_AddBrres
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x807BA43C
-    target_func: 'NewPowerupBrresTable'              #Done!
+#  - name: AddHSToBattleItem_AddBrres
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807BA43C
+#    target_func: 'NewPowerupBrresTable'              #Done!
 
-  # - name: AddHSToBattleItem_AddHammerBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Not Needed
-  #   src_addr_pal: 0x80951AE8
-  # - name: AddHSToBattleItem_AddBoomerangBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done:
-  #   src_addr_pal: 0x80951AEC
-  # - name: AddHSToBattleItem_AddSpikeBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done!
-  #   src_addr_pal: 0x80951AF0
-  # - name: AddHSToBattleItem_AddBobombBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done!
-  #   src_addr_pal: 0x80951AF4
-  # - name: AddHSToBattleItem_AddFrogBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done!
-  #   src_addr_pal: 0x80951AF8
-  # - name: AddHSToBattleItem_AddThunderBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done!
-  #   src_addr_pal: 0x80951AFC
-  # - name: AddHSToBattleItem_AddCloudBrres
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerResFile'                   #Done!
-  #   src_addr_pal: 0x80951B00
+#  - name: AddHSToBattleItem_AddHammerBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Not Needed
+#    src_addr_pal: 0x80951AE8
+#  - name: AddHSToBattleItem_AddBoomerangBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done:
+#    src_addr_pal: 0x80951AEC
+#  - name: AddHSToBattleItem_AddSpikeBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951AF0
+#  - name: AddHSToBattleItem_AddBobombBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951AF4
+#  - name: AddHSToBattleItem_AddFrogBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951AF8
+#  - name: AddHSToBattleItem_AddThunderBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951AFC
+#  - name: AddHSToBattleItem_AddCloudBrres
+#    type: add_func_pointer
+#    target_func: 'I_hammerResFile'                   #Done!
+#    src_addr_pal: 0x80951B00
 
-  - name: AddHSToBattleItem_FixPropellerModel
-    type: add_func_pointer
-    target_func: 'I_propeller_model'                 #Not Needed
-    src_addr_pal: 0x80951B04
+#  - name: AddHSToBattleItem_FixPropellerModel
+#    type: add_func_pointer
+#    target_func: 'I_propeller_model'                 #Not Needed
+#    src_addr_pal: 0x80951B04
 
-  - name: AddHSToBattleItem_AddModel
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x807BA43C
-    target_func: 'NewPowerupModelTable'              #Done!
-  # - name: AddHSToBattleItem_AddHammerModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Not Needed
-  #   src_addr_pal: 0x80951B18
-  # - name: AddHSToBattleItem_AddBoomerangModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done:
-  #   src_addr_pal: 0x80951B1C
-  # - name: AddHSToBattleItem_AddSpikeModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done!
-  #   src_addr_pal: 0x80951B20
-  # - name: AddHSToBattleItem_AddBobombModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done!
-  #   src_addr_pal: 0x80951B24
-  # - name: AddHSToBattleItem_AddFrogModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done!
-  #   src_addr_pal: 0x80951B28
-  # - name: AddHSToBattleItem_AddThunderModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done!
-  #   src_addr_pal: 0x80951B2C
-  # - name: AddHSToBattleItem_AddCloudModel
-  #   type: add_func_pointer
-  #   target_func: 'I_hammerModelName'                 #Done!
-  #   src_addr_pal: 0x80951B30
+#  - name: AddHSToBattleItem_AddModel
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807BA43C
+#    target_func: 'NewPowerupModelTable'              #Done!
+#  - name: AddHSToBattleItem_AddHammerModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Not Needed
+#    src_addr_pal: 0x80951B18
+#  - name: AddHSToBattleItem_AddBoomerangModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done:
+#    src_addr_pal: 0x80951B1C
+#  - name: AddHSToBattleItem_AddSpikeModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done!
+#    src_addr_pal: 0x80951B20
+#  - name: AddHSToBattleItem_AddBobombModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done!
+#    src_addr_pal: 0x80951B24
+#  - name: AddHSToBattleItem_AddFrogModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done!
+#    src_addr_pal: 0x80951B28
+#  - name: AddHSToBattleItem_AddThunderModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done!
+#    src_addr_pal: 0x80951B2C
+#  - name: AddHSToBattleItem_AddCloudModel
+#    type: add_func_pointer
+#    target_func: 'I_hammerModelName'                 #Done!
+#    src_addr_pal: 0x80951B30
 
-  - name: AddHSToBattleItem_FixWait2Anim
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x807BA4A8
-    target_func: 'AddHSToBattleItem_FixWait2Anim'    #Not Needed
+#  - name: AddHSToBattleItem_FixWait2Anim
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807BA4A8
+#    target_func: 'AddHSToBattleItem_FixWait2Anim'    #Not Needed
 
-  - name: StrongboxInit
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x808AA450
-    target_func: 'StrongboxInit'
+  #- name: StrongboxInit
+  #  type: branch_insn
+  #  branch_type: b
+  #  src_addr_pal: 0x808AA450
+  #  target_func: 'StrongboxInit'
 
-  - name: StrongboxGiveBattleItem
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x808AAF90
-    target_func: 'StrongboxGiveBattleItem'
+  #- name: StrongboxGiveBattleItem
+  #  type: branch_insn
+  #  branch_type: b
+  #  src_addr_pal: 0x808AAF90
+  #  target_func: 'StrongboxGiveBattleItem'
 
-  - name: StrongboxNoMushroom
-    type: nop_insn
-    area_pal: 0x808AB3E0
+  #- name: StrongboxNoMushroom
+  #  type: nop_insn
+  #  area_pal: 0x808AB3E0
 
-  - name: NoSoundBattleKinopio
-    type: nop_insn
-    area_pal: 0x808AB5FC
+  #- name: NoSoundBattleKinopio
+  #  type: nop_insn
+  #  area_pal: 0x808AB5FC
 
-  - name: NoDrawBattleKinopio
-    type: nop_insn
-    area_pal: [0x807B9F74,0x807B9F88]
+  #- name: NoDrawBattleKinopio
+  #  type: nop_insn
+  #  area_pal: [0x807B9F74,0x807B9F88]
 
-  - name: NoBattleFanfare
-    type: patch
-    addr_pal: 0x8019C290
-    data: '4E800020'
+  #- name: NoBattleFanfare
+  #  type: patch
+  #  addr_pal: 0x8019C290
+  #  data: '4E800020'
 
   - name: RedRingRespectsHammerSuit
     type: patch
