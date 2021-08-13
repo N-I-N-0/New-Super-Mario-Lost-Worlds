@@ -58,7 +58,11 @@ hooks:
 #    src_addr_pal: 0x80aa6b9c
 #    target_func: 'TEX_SnakeBlock'
 
-
+  - name: TEX_ToadBalloon
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a0edc0
+    target_func: 'TEX_ToadBalloon'
 
 # The below was added by Tempus
   - name: TEX_Goomba

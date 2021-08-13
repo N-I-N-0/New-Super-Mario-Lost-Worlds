@@ -1,4 +1,6 @@
 SECTIONS {
+	continueNodeSetup = 0x808e81a0;
+	
 	continueFromChangeSmallScore100Color = 0x80015474;
 	continueFromChangeSmallScore1000Color1 = 0x80015344;
 	continueFromChangeSmallScore1000Color2 = 0x80015374;
@@ -10,8 +12,7 @@ SECTIONS {
     bindAnimCobCourse = 0x808CE8E0;
     CurrentWorldNumForWorldMap = 0x8042A52D;
     CurrentWorldNumForWorldMapSub = 0x8042A52E;
-	CurrentNodeNum = 0x815E4B13;	/* COURSE_SELECT_MANAGER + 0x71F */
-
+	
 	disableDemoControl__10daPlBase_cFv = 0x80051ef0;
 	useDemoControl__10daPlBase_cFv = 0x80051e70;
 	stunPlayer__7dAcPy_cFv = 0x80137650;

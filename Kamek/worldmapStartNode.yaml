@@ -6,3 +6,9 @@ hooks:
     branch_type: b
     src_addr_pal: 0x808e81bc
     target_func: 'isWXS1'
+
+  - name: saveStartNodeRotationForIcon
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808e819c
+    target_func: 'saveStartNodeRotationForIcon'

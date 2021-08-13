@@ -228,8 +228,6 @@ TEX_YoshiHack:
 	blr
 
 
-
-
 .global TEX_WoodBox
 TEX_WoodBox:
 	lwz r5, 4(r30)
@@ -347,6 +345,8 @@ TEX_Coaster:
 	b GetTexFilenameForR5
 
 
+.global TEX_ToadBalloon
+TEX_ToadBalloon:
 .global TEX_BigBoo
 TEX_BigBoo:
 	lwz r5, 4(r27)

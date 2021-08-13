@@ -8,6 +8,87 @@ int getLevelInfoWorldNumber(int world, int subWorld) {
 
 extern "C" u8 CurrentWorldNumForWorldMap;
 extern "C" u8 CurrentWorldNumForWorldMapSub;
+extern "C" bool GetCurrentHomeToadHouseID();
+u8 StartArrowRotation;
+
+static const wchar_t *numberKinds2[] = {
+	L"0",
+	L"1",
+	L"2",
+	L"3",
+	L"4",
+	L"5",
+	L"6",
+	L"7",
+	L"8",
+	L"9",
+	L"10",
+	L"11",
+	L"12",
+	L"13",
+	L"14",
+	L"15",
+	L"16",
+	L"17",
+	L"18",
+	L"19",
+	L"\x0B" L"A", // 20, alternate
+	L"\x0B\x0148\xBEEF", // 21, tower
+	L"\x0B\x0148\xBEEF" L"2", // 22, tower 2
+	L"\x0B\x012E\xBEEF", // 23, castle
+	L"\x0B\x012F\xBEEF", // 24, fortress
+	L"\x0B\x013D\xBEEF", // 25, final castle
+	L"\x0B\x014D\xBEEF", // 26, train
+	L"\x0B\x0132\xBEEF", // 27, airship
+	L"Palace", // 28, switch palace
+	L"\x0B\x0147\xBEEF", // 29, yoshi's house
+	L"\x0B\x014E\xBEEF" L"1", // 30, key 1
+	L"\x0B\x014E\xBEEF" L"2", // 31, key 2
+	L"\x0B\x014E\xBEEF" L"3", // 32, key 3
+	L"\x0B\x014E\xBEEF" L"4", // 33, key 4
+	L"\x0B\x014E\xBEEF" L"5", // 34, key 5
+	L"\x0B\x014E\xBEEF" L"6", // 35, key 6
+	L"\x0B\x0138\xBEEF", // 36, music house
+	L"\x0B\x0133\xBEEF", // 37, shop
+	L"\x0B\x0139\xBEEF", // 38, challenge house
+	L"\x0B\x0151\xBEEF", // 39, red switch palace
+	L"\x0B\x0152\xBEEF", // 40, blue switch palace
+	L"\x0B\x0153\xBEEF", // 41, yellow switch palace
+	L"\x0B\x0154\xBEEF", // 42, green switch palace
+};
+
+static const wchar_t *numberKinds3[] = {
+	L" 1",
+	L" 2",
+	L" 3",
+	L" 4",
+	L" 5",
+	L" 6",
+	L" 7",
+	L" 8",
+	L"S1",
+	L"S2",
+	L"S3",
+	L"S4",
+	L"S5",
+	L"S6",
+	L"S7",
+	L"S8",
+	L" A",
+	L" B",
+	L" C",
+	L" D",
+};
+
+bool getLevelNameForDisplayNums(int world, int level, wchar_t* worldString, wchar_t* levelString) {
+	wcscpy(&worldString[0], numberKinds3[world-1]);
+	wcscpy(&levelString[0], numberKinds2[level]);
+
+	
+	if(level < 20) return false;
+	
+	return true;
+}
 
 class dWMManager_c : public dActor_c {
 public:
@@ -21,10 +102,14 @@ public:
 	int onExecute();
 	int onDraw();
 	
+	u8 previousNodeNum;
+	dActor_c* csMng;
+	SaveBlock* save;
+	
 	m2d::EmbedLayout_c* layout;
 	
 	nw4r::lyt::TextBox
-		*worldName, *shopText;
+		*worldName, *shopText, *worldNum, *cSelect, *cSelectPic;
 };
 
 dWMManager_c *dWMManager_c::instance = 0;
@@ -42,15 +127,20 @@ dWMManager_c::dWMManager_c() {
 }
 
 int dWMManager_c::onCreate() {
-	dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
+	csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
 	layout = (m2d::EmbedLayout_c*)((int)(csMng) + 208);
+	
+	save = GetSaveFile()->GetBlock(-1);
 	
 	worldName = layout->findTextBoxByName("T_world_name");
 	shopText = layout->findTextBoxByName("T_guideViewL_00");
+	worldNum = layout->findTextBoxByName("T_worldNum_00");
+	cSelect = layout->findTextBoxByName("T_cSelect_00");
+	cSelectPic = layout->findTextBoxByName("T_cSelect_pic");
 
-	uint worldNum = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+	uint worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
 	
-	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchByDisplayNum(worldNum+1, 100);
+	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchByDisplayNum(worldNumber+1, 100);
 
 	const char *worldNameText = dLevelInfo_c::s_info.getNameForLevel(level);
 	wchar_t convertedWorldName[32];
@@ -77,6 +167,7 @@ int dWMManager_c::onDelete() {
 }
 
 
+
 int dWMManager_c::onExecute() {
 	Remocon* rem = GetActiveRemocon();
 	int nowPressed = Remocon_GetPressed(rem);
@@ -85,6 +176,90 @@ int dWMManager_c::onExecute() {
 	} else {
 		shopText->SetString(L"Shop " L"\x0B\x012B");
 	}
+	
+	u8 CurrentNodeNum = *(u8*)((int)(csMng) + 0x4D7);
+
+
+
+	//OSReport("GetCurrentHomeToadHouseID: %s\n", GetCurrentHomeToadHouseID() ? "true" : "false");
+	
+	
+	  
+	/*for(int i = 0; i < 10; i++) {
+		OSReport("toad_level_idx %d: %d\n", i, save->toad_level_idx[i]);
+	}*/
+
+	OSReport("CurrentNodeNum: %d\n", CurrentNodeNum);
+	if(CurrentNodeNum != previousNodeNum) {
+		wchar_t levelString[4];
+		wchar_t worldString[4];
+		uint worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+
+		if(CurrentNodeNum != 255) {
+			if(CurrentNodeNum == 38) {
+				wcscpy(&worldString[0], numberKinds3[worldNumber]);
+				
+				OSReport("StartArrowRotation: %d, %p\n\n\n", StartArrowRotation, StartArrowRotation);
+				
+				switch(save->toad_level_idx[worldNumber]) {
+					case 0:
+						switch(StartArrowRotation) {
+							case 1:
+								cSelectPic->SetString(L"\x0B\x0135");
+								break;
+							case 2:
+								cSelectPic->SetString(L"\x0B\x0143");
+								break;
+							case 3:
+								cSelectPic->SetString(L"\x0B\x0144");
+								break;
+							default:
+								cSelectPic->SetString(L"\x0B\x0134");
+								break;
+						}
+						break;
+					case 1:
+					case 4:
+						cSelectPic->SetString(L"\x0B\x0138");
+						//yellow?
+						break;
+					case 2:
+					case 5:
+						cSelectPic->SetString(L"\x0B\x0133");
+						//red?
+						break;
+					default:
+						cSelectPic->SetString(L"\x0B\x0139");
+						//grren?
+						break;
+				}
+				cSelect->SetString(L"");
+				worldNum->SetString(worldString);
+			} else {
+				dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchBySlot(worldNumber, CurrentNodeNum);
+				bool isPictureLevel = getLevelNameForDisplayNums(level->displayWorld, level->displayLevel, &worldString[0], &levelString[0]);
+				
+				OSReport("level: %d, world: %d, displayLevel: %d, displayWorld: %d\n", CurrentNodeNum, worldNumber, level->displayLevel, level->displayWorld);
+				
+				worldNum->SetString(worldString);
+				if(isPictureLevel) {
+					cSelectPic->SetString(levelString);
+					cSelect->SetString(L"");
+				} else {
+					cSelect->SetString(levelString);
+					cSelectPic->SetString(L"");
+				}
+			}
+			previousNodeNum = CurrentNodeNum;
+		} else {
+			OSReport("is -1\n");
+			wcscpy(&worldString[0], numberKinds3[worldNumber]);
+			cSelectPic->SetString(L"\x0B\x0136");
+			cSelect->SetString(L"");
+			worldNum->SetString(worldString);
+		}
+	}
+	
 	return true;
 }
 
