@@ -189,7 +189,6 @@ int dWMManager_c::onExecute() {
 		OSReport("toad_level_idx %d: %d\n", i, save->toad_level_idx[i]);
 	}*/
 
-	OSReport("CurrentNodeNum: %d\n", CurrentNodeNum);
 	if(CurrentNodeNum != previousNodeNum) {
 		wchar_t levelString[4];
 		wchar_t worldString[4];
@@ -199,9 +198,7 @@ int dWMManager_c::onExecute() {
 			if(CurrentNodeNum == 38) {
 				wcscpy(&worldString[0], numberKinds3[worldNumber]);
 				
-				OSReport("StartArrowRotation: %d, %p\n\n\n", StartArrowRotation, StartArrowRotation);
-				
-				switch(save->toad_level_idx[worldNumber]) {
+				switch(save->new_toad_level_idx[worldNumber]) {
 					case 0:
 						switch(StartArrowRotation) {
 							case 1:

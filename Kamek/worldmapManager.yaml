@@ -1,5 +1,5 @@
 ---
-source_files: [../src/worldmapManager.cpp]
+source_files: [../src/worldmapManager.cpp, ../src/worldmapToadRescue.S]
 hooks: 
   - name: worldmapManager                    #replaces WM_SINKSHIP
     type: add_func_pointer
@@ -10,4 +10,15 @@ hooks:
     type: patch
     addr_pal: 0x80010b50
     data: '4e800020'    #blr
-    
+
+  - name: ReturnByteFromArrayAt0x10InWorldData
+    type: branch_insn
+    src_addr_pal: 0x800ce340
+    branch_type: b
+    target_func: 'ReturnByteFromArrayAt0x10InWorldData'
+
+  - name: StoreByteIntoArrayAt0x10InWorldData
+    type: branch_insn
+    src_addr_pal: 0x800ce330
+    branch_type: b
+    target_func: 'StoreByteIntoArrayAt0x10InWorldData'

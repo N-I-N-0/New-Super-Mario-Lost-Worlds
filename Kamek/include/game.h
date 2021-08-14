@@ -273,7 +273,8 @@ public:
 			// This array has been verified as safe to replace
 			u8 secretGems;						//0x6FC
 			u8 new_powerups_available[14];		//0x6FD
-			char additional[55];				//0x70B
+			u8 new_toad_level_idx[24];			//0x70B
+			char additional[31];				//0x723
 
 
 
