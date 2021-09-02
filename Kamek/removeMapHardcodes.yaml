@@ -17,3 +17,8 @@ hooks:
   - name: removeCloudsW7_2
     type: nop_insn
     area_pal: 0x808e1d10
+
+  - name: expandMapHeap         #our models seem to be a bit bigger in size than the original maps so ...
+    type: patch
+    addr_pal: 0x808df15c
+    data: '3c800004'            #lis r4, 0x0004 <- expands the heap to twice the original size
