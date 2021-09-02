@@ -9,3 +9,11 @@ hooks:
     type: patch
     addr_pal: 0x808f7100
     data: '4e800020'    #blr
+
+  - name: removeCloudsW7_1
+    type: nop_insn
+    area_pal: 0x808e1cf4
+
+  - name: removeCloudsW7_2
+    type: nop_insn
+    area_pal: 0x808e1d10
