@@ -3271,5 +3271,15 @@
   <sprite id="538" name="Poison Mushroom" asmhacks="True">
     <dualbox bit="48" title1="Out Up" title2="Out Down"/>
   </sprite> <!-- #538: Poison Mushroom -->
+  
+  <sprite id="539" name="Random Looper Event" asmhacks="True">
+    <value bit="2-8" title="Target Event ID" comment="This event will be turned on and off by this sprite." idtype="Target Event"/>
+	<value bit="10-16" title="Triggering Event ID" comment="This event determines whether the sprite is turned on or off." idtype="Triggering Event"/>
+    <value nybble="5-6" title="Min Delay Activate" />
+    <value nybble="7-8" title="Max Delay Activate" />
+    <value nybble="9-10" title="Min Delay Deactivate" />
+    <value nybble="11-12" title="Max Delay Deactivate" />
+    <value nybble="15-16" title="Repeat X times | 0 = infinitely" />
+  </sprite> <!-- #539: Random Looper Event -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

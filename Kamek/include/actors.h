@@ -812,7 +812,8 @@ enum Actors {
 	Byugo = 802, 
 	ShroobUFOLaserBall = 803,
 	SwitchLayer = 804,
-	PoisonShroom = 805
+	PoisonShroom = 805,
+	RandomLooperEvent = 806
 };
 
 struct Actor {

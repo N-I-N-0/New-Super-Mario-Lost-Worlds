@@ -21,7 +21,6 @@ modules:
   #- processed/worldmap.yaml
   ##########- processed/levelnames.yaml
   # - processed/koopatlas.yaml
-  # - processed/layouthax.yaml
   - processed/animtiles.yaml
   - soundPlayer.yaml
   # - processed/bowserKey.yaml
@@ -41,6 +40,7 @@ modules:
   # - processed/heapbar.yaml
   - processed/pregame.yaml
   - processed/randtiles.yaml
+  - processed/layouthax.yaml
   - processed/objkinoko.yaml
   - processed/tilegod.yaml
   - processed/linegod.yaml
@@ -141,3 +141,4 @@ modules:
   - processed/flippanel.yaml
   - processed/byugo.yaml
   - processed/smallScoreMgr.yaml
+  - processed/randomLooperEvent.yaml

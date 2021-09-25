@@ -556,6 +556,7 @@ enum
 	ShroobUFOLaserBall = 536,
 	SwitchLayer = 537,
 	PoisonShroom = 538,
+	RandomLooperEvent = 539,
 
 	Num
 };
@@ -1375,6 +1376,7 @@ enum
 	ShroobUFOLaserBall = 803,
 	SwitchLayer = 804,
 	PoisonShroom = 805,
+	RandomLooperEvent = 806,
 	
 	Num
 };
