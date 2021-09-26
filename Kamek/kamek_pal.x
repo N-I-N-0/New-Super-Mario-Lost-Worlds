@@ -1,4 +1,6 @@
 SECTIONS {
+	layerZPositionForByugoHack = 0x8042BC34;
+
 	continueNodeSetup = 0x808e81a0;
 	
 	continueFromChangeSmallScore100Color = 0x80015474;

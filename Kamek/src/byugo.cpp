@@ -82,12 +82,22 @@ int daByugo_c::onCreate() {
 	return true;
 }
 
+extern float layerZPositionForByugoHack;
+
 int daByugo_c::onExecute() {
 	acState.execute();
 
 	updateModelMatrices();
 	bodyModel._vf1C();
 
+	for(int i = 0; i < 4; i++) {
+		dAcPy_c *player;
+		if(player = dAcPy_c::findByID(i)) {
+			if(player->currentLayerID == 2) return true;
+		}
+	}
+	layerZPositionForByugoHack = -1800.0f;	//reset value if no player hit by Ty-Foo --> doesn't work if e.g. a player uses a pipe at the same time, since that also makes the player switch to currentLayerID 2
+	
 	return true;
 }
 
@@ -178,6 +188,7 @@ void daByugo_c::endState_Loop() {
 			if(player->states2.getCurrentState() == &daPlBase_c::StateID_Quake) {
 				player->unstunPlayer();
 				player->currentLayerID = 2;
+				layerZPositionForByugoHack = 5500.0f;
 			}
 		}
 	}
@@ -195,17 +206,6 @@ void daByugo_c::endState_End() {}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 const char* SwitchLayerFileList [] = { NULL };
 
 class daSwitchLayer_c : public dEn_c {
@@ -219,7 +219,6 @@ public:
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 };
 
-
 dActor_c* daSwitchLayer_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daSwitchLayer_c));
 	return new(buffer) daSwitchLayer_c;
@@ -227,7 +226,6 @@ dActor_c* daSwitchLayer_c::build() {
 
 const SpriteData SwitchLayerSpriteData = { ProfileId::SwitchLayer, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 Profile SwitchLayerProfile(&daSwitchLayer_c::build, SpriteId::SwitchLayer, SwitchLayerSpriteData, ProfileId::SwitchLayer, ProfileId::SwitchLayer, "SwitchLayer", SwitchLayerFileList);
-
 
 int daSwitchLayer_c::onCreate() {
 	ActivePhysics::Info HitMeBaby; 
@@ -257,11 +255,6 @@ int daSwitchLayer_c::onDelete() {
 
 void daSwitchLayer_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	dAcPy_c* player = (dAcPy_c*)apOther->owner;
-	/*OSReport("player pos.y %f\n", player->pos.y);
-	OSReport("player pos_delta.y %f\n", player->pos_delta.y);
-	OSReport("player pos_delta2.y %f\n", player->pos_delta2.y);
-	OSReport("player speed.y %f\n", player->speed.y);
-	OSReport("player y_speed_inc %f\n", player->y_speed_inc);*/
 	if(player->speed.y > 0) {
 		player->currentLayerID = 0;
 	}

@@ -6,8 +6,10 @@ extern u8 MaybeFinishingLevel[2];
 extern "C" void ExitStageReal(int scene, int sceneParams, int powerupStoreType, int wipe);
 extern bool secretGemCollected;
 extern bool secretGemAfterMidwayFlag;
+extern float layerZPositionForByugoHack;
 
 extern "C" void ExitStageWrapper(int scene, int sceneParams, int powerupStoreType, int wipe) {
+	layerZPositionForByugoHack = -1800.0f;	//reset value to state before Ty-Foo --> doesn't work if e.g. a player uses a pipe at the same time, since that also makes the player switch to currentLayerID 2
 	
 	if(dStatsMenu_c::instance) {
 		if(!dStatsMenu_c::instance->wasActiveAlready) {
