@@ -6,6 +6,10 @@
 #include <g3dhax.h>     // 3d models and graphics
 #include <sfx.h>        // Sound effects
 
+const char* GreenRingAndCoinFileList [] = { "green_ring", "obj_coin", NULL };
+
+class daGreenCoin_c;
+
 // Now we declare the dEn_c class, which will be the class of our sprite
 class daGreenRing_c: public dEn_c { 
     // Common functions:
@@ -31,7 +35,7 @@ class daGreenRing_c: public dEn_c {
     int timer;
     float dying;
     bool damage;
-    bool isDown;
+    bool ringCollected;
     Vec initialPos;
 
     // ------------
@@ -45,7 +49,7 @@ class daGreenRing_c: public dEn_c {
     public: int collected;
 
     // This variable will make our sprite to execute one frame later. If not, it may be unable to find the coins.
-    bool runOnce = false;
+    bool runOnce;
 
     // This is our ring's id
     public: int ringID;
@@ -61,12 +65,16 @@ class daGreenRing_c: public dEn_c {
     // -------- 
 
     // We'll use this from the .yaml to create the sprite.
-    static daGreenRing_c* build();
+    static dActor_c* build();
 
     
     void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate); // This starts the animation.
     void updateModelMatrices();     // This draws the 3D model.
-    bool calculateTileCollisions(); // Are we hitting a wall? This is useful to rotate the sprite if hitting a wall.
+    
+	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther); // Is the player colliding with the sprite?
+    
+	/*
+	bool calculateTileCollisions(); // Are we hitting a wall? This is useful to rotate the sprite if hitting a wall.
 
     // Some important collisions
     void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther); // Is the player colliding with the sprite?
@@ -93,6 +101,7 @@ class daGreenRing_c: public dEn_c {
     bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);	// Ice balls
     bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);	            // Hammers (from the hammer-suite)
     bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);	        // Yoshi's fireballs 
+	*/
 };
 
 // I'm gonna declare now the green coin here, because both the green coin and the green ring will interact together.
@@ -134,6 +143,7 @@ class daGreenCoin_c: public dEn_c {
 
     // This is the id of the ring
     public: int ringID;
+	public: daGreenRing_c* ring;
 
     // This tells us if the money is visible or isn't
     public: bool visible;
@@ -143,15 +153,17 @@ class daGreenCoin_c: public dEn_c {
     // -------
 
     // We'll use this from the .yaml to create the sprite.
-    static daGreenCoin_c* build();
+    static dActor_c* build();
 
     
     void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate); // This starts the animation.
     void updateModelMatrices();     // This draws the 3D model.
-    bool calculateTileCollisions(); // Are we hitting a wall? This is useful to rotate the sprite if hitting a wall.
+    
+	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther); // Is the player colliding with the sprite?
+    
+	/*bool calculateTileCollisions(); // Are we hitting a wall? This is useful to rotate the sprite if hitting a wall.
 
     // Some important collisions
-    void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther); // Is the player colliding with the sprite?
     void spriteCollision(ActivePhysics* apThis, ActivePhysics* apOther); // If the sprite is colliding with... another sprite?
     void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);  // If the sprite is colliding with... Yoshi?
 
@@ -174,7 +186,8 @@ class daGreenCoin_c: public dEn_c {
     bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther); // Fire balls
     bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);	// Ice balls
     bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);	            // Hammers (from the hammer-suite)
-    bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);	        // Yoshi's fireballs 
+    bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);	        // Yoshi's fireballs
+	*/
 };
 
 //  Here starts the real code!
@@ -184,13 +197,17 @@ class daGreenCoin_c: public dEn_c {
 //  # ------ #
 
 // We'll access this from the .yaml
-daGreenRing_c *daGreenRing_c::build() {
+dActor_c *daGreenRing_c::build() {
     void *buffer = AllocFromGameHeap1(sizeof(daGreenRing_c));
     return new(buffer) daGreenRing_c;
 }
 
+const SpriteData GreenRingSpriteData = { ProfileId::GreenRing, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile GreenRingProfile(&daGreenRing_c::build, SpriteId::GreenRing, GreenRingSpriteData, ProfileId::GreenRing, ProfileId::GreenRing, "Green Ring", GreenRingAndCoinFileList);
+
 // When the green ring is created...
 int daGreenRing_c::onCreate() {
+	OSReport("onCreate\n");
 
     // Everything will be executed one frame later
     if (this->runOnce == false) {
@@ -211,14 +228,15 @@ int daGreenRing_c::onCreate() {
         if (iter->ringID == this->ringID) {
             // Add this found money to our coins array, to the position declared in the coin ID.
             this->coins[iter->groupId] = iter;
+			iter->ring = this;
         }
     }
 
     // Do what you always do...
 
     allocator.link(-1, GameHeaps[0], 0, 0x20);
-    nw4r::g3d::ResFile rf(getResource("green_ring", "g3d/greenRing")); // THIS MIGHT NOT BE REAL
-    bodyModel.setup(rf.GetResMdl("green_ringA"), &allocator, 0x224, 1, 0);
+    nw4r::g3d::ResFile rf(getResource("green_ring", "g3d/green_ring.brres")); // THIS MIGHT NOT BE REAL
+    bodyModel.setup(rf.GetResMdl("red_ring"), &allocator, 0x224, 1, 0);
     SetupTextures_MapObj(&bodyModel, 0);
 
     allocator.unlink();
@@ -245,8 +263,8 @@ int daGreenRing_c::onCreate() {
     this->scale.z = 1.0;
 
     // And the position
-    this->pos.x = 120.0;
-    this->pos.y = 3300.0;
+    //this->pos.x = 120.0;
+    //this->pos.y = 3300.0;
 
     return true;
 }
@@ -266,15 +284,67 @@ int daGreenRing_c::coinCollected() {
     }
 }
 
+int daGreenRing_c::onDelete() {
+	return true;
+}
+
+int daGreenRing_c::onDraw() {
+	if(!ringCollected) {
+		bodyModel.scheduleForDrawing();
+	}
+
+	return true;
+}
+
+int daGreenRing_c::onExecute() {
+	if(!ringCollected) {
+		updateModelMatrices();
+		bodyModel._vf1C();
+	}
+}
+
+void daGreenRing_c::updateModelMatrices() {
+	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
+
+	bodyModel.setDrawMatrix(matrix);
+	bodyModel.setScale(&scale);
+	bodyModel.calcWorld(false);
+}
+
+
+void daGreenRing_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	timer = 180;
+	this->coins[0]->makeVisible();
+	aPhysics.removeFromList();
+	ringCollected = true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //  # ------ #
 //  #  COIN  #
 //  # ------ #
 
 // We'll access this function from the .yaml
-daGreenCoin_c *daGreenCoin_c::build() {
+dActor_c *daGreenCoin_c::build() {
     void *buffer = AllocFromGameHeap1(sizeof(daGreenCoin_c));
     return new(buffer) daGreenCoin_c;
 }
+
+const SpriteData GreenCoinSpriteData = { ProfileId::GreenCoin, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile GreenCoinProfile(&daGreenCoin_c::build, SpriteId::GreenCoin, GreenCoinSpriteData, ProfileId::GreenCoin, ProfileId::GreenCoin, "Green Coin", GreenRingAndCoinFileList);
 
 // We make the coin visible and we activate everything, including models and animations
 int daGreenCoin_c::makeVisible() {
@@ -283,8 +353,8 @@ int daGreenCoin_c::makeVisible() {
 
     // Enable the model
     allocator.link(-1, GameHeaps[0], 0, 0x20);
-    nw4r::g3d::ResFile rf(getResource("green_coin", "g3d/greenCoin")); 
-    bodyModel.setup(rf.GetResMdl("green_coinA"), &allocator, 0x224, 1, 0);
+    nw4r::g3d::ResFile rf(getResource("obj_coin", "g3d/obj_coin.brres")); 
+    bodyModel.setup(rf.GetResMdl("obj_coin_green"), &allocator, 0x224, 1, 0);
     SetupTextures_MapObj(&bodyModel, 0);
 
     allocator.unlink();
@@ -311,8 +381,8 @@ int daGreenCoin_c::makeVisible() {
     this->scale.z = 1.0;
 
     // And the position
-    this->pos.x = 120.0;
-    this->pos.y = 3300.0;
+    //this->pos.x = 120.0;
+    //this->pos.y = 3300.0;
 }
 
 // This will happen firstly
@@ -328,5 +398,31 @@ int daGreenCoin_c::onCreate() {
 int daGreenCoin_c::onExecute() {
     if (this->visible) {
         // TODO
+		updateModelMatrices();
+		bodyModel._vf1C();
     }
+}
+
+int daGreenCoin_c::onDraw() {
+	bodyModel.scheduleForDrawing();
+
+	return true;
+}
+
+void daGreenCoin_c::updateModelMatrices() {
+	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
+
+	bodyModel.setDrawMatrix(matrix);
+	bodyModel.setScale(&scale);
+	bodyModel.calcWorld(false);
+}
+
+int daGreenCoin_c::onDelete() {
+	return true;
+}
+
+void daGreenCoin_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	ring->coinCollected();
+	this->Delete(1);
 }

@@ -20,37 +20,179 @@ class WandDot {
 		WandDot();
 	
 		float x, y;
-		u8 size;
+		u8 size, initialSize, colourIndex;
 		int timer;
-		bool drawMe, amISetUp;
+		bool drawMe, amISetUp, colourMoveRight;
 
-		void setMeUp(float, float, bool, u8);
+		void setMeUp(float, float, bool, u8, u8);
 		void sizeUpdate();
+		void colourUpdate();
 };
 
 WandDot::WandDot() {
 	amISetUp = false;
 }
 
-void WandDot::setMeUp(float pX, float pY, bool pDrawMe, u8 pSize = 16) {
+void WandDot::setMeUp(float pX, float pY, bool pDrawMe, u8 pColourIndex = 0, u8 pSize = 16) {
 	this->x = pX;
 	this->y = pY;
 	this->drawMe = pDrawMe;
 	this->size = pSize;
+	this->initialSize = pSize;
+	this->colourIndex = pColourIndex % 72;
 	amISetUp = true;
 }
 
-void WandDot::sizeUpdate() {
-	if(timer >= 60) {
-		if(timer % 5 == 0)	size -= 1;
-		if(timer >= 120) {
-			timer = 0;
+inline void WandDot::sizeUpdate() {
+	if(this->timer >= 60) {
+		if(this->timer % 5 == 0) this->size -= 1;
+		if(this->timer >= 120) {
+			this->timer = 0;
+			this->size = this->initialSize;
 			return;
 		}
 	} else {
-		if(timer % 5 == 0) size += 1;
+		if(this->timer % 5 == 0) this->size += 1;
 	}
-	timer++;
+	this->timer++;
+}
+
+struct colour {
+	union {
+		u32 all;
+		struct { u8 r, g, b, a; };
+	};
+};
+
+colour rainbowColours[] = {
+	0xFF0000FF,
+	0xFF1500FF,
+	0xFF2A00FF,
+	
+	0xFF4000FF,
+	0xFF5400FF,
+	0xFF6A00FF,
+	
+	0xFF8000FF,
+	0xFF9400FF,
+	0xFFAA00FF,
+	
+	0xFFBF00FF,
+	0xFFD400FF,
+	0xFFE900FF,
+	
+	0xFFFF00FF,
+	0xE9FF00FF,
+	0xD4FF00FF,
+	
+	0xBFFF00FF,
+	0xAAFF00FF,
+	0x94FF00FF,
+	
+	0x80FF00FF,
+	0x6AFF00FF,
+	0x54FF00FF,
+	
+	0x40FF00FF,
+	0x2AFF00FF,
+	0x15FF00FF,
+	
+	0x00FF00FF,
+	0x00FF15FF,
+	0x00FF2AFF,
+	
+	0x00FF40FF,
+	0x00FF54FF,
+	0x00FF6AFF,
+	
+	0x00FF80FF,
+	0x00FF94FF,
+	0x00FFAAFF,
+	
+	0x00FFBFFF,
+	0x00FFD4FF,
+	0x00FFE9FF,
+	
+	0x00FFFFFF,
+	0x00E9FFFF,
+	0x00D4FFFF,
+	
+	0x00BFFFFF,
+	0x00AAFFFF,
+	0x0094FFFF,
+	
+	0x0080FFFF,
+	0x006AFFFF,
+	0x0054FFFF,
+	
+	0x0040FFFF,
+	0x002AFFFF,
+	0x0015FFFF,
+	
+	0x0000FFFF,
+	0x1500FFFF,
+	0x2A00FFFF,
+	
+	0x4000FFFF,
+	0x5400FFFF,
+	0x6A00FFFF,
+	
+	0x8000FFFF,
+	0x9400FFFF,
+	0xAA00FFFF,
+	
+	0xBF00FFFF,
+	0xD400FFFF,
+	0xE900FFFF,
+	
+	0xFF00FFFF,
+	0xFF00E9FF,
+	0xFF00D4FF,
+	
+	0xFF00BFFF,
+	0xFF00AAFF,
+	0xFF0094FF,
+	
+	0xFF0080FF,
+	0xFF006AFF,
+	0xFF0054FF,
+	
+	0xFF0040FF,
+	0xFF002AFF,
+	0xFF0015FF
+
+
+/*	0xFF0000FF,
+	0xFF4000FF,
+	0xFF8000FF,
+	0xFFBF00FF,
+	0xFFFF00FF,
+	0xBFFF00FF,
+	0x80FF00FF,
+	0x40FF00FF,
+	0x00FF00FF,
+	0x00FF40FF,
+	0x00FF80FF,
+	0x00FFBFFF,
+	0x00FFFFFF,
+	0x00BFFFFF,
+	0x0080FFFF,
+	0x0040FFFF,
+	0x0000FFFF,
+	0x4000FFFF,
+	0x8000FFFF,
+	0xBF00FFFF,
+	0xFF00FFFF,
+	0xFF00BFFF,
+	0xFF0080FF,
+	0xFF0040FF*/
+};
+
+inline void WandDot::colourUpdate() {
+	if(this->timer % 5 == 0) {
+		this->colourIndex +=1;
+		this->colourIndex %= 72;
+	}
 }
 
 #define wandDotAmount 10
@@ -94,7 +236,7 @@ void LevelDrawer::setMeUp() {
 	
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < wandDotAmount; j++) {
-			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, true); 
+			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, true, j); 
 		}
 	}
 	
@@ -156,7 +298,7 @@ void LevelDrawer::drawXlu() {
 	
 	GXSetDither(GX_TRUE);
 	//GXSetLineWidth(8, GX_TO_ZERO);
-	GXSetPointSize(16, GX_TO_ZERO);
+	
 	
 	GXSetTevColor(GX_TEVREG0, (GXColor){255,255,255,255});
 	GXSetTevColor(GX_TEVREG1, (GXColor){0,0,0,255});
@@ -167,12 +309,6 @@ void LevelDrawer::drawXlu() {
 	GXLoadPosMtxImm(matrix, 0);
 	GXSetCurrentMtx(0);
 	
-	
-	u8 r = 0x00;
-	u8 g = 0x00;
-	u8 b = 0x00;
-	u8 a = 0xFF;
-
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < wandDotAmount; j++) {
 
@@ -181,13 +317,29 @@ void LevelDrawer::drawXlu() {
 			GXSetPointSize(lotsOfDots[i][j].size, GX_TO_ZERO);
 
 			lotsOfDots[i][j].sizeUpdate();
+			lotsOfDots[i][j].colourUpdate();
 
 			GXBegin(GX_POINTS, GX_VTXFMT0, 1);
 			
 			GXPosition3f32(lotsOfDots[i][j].x, lotsOfDots[i][j].y, 9000.0f);
+			u8 r, g, b, a;
+			if(lotsOfDots[i][j].colourMoveRight) {
+				r = rainbowColours[72-lotsOfDots[i][j].colourIndex].r;
+				g = rainbowColours[72-lotsOfDots[i][j].colourIndex].g;
+				b = rainbowColours[72-lotsOfDots[i][j].colourIndex].b;
+				a = rainbowColours[72-lotsOfDots[i][j].colourIndex].a;
+			} else {
+				r = rainbowColours[lotsOfDots[i][j].colourIndex].r;
+				g = rainbowColours[lotsOfDots[i][j].colourIndex].g;
+				b = rainbowColours[lotsOfDots[i][j].colourIndex].b;
+				a = rainbowColours[lotsOfDots[i][j].colourIndex].a;
+			}
+			
 			GXColor4u8(r,g,b,a);
 
 			GXEnd();
 		}
 	}
+	
+	GXSetPointSize(16, GX_TO_ZERO);
 }

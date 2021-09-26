@@ -142,3 +142,4 @@ modules:
   - processed/byugo.yaml
   - processed/smallScoreMgr.yaml
   - processed/randomLooperEvent.yaml
+  - processed/greenRing.yaml
