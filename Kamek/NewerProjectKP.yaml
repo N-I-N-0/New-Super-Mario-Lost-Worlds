@@ -8,7 +8,7 @@ modules:
   - processed/apDebug.yaml
   - processed/hardMode.yaml
   # - processed/layoutDebug.yaml
-  # - processed/creditsMgr.yaml
+  - processed/creditsMgr.yaml
   # - processed/endingMgr.yaml
   - processed/chestnut.yaml
   - processed/flipblock.yaml

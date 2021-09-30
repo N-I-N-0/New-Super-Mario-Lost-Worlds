@@ -1,5 +1,15 @@
-.text
 #include <asm_setup.S>
+.text
+
+.global EFB_Crap
+.extern EFBMagic2__Fv
+.extern ContinueFromEFBMagic2
+EFB_Crap:
+	bl EFBMagic2__Fv
+	lwz r3, 4(r30)
+	b ContinueFromEFBMagic2
+
+
 .extern StaffCreditsAddCoin
 .extern CreditsModeActive
 .extern continueAddToCoinCount

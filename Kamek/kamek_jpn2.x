@@ -1489,6 +1489,7 @@ SECTIONS {
 	__ct__10mTexture_cFUsUsUi = 0x802C0890;
 	__dt__10mTexture_cFv = 0x802C08D0;
 	load__10mTexture_cFUi = 0x802C0970;
+	load__10mTexture_cF11_GXTexMapID = 0x802C0970;
 	flushDC__10mTexture_cFv = 0x802C0A30;
 	makeLinearGradient__10mTexture_cFicUsUs8_GXColor8_GXColorb = 0x802C0C40;
 	allocateBuffer__10mTexture_cFPv = 0x802C0FF0;
