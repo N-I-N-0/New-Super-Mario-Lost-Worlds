@@ -1,0 +1,3 @@
+---
+source_files: [../src/codeDebug.S, ../src/codeDebug.cpp]
+hooks: []
