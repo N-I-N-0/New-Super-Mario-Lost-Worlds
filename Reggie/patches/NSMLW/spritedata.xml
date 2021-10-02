@@ -3190,14 +3190,12 @@
     <value bit="41-48" title="Path ID" comment="ID" />
   </sprite> <!-- #523: Boshi -->
   
-  <sprite id="524" name="Cloud Plattform" asmhacks="True" notes="Where am I going">
-    <checkbox bit="17" title="follow path" comment="Loop" />
-    <value bit="41-48" title="Path ID" comment="ID" />
-    <value bit="33-40" title="currentNodeNum" comment="don't know why that exists" />
-    <value bit="29-32" title="Speed" comment="speed" />
-    <checkbox bit="18" title="Loop" comment="Loop" />
-    <list bit="19-20" title="WaitMode" comment="This determines the WaitMode" >
-      <entry value="0">Do not wait for Player</entry>
+  <sprite id="524" name="Cloud Plattform" asmhacks="True" >
+    <value bit="41-48" title="Path ID" />
+    <value bit="33-40" title="currentNodeNum" comment="Start Node" />
+    <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
+    <list bit="19-20" title="WaitMode" comment="This determines the condition for the cloud to start moving." >
+      <entry value="0">Auto-start</entry>
       <entry value="1">Wait for one Player to start</entry>
       <entry value="2">Wait for one player always to move</entry>
     </list>

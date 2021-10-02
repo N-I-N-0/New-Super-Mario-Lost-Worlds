@@ -33,28 +33,28 @@ public:
     //============//
 
     //===============================//
-    // Compatability Mode Variables: //
+    // Compatibility Mode Variables: //
     //===============================//
 
     // If false, uses the spritespawner.cpp code.  Nybble 3 bit 1.
-    bool turnOffCompatabilityMode;
+    bool turnOffCompatibilityMode;
 
-    // Holds the triggering event id in compatability mode.  Nybble 5.
-    u8 compatabilityEventId;
+    // Holds the triggering event id in compatibility mode.  Nybble 5.
+    u8 compatibilityEventId;
 
-    // Nybble 6 bit 1 when in compatability mode.
+    // Nybble 6 bit 1 when in compatibility mode.
     // bool automaticRespawn; 
 
-    //  Nybble 6 bit 2 through nybble 8 bit 4 when in compatability mode.
+    //  Nybble 6 bit 2 through nybble 8 bit 4 when in compatibility mode.
     // u16 spawnedId;
 
-    // Holds the spawned actor's settings when in compatability mode.
-    u32 compatabilityChildSettings;
+    // Holds the spawned actor's settings when in compatibility mode.
+    u32 compatibilityChildSettings;
 
     // Checks if onCreate() has run once, because evenId1 is not initially set during onCreate().
     bool ranOnce;
 
-    // Compatability mode also uses newActor.
+    // Compatibility mode also uses newActor.
 
     //======================================//
     // Better Actor Spawner Mode Variables: //
@@ -122,17 +122,17 @@ s32 dActorSpawner_c::onCreate() {
         return false; // Retry onCreate().
     }
 
-    this->turnOffCompatabilityMode = (this->eventId1 >> 7) & 0x1; // Grab nybble 3 bit 1.
+    this->turnOffCompatibilityMode = (this->eventId1 >> 7) & 0x1; // Grab nybble 3 bit 1.
 
-    // Check if compatability mode is on.
-    if (this->turnOffCompatabilityMode == false) {
-        this->compatabilityEventId = (this->settings >> 28) & 0xF; // Grab nybble 5.
+    // Check if compatibility mode is on.
+    if (this->turnOffCompatibilityMode == false) {
+        this->compatibilityEventId = (this->settings >> 28) & 0xF; // Grab nybble 5.
         this->automaticRespawn = (this->settings >> 27) & 0x1; // Grab nybble 6 bit 1.
         this->spawnedId = (this->settings >> 16) & 0b011111111111;
 
         u16 tempSet = settings & 0xFFFF; // Grab nybbles 9-12.
         // Convert nybble settings into settings to give to the spawned actor.
-        this->compatabilityChildSettings = 
+        this->compatibilityChildSettings = 
             (tempSet & 3) | ((tempSet & 0xC) << 2) |
             ((tempSet & 0x30) << 4) | ((tempSet & 0xC0) << 6) |
             ((tempSet & 0x300) << 8) | ((tempSet & 0xC00) << 10) |
@@ -174,14 +174,17 @@ s32 dActorSpawner_c::onCreate() {
 
 s32 dActorSpawner_c::onExecute() {
 
-    // Check if compatability mode is on.
-    if (this->turnOffCompatabilityMode == false) {
+    // Return if this is a data bank.
+    if (this->isDataBank == true) {return true;}
+
+    // Check if compatibility mode is on.
+    if (this->turnOffCompatibilityMode == false) {
         // Get nybble 5 and check if the event is on.
-        if ( dFlagMgr_c::instance->active(this->compatabilityEventId - 1) ) {
+        if ( dFlagMgr_c::instance->active(this->compatibilityEventId - 1) ) {
             // Check if the actor doesn't exist yet:.
             if (this->newActor == 0) {
                 this->newActor = dStageActor_c::create((Actors)this->spawnedId,
-                    this->compatabilityChildSettings,
+                    this->compatibilityChildSettings,
                     &(this->pos),
                     0, 0
                 );
@@ -209,7 +212,7 @@ s32 dActorSpawner_c::onExecute() {
             if ( !(this->newActorIsAlive()) ) {
                 // Respawn the actor.
                 this->newActor = dStageActor_c::create((Actors)this->spawnedId,
-                    this->compatabilityChildSettings,
+                    this->compatibilityChildSettings,
                     &(this->pos),
                     0, 0
                 );
@@ -219,9 +222,6 @@ s32 dActorSpawner_c::onExecute() {
         return true;
     }
     // Otherwise, continue as normal.
-
-    // Return if this is a data bank.
-    if (this->isDataBank == true) {return true;}
 
     // If there isn't a data bank, find one.
     if (this->correspondent == 0) {
@@ -339,8 +339,6 @@ dStageActor_c* dActorSpawner_c::spawnActor() {
 
 
 bool dActorSpawner_c::newActorIsAlive() {
-    // If newActor can be found, it is alive.
-    if ( (dStageActor_c*) fBase_c::search(this->newActor->id) ) {return true;}
-    // Otherwise, it is dead.
-    return false;
+    // Return true if the search doesn't return 0; the actor is alive.
+    return fBase_c::search(this->newActor->id) != 0;
 }

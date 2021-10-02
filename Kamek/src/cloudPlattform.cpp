@@ -2,7 +2,7 @@
 #include <game.h>
 #include <profile.h>
 #include "boomeranghax.h"
-#include "baddy.h"
+#include "path.h"
 
 const char* CloudPlattformFileList[] = { "cloudM", 0 };
 
@@ -446,7 +446,7 @@ int daEnCloudPlattform_c::onCreate() {
 	this->active = true;
 	this->timer = 0;
 
-	doStateChange(&StateID_Wait);
+	doStateChange(&StateID_Init);
 
 	this->onExecute();
 	return true;
