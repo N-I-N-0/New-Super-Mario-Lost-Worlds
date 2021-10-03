@@ -557,6 +557,8 @@ enum
 	SwitchLayer = 537,
 	PoisonShroom = 538,
 	RandomLooperEvent = 539,
+	NewActorSpawnerPath = 540,
+	NewActorSpawnerDataBank = 541,
 
 	Num
 };
@@ -1377,6 +1379,8 @@ enum
 	SwitchLayer = 804,
 	PoisonShroom = 805,
 	RandomLooperEvent = 806,
+	NewActorSpawnerPath = 807,
+	NewActorSpawnerDataBank = 808,
 	
 	Num
 };

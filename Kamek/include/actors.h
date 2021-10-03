@@ -813,7 +813,9 @@ enum Actors {
 	ShroobUFOLaserBall = 803,
 	SwitchLayer = 804,
 	PoisonShroom = 805,
-	RandomLooperEvent = 806
+	RandomLooperEvent = 806,
+	NewActorSpawnerPath = 807,
+	NewActorSpawnerDataBank = 808
 };
 
 struct Actor {

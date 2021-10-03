@@ -3032,86 +3032,6 @@
     </list>
   </sprite>
   
-  
-  <sprite id="509" name="Actor Spawner" asmhacks="True" phonebook="Actors" notes="Use this to spawn any actor into the game! Anything spawned by the Actor Spawner will need to be respawned each time the player changes Zones.">
-
-    <dependency notes="This Actor Spawner requires a linked &lt;b&gt;[88] Actor Spawner&lt;/b&gt; in Data Bank Mode to store the settings that will be used by the spawned actor.&lt;br&gt;&lt;br&gt;Additionally, the actor that will be spawned must be placed as a sprite somewhere else in the level in order for the game to know to load the required assets. When trying to spawn an actor without an equivalent sprite, place a sprite that can create that actor into the level." />
-
-
-    <!-- Colors taken from the comment button colors. -->
-    <dualbox bit="9" title1="&lt;font color=&quot;#dd4f2e&quot;&gt;NewerSMBW Compatibility Mode&lt;/font&gt;" title2="&lt;font color=&quot;#55acee&quot;&gt;Better Actor Spawner Mode&lt;/font&gt;" comment="This option exists for compatibility with the original NewerSMBW levels. Choose the second option to access new and improved settings!" />
-
-    <!-- COMPATIBILITY MODE -->
-    <value bit="17-20" title="Triggering Event ID" comment="When this event is activated, the Actor Spawner will create one copy of the actor at the location of the spawner. Keep in mind that some sprites have abnormal placement so expect a lot of testing to make sure that everything works correctly." comment2="The Triggering Event ID is limited to only the first 15 Event IDs." idtype="Triggering Event" requiredbit="9" requiredval="0"/>
-    <checkbox bit="21" title="Automatically Respawn" comment="When the actor spawned by this spawner is deleted or missing, and the event is triggered, another actor with the same settings will be spawened. This also stops the spawned actor from despawning when the event is deactivated." requiredbit="9" requiredval="0"/>
-    <value bit="22-32" title="Actor ID - Number Entry" comment="Please enter the extension that you wish to dial. If your party cannot be reached, please dial a different number. Thank you." comment2="Do not use an Actor ID that does not return a value on the list below." idtype="Actor" requiredbit="9" requiredval="0"/> <!-- ID type is used so that the number can be shown on the sprite display. -->
-    <external type="actors" bit="22-32" title="Actor ID" comment="Use this external window to select your Actor ID."  requiredbit="9" requiredval="0"/>
-    <value bit="33-34" title="Nybble 5" requiredbit="9" requiredval="0" />
-    <value bit="35-36" title="Nybble 6" requiredbit="9" requiredval="0" />
-    <value bit="37-38" title="Nybble 7" requiredbit="9" requiredval="0" />
-    <value bit="39-40" title="Nybble 8" requiredbit="9" requiredval="0" />
-    <value bit="41-42" title="Nybble 9" requiredbit="9" requiredval="0" />
-    <value bit="43-44" title="Nybble 10" requiredbit="9" requiredval="0" />
-    <value bit="45-46" title="Nybble 11" requiredbit="9" requiredval="0" />
-    <value bit="47-48" title="Nybble 12" requiredbit="9" requiredval="0" />
-    <!-- END COMPATIBILIY MODE -->
-
-
-
-    <dualbox bit="57" title1="Spawner Mode" title2="Data Bank Mode" comment="A version of this sprite in Spawner Mode will pull data from another version of this sprite in Data Bank Mode with a matching Search ID. Nybbles 1-12 of the Data Bank will be used by the actor spawned by the Actor Spawner." requiredbit="9" requiredval="1" />
-
-    <value bit="58-64" title="Search ID" comment="Match this ID with a corresponding &lt;b&gt;[88] Actor Spawner&lt;/b&gt;.  The Actor Spawner will pull nybbles 1-12 from the Data Bank for use when spawning an actor." comment2="Works with values 00 through FF." requiredbit="9" requiredval="1" />
-
-    <value bit="1-8" title="Triggering Event ID" comment="When this event is activated, the Actor Spawner will create the specified actor at its location." idtype="Triggering Event" requiredbit="9, 57" requiredval="1, 0" />
-
-    <value bit="17-28" title="Actor ID (Numerical Entry)" comment="Enter the Actor ID of the actor you wish to spawn here. If you don't know the ID, use the selection box below." requiredbit="9, 57" requiredval="1, 0" />
-
-    <external type="actors" bit="17-28" title="Actor ID" comment="Use this to find the Actor ID of any actor." requiredbit="9, 57" requiredval="1, 0" />
-
-    <checkbox bit="32" title="Multi-Spawn Mode" comment="When checked, the Actor Spawner will not keep track of the actors it spawns, meaning the event can be toggled on and off to spawn more actors." requiredbit="9, 57" requiredval="1, 0" />
-
-    <checkbox bit="29" title="Respawn Automatically" comment="When checked, the Actor Spawner will automatically respawn the actor if it is deleted or missing." requiredbit="9, 57, 32" requiredval="1, 0, 0" />
-
-    <checkbox bit="30" title="Despawn Without Event" comment="When checked, the Actor Spawner will despawn the actor it spawned when its event is turned off." requiredbit="9, 57, 32" requiredval="1, 0, 0" />
-
-    <checkbox bit="31" title="Save Despawn Position" comment="When checked, when the Actor Spawner despawns an actor due to its event being turned off it will move to the position the actor was just in. If the event is turned back on, the new actor will be spawned at that position." requiredbit="9, 57, 30, 32" requiredval="1, 0, 1, 0" />
-
-    <list bit="33-36" title="Spawn Delay" comment="When not set to Manual, this option will cause the Actor Spawner to wait the specified number of frames after initially spawning an actor before spawning another one. The event will stay on the whole time." comment2="When set to Manual, this option will cause the Actor Spawner to disable its triggering event after spawning an actor so that it can be manually turned back on." advancedcomment="Using Manual will not work when trying to use two Actor Spawners triggered by the same event, because one will disable the event before the other can execute." requiredbit="9, 57, 32" requiredval="1, 0, 1">
-      <entry value="0">Manual (Infinite Delay)</entry>
-      <entry value="1">1 Frame</entry>
-      <entry value="2">10 Frames</entry>
-      <entry value="3">20 Frames</entry>
-      <entry value="4">30 Frames (0.5 Seconds)</entry>
-      <entry value="5">60 Frames (1 Second)</entry>
-      <entry value="6">90 Frames (1.5 Seconds)</entry>
-      <entry value="7">120 Frames (2 Seconds)</entry>
-      <entry value="8">150 Frames (2.5 Seconds)</entry>
-      <entry value="9">180 Frames (3 Seconds)</entry>
-      <entry value="10">210 Frames (3.5 Seconds)</entry>
-      <entry value="11">240 Frames (4 Seconds)</entry>
-      <entry value="12">270 Frames (4.5 Seconds)</entry>
-      <entry value="13">300 Frames (5 Seconds)</entry>
-      <entry value="14">330 Frames (5.5 Seconds)</entry>
-      <entry value="15">360 Frames (6 Seconds)</entry>
-    </list>
-
-
-
-    <value nybble="1" title="Nybble 1" comment="Edit the value of nybble 1 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="2" title="Nybble 2" comment="Edit the value of nybble 2 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="3" title="Nybble 3" comment="Edit the value of nybble 3 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="4" title="Nybble 4" comment="Edit the value of nybble 4 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-
-    <value nybble="5" title="Nybble 5" comment="Edit the value of nybble 5 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="6" title="Nybble 6" comment="Edit the value of nybble 6 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="7" title="Nybble 7" comment="Edit the value of nybble 7 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="8" title="Nybble 8" comment="Edit the value of nybble 8 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="9" title="Nybble 9" comment="Edit the value of nybble 9 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="10" title="Nybble 10" comment="Edit the value of nybble 10 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="11" title="Nybble 11" comment="Edit the value of nybble 11 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-    <value nybble="12" title="Nybble 12" comment="Edit the value of nybble 12 in the spawned actor. For easier edits, use the Modify Raw Data box." requiredbit="9, 57" requiredval="1, 1" />
-  </sprite>
-  
   <sprite id="510" name="The Great Goal Pole" asmhacks="True" notes="A Goal Pole that flys along a path.">
     <value bit="41-48" title="Path ID" comment="0 means that this goal pole won't ever fly as there is no path to follow." />
     <value bit="33-40" title="Start Node" />
@@ -3279,5 +3199,36 @@
     <value nybble="11-12" title="Max Delay Deactivate" />
     <value nybble="15-16" title="Repeat X times | 0 = infinitely" />
   </sprite> <!-- #539: Random Looper Event -->
+  
+  <sprite id="509" name="Actor Spawner" asmhacks="True" phonebook="Actors" notes="Use this to spawn any actor into the game! Anything spawned by the Actor Spawner will need to be respawned each time the player changes Zones.">
+    <value bit="9-16" title="Spawner ID" comment="Match this ID with a corresponding Actor Spawner Data Bank - and a Actor Spawner Path Controller if you want to have the spawned sprites follow a path." />
+    <value bit="1-8" title="Triggering Event ID" comment="When this event is activated, the Actor Spawner will create the specified actor at its location." idtype="Triggering Event" />
+    <external type="actors" bit="17-28" title="Actor ID" comment="Enter the Actor ID of the actor you wish to spawn here. If you don't know the ID, use the selection box." />
+    <checkbox bit="32" title="Multi-Spawn Mode" comment="When checked, the Actor Spawner will not keep track of the actors it spawns, meaning the event can be toggled on and off to spawn more actors." />
+    <checkbox bit="29" title="Respawn Automatically" comment="When checked, the Actor Spawner will automatically respawn the actor if it is deleted or missing." requiredbit="32" requiredval="0" />
+    <checkbox bit="30" title="Despawn Without Event" comment="When checked, the Actor Spawner will despawn the actor it spawned when its event is turned off." requiredbit="32" requiredval="0" />
+    <checkbox bit="31" title="Save Despawn Position" comment="When checked, when the Actor Spawner despawns an actor due to its event being turned off it will move to the position the actor was just in. If the event is turned back on, the new actor will be spawned at that position." requiredbit="30, 32" requiredval="1, 0" />
+
+	
+    <value bit="41-48" title="Location ID" comment="If this isn't set to 0 the spawned sprite(s) will be randomly placed in the location with the ID of this field." comment2="This setting is not compatible with the Actor Spawner Path Controller!" />
+    <value nybble="15-16" title="Layer" />
+  </sprite>
+  
+  <sprite id="540" name="Actor Spawner Path Controller" asmhacks="True" >
+    <value bit="41-48" title="Path ID" />
+    <value bit="33-40" title="currentNodeNum" comment="Start Node" />
+    <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
+	<value bit="21-28" title="Spawner ID" />
+    <list bit="19-20" title="WaitMode" comment="This determines the condition for the cloud to start moving." >
+      <entry value="0">Auto-start</entry>
+      <entry value="1">Wait for one Player to start</entry>
+      <entry value="2">Wait for one player always to move</entry>
+    </list>
+  </sprite> <!-- #540: Actor Spawner Path Controller -->
+
+  <sprite id="541" name="Actor Spawner Data Bank" asmhacks="True" >
+    <value nybble="15-16" title="Spawner ID" />
+    <value bit="1-48" title="Sprite Data" />
+  </sprite> <!-- #541: Actor Spawner Data Bank -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

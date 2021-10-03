@@ -1,112 +1,59 @@
-// Code by Chickensaver (Bahlph#0486)
-// Special thanks to the people of Horizon and NHD that helped me with this!
-
 #include <game.h>
+#include "path.h"
 
-// This should probably be standardized in game.h.
-#define currentLayerId currentLayerID
+const char* SpawnerFileList[] = { 0 };
 
-// Create a class for the spawner that inherits from the default actor class.
+class dPathSpawner_c;
+class dSpawnerDataBank_c;
+
 class dActorSpawner_c : public dStageActor_c {
 public:
-
-    //==========//
-    // Methods: //
-    //==========//
-
     static dActor_c *build(); // Method to allocate memory for the actor.
 
-    s32 onCreate(); // Called once when the actor is created.
-    s32 onExecute(); // Called every frame that the actor is in existence.
+    int onCreate(); // Called once when the actor is created.
+    int onExecute(); // Called every frame that the actor is in existence.
 
-    // Finds an actor spawner's correspondent.
-    dActorSpawner_c* findCorrespondingDataBank();
-
-    // Spawns the new actor.
-    dStageActor_c* spawnActor();
-
-    // Checks if the new actor is alive.
     bool newActorIsAlive();
 
-    //============//
-    // Constants: //
-    //============//
-
-    //===============================//
-    // Compatibility Mode Variables: //
-    //===============================//
-
-    // If false, uses the spritespawner.cpp code.  Nybble 3 bit 1.
-    bool turnOffCompatibilityMode;
-
-    // Holds the triggering event id in compatibility mode.  Nybble 5.
-    u8 compatibilityEventId;
-
-    // Nybble 6 bit 1 when in compatibility mode.
-    // bool automaticRespawn; 
-
-    //  Nybble 6 bit 2 through nybble 8 bit 4 when in compatibility mode.
-    // u16 spawnedId;
-
-    // Holds the spawned actor's settings when in compatibility mode.
-    u32 compatibilityChildSettings;
-
-    // Checks if onCreate() has run once, because evenId1 is not initially set during onCreate().
     bool ranOnce;
-
-    // Compatibility mode also uses newActor.
-
-    //======================================//
-    // Better Actor Spawner Mode Variables: //
-    //======================================//
-
-    // eventId2 is nybbles 1-2.  It represents the triggering event id.
-    // eventId1 is nybbles 3-4.
-    // settings is nybbles 5-12.
-    // currentLayerId is nybbles 15-16.
-
-    // Profile id of the actor to spawn.  Nybbles 5-7.
-    u16 spawnedId;
-
-    // If true, the spawned actor respawns automatically.  Nybble 8 bit 1.
+	
     bool automaticRespawn; 
-
-    // If true, the actor is despawned if the triggering event id is turned off.  Nybble 8 bit 2.
     bool despawnWithoutEvent;
-
-    // If true, the actor spawner is moved to the location of the actor when it is despawned via the
-    // event being turned off.  Nybble 8 bit 3.
     bool saveDespawnLocation;
-
-    // If true, the actor spawner will not keep track of the actor it spawns, so multiple actors can
-    // be spawned.  Nybble 8 bit 4.
     bool doMultiSpawning;
+	u32 actorID;
+	u32 dbSettings;
+	u8 dbEventId2;
+	u8 dbEventId1;
+	u16 dbSpriteFlagNum;
+	u8 useLocation;
+	u8 spawnerID;
+	dPathSpawner_c* pathController;
 
-    // Sets the number of frames of delay before spawning another actor.  When set to 0, the actor
-    // must be respawned manually by turning the event back on.  Otherwise, the event always stays
-    // on and the spawner just waits that number of frames.  Reinterpretation of nybble 9.
-    u16 spawnDelay;
-    u16 timer; // Counts up towards spawnDelay.
-
-    // --- Nybbles 10-12 ---
-
-    // If false, the actor acts as a regular actor spawner. If true, the actor acts as a data bank
-    // for the spawned actor to derive its settings from. Nybbles 15-16 bit 1.
-    bool isDataBank;
-
-    // Id that matches regular actor spawners to an actor spawner data bank. Nybbles 15-17 bits 2-8.
-    u8 searchId;
-
-    // This is a pointer to the data bank.
-    dActorSpawner_c* correspondent;
-
-    // Pointer to the actor that the actor spawner spawns.
-    dStageActor_c* newActor;
+	dStageActor_c* newActor;
+    u16 spawnedId;
 };
 
+class dSpawnerDataBank_c : public dStageActor_c {
+public:
+    static dActor_c *build(); // Method to allocate memory for the actor.
+
+    int onCreate(); // Called once when the actor is created.
+    int onExecute(); // Called every frame that the actor is in existence.
+};
+
+class dPathSpawner_c : public dPath_c {
+public:
+    static dActor_c *build(); // Method to allocate memory for the actor.
+
+    int onCreate(); // Called once when the actor is created.
+    int onExecute(); // Called every frame that the actor is in existence.
+
+	int spawnerID;
+};
 
 const SpriteData NewActorSpawnerSpriteData = { ProfileId::NewActorSpawner, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile NewActorSpawnerProfile(&dActorSpawner_c::build, SpriteId::NewActorSpawner, NewActorSpawnerSpriteData, ProfileId::NewActorSpawner, ProfileId::NewActorSpawner, "NewActorSpawner", FlipBlockFileList);
+Profile NewActorSpawnerProfile(&dActorSpawner_c::build, SpriteId::NewActorSpawner, NewActorSpawnerSpriteData, ProfileId::NewActorSpawner, ProfileId::NewActorSpawner, "NewActorSpawner", SpawnerFileList);
 
 
 dActor_c* dActorSpawner_c::build() {
@@ -114,231 +61,186 @@ dActor_c* dActorSpawner_c::build() {
     return new(buffer) dActorSpawner_c;
 }
 
-
-s32 dActorSpawner_c::onCreate() {
+int dActorSpawner_c::onCreate() {
     // Return the first time in order to get the values of eventId1 and eventId2.
     if (this->ranOnce == false) {
         this->ranOnce = true;
         return false; // Retry onCreate().
     }
+	
+	this->spawnerID = this->eventId1;
 
-    this->turnOffCompatibilityMode = (this->eventId1 >> 7) & 0x1; // Grab nybble 3 bit 1.
+	dSpawnerDataBank_c* dataBank = 0;
+	while(dataBank = (dSpawnerDataBank_c*)fBase_c::search(NewActorSpawnerDataBank, dataBank)) {
+		OSReport("Found Data Bank with ID: %d\n", dataBank->currentLayerID);
+		if(dataBank->currentLayerID == this->spawnerID) {
+			break;
+		}
+	}
+	if(dataBank) {
+		this->dbSettings = dataBank->settings;
+		this->dbEventId1 = dataBank->eventId1;
+		this->dbEventId2 = dataBank->eventId2;
+		this->dbSpriteFlagNum = dataBank->spriteFlagNum;
+		OSReport("Actor Spawner Data Bank found! Settings copied, deleting Data Bank!\n");
+		dataBank->Delete(1);
+	} else {
+		OSReport("No Actor Spawner Data Bank found for Spawner ID: %d\nDeleting Actor Spawner!\n", this->spawnerID);
+		this->Delete(1);
+	}
 
-    // Check if compatibility mode is on.
-    if (this->turnOffCompatibilityMode == false) {
-        this->compatibilityEventId = (this->settings >> 28) & 0xF; // Grab nybble 5.
-        this->automaticRespawn = (this->settings >> 27) & 0x1; // Grab nybble 6 bit 1.
-        this->spawnedId = (this->settings >> 16) & 0b011111111111;
-
-        u16 tempSet = settings & 0xFFFF; // Grab nybbles 9-12.
-        // Convert nybble settings into settings to give to the spawned actor.
-        this->compatibilityChildSettings = 
-            (tempSet & 3) | ((tempSet & 0xC) << 2) |
-            ((tempSet & 0x30) << 4) | ((tempSet & 0xC0) << 6) |
-            ((tempSet & 0x300) << 8) | ((tempSet & 0xC00) << 10) |
-            ((tempSet & 0x3000) << 12) | ((tempSet & 0xC000) << 14);
-
-        return true;
-    }
-    // Otherwise, continue as normal.
-
-    this->spawnedId = (this->settings >> 20) & 0xFFF; // Grab nybbles 5-7.
-    this->automaticRespawn = (this->settings >> 19) & 0x1; // Grab nybble 8 bit 1.
-    this->despawnWithoutEvent = (this->settings >> 18) & 0x1; // Grab nybble 8 bit 2.
-    this->saveDespawnLocation = (this->settings >> 17) & 0x1; // Grab nybble 8 bit 3.
-    this->doMultiSpawning = (this->settings >> 16) & 0x1; // Grab nybble 8 bit 4.
-
-    switch ( (settings >> 12) & 0xF ) { // Grab nybble 9.
-        case 0:  this->spawnDelay = 0;  break;
-        case 1:  this->spawnDelay = 1;  break;
-        case 2:  this->spawnDelay = 10; break;
-        case 3:  this->spawnDelay = 20; break;
-        default: this->spawnDelay = (this->spawnDelay - 3)*30; // 30, 60, 90, 120, etc.
-    }
-    this->timer = 0; // Start the timer at 0.
-
-    // --- Nybbles 10-12 ---
-
-    this->isDataBank = (this->currentLayerId >> 7) & 0b1; // Grab nybbles 15-16 bit 1.
-    this->searchId = (this->currentLayerId) & 0b1111111; // Grab nybbles 15-16 bits 2-8.
-
-    if (this->isDataBank == 0) {
-        OSReport("\002 Actor Spawner has been created (searchId = %x).\n", this->searchId);
-    } else {
-        OSReport("\002 Data Bank has been created (searchId = %x).\n", this->searchId);
-    }
-    
+	pathController = 0;
+	while(pathController = (dPathSpawner_c*)fBase_c::search(NewActorSpawnerPath, (fBase_c*)pathController)) {
+		if(pathController->spawnerID == this->spawnerID) {
+			break;
+		}
+	}
+	if(pathController) {
+		OSReport("Actor Spawner Path Controller found!\n");
+	} else {
+		OSReport("No Actor Spawner Path Controller found for Spawner ID: %d\n", this->spawnerID);
+	}
+	
+	doMultiSpawning = this->settings >> 16 & 1;
+	saveDespawnLocation = this->settings >> 17 & 1;
+	despawnWithoutEvent = this->settings >> 18 & 1;
+	automaticRespawn = this->settings >> 19 & 1;
+	
+	actorID = this->settings >> 20;
+	
+	useLocation = this->settings & 0xFF;
+	
     return true;
 }
 
+int dActorSpawner_c::onExecute() {
+	if(doMultiSpawning) {
+		if((dFlagMgr_c::instance->flags & (1ULL << (eventId2 - 1))) != 0) {
+			Vec spawnPos = this->pos;
+			if(useLocation) {
+				mRect rect;
+				dCourseFull_c::instance->get(GetAreaNum())->getRectByID(useLocation, &rect);
 
-s32 dActorSpawner_c::onExecute() {
+				// Round the positions down/up to get the rectangle
+				int left = rect.x;
+				//int right = left + rect.width;
+				int top = -rect.y;
+				int bottom = top + rect.height;
 
-    // Return if this is a data bank.
-    if (this->isDataBank == true) {return true;}
+				spawnPos.x = GenerateRandomNumber(rect.width) + left;
+				spawnPos.y = GenerateRandomNumber(rect.height) + bottom; 
+			}
 
-    // Check if compatibility mode is on.
-    if (this->turnOffCompatibilityMode == false) {
-        // Get nybble 5 and check if the event is on.
-        if ( dFlagMgr_c::instance->active(this->compatibilityEventId - 1) ) {
-            // Check if the actor doesn't exist yet:.
-            if (this->newActor == 0) {
-                this->newActor = dStageActor_c::create((Actors)this->spawnedId,
-                    this->compatibilityChildSettings,
-                    &(this->pos),
-                    0, 0
-                );
-            }
-        } else {
-            // Return if flag is off and automatic respawning is on.
-            if (this->automaticRespawn == true) {return true;}
-            // Return if a new actor has been spawned.
-            if (this->newActor != 0) {
-                // Check if the new actor is still alive.
-                if ( this->newActorIsAlive() ) {
-                    // Change the position of the actor spawner.
-                    this->pos = this->newActor->pos;
-                    // Despawn the actor.
-                    this->newActor->Delete(1);
-                    this->newActor = 0;
-                }
-            }
-        }
+			dStageActor_c *ac = dStageActor_c::create((Actors)actorID, dbSettings, &spawnPos, 0, this->currentLayerID);
+			
+			ac->spriteFlagNum = dbSpriteFlagNum;
+			ac->eventId1 = dbEventId1;
+			ac->eventId2 = dbEventId2;
+		}
+	} else {
+		if((dFlagMgr_c::instance->flags & (1ULL << (eventId2 - 1))) != 0) {
+			if(!newActor) {
+				newActor = dStageActor_c::create((Actors)actorID, dbSettings, &pos, 0, this->currentLayerID);
+				if(pathController) {
+					pathController->acState.setState(&dPath_c::StateID_Init);
+				}
+			} else {
+				if(pathController) {
+					newActor->pos = pathController->pos;
+				}
+			}
+		} else {
+			if(newActor) {
+				newActor->Delete(1);
+				newActor = 0;
+			}
+		}
+	}
 
-        if (this->automaticRespawn == true) {
-            // Return if a new actor hasn't been spawned.
-            if (this->newActor == 0) {return true;}
-            // Check if the new actor isn't still alive.
-            if ( !(this->newActorIsAlive()) ) {
-                // Respawn the actor.
-                this->newActor = dStageActor_c::create((Actors)this->spawnedId,
-                    this->compatibilityChildSettings,
-                    &(this->pos),
-                    0, 0
-                );
-            }
-        }
 
-        return true;
-    }
-    // Otherwise, continue as normal.
-
-    // If there isn't a data bank, find one.
-    if (this->correspondent == 0) {
-        this->correspondent = this->findCorrespondingDataBank();
-        // If the correspondent wasn't found, return.
-        if (this->correspondent == 0) {
-            OSReport("\002 Actor Spawner Error: I couldn't find a correspondent!\n");
-            return true;
-        }
-    }
-
-    // If the event is on:
-    if ( dFlagMgr_c::instance->active(this->eventId2 - 1) ) {
-
-        // If the new actor doesn't exist yet:
-        if (this->newActor == 0) {
-
-            if (this->doMultiSpawning == false) { // Multi-spawning is off; keep track of the actor.
-
-                this->newActor = this->spawnActor(); // Spawn a new actor and keep track of it.
-                return true;
-
-            }
-
-            // Multi-spawning is on, but should it be manual or based on a timer?
-            if (this->spawnDelay == 0) { // Spawn Delay is set to the manual option.
-
-                this->spawnActor(); // Spawn a new actor without keeping track of it.
-                // Turn off the event.
-                dFlagMgr_c::instance->set( // Parameters as defined by game.h:
-                    (this->eventId2 - 1),  // number
-                    0,                     // delay
-                    false,                 // activate
-                    false,                 // reverseEffect
-                    false                  // makeNoise
-                );
-
-            } else { // Spawn Delay is set to a number of frames.
-
-                // Check if the number of frames specified has passed.
-                if (this->timer == this->spawnDelay) {
-                    this->timer = 0; // Reset the timer.
-                    this->spawnActor(); // Spawn a new actor.
-                } else {
-                    this->timer += 1; // Increment the timer towards spawnDelay.
-                }
-
-            }
-            return true;
-
-        }
-
-        // If automaticRespawn is on:
-        if (automaticRespawn == true) {
-            // Return if the actor is alive.
-            if ( this->newActorIsAlive() ) {return true;}
-            // Otherwise, re-create the new actor.
-            this->newActor = this->spawnActor();
-        }
-    } else { // The event isn't on.
-        // Return if despawnWithoutEvent isn't on.
-        if (this->despawnWithoutEvent == false) {return true;}
-        // Return if the actor doesn't have a pointer to it.
-        if (this->newActor == 0) {return true;}
-        // Return if the actor isn't alive.
-        if ( !(this->newActorIsAlive()) ) {return true;}
-        // Otherwise, move the position of the actor spawner if saveDespawnLocation is on.
-        if (this->saveDespawnLocation == true) {
-            this->pos = this->newActor->pos;
-            this->correspondent->pos = this->newActor->pos;
-        }
-        // And then despawn the actor.
-        this->newActor->Delete(1);
-        this->newActor = 0;
-    }
 
     return true;
 }
-
-
-dActorSpawner_c* dActorSpawner_c::findCorrespondingDataBank() {
-    dActorSpawner_c* dataBank = 0;
-
-    // Loop searching for a Data Bank with the same searchId as this.
-    while (true) {
-        // Set dataBank equal to a pointer towards the first dat bank found, and then every time
-        // after that find the one after the one just found (that's what the second parameter does).
-        dataBank = (dActorSpawner_c*) fBase_c::search(NewActorSpawner, dataBank);
-        // If the loop finishes:
-        if (dataBank == 0){
-            return 0; // Return without finding a Data Bank.
-        }
-
-        // Return the corresponding Data Bank if it is found.
-        if ( (dataBank->searchId == this->searchId) && (dataBank->isDataBank==1) ) {
-            return dataBank;
-        }
-    }    
-}
-
-
-dStageActor_c* dActorSpawner_c::spawnActor() {
-    dStageActor_c* actor = (dStageActor_c*) dStageActor_c::create(
-        (Actors) this->spawnedId,
-        this->correspondent->settings,
-        &(this->pos),
-        0, 0
-    );
-    // Set nybbles 1-4 of the new actor.
-    actor->eventId2 = this->correspondent->eventId2;
-    actor->eventId1 = this->correspondent->eventId1;
-
-    return actor;
-}
-
 
 bool dActorSpawner_c::newActorIsAlive() {
     // Return true if the search doesn't return 0; the actor is alive.
-    return fBase_c::search(this->newActor->id) != 0;
+    return true; //fBase_c::search(this->newActor->id) != 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+const SpriteData NewActorSpawnerDataBankSpriteData = { ProfileId::NewActorSpawnerDataBank, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile NewActorSpawnerDataBankProfile(&dSpawnerDataBank_c::build, SpriteId::NewActorSpawnerDataBank, NewActorSpawnerDataBankSpriteData, ProfileId::NewActorSpawnerDataBank, ProfileId::NewActorSpawnerDataBank, "NewActorSpawnerDataBank", SpawnerFileList);
+
+
+dActor_c* dSpawnerDataBank_c::build() {
+    void* buffer = AllocFromGameHeap1(sizeof(dSpawnerDataBank_c));
+    return new(buffer) dSpawnerDataBank_c;
+}
+
+
+int dSpawnerDataBank_c::onCreate() {
+	//this->currentLayerID; use the layer ID as the spawnerID
+    return true;
+}
+
+int dSpawnerDataBank_c::onExecute() {
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+const SpriteData NewActorSpawnerPathSpriteData = { ProfileId::NewActorSpawnerPath, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile NewActorSpawnerPathProfile(&dPathSpawner_c::build, SpriteId::NewActorSpawnerPath, NewActorSpawnerPathSpriteData, ProfileId::NewActorSpawnerPath, ProfileId::NewActorSpawnerPath, "NewActorSpawnerPath", SpawnerFileList);
+
+
+dActor_c* dPathSpawner_c::build() {
+    void* buffer = AllocFromGameHeap1(sizeof(dPathSpawner_c));
+    return new(buffer) dPathSpawner_c;
+}
+
+
+int dPathSpawner_c::onCreate() {
+	this->spawnerID = this->settings >> 20 & 0xFF;
+	OSReport("Actor Spawner Path Controller: %d\n", this->spawnerID);
+	
+    return true;
+}
+
+int dPathSpawner_c::onExecute() {
+	acState.execute();
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
