@@ -815,7 +815,8 @@ enum Actors {
 	PoisonShroom = 805,
 	RandomLooperEvent = 806,
 	NewActorSpawnerPath = 807,
-	NewActorSpawnerDataBank = 808
+	NewActorSpawnerDataBank = 808,
+	UpsideDownWall = 809
 };
 
 struct Actor {

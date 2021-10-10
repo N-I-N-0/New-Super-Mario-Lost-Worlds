@@ -559,6 +559,7 @@ enum
 	RandomLooperEvent = 539,
 	NewActorSpawnerPath = 540,
 	NewActorSpawnerDataBank = 541,
+	UpsideDownWall = 542,
 
 	Num
 };
@@ -1381,6 +1382,7 @@ enum
 	RandomLooperEvent = 806,
 	NewActorSpawnerPath = 807,
 	NewActorSpawnerDataBank = 808,
+	UpsideDownWall = 809,
 	
 	Num
 };

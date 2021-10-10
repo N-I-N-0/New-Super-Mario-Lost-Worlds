@@ -26,7 +26,7 @@
 .extern loc_8005475C
 .extern loc_8005467C
 
-.extern IsGravityEnabled2
+.extern playersUpsideDown
 
 
 .global FirstHook		#0x80070ef4 -> 0x802f929c
@@ -53,9 +53,29 @@ FirstHook:	#Basically, sets the gravity floats depending of the gravity swap fla
 	stwu	r7, -0x4(r1)
 	lis		r5, IsGravityEnabled@h			#Store Gravity flag in r5
 	ori		r5, r5, IsGravityEnabled@l
+	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
+
+	cmpwi	r4, 0
+	#.int 0x48000000
+	bne     continueFirst
+
+	lhz		r4, -0x1E4(r3)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerFirst
+	lis     r4, 0
+	b		continueFirst
+	
+isPlayerFirst:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, -0x1E8(r3)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+	
+continueFirst:
 	lis		r6, GravityFloat_maybe@h		#Store Gravity float in r6
 	ori		r6, r6, GravityFloat_maybe@l
-	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
 	beq		firstHook_gravityNormal			#Set back the gravity floats to normal
 	lis		r4, 0x4080						#r4 = 0x40800000 = 4.0f
@@ -149,6 +169,26 @@ ThirdHook:	#Basically, do addition or subtraction shit with floats depending of 
 	lis		r5, IsGravityEnabled@h			#Store Gravity flag in r5
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
+	
+	cmpwi	r4, 0
+	#.int 0x48000000
+	bne     continueThird
+
+	lhz		r4, 0x8(r30)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerThird
+	lis     r4, 0
+	b		continueThird
+	
+isPlayerThird:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r30)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueThird:
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
 	beq		thirdHook_AddFloats				#So, lemme explain the 7 following lines - if r4 = 0, then f0 = f1 + f0, otherwise then f0 = f1 - f0
 	b		thirdHook_SubtractFloats
@@ -173,7 +213,26 @@ FourthHook:	#Basically, change the current player's y speed and set some gravity
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	bne		continueForth
+	
+	lhz		r4, 0x8(r31)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerForth
+	lis     r4, 0
+	b		fourthHook_Return
+	
+isPlayerForth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r31)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
 	beq		fourthHook_Return
+	
+	
+continueForth:
 	lis		r6, GravityFloat_maybe@h		#Store Gravity float in r6
 	ori		r6, r6, GravityFloat_maybe@l
 	lis		r4, 0xC000						#r4 = 0xC0000000 = -2.0f
@@ -196,8 +255,28 @@ FifthHook:	#Basically, do shit with floats and store it in the current player's 
  	ori		r5, r5, IsGravityEnabled@l
  	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
  	cmpwi	r4, 0							#Compare r4 with 0, if it's not equal, then lower line
- 	bne		fifthHook_doBLEComparaison		#So - If no gravity swap, then if f0 =< f29, then return, otherwise, set r31->speed.y to f29 - If gravity, same but if f0 => f29
- 	fcmpo	cr0, f0, f29
+ 	
+	bne		fifthHook_doBLEComparaison
+	
+	
+	lhz		r4, 0x8(r30)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerFifth
+	lis     r4, 0
+	b		continueFifth
+	
+isPlayerFifth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r30)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueFifth:	
+	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	bne		fifthHook_doBLEComparaison		#So - If no gravity swap, then if f0 =< f29, then return, otherwise, set r31->speed.y to f29 - If gravity, same but if f0 => f29
+	fcmpo	cr0, f0, f29
  	bge		fifthHook_return
  	b		fifthHook_storeF29IntoYSpeed
 fifthHook_doBLEComparaison:
@@ -242,6 +321,29 @@ SixthHook:	#I don't want to comment anymore at this point
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it's not equal, then lower line
 	bne		sixthHook_DoFNEGShit			#I said i don't want to comment anymore at this point !!!
+
+
+	lhz		r4, 0x8(r29)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerSixth
+	lis     r4, 0
+	b		continueSixth
+	
+isPlayerSixth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r29)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueSixth:
+	cmpwi	r4, 0							#Compare r4 with 0, if it's not equal, then lower line
+	bne		sixthHook_DoFNEGShit			#I said i don't want to comment anymore at this point !!!
+
+
+
+
 	fcmpo	cr0, f0, f1
 	ble-	sixthHook_firstReturn
 	b		sixthHook_secondReturn
@@ -273,7 +375,27 @@ SeventhHook:#Basically, do shit with actor properties
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	bne     continueSeventh2
+	
+	lhz		r4, 0x8(r3)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerSeventh
+	lis     r4, 0
+	b		continueSeventh
+	
+isPlayerSeventh:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r3)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueSeventh:
+	cmpwi	r4, 0		
 	beq		seventhHook_gravityNormal		#80dfcd9c
+	
+continueSeventh2:
 	lis		r4, 0x4080						#r4 = 0x40800000 = 4.0f
 	stw		r4, 0xF8(r3)					#Store r4's content (A.K.A. 4.0f) in r3->max_speed.y
 	lis		r4, 0x8000						#r4 = 0x80000000 = -0.0f ???
@@ -307,7 +429,31 @@ EighthHook:	#Meh.
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	
+
+	bne     continueEigth2
+	
+	lhz		r4, 0x8(r31)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerEigth
+	lis     r4, 0
+	b		continueEigth
+	
+isPlayerEigth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r31)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueEigth:
+	cmpwi	r4, 0		
 	beq		eighthHook_return
+	
+continueEigth2:
+
+
 	lis		r5, GravityFloat_maybe@h		#Store Gravity float in r6
 	ori		r5, r5, GravityFloat_maybe@l
 	cmpwi	r31, 0							#Get if the r31 pointer is null, if yes, return
@@ -356,7 +502,28 @@ NinthHook:
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+
+	bne     continueNinth2
+	
+	lhz		r4, 0x8(r3)						#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerNinth
+	lis     r4, 0
+	b		continueNinth
+	
+isPlayerNinth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r3)						#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueNinth:
+	cmpwi	r4, 0		
 	beq		ninthHook_return
+	
+continueNinth2:
 	fcmpo	cr0, f1, f0						#if f1 =< f0, then lower line
 	ble		ninthHook_return
 	fneg	f1, f1							#f1 = -f1
@@ -374,7 +541,27 @@ TenthHook:
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	bne     continueTenth2
+	
+	lhz		r4, 0x8(r29)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerTenth
+	lis     r4, 0
+	b		continueTenth
+	
+isPlayerTenth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r29)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueTenth:
+	cmpwi	r4, 0		
 	beq		tenthHook_return
+	
+continueTenth2:
 	fneg	f1, f1							#f1 = -f1
 tenthHook_return:
 	stfs	f1, 0xEC(r29)					#Store f1 in r29->speed.y
@@ -384,7 +571,7 @@ tenthHook_return:
 	b ContinueFromTenthHook
 
 
-EleventhHook:
+EleventhHook:								#resets values
 	stwu	r1, -0x10(r1)
 	stwu	r4, -0x4(r1)
 	stwu	r5, -0x4(r1)
@@ -392,6 +579,9 @@ EleventhHook:
 	lis		r5, IsGravityEnabled@h			#Store Gravity flag in r5
 	ori		r5, r5, IsGravityEnabled@l
 	stw		r4, 0(r5)						#Get if the gravity swap is enabled in r4
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	stw		r4, 0(r5)
 	lwzu	r5, 0(r1)
 	lwzu	r4, 4(r1)
 	addi	r1, r1, 4
@@ -405,7 +595,27 @@ TwelvethHook:
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
+	bne     continueTwelveth2
+	
+	lhz		r4, -0x1E4(r3)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerTwelveth
+	lis     r4, 0
+	b		continueTwelveth
+	
+isPlayerTwelveth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, -0x1E8(r3)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueTwelveth:
+	cmpwi	r4, 0		
 	beq		twelvethHook_return
+	
+continueTwelveth2:
 	lbz		r4, 0x88(r3)					#"should be 4!"
 	cmpwi	r4, 0							#Compare r4 with 0, if it equals, then lower line
 	beq		twelvethHook_return
@@ -442,22 +652,48 @@ thirteenthHook_return:
 	b ContinueFromThirteenthHook
 
 
+
+
+
 FourteenthHook:
+	mr		r20, r3
+	lwz		r0, 0x88(r3)
+	rlwinm	r3, r0, 0x0, 0xb, 0x12
+	neg		r0, r3
+	or		r0, r0, r3
 	srwi	r3, r0, 31						#orig
+	
+	mr		r21, r5
 	lis		r5, IsGravityEnabled@h			#Store Gravity flag in r0
 	ori		r5, r5, IsGravityEnabled@l
-	mr		r21, r5
+	lwz		r5, 0(r5)						#Get if the gravity swap is enabled in r4
+	cmpwi	r5, 0
+	bne     fourteenthHook_gravityEnabled
+	
+	lhz		r5, -0x1E4(r20)					#name
+	cmpwi   r5, 13							#is player?
+	beq		isPlayerFourteenth
+	lis     r5, 0
+	b		continueFourteenth
+	
+isPlayerFourteenth:
+	lwz		r5, -0x1E8(r20)					#settings
 	mr		r20, r4
-	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
-	cmpwi	r4, 0
+	lis		r4, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r4, r4, playersUpsideDown@l
+	add		r5, r5, r4
+	lbz		r5, 0(r5)
+
+continueFourteenth:
+	cmpwi	r5, 0	
 	mr		r5, r21
 	mr		r4, r20
 	bne		fourteenthHook_gravityEnabled
-	b		ContinueFromFourteenthHook
+	blr
 fourteenthHook_gravityEnabled:
+	mr		r5, r21
 	li		r3, 1
-	b		ContinueFromFourteenthHook
-
+	blr
 
 FifteenthHook:
 	beq		fifteenthHook_return
@@ -467,6 +703,26 @@ FifteenthHook:
 	ori		r5, r5, IsGravityEnabled@l
 	lwz		r4, 0(r5)						#Get if the gravity swap is enabled in r4
 	cmpwi	r4, 0
+	bne     continueFifteenth2
+	
+	lhz		r4, 0x8(r29)					#name
+	cmpwi   r4, 13							#is player?
+	beq		isPlayerFifteenth
+	lis     r4, 0
+	b		continueFifteenth
+	
+isPlayerFifteenth:
+	lis		r5, playersUpsideDown@h			#Store Gravity flag in r5
+	ori		r5, r5, playersUpsideDown@l
+	
+	lwz		r4, 0x4(r29)					#settings
+	add		r5, r5, r4
+	lbz		r4, 0(r5)
+
+continueFifteenth:
+	cmpwi	r4, 0
+	
+continueFifteenth2:
 	mr		r5, r21
 	mr		r4, r20
 	bne		fifteenthHook_return

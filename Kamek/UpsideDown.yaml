@@ -1,5 +1,5 @@
 ---
-source_files: [../src/UpsideDown.S, ../src/UpsideDownEvent.cpp]
+source_files: [../src/UpsideDown.S, ../src/UpsideDownEvent.cpp, ../src/UpsideDownWall.cpp]
 
 hooks:
   - name: FirstHook
@@ -17,7 +17,7 @@ hooks:
   - name: ThirdHook
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80057104
+    src_addr_pal: 0x80057104        #r30 + 5332 = characterID
     target_func: 'ThirdHook'
 
   - name: FourthHook
@@ -83,7 +83,7 @@ hooks:
   - name: FourteenthHook
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80070CC0
+    src_addr_pal: 0x80070cb0
     target_func: 'FourteenthHook'
 
   - name: FifteenthHook
