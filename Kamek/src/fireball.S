@@ -333,19 +333,51 @@ returnByteAtPointer__FUiUi:
 .global checkBouncingBlock
 checkBouncingBlock:
 	lwz r3, 0x560(r30) #daGoldFireBall_c.isGold
-	cmpwi r3, 0
-	beq _notGoldFire
+	cmpwi r3, 1
+	bne _notGoldFire
+
+	stwu sp, -0x40(sp)
+	stw r0, 0x44(sp)
+	mflr r0
+	stw r0, 0x3C(sp)
+	stw r4, 0x38(sp)
+	stw r5, 0x34(sp)
+	stw r6, 0x30(sp)
+	stw r24, 0x2C(sp)
+	stw r25, 0x28(sp)
+	stw r26, 0x24(sp)
+	stw r27, 0x20(sp)
+	stw r28, 0x1C(sp)
+	stw r29, 0x18(sp)
+	stw r30, 0x14(sp)
+	stw r31, 0x10(sp)
 	mr r3, r30
 	bl checkForTriggerableBlock__16daGoldFireBall_cFv
+	lwz r31, 0x10(sp)
+	lwz r30, 0x14(sp)
+	lwz r29, 0x18(sp)
+	lwz r28, 0x1C(sp)
+	lwz r27, 0x20(sp)
+	lwz r26, 0x24(sp)
+	lwz r25, 0x28(sp)
+	lwz r24, 0x2C(sp)
+	lwz r6, 0x30(sp)
+	lwz r5, 0x34(sp)
+	lwz r4, 0x38(sp)
+	lwz r0, 0x3C(sp)
+	mtlr	r0
+	lwz r0, 0x44(sp)
+	addi	sp, sp, 0x40
+
 	cmpwi r3, 1
 	li r3, 0
-	li r4, 0
-	li r5, 0
 	beq _goldFireHitAdjacent
 _notGoldFire:
 	addi r3, r30, 0x1EC
 	b continueFromCheckBouncingBlock
 _goldFireHitAdjacent:
+	li r4, 0
+	li r5, 0
 	b goldFireHitAdjacent
 
 
