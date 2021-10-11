@@ -7,7 +7,7 @@
 
 int doWait = 0;
 bool imDoneDoingVisibility;
-int cloudSpawned;
+u8 cloudSpawned[4];
 int amIinCloud;
 bool istherelightning = false;
 int justspawnedit = 0;
@@ -1109,7 +1109,10 @@ public:
 void placeholder::doCleanClouds() {
 	amIinCloud = 0;
 	imDoneDoingVisibility = false;
-	cloudSpawned = 0;
+	cloudSpawned[0] = 0;
+	cloudSpawned[1] = 0;
+	cloudSpawned[2] = 0;
+	cloudSpawned[3] = 0;
 }
 
 void placeholder::increaseIceCount() {
@@ -1154,7 +1157,7 @@ int dGameDisplay_c::doWaitCheck() {
 	/*Cloud*/
 	/*******/
 	if(p == 12 && doWait == 0) {
-		if (player->input.areWeShaking() && cloudSpawned < 3) {
+		if (player->input.areWeShaking() && cloudSpawned[0] < 3) {
 			int isPlayerMoving = 1;
 			if(!(player->input.heldButtons & WPAD_LEFT) && !(player->input.heldButtons & WPAD_RIGHT) && (player->collMgr.isOnTopOfTile())) {
 				isPlayerMoving = 0;
@@ -1163,13 +1166,33 @@ int dGameDisplay_c::doWaitCheck() {
 			VEC3 actualPos = {player->pos.x + ((isPlayerMoving == 1) ? ((player->direction == 1) ? -24 : 24) : 0), player->pos.y - ((isPlayerMoving == 1) ? 25 : 5), player->pos.z};
 			// VEC3 actualPos = {player->pos.x, player->pos.y - 20, player->pos.z};
 			dStageActor_c *cloud = CreateActor(555, settings, actualPos, 0, 0);
-			cloudSpawned++;
+			cloudSpawned[0]++;
 			player->speed.x = 0;
 			player->speed.y = 0;
 			imDoneDoingVisibility = false;
 			doWait = 30;
 		}
 	}
+	
+	for(int i=1; i<4; i++) {
+		dAcPy_c *player = dAcPy_c::findByID(i);
+		if (CheckExistingPowerup(player) == 12 && player->input.areWeShaking() && cloudSpawned[i] < 3) {
+			int isPlayerMoving = 1;
+			if(!(player->input.heldButtons & WPAD_LEFT) && !(player->input.heldButtons & WPAD_RIGHT) && (player->collMgr.isOnTopOfTile())) {
+				isPlayerMoving = 0;
+			}
+			int settings = 0 | (0 << 4) | (player->direction << 8) | (4 << 12);
+			VEC3 actualPos = {player->pos.x + ((isPlayerMoving == 1) ? ((player->direction == 1) ? -24 : 24) : 0), player->pos.y - ((isPlayerMoving == 1) ? 25 : 5), player->pos.z};
+			// VEC3 actualPos = {player->pos.x, player->pos.y - 20, player->pos.z};
+			dStageActor_c *cloud = CreateActor(555, settings, actualPos, 0, 0);
+			cloudSpawned[i]++;
+			player->speed.x = 0;
+			player->speed.y = 0;
+			imDoneDoingVisibility = false;
+			doWait = 30;
+		}
+	}
+	
 	if(p == 12) {
 		if(amIinCloud == 0) {
 			amIinCloud = 1;
@@ -1196,7 +1219,7 @@ int dGameDisplay_c::doWaitCheck() {
 		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_01");
 		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_02");
 		if(p == 12) {
-			if(cloudSpawned == 0) {
+			if(cloudSpawned[0] == 0) {
 				P_cloud_00->SetVisible(true);
 				P_cloud_01->SetVisible(true);
 				P_cloud_02->SetVisible(true);
@@ -1204,7 +1227,7 @@ int dGameDisplay_c::doWaitCheck() {
 				P_cloudOff_01->SetVisible(false);
 				P_cloudOff_02->SetVisible(false);
 			}
-			if(cloudSpawned == 1) {
+			if(cloudSpawned[0] == 1) {
 				P_cloud_00->SetVisible(false);
 				P_cloud_01->SetVisible(true);
 				P_cloud_02->SetVisible(true);
@@ -1212,7 +1235,7 @@ int dGameDisplay_c::doWaitCheck() {
 				P_cloudOff_01->SetVisible(false);
 				P_cloudOff_02->SetVisible(false);
 			}
-			if(cloudSpawned == 2) {
+			if(cloudSpawned[0] == 2) {
 				P_cloud_00->SetVisible(false);
 				P_cloud_01->SetVisible(false);
 				P_cloud_02->SetVisible(true);
@@ -1220,7 +1243,7 @@ int dGameDisplay_c::doWaitCheck() {
 				P_cloudOff_01->SetVisible(true);
 				P_cloudOff_02->SetVisible(false);
 			}
-			if(cloudSpawned == 3) {
+			if(cloudSpawned[0] == 3) {
 				P_cloud_00->SetVisible(false);
 				P_cloud_01->SetVisible(false);
 				P_cloud_02->SetVisible(false);
