@@ -64,6 +64,7 @@ class daBoomerangHax_c : public dEn_c {
 	mMtx coinmatrix;
 	VEC3 coinscale;
 	S16Vec coinrot;
+	S16Vec spikerot;
 	bool doIhaveCoin;
 	bool isCoinSpawned;
 
@@ -712,8 +713,8 @@ int daBoomerangHax_c::onExecute() {
 		this->rot.z += (this->direction == 1) ? 2000 : -2000;
 	}
 	if(this->variation == 1) {
-		this->rot.z += (this->direction == 1) ? 2000 : -2000; //Rotating it depending of its spawning direction
-		OSReport("Rotating spikeball: %d, %d / 0x%X\n", this->direction, this->rot.z, this->rot.z);
+		this->spikerot.z += (this->direction == 1) ? 2000 : -2000; //Rotating it depending of its spawning direction
+		//OSReport("Rotating spikeball: %d, %d / 0x%X\n", this->direction, this->rot.z, this->rot.z);
 		PlaySound(this, SE_PLY_WALK_METAL);                  //Play SFX
 	}
 	if(this->variation == 3) {
@@ -766,6 +767,9 @@ void daBoomerangHax_c::updateModelMatrices() {
 	if(this->variation == 3) {
 		coinmatrix.translation(pos.x, pos.y, pos.z);
 		coinmatrix.applyRotationYXZ(&coinrot.x, &coinrot.y, &coinrot.z);
+	}
+	if(this->variation == 1) {
+		matrix.applyRotationYXZ(&spikerot.x, &spikerot.y, &spikerot.z);
 	}
 
 	bodyModel.setDrawMatrix(matrix);
@@ -1145,6 +1149,7 @@ int dGameDisplay_c::doWaitCheck() {
 	if(player->input.nowPressed & WPAD_B) {
 		enableDebugMode = !enableDebugMode;
 	}
+	
 	/*******/
 	/*Cloud*/
 	/*******/
