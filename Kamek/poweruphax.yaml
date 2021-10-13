@@ -423,16 +423,16 @@ hooks:
     addr_pal: 0x8006122C
     data: '60000000'                                #Not needed
 
-  #- name: TinyTableFix
-  #  type: patch
-  #  addr_pal: 0x802F5AEC
-  #  data: '00000001'
+  - name: TinyTableFix
+    type: patch
+    addr_pal: 0x802F5AEC
+    data: '00000001'
 
-  - name: FixThisTinyTable
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x80146850
-    target_func: 'FixThisTinyTable'                 #Done!
+#  - name: FixThisTinyTable
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80146850
+#    target_func: 'FixThisTinyTable'                 #Done!
 
   - name: LoadHammerFromHammerMArc
     type: patch

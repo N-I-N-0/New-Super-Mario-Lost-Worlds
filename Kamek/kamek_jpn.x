@@ -1,4 +1,6 @@
 SECTIONS {
+	ContinueFromSixteenthHook = 0x80143370;
+
 	layerZPositionForByugoHack = 0x8042B674;
 
 	continueNodeSetup = 0x808E7EE0;

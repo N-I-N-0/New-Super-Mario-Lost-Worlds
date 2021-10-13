@@ -1,0 +1,8 @@
+---
+source_files: [../src/poisontex.S]
+hooks:
+  - name: checkIfLevelForOtherLiquid
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800ebe78
+    target_func: 'selectBrres'

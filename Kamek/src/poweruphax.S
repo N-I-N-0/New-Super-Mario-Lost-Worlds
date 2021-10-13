@@ -1825,11 +1825,13 @@ YetAnotherTable:
 WeirdScaleTable:
 	.float 16.0, 31.0, 31.0, 6.0, 34.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0
 
+.align 4
 AsdfTable:
-	.byte 1, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+	.byte 1, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0
 
+.align 4
 BlahTableOffsets:
-	.long 1, 2, 2, 0, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2
+	.long 1, 2, 2, 0, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0
 
 NewTinyTable:
 	.long 1, 1, 1, 1
