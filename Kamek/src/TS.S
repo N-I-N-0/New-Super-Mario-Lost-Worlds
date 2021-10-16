@@ -10,9 +10,18 @@
 .extern GameMgrP
 .extern dEventOpeningTitle_c_StateID_PressButtonExitAnimeEndWait
 
+.extern ExitStage__Fiiii
+.extern DoSceneChange__FUsUiUi
+
 .global TitleScreenExec
 TitleScreenExec:
-    li    r4, 0x0200                # WPAD_TWO
+	li r3, 3
+	li r4, 0
+	li r5, 0  
+	bl DoSceneChange__FUsUiUi
+	b ret
+	
+	li    r4, 0x0200                # WPAD_TWO
     lis   r3, ActiveWiimote@ha
     lwz   r3, ActiveWiimote@l(r3)
     lwz   r12, 0(r3)
