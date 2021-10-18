@@ -1260,6 +1260,154 @@ int dGameDisplay_c::doWaitCheck() {
 			P_cloudOff_01->SetVisible(false);
 			P_cloudOff_02->SetVisible(false);
 		}
+		
+		P_cloud_00 = layout.findPictureByName("P_cloud_03");
+		P_cloud_01 = layout.findPictureByName("P_cloud_05");
+		P_cloud_02 = layout.findPictureByName("P_cloud_04");
+		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_05");
+		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_04");
+		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_03");
+		if(CheckExistingPowerup(dAcPy_c::findByID(1))) {
+			if(cloudSpawned[1] == 0) {
+				P_cloud_00->SetVisible(true);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(false);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[1] == 1) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[1] == 2) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[1] == 3) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(false);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(true);
+			} 
+		} else {
+			P_cloud_00->SetVisible(false);
+			P_cloud_01->SetVisible(false);
+			P_cloud_02->SetVisible(false);
+			P_cloudOff_00->SetVisible(false);
+			P_cloudOff_01->SetVisible(false);
+			P_cloudOff_02->SetVisible(false);
+		}
+		
+		
+		P_cloud_00 = layout.findPictureByName("P_cloud_06");
+		P_cloud_01 = layout.findPictureByName("P_cloud_08");
+		P_cloud_02 = layout.findPictureByName("P_cloud_07");
+		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_08");
+		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_07");
+		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_06");
+		if(CheckExistingPowerup(dAcPy_c::findByID(2))) {
+			if(cloudSpawned[2] == 0) {
+				P_cloud_00->SetVisible(true);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(false);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[2] == 1) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[2] == 2) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[2] == 3) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(false);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(true);
+			} 
+		} else {
+			P_cloud_00->SetVisible(false);
+			P_cloud_01->SetVisible(false);
+			P_cloud_02->SetVisible(false);
+			P_cloudOff_00->SetVisible(false);
+			P_cloudOff_01->SetVisible(false);
+			P_cloudOff_02->SetVisible(false);
+		}
+		
+		
+		P_cloud_00 = layout.findPictureByName("P_cloud_09");
+		P_cloud_01 = layout.findPictureByName("P_cloud_11");
+		P_cloud_02 = layout.findPictureByName("P_cloud_10");
+		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_11");
+		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_10");
+		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_09");
+		if(CheckExistingPowerup(dAcPy_c::findByID(3))) {
+			if(cloudSpawned[3] == 0) {
+				P_cloud_00->SetVisible(true);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(false);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[3] == 1) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(true);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(false);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[3] == 2) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(true);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(false);
+			}
+			if(cloudSpawned[3] == 3) {
+				P_cloud_00->SetVisible(false);
+				P_cloud_01->SetVisible(false);
+				P_cloud_02->SetVisible(false);
+				P_cloudOff_00->SetVisible(true);
+				P_cloudOff_01->SetVisible(true);
+				P_cloudOff_02->SetVisible(true);
+			} 
+		} else {
+			P_cloud_00->SetVisible(false);
+			P_cloud_01->SetVisible(false);
+			P_cloud_02->SetVisible(false);
+			P_cloudOff_00->SetVisible(false);
+			P_cloudOff_01->SetVisible(false);
+			P_cloudOff_02->SetVisible(false);
+		}
+		
+		
 		imDoneDoingVisibility = true;
 	}
 
