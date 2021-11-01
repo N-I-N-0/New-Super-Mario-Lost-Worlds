@@ -37,17 +37,6 @@ public:
 	
 	bool done;
 
-	dCourse_c *course;
-	dCourse_c::rail_s *rail;
-	dCourse_c::railNode_s *currentNode;
-	dCourse_c::railNode_s *nextNode;
-	int currentNodeNum;
-	float moveDeltaX, moveDeltaY;
-	int steps;
-	int speed;
-	
-
-
 	static dActor_c *build();
 
 	void updateModelMatrices();
@@ -78,22 +67,13 @@ CREATE_STATE(daGreatGoalPole_c, Wait);
 
 void daGreatGoalPole_c::beginState_Wait() {}
 void daGreatGoalPole_c::executeState_Wait() {
-	
-	if (this->anmFlag.isAnimationDone()) {
-		this->anmFlag.setCurrentFrame(0.0);
-	}
 	if (!done) {
 		dStageActor_c* player = (dStageActor_c*)FindActorByType(PLAYER, 0);
 
-		OSReport("HI 1\n");
-
 		if (player->pos.x >= this->pos.x - 64) {
-			OSReport("HI 2\n");
 			doStateChange(&StateID_FollowPath);
-			//doStateChange(&StateID_Run);
 		}
 	}
-	//doStateChange(&StateID_Fly);
 }
 void daGreatGoalPole_c::endState_Wait() {}
 
@@ -253,17 +233,11 @@ int daGreatGoalPole_c::onCreate() {
 	this->a1UPPhysics.initWithStruct(this, &a1UPPhysicsInfo);
 	this->a1UPPhysics.addToList();
 
-
-
 	//baseA
 	physicsInfo.x1 = -16;
 	physicsInfo.y1 = 15.5;
 	physicsInfo.x2 = 16;
 	physicsInfo.y2 = 0;
-
-	//physicsInfo.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
-	//physicsInfo.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
-	//physicsInfo.otherCallback3 = &daEnBlockMain_c::OPhysicsCallback3;
 
 	physics.setup(this, &physicsInfo, 1, 0, 0);
 	physics.flagsMaybe = 0x260;
@@ -272,29 +246,17 @@ int daGreatGoalPole_c::onCreate() {
 	physics.callback3 = (void*)&PhysCB6;
 	physics.addToList();
 	
-	
 	sotCollider.init(this, 0, 16, 0, 16, -16, 0, 1);
 	sotCollider._47 = 0xA;
 	sotCollider.flags = 0x80180 | 0xC00;
 	sotCollider.addToList();
 	
-	
 	done = false;
-
-
-	
 	
 	this->disableEatIn();
 
-
-	/*for (int i = 0; i < 4; i++)
-		if (dAcPy_c *player = dAcPy_c::findByID(i))
-			player->dealsWithGoalPutonCapAnimation();
-	*/
-
 	baseArot = (S16Vec){0, 0, 0};
 	wingRot = (S16Vec){0, 0x4000, 0};
-	
 	
 	this->scale = (Vec){1, 1, 1};
 	this->wingScale = (Vec){2, 2, 2};
@@ -308,9 +270,7 @@ int daGreatGoalPole_c::onCreate() {
 	beginState_Init();
 	executeState_Init();
 	doStateChange(&StateID_Wait);
-	//changeToDone = true;
 	
-	//this->onExecute();
 	return true;
 }
 
@@ -354,15 +314,6 @@ int daGreatGoalPole_c::onExecute() {
 	wing._vf1C();
 	updateModelMatrices();
 	acState.execute();
-	/*physics1.removeFromList();
-	physics1.setupRound(this, 0.0f, 200.0f - this->aTestFloat, 80.0f, (void*)&BallonPhysCB1, (void*)&BallonPhysCB2, (void*)&BallonPhysCB3, 1, 0, 0);
-	physics1.addToList();
-	OSReport("Ballon aTestFloat: %f\n", this->aTestFloat);
-	this->aTestFloat += 0.25;*/
-	//this->pos.x += aTestFloat;
-	
-	//this->rot.y -= -0x100;
-	//OSReport("Rot.y: %x\n", this->rot.y);
 
 	if (this->anmFlag.isAnimationDone()) {
 		this->anmFlag.setCurrentFrame(0.0);
