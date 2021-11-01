@@ -1,18 +1,21 @@
 #include <common.h>
 #include <game.h>
 #include <profile.h>
+#include "path.h"
 
 extern "C" dCourse_c::rail_s *GetRail(int id);
 
 const char* GreatGoalPoleFileList[] = { "goal_set", "wing", 0 };
 
-class daGreatGoalPole_c : public daEnBlockMain_c {
+class daGreatGoalPole_c : public dEnPath_c {
 public:
 	int onCreate();
 	int onExecute();
 	int afterExecute(int param);
 	int onDelete();
 	int onDraw();
+
+	Physics physics;
 
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile goalBrres;
@@ -68,13 +71,9 @@ public:
 	USING_STATES(daGreatGoalPole_c);
 	
 	DECLARE_STATE(Wait);
-	DECLARE_STATE(Fly);
-	DECLARE_STATE(Run);
 };
 
 CREATE_STATE(daGreatGoalPole_c, Wait);
-CREATE_STATE(daGreatGoalPole_c, Fly);
-CREATE_STATE(daGreatGoalPole_c, Run);
 
 
 void daGreatGoalPole_c::beginState_Wait() {}
@@ -90,7 +89,8 @@ void daGreatGoalPole_c::executeState_Wait() {
 
 		if (player->pos.x >= this->pos.x - 64) {
 			OSReport("HI 2\n");
-			doStateChange(&StateID_Run);
+			doStateChange(&StateID_FollowPath);
+			//doStateChange(&StateID_Run);
 		}
 	}
 	//doStateChange(&StateID_Fly);
@@ -98,111 +98,6 @@ void daGreatGoalPole_c::executeState_Wait() {
 void daGreatGoalPole_c::endState_Wait() {}
 
 
-
-
-
-
-
-void daGreatGoalPole_c::beginState_Run() 
-{
-	OSReport("HI 2.7\n"); 
-
-	/*switch ((int)currentNode->speed)
-	{
-	case 0:
-		bindAnimChr_and_setUpdateRate("YB_Rwait", 1, 0.0, 1.5);
-		break;
-	case 1:
-		bindAnimChr_and_setUpdateRate("YB_Rrun", 1, 0.0, 1.5);
-		break;
-	case 2:
-		bindAnimChr_and_setUpdateRate("YB_Rb_dash", 1, 0.0, 1.5);
-		break;
-	case 3:
-		bindAnimChr_and_setUpdateRate("YB_Rb_dash2", 1, 0.0, 1.5);
-		break;
-	}*/
-}
-void daGreatGoalPole_c::executeState_Run() {
-	OSReport("HI 3\n");
-
-	if (this->anmFlag.isAnimationDone()) {
-		this->anmFlag.setCurrentFrame(0.0);
-	}
-	if (this->anmWing.isAnimationDone()) {
-		this->anmWing.setCurrentFrame(0.0);
-	}
-	if (!done) {
-		float dx = nextNode->xPos - currentNode->xPos;
-		float dy = (-nextNode->yPos) - (-currentNode->yPos);
-
-		float ux = (dx / sqrtf((dx * dx) + (dy * dy)));
-		float uy = (dy / sqrtf((dx * dx) + (dy * dy)));
-
-		this->pos.y += uy * speed;
-		this->pos.x += ux * speed;
-
-		if (dx <= 0) {
-			//this->rot.y = 0x4000;
-			//this->rot.y *= -1;
-		} else {
-			//this->rot.y = 0x4000;
-		}
-
-		OSReport("x: %f; y: %f\n", this->pos.x, this->pos.y);
-		OSReport("nx: %f; ny: %f\n", currentNode->xPos, -currentNode->yPos);
-		OSReport("dx: %f; dy: %f\n", dx, dy);
-		OSReport("ux: %f; uy: %f\n", ux, uy);
-
-		if (this->pos.x > dx + currentNode->xPos - 2 && this->pos.x < dx + currentNode->xPos + 2 && this->pos.y > dy - currentNode->yPos - 2 && this->pos.y < dy - currentNode->yPos + 2) {
-			done = true;
-		}
-	} else {
-		currentNodeNum++;
-		currentNode = nextNode;
-		nextNode = &course->railNode[rail->startNode + 1 + currentNodeNum];
-		this->pos.x = currentNode->xPos;
-		this->pos.y = -currentNode->yPos;
-
-		if (rail->nodeCount == currentNodeNum + 1) {
-			doStateChange(&StateID_Wait);
-			//this->rot.y = 0x4000;
-			//this->rot.y *= -1;
-		} else {
-			done = false;
-		}
-
-		/*switch ((int)currentNode->speed)
-		{
-		case 0:
-			bindAnimChr_and_setUpdateRate("YB_Rwait", 1, 0.0, 1.5);
-			break;
-		case 1:
-			bindAnimChr_and_setUpdateRate("YB_Rrun", 1, 0.0, 1.5);
-			break;
-		case 2:
-			bindAnimChr_and_setUpdateRate("YB_Rb_dash", 1, 0.0, 1.5);
-			break;
-		case 3:
-			bindAnimChr_and_setUpdateRate("YB_Rb_dash2", 1, 0.0, 1.5);
-			break;
-		}*/
-	}
-}
-void daGreatGoalPole_c::endState_Run() { OSReport("HI 5.3\n"); }
-
-
-
-
-
-
-
-
-void daGreatGoalPole_c::beginState_Fly() {}
-void daGreatGoalPole_c::executeState_Fly() {
-	
-}
-void daGreatGoalPole_c::endState_Fly() {}
 
 void daGreatGoalPole_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
 	nw4r::g3d::ResAnmChr anmChr = this->goalBrres.GetResAnmChr(name);
@@ -366,15 +261,15 @@ int daGreatGoalPole_c::onCreate() {
 	physicsInfo.x2 = 16;
 	physicsInfo.y2 = 0;
 
-	physicsInfo.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
-	physicsInfo.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
-	physicsInfo.otherCallback3 = &daEnBlockMain_c::OPhysicsCallback3;
+	//physicsInfo.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
+	//physicsInfo.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
+	//physicsInfo.otherCallback3 = &daEnBlockMain_c::OPhysicsCallback3;
 
 	physics.setup(this, &physicsInfo, 1, 0, 0);
 	physics.flagsMaybe = 0x260;
-	physics.callback1 = &daEnBlockMain_c::PhysicsCallback1;
-	physics.callback2 = &daEnBlockMain_c::PhysicsCallback2;
-	physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
+	physics.callback1 = (void*)&PhysCB4;
+	physics.callback2 = (void*)&PhysCB5;
+	physics.callback3 = (void*)&PhysCB6;
 	physics.addToList();
 	
 	
@@ -386,34 +281,7 @@ int daGreatGoalPole_c::onCreate() {
 	
 	done = false;
 
-	speed = this->settings >> 12 & 0b1111;						    		//Bit 29-32
-	speed += 1;
-	speed *= 2;
-	//speed = 8;
-	currentNodeNum = this->settings >> 8 & 0b11111111;						//Bit 33-40
-	int pathID = this->settings & 0b11111111;                               //Bit 41-48
-	OSReport("speed: %d, currentNodeNum: %d, pathID: %d\n", speed, currentNodeNum, pathID);
-	if (pathID) {
-		rail = GetRail(pathID);
-		course = dCourseFull_c::instance->get(GetAreaNum());
-		currentNode = &course->railNode[rail->startNode + currentNodeNum];
-		nextNode = &course->railNode[rail->startNode + 1 + currentNodeNum];
-		OSReport("pathID: %d\n", pathID);
-		OSReport("startNode: %d\n", currentNodeNum);
-		OSReport("N1.x: %d, N1.y: %d, N2.x: %d, N2.y: %d\n", currentNode->xPos, currentNode->yPos, nextNode->xPos, nextNode->yPos);
-		//OSReport("Ballon: %f, %f\n", this->pos.x, this->pos.y);
-		this->pos.x = currentNode->xPos;
-		this->pos.y = -currentNode->yPos;
-		//OSReport("Ballon: %f, %f\n", this->pos.x, this->pos.y);
-		OSReport("HI 0.1\n");
-	}
-	else {
-		OSReport("HI 0.2\n");
-	}
-	
-	
-	
-	
+
 	
 	
 	this->disableEatIn();
@@ -437,7 +305,10 @@ int daGreatGoalPole_c::onCreate() {
 
 	this->pos.z = 4000;
 
+	beginState_Init();
+	executeState_Init();
 	doStateChange(&StateID_Wait);
+	//changeToDone = true;
 	
 	//this->onExecute();
 	return true;
@@ -492,6 +363,18 @@ int daGreatGoalPole_c::onExecute() {
 	
 	//this->rot.y -= -0x100;
 	//OSReport("Rot.y: %x\n", this->rot.y);
+
+	if (this->anmFlag.isAnimationDone()) {
+		this->anmFlag.setCurrentFrame(0.0);
+	}
+	
+	if(acState.getCurrentState()->isEqual(&StateID_FollowPath)){
+		if (this->anmWing.isAnimationDone()) {
+			this->anmWing.setCurrentFrame(0.0);
+		}
+	} else {
+		this->anmWing.setCurrentFrame(anmWing._28);
+	}
 	
 	this->flagSrt.process();
 	if(this->flagSrt.isEntryAnimationDone(0))
