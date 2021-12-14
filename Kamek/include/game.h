@@ -529,15 +529,17 @@ public:
 
 class WLClass {
 public:
-	u32 _0;
-	u32 _4;
-	u32 _8;
-	u32 _otherDatum[38];
+    u32 _0;
+    u32 _4;
+    u32 _8;
+    u32 counterDownC;
+    u32 flags;
+    u32 _otherDatum[36];
 
-	static WLClass *instance;
+    static WLClass *instance;
 
-	void demoControlAllPlayers();
-	void disableDemoControl(bool uselessVar);
+    void demoControlAllPlayers();
+    void disableDemoControl(bool uselessVar);
 };
 
 

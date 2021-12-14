@@ -1,0 +1,61 @@
+---
+source_files: [../src/fileSelectModes.S]
+hooks:
+  - name: fileSelectModes
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80782f8c
+    target_func: 'fileSelectModes'
+    
+  - name: fileSelectModesPaneCount
+    type: patch
+    addr_pal: 0x80782f94
+    data: '38C00004'
+
+  - name: fileSelectModesPaneOffset
+    type: patch
+    addr_pal: 0x80782f90
+    data: '38BE02E0' #orig: 38BE0294
+
+  - name: fileSelectSize
+    type: patch
+    addr_pal: 0x80782ab8
+    data: '386002F4' #orig: 386002E0
+
+#cursor -> update for 2 more panes @80783bb0
+
+  - name: fileSelectModesNewCursors
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80783bd0
+    target_func: 'newCursors'
+
+  - name: fileSelectCursor1
+    type: patch
+    addr_pal: 0x80783bc0
+    data: '806302E0' #orig: 80630294
+
+#  - name: fileSelectCursor2
+#    type: patch
+#    addr_pal: 0x80783bd0
+#    data: '386002E4' #orig: 80630298
+
+  - name: fileSelectInit1
+    type: patch
+    addr_pal: 0x80787648
+    data: '918102E0' #orig: 91810294
+
+  - name: fileSelectInit2
+    type: patch
+    addr_pal: 0x8078764C
+    data: '918102E4' #orig: 91810298
+
+  - name: fileSelectInit3
+    type: patch
+    addr_pal: 0x80787694
+    data: '80C102E0' #orig: 80C10294
+
+  - name: fileSelectInit4
+    type: patch
+    addr_pal: 0x80787698
+    data: '80C102E4' #orig: 80C10298

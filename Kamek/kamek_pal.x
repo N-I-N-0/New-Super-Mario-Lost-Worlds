@@ -1,4 +1,13 @@
 SECTIONS {
+	UpdateSelectCursor = 0x800b44d0;
+
+	daPyDemoMng_c__instance = 0x80429f74;
+
+	onCreate_orig__14dCourseClear_cFv = 0x80779a00;
+
+	returnArrowSignboard = 0x8081c954;
+	returnBooCircle = 0x8089ff64;
+
 	ContinueFromSixteenthHook = 0x801436a0;
 
 	layerZPositionForByugoHack = 0x8042BC34;
@@ -22,6 +31,9 @@ SECTIONS {
 	stunPlayer__7dAcPy_cFv = 0x80137650;
 	unstunPlayer__7dAcPy_cFv = 0x80137790;
 	StateID_Quake__10daPlBase_c = 0x803766b0;
+	
+	StateID_Flagdown__12daEnGlpole_c = 0x80b154f0;
+	StateID_ProcGoalEnd__14dGameDisplay_c = 0x80377438;
 	
 	sub_8004DD00__10daPlBase_cFv = 0x8004DD00;
 	daEnGlpole_c__CheckThis = 0x80a0b190;
