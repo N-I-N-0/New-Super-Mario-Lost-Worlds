@@ -23,7 +23,6 @@ hooks:
     data: '386002F4' #orig: 386002E0
 
 #cursor -> update for 2 more panes @80783bb0
-
   - name: fileSelectModesNewCursors
     type: branch_insn
     branch_type: b
@@ -59,3 +58,40 @@ hooks:
     type: patch
     addr_pal: 0x80787698
     data: '80C102E4' #orig: 80C10298
+
+
+
+  - name: newSelectableButtonsLR
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80783cb8
+    target_func: 'newSelectableButtonsLR'
+
+  - name: newSelectableButtonsDown
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80783d18
+    target_func: 'newSelectableButtonsDown'
+
+  - name: newSelectableButtonsUD2More
+    type: patch
+    addr_pal: 0x80783c44
+    data: '2C9D0005' #orig: 2C9D0003
+
+  - name: newSelectableButtonsUp
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80783c6c
+    target_func: 'newSelectableButtonsUp'
+
+
+
+
+
+
+
+
+
+
+
+

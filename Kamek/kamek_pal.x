@@ -1,6 +1,11 @@
 SECTIONS {
 	UpdateSelectCursor = 0x800b44d0;
-
+	returnToCoin = 0x80783cbc;
+	returnToMulti = 0x80783cd0;
+	returnFromNewButtons = 0x80783d54;
+	returnFromNewButtons2 = 0x80783c9c;
+	returnFromNewButtons3 = 0x80783c70;
+	
 	daPyDemoMng_c__instance = 0x80429f74;
 
 	onCreate_orig__14dCourseClear_cFv = 0x80779a00;
