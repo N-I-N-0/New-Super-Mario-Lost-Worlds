@@ -70,13 +70,13 @@ hooks:
   - name: newSelectableButtonsDown
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80783d18
+    src_addr_pal: 0x80783c48
     target_func: 'newSelectableButtonsDown'
 
-  - name: newSelectableButtonsUD2More
-    type: patch
-    addr_pal: 0x80783c44
-    data: '2C9D0005' #orig: 2C9D0003
+#  - name: newSelectableButtonsUD2More
+#    type: patch
+#    addr_pal: 0x80783c44
+#    data: '2C9D0005' #orig: 2C9D0003
 
   - name: newSelectableButtonsUp
     type: branch_insn

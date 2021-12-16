@@ -10,6 +10,8 @@
 .extern returnFromNewButtons2
 .extern returnFromNewButtons3
 .extern ActiveWiimoteID
+.extern returnTo80783C4C
+.extern returnTo80783CE8
 
 .global fileSelectModes
 fileSelectModes:
@@ -96,20 +98,37 @@ is_left_coin:
 
 .global newSelectableButtonsDown
 newSelectableButtonsDown:
-	cmpwi   r29, 0x3
-	beq     down_to_speed
-	cmpwi   r29, 0x4
-	beq     down_to_hard
-	li      r29, 0x4
-	b       returnFromNewButtons
+	blt		   cr1, returnTo_LAB_80783CE8
+
+	lis        r4, ActiveWiimoteID@h
+	ori        r4, r4, ActiveWiimoteID@l
+    lwz        r0,0x0(r4)
+	rlwinm     r0,r0,0x2,0x0,0x1d
+    add        r4,r30,r0
+	lwz        r4,0x4(r4)
+    lwz        r0,0x1c(r4)
+
+	rlwinm.    r0,r0,0x0,0x1f,0x1f                   #r0 = r0 & 1 == 0? (right)
+	beq        dontMoveDown
+
+	cmpwi      r29, 0x3
+	beq        down_to_speed
+	cmpwi      r29, 0x4
+	beq        down_to_hard
+
+dontMoveDown:
+	b          returnTo80783C4C
+
+returnTo_LAB_80783CE8:
+	b          returnTo80783CE8
 
 down_to_speed:
-	li      r29, 0x5
-	b       returnFromNewButtons
+	li         r29, 0x5
+	b          returnFromNewButtons
 
 down_to_hard:
-	li      r29, 0x6
-	b       returnFromNewButtons
+	li         r29, 0x6
+	b          returnFromNewButtons
 
 
 

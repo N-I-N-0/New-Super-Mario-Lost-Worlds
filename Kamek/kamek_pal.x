@@ -6,6 +6,9 @@ SECTIONS {
 	returnFromNewButtons2 = 0x80783c9c;
 	returnFromNewButtons3 = 0x80783c70;
 	
+	returnTo80783C4C = 0x80783C4C;
+	returnTo80783CE8 = 0x80783CE8;
+	
 	daPyDemoMng_c__instance = 0x80429f74;
 
 	onCreate_orig__14dCourseClear_cFv = 0x80779a00;
