@@ -9,6 +9,26 @@ SECTIONS {
 	returnTo80783C4C = 0x80783C4C;
 	returnTo80783CE8 = 0x80783CE8;
 	
+	returnFromSandpillar = 0x80802138;
+	returnFromWaterwaveIn1 = 0x80803388;
+	returnFromWaterwaveIn2 = 0x80803910;
+	returnFromWaterwaveIn3 = 0x80803504;
+
+	returnFromWaterwaveOut1 = 0x808038e4;
+	returnFromWaterwaveOut2 = 0x808034d8;
+	returnFromWaterwaveOut3 = 0x8080335C;
+	
+	returnFromWatersplash1 = 0x80803114;
+	returnFromWatersplash2 = 0x80802ef8;
+	
+	returnFromWater021 = 0x80803530;
+	returnFromWater022 = 0x808032e8;
+	returnFromWater023 = 0x8080315C;
+	
+	returnFromFloatSplash = 0x808026f4;
+	
+	returnFromNoEffectWalking = 0x80802078;
+	
 	daPyDemoMng_c__instance = 0x80429f74;
 
 	onCreate_orig__14dCourseClear_cFv = 0x80779a00;

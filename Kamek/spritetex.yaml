@@ -58,6 +58,96 @@ hooks:
 #    src_addr_pal: 0x80aa6b9c
 #    target_func: 'TEX_SnakeBlock'
 
+  - name: TEX_Sandpillar
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80802134
+    target_func: 'TEX_Sandpillar'
+
+  - name: Waterwave_in1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80803384
+    target_func: 'waterwave_in1'
+
+  - name: Waterwave_in2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8080390c
+    target_func: 'waterwave_in2'
+
+  - name: Waterwave_in3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80803500
+    target_func: 'waterwave_in3'
+
+  - name: Waterwave_out1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808038e0
+    target_func: 'waterwave_out1'
+
+  - name: Waterwave_out2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808034d4
+    target_func: 'waterwave_out2'
+
+  - name: Waterwave_out3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80803358
+    target_func: 'waterwave_out3'
+
+  - name: watersplash1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80803110
+    target_func: 'watersplash1'
+
+  - name: watersplash2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80802ef4
+    target_func: 'watersplash2'
+
+  - name: water021
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8080352C
+    target_func: 'water021'
+
+  - name: water022
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808032e4
+    target_func: 'water022'
+
+  - name: water023
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80803158
+    target_func: 'water023'
+
+  - name: floatSplash
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808026f0
+    target_func: 'floatSplash'
+
+  - name: NoEffectMovingUp
+    type: nop_insn
+    area_pal: 0x8004a54c
+    
+  - name: NoEffectWalking
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80802074
+    target_func: 'NoEffectWalking'
+
+
+
   - name: TEX_ToadBalloon
     type: branch_insn
     branch_type: bl

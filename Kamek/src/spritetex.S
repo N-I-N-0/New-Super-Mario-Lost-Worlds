@@ -235,6 +235,244 @@ TEX_WoodBox:
 	b GetTexFilenameForR5
 
 
+.extern returnFromSandpillar
+.global TEX_Sandpillar
+TEX_Sandpillar:
+	lwz r5, 4(r29)
+	cmpwi r5, 1
+	bne returnToSandpillar
+
+	lis r5, Waterpillar@h
+	ori r5, r5, Waterpillar@l
+	b returnFromSandpillar
+
+returnToSandpillar:
+	lis r5, Sandpillar@h
+	ori r5, r5, Sandpillar@l
+	b returnFromSandpillar
+
+
+
+.extern returnFromWaterwaveIn1
+.global waterwave_in1
+waterwave_in1:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne waterwave_in1_return
+	
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+
+waterwave_in1_return:
+	addi r3, r28, 0x1420                #restored instruction
+	b returnFromWaterwaveIn1
+
+
+.extern returnFromWaterwaveIn2
+.global waterwave_in2
+waterwave_in2:
+	lwz r3, 4(r30)
+	cmpwi r3, 1
+	bne waterwave_in2_return
+	
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+
+waterwave_in2_return:
+	addi r3, r30, 0x1420                #restored instruction
+	b returnFromWaterwaveIn2
+
+
+.extern returnFromWaterwaveIn3
+.global waterwave_in3
+waterwave_in3:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne waterwave_in3_return
+	
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+
+waterwave_in3_return:
+	addi r3, r28, 0x1420                #restored instruction
+	b returnFromWaterwaveIn3
+
+
+
+
+.extern returnFromWaterwaveOut1
+.global waterwave_out1
+waterwave_out1:
+	lwz r3, 4(r30)
+	cmpwi r3, 1
+	bne waterwave_out1_return
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+
+waterwave_out1_return:
+	addi r3, r30, 0x12f8                #restored instruction
+	b returnFromWaterwaveOut1
+
+
+.extern returnFromWaterwaveOut2
+.global waterwave_out2
+waterwave_out2:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne waterwave_out2_return
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+
+waterwave_out2_return:
+	addi r3, r28, 0x12f8                #restored instruction
+	b returnFromWaterwaveOut2
+
+
+.extern returnFromWaterwaveOut3
+.global waterwave_out3
+waterwave_out3:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne waterwave_out3_return
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+
+waterwave_out3_return:
+	addi r3, r28, 0x12f8                #restored instruction
+	b returnFromWaterwaveOut3
+
+
+
+.extern returnFromWatersplash1
+.global watersplash1
+watersplash1:
+	lwz r5, 4(r30)
+	cmpwi r5, 1
+	bne watersplah1_return
+	
+	lis r3, Wm_en_watersplash@h
+	ori r3, r3, Wm_en_watersplash@l
+
+watersplah1_return:
+	addi r5, r1, 0x10                   #restored instruction
+	b returnFromWatersplash1
+
+.extern returnFromWatersplash2
+.global watersplash2
+watersplash2:
+	lwz r0, 4(r30)
+	cmpwi r0, 1
+	bne watersplah2_return
+	
+	lis r3, Wm_en_watersplash@h
+	ori r3, r3, Wm_en_watersplash@l
+
+watersplah2_return:
+	lfs f2, 0x0(r31)                   #restored instruction
+	b returnFromWatersplash2
+
+
+.extern returnFromWater021
+.global water021
+water021:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne water021_return
+	
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+
+water021_return:
+	lfs f2, 0xac(r28)                   #restored instruction
+	b returnFromWater021
+
+.extern returnFromWater022
+.global water022
+water022:
+	lwz r3, 4(r28)
+	cmpwi r3, 1
+	bne water022_return
+	
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+
+water022_return:
+	lfs f2, 0xac(r28)                   #restored instruction
+	b returnFromWater022
+
+.extern returnFromWater023
+.global water023
+water023:
+	lwz r3, 4(r30)
+	cmpwi r3, 1
+	bne water023_return
+	
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+
+water023_return:
+	addi r3, r30, 0x1548                #restored instruction
+	b returnFromWater023
+
+
+
+.extern returnFromFloatSplash
+.global floatSplash
+floatSplash:
+	lwz r6, 4(r30)
+	cmpwi r6, 1
+	bne floatSplash_return
+	
+	lis r3, Wm_mr_wfloatsplash@h
+	ori r3, r3, Wm_mr_wfloatsplash@l
+
+floatSplash_return:
+	lfs f0, 0x7590(r4)                   #restored instruction
+	b returnFromFloatSplash
+
+
+.extern returnFromNoEffectWalking
+.global NoEffectWalking
+NoEffectWalking:
+	lwz r6, 4(r30)
+	cmpwi r6, 1
+	beq NoEffectWalking_return
+	stb r0, 0x12e3(r30)                  #restored instruction
+
+NoEffectWalking_return:
+	b returnFromNoEffectWalking
+	
+
+
+Waterpillar:
+	.string "g3d/Waterpillar.brres"
+
+Sandpillar:
+	.string "g3d/sandpillar.brres"
+
+
+Wm_mr_waterwave_in:
+	.string "Wm_mr_waterwave_in"
+
+Wm_mr_waterwave_out:
+	.string "Wm_mr_waterwave_out"
+
+Wm_en_watersplash:
+	.string "Wm_en_watersplash"
+
+Wm_en_burst_water02:
+	.string "Wm_en_burst_water02"
+
+Wm_mr_wfloatsplash:
+	.string "Wm_mr_wfloatsplash"
+
+
+.align 4
+
+
 .global TEX_Bush
 TEX_Bush:
 	srwi r5, r27, 28
