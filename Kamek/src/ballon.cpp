@@ -1,12 +1,13 @@
 #include <common.h>
 #include <game.h>
 #include <profile.h>
+#include "path.h"
 
 extern "C" dCourse_c::rail_s *GetRail(int id);
 
 const char* BallonFileList[] = { "ballon", 0 };
 
-class daBallon_c : public dEn_c {
+class daBallon_c : public dEnPath_c {
 public:
 	int onCreate();
 	int onExecute();
@@ -34,6 +35,7 @@ public:
 	float aTestFloat;
 	s16 leftRotPtr;
 	s16 rightRotPtr;
+	StandOnTopCollider sotCollider;
 
 	dCourse_c *course;
 	dCourse_c::rail_s *rail;
@@ -43,7 +45,6 @@ public:
 	float moveDeltaX, moveDeltaY;
 	int steps;
 	int speed;
-		
 
 	static dActor_c *build();
 
@@ -66,25 +67,27 @@ public:
 	USING_STATES(daBallon_c);
 	
 	DECLARE_STATE(Wait);
-	DECLARE_STATE(Fly);
 };
 
 CREATE_STATE(daBallon_c, Wait);
-CREATE_STATE(daBallon_c, Fly);
 
 
 void daBallon_c::beginState_Wait() {}
 void daBallon_c::executeState_Wait() {
-	doStateChange(&StateID_Fly);
+	dStageActor_c* player = (dStageActor_c*)FindActorByType(PLAYER, 0);
+
+	dx = player->pos.x - this->pos.x;
+	dy = player->pos.y - this->pos.y;
+
+	distance = sqrtf(pow(dx, 2) + pow(dy, 2));
+
+	if (distance <= 64) {
+		doStateChange(&StateID_FollowPath);
+	}
 }
 void daBallon_c::endState_Wait() {}
 
 
-void daBallon_c::beginState_Fly() {}
-void daBallon_c::executeState_Fly() {
-	
-}
-void daBallon_c::endState_Fly() {}
 
 
 
@@ -343,8 +346,11 @@ int daBallon_c::onCreate() {
 	
 	
 	
-	
-	
+
+	sotCollider.init(this, 0, 16, -8, 24, -24, 0, 1);
+	sotCollider._47 = 0xA;
+	sotCollider.flags = 0x80180 | 0xC00;
+	sotCollider.addToList();
 	
 	
 	
@@ -357,7 +363,7 @@ int daBallon_c::onCreate() {
 	this->aTestFloat = 0.25f;
 
 
-	speed = ((this->settings >> 12 & 0b1111) + 1 ) * 8;						//Bit 29-32
+	/*speed = ((this->settings >> 12 & 0b1111) + 1 ) * 8;						//Bit 29-32
 	currentNodeNum = this->settings >> 8 & 0b11111111;						//Bit 33-40
 	int pathID = this->settings & 0b11111111;								//Bit 41-48
 	if(pathID) {
@@ -374,7 +380,7 @@ int daBallon_c::onCreate() {
 		//OSReport("Ballon: %f, %f\n", this->pos.x, this->pos.y);
 	} else {
 		
-	}
+	}*/
 	
 
 	// Stuff I do understand
@@ -386,6 +392,8 @@ int daBallon_c::onCreate() {
 
 	this->pos.z = 4000;
 
+	beginState_Init();
+	executeState_Init();
 	doStateChange(&StateID_Wait);
 	
 	this->onExecute();
@@ -426,8 +434,15 @@ int daBallon_c::onExecute() {
 	//this->rot.y = -5500;
 	//OSReport("Rot.y: %d\n", this->rot.y);
 	
+		//round
+	physics0.removeFromList();
+	physics0.setupRound(this, 0.0f, 175.0f, 80.0f, (void*)&BallonPhysCB1, (void*)&BallonPhysCB2, (void*)&BallonPhysCB3, 1, 0, 0);
+	physics0.callback1 = (void*)&BallonPhysCB4;
+	physics0.callback2 = (void*)&BallonPhysCB5;
+	physics0.callback3 = (void*)&BallonPhysCB6;
+	physics0.addToList();
 	
-	
+	sotCollider.update();
 	physics0.update();
 	physics1.update();
 	physics2.update();
