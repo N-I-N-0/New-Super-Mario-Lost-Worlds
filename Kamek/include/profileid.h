@@ -560,6 +560,7 @@ enum
 	NewActorSpawnerPath = 540,
 	NewActorSpawnerDataBank = 541,
 	UpsideDownWall = 542,
+	BarrelCannon = 543,
 
 	Num
 };
@@ -1383,6 +1384,7 @@ enum
 	NewActorSpawnerPath = 807,
 	NewActorSpawnerDataBank = 808,
 	UpsideDownWall = 809,
+	BarrelCannon = 810,
 	
 	Num
 };

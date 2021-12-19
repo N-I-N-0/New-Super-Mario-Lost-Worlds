@@ -3230,5 +3230,26 @@
     <value nybble="15-16" title="Spawner ID" />
     <value bit="1-48" title="Sprite Data" />
   </sprite> <!-- #541: Actor Spawner Data Bank -->
+  
+  <sprite id="542" name="Upside Down Wall" asmhacks="True" >
+    <checkbox bit="17" title="Check all Locations" />
+    <value bit="41-48" title="Location ID" requiredbit="17" requiredval="0" />
+  </sprite> <!-- #542: Upside Down Wall -->
+  
+  <sprite id="543" name="Barrel Cannon" asmhacks="True" notes="A Barrel Cannon.">
+    <value bit="41-48" title="Path ID" comment="0 means that this goal pole won't ever fly as there is no path to follow." />
+    <value bit="33-40" title="Start Node" />
+    <value bit="29-32" title="Speed" />
+    <list bit="17-19" title="Rotation">
+      <entry value="0">north</entry>
+      <entry value="1">north-east</entry>
+      <entry value="2">east</entry>
+      <entry value="3">south-east</entry>
+      <entry value="4">south</entry>
+      <entry value="5">south-west</entry>
+      <entry value="6">west</entry>
+      <entry value="7">north-west</entry>
+    </list>
+  </sprite> <!-- #543: Barrel Cannon -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

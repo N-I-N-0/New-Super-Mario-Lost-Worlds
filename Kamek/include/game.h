@@ -4495,7 +4495,7 @@ class dAcPy_c : public daPlBase_c {
 		u32 patch_thing(u32 powerup_id); // Over setPowerup
 		u32 _vf3FC(); // 80146A10
 		u32 _vf400(); // 80146B10
-		bool pipeCannonShot(int unk, float x, float y); //80146f60
+		bool pipeCannonShot(int unk, float y, float x); //80146f60
 		u32 _vf410(); // 80146FD0
 		bool canWePropelOurselves(int effectivePowerup); // 801470E0
 		void sub_80147390(); // 80147390
