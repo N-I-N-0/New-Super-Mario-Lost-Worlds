@@ -134,7 +134,7 @@ modules:
   - processed/cloudPlattform.yaml
   - processed/goombaTower.yaml
   - processed/busuBusu.yaml
-  - processed/tiki.yaml
+#  - processed/tiki.yaml
   - processed/fireball.yaml
   - processed/newSfx.yaml
   - processed/poihana.yaml
@@ -144,3 +144,6 @@ modules:
   - processed/smallScoreMgr.yaml
   - processed/randomLooperEvent.yaml
   - processed/greenRing.yaml
+  - processed/fileSelectModes.yaml
+  - processed/barrelCannon.yaml
+  - processed/tikiAirship.yaml

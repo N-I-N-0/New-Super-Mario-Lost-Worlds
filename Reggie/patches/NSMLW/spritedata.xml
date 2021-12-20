@@ -3251,5 +3251,12 @@
       <entry value="7">north-west</entry>
     </list>
   </sprite> <!-- #543: Barrel Cannon -->
+  
+  <sprite id="544" name="Tiki Airship" asmhacks="True" notes="A Tiki Airship that can follow a path.">
+    <value bit="41-48" title="Path ID" comment="0 means that this airship won't ever fly as there is no path to follow." />
+    <value bit="33-40" title="Start Node" />
+    <value bit="29-32" title="Speed" />
+    <value bit="63-64" title="Layer" />
+  </sprite> <!-- #544: Tiki Airship -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

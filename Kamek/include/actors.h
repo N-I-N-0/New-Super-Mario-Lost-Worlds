@@ -817,7 +817,8 @@ enum Actors {
 	NewActorSpawnerPath = 807,
 	NewActorSpawnerDataBank = 808,
 	UpsideDownWall = 809,
-	BarrelCannon = 810
+	BarrelCannon = 810,
+	TikiAirship = 811
 };
 
 struct Actor {

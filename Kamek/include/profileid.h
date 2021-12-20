@@ -561,6 +561,7 @@ enum
 	NewActorSpawnerDataBank = 541,
 	UpsideDownWall = 542,
 	BarrelCannon = 543,
+	TikiAirship = 544,
 
 	Num
 };
@@ -1385,6 +1386,7 @@ enum
 	NewActorSpawnerDataBank = 808,
 	UpsideDownWall = 809,
 	BarrelCannon = 810,
+	TikiAirship = 811,
 	
 	Num
 };
