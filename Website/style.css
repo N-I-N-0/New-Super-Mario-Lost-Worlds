@@ -68,9 +68,11 @@ h2::after {
   z-index: -1;
 }
 
-iframe.playlist {
+iframe {
 	border-color: #FFFFFF;
 	border-radius: 10px;
+	width: 75vw;
+	height: calc(75vw*(315/560));
 }
 
 .logo {
