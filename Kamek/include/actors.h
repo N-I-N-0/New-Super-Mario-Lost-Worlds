@@ -818,7 +818,8 @@ enum Actors {
 	NewActorSpawnerDataBank = 808,
 	UpsideDownWall = 809,
 	BarrelCannon = 810,
-	TikiAirship = 811
+	TikiAirship = 811,
+	MummyMe = 812
 };
 
 struct Actor {

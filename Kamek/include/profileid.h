@@ -562,6 +562,7 @@ enum
 	UpsideDownWall = 542,
 	BarrelCannon = 543,
 	TikiAirship = 544,
+	MummyMe = 545,
 
 	Num
 };
@@ -1387,6 +1388,7 @@ enum
 	UpsideDownWall = 809,
 	BarrelCannon = 810,
 	TikiAirship = 811,
+	MummyMe = 812,
 	
 	Num
 };

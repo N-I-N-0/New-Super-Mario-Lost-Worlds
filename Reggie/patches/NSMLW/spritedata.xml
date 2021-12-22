@@ -3258,5 +3258,8 @@
     <value bit="29-32" title="Speed" />
     <value bit="63-64" title="Layer" />
   </sprite> <!-- #544: Tiki Airship -->
+  
+  <sprite id="545" name="Mummy Me" asmhacks="True" notes="A Mummy Me that attacks the players.">
+  </sprite> <!-- #545: Mummy Me -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

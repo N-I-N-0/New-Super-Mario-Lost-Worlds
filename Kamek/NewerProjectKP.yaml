@@ -147,3 +147,4 @@ modules:
   - processed/fileSelectModes.yaml
   - processed/barrelCannon.yaml
   - processed/tikiAirship.yaml
+  - processed/mummyMe.yaml

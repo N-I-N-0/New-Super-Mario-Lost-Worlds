@@ -168,6 +168,7 @@ int daBarrelCannon_c::onCreate() {
 
 	this->scale = (Vec){2, 2, 2};
 
+	this->pos.z = 4000;
 
 	players[0] = 0;
 	players[1] = 0;
@@ -199,8 +200,6 @@ int daBarrelCannon_c::onDraw() {
 
 
 void daBarrelCannon_c::updateModelMatrices() {
-	OSReport("rot: x: %x, y: %x, z: %x, r: %x\n", this->rot.x, this->rot.y, this->rot.z, rotationS16);
-
 	Vec p = this->pos;
 	switch (this->rotation) {
 		case 1:
@@ -255,12 +254,10 @@ int daBarrelCannon_c::onExecute() {
 		}
 		
 		if(players[i] != 0) {
-			OSReport("Not null\n");
 			players[i]->pos.x = this->pos.x;
 			players[i]->pos.y = this->pos.y + 7;
 			players[i]->setFlag(0xbb);
 			if(players[i]->input.heldButtons & WPAD_TWO) {
-				OSReport("WPAD_TWO\n");
 				players[i]->clearFlag(0xbb);
 				float x = 0.0f, y = 0.0f;
 				switch (this->rotation) {
