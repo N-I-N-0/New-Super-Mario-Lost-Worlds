@@ -366,7 +366,7 @@ int daMummyMe_c::onCreate() {
 	this->XSpeed = 0.4;
 	anmSpeed = 1.25;
 
-	static const lineSensor_s below(12<<12, 4<<12, 0<<12);
+	static const lineSensor_s below(-5<<12, 5<<12, 0<<12);
 	static const lineSensor_s adjacent(10<<12, 9<<12, 10<<12);
 	collMgr.init(this, &below, 0, &adjacent);
 
