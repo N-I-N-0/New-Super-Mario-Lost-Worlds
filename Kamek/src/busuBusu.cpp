@@ -1,11 +1,12 @@
 #include <common.h>
 #include <game.h>
 #include <profile.h>
+#include "path.h"
 
 const char* BusuBusuFileList[] = { "busuBusu", 0 };
 
 
-class daEnBusuBusu_c : public dEn_c {
+class daEnBusuBusu_c : public dEnPath_c {
 public:
 	int onCreate();
 	int onExecute();
@@ -18,6 +19,8 @@ public:
 	m3d::mdl_c bodyModel;
 
 	m3d::anmChr_c chrAnimation;
+
+	bool leftRight;
 
 	bool facingRight;
 	u8 wSpeed;
@@ -189,11 +192,13 @@ int daEnBusuBusu_c::onCreate() {
 	this->aPhysics.addToList();
 
 
-	this->facingRight = settings >> 31 & 1;
+	this->leftRight = settings >> 31 & 1;
+
+	this->facingRight = settings >> 30 & 1;
 	this->wDistance = settings >> 20 & 0b11111111;
 	this->wSpeed = settings >> 16 & 0b1111;
 
-	OSReport("fr: %d, wD: %d, wS: %d\n", this->facingRight, this->wDistance, this->wSpeed);
+	//OSReport("fr: %d, wD: %d, wS: %d\n", this->facingRight, this->wDistance, this->wSpeed);
 
 
 	// Stuff I do understand
@@ -216,6 +221,21 @@ int daEnBusuBusu_c::onCreate() {
 
 	bindAnimChr_and_setUpdateRate("fly", 1, 0.0, 1.0);
 
+	OSReport("LeftRight: %d\n", this->leftRight);
+	if(this->leftRight) {
+		doStateChange(&StateID_Wait);
+	} else {
+		beginState_Init();
+		executeState_Init();
+		
+		if (this->stepVector.x > 0) {
+			this->rot.y = 0x4000;
+		}
+		
+		OSReport("currentNodeNum: %d\n", this->currentNodeNum);
+		OSReport("pathID: %d\n", this->pathID);
+		doStateChange(&StateID_FollowPath);
+	}
 
 	this->onExecute();
 	return true;
@@ -245,38 +265,44 @@ int daEnBusuBusu_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
-	OSReport("fr: %d, wD: %d, wS: %d, stepCount: %d\n", this->facingRight, this->wDistance, this->wSpeed, this->stepCount);
+	//OSReport("fr: %d, wD: %d, wS: %d, stepCount: %d\n", this->facingRight, this->wDistance, this->wSpeed, this->stepCount);
 
-	if (facingRight)
-	{
-		this->rot.y = 0x4000;
+	if(this->leftRight) {
+		if (this->facingRight) {
+			this->rot.y = 0x4000;
 
-		this->pos.x += this->wSpeed;
-		this->stepCount += 1;
+			this->pos.x += this->wSpeed;
+			this->stepCount += 1;
 
-		if ((stepCount * wSpeed) > wDistance)
-		{
-			this->facingRight = false;
-			this->stepCount = 0;
+			if ((stepCount * wSpeed) > wDistance) {
+				this->facingRight = false;
+				this->stepCount = 0;
+			}
+		} else {
+			this->rot.y = 0x4000;
+			this->rot.y *= -1;
+
+			this->pos.x -= this->wSpeed;
+			this->stepCount += 1;
+
+			if ((stepCount * wSpeed) > wDistance) {
+				this->facingRight = true;
+				this->stepCount = 0;
+			}
+		}
+	} else {
+		acState.execute();
+		if (this->stepsDone == this->stepCount) {
+			if (this->rotateNext) {
+				if (this->stepVector.x > 0) {
+					this->rot.y = 0x4000;
+				} else {
+					this->rot.y = -0x4000;
+				}
+			}
 		}
 	}
-	else
-	{
-		this->rot.y = 0x4000;
-		this->rot.y *= -1;
-
-		this->pos.x -= this->wSpeed;
-		this->stepCount += 1;
-
-		if ((stepCount * wSpeed) > wDistance)
-		{
-			this->facingRight = true;
-			this->stepCount = 0;
-		}
-	}
-
-	if (this->chrAnimation.isAnimationDone()) 
-	{
+	if (this->chrAnimation.isAnimationDone()) {
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 

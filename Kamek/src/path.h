@@ -26,6 +26,7 @@ public:
 	float uy;
 
 	Vec stepVector;
+	bool rotateNext;
 
 	int stepCount;
 	int stepsDone;
@@ -63,7 +64,7 @@ void dEnPath_c::beginState_Init() {
 	this->waitForPlayer = this->settings >> 28 & 0b11;                       //Bit 19-20
 	speed = this->settings >> 16 & 0b1111;						    //Bit 29-32
 	currentNodeNum = this->settings >> 8 & 0b11111111;						//Bit 33-40
-	int pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
+	pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
 
 	if (speed == 0) {
 		OSReport("WARNING: SPEED ZERO NOT POSSIBLE!\n");
@@ -131,6 +132,7 @@ void dEnPath_c::beginState_FollowPath() { OSReport("Begin Follow\n"); }
 void dEnPath_c::executeState_FollowPath() {
 	//OSReport("Execute Follow: %d, %d\n", this->waitForPlayer, this->playerCollides);
 	if (stepsDone == stepCount) {
+		this->rotateNext = false;
 		if (waitForPlayer == 0 || (waitForPlayer > 0 && playerCollides)) {
 			if (waitForPlayer == 1) {
 				waitForPlayer = 0;
@@ -158,7 +160,12 @@ void dEnPath_c::executeState_FollowPath() {
 
 					stepVector.x = ux * speed;
 					stepVector.y = uy * speed;
-
+					if(abs(this->stepVector.x) <= 0.1f) {
+						//keep rotation
+					} else {
+						rotateNext = true;
+					}
+					
 					this->pos.x = currentNode->xPos;
 					this->pos.y = (-currentNode->yPos);
 
@@ -185,6 +192,11 @@ void dEnPath_c::executeState_FollowPath() {
 
 				stepVector.x = ux * speed;
 				stepVector.y = uy * speed;
+				if(abs(this->stepVector.x) <= 0.1f) {
+					//keep rotation
+				} else {
+					rotateNext = true;
+				}
 
 				this->pos.x = currentNode->xPos;
 				this->pos.y = (-currentNode->yPos);
@@ -311,7 +323,7 @@ void dPath_c::beginState_Init() {
 	this->waitForPlayer = this->settings >> 28 & 0b11;                       //Bit 19-20
 	speed = this->settings >> 16 & 0b1111;						    //Bit 29-32
 	currentNodeNum = this->settings >> 8 & 0b11111111;						//Bit 33-40
-	int pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
+	pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
 
 	if (speed == 0) {
 		OSReport("WARNING: SPEED ZERO NOT POSSIBLE!\n");

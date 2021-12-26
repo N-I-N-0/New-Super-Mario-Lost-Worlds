@@ -3126,9 +3126,15 @@
   </sprite> <!-- #524: Goomba Tower -->
   
   <sprite id="526" name="BusuBusu" asmhacks="True" notes="Where am I going">
-    <checkbox bit="17" title="face right" comment="Loop" />
-    <value bit="21-28" title="walking distance" comment="speed" />
-    <value bit="29-32" title="Speed" comment="speed" />
+	<dualbox bit="17" title1="Follow path" title2="Left & right" />
+
+	<checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
+    <value bit="21-28" title="Flying distance" comment="How far should we fly?" requiredbit="17" requiredval="1" />
+    
+	<value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
+    <value bit="33-40" title="currentNodeNum" comment="Start Node"  requiredbit="17" requiredval="0" />
+
+    <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
   </sprite> <!-- #526: BusuBusu -->
   
   <sprite id="527" name="Tiki Tong" asmhacks="True" >
