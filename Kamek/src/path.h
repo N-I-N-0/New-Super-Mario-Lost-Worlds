@@ -27,6 +27,7 @@ public:
 
 	Vec stepVector;
 	bool rotateNext;
+	bool rotate0XNext;
 
 	int stepCount;
 	int stepsDone;
@@ -104,7 +105,11 @@ void dEnPath_c::beginState_Init() {
 
 		stepVector.x = ux * speed;
 		stepVector.y = uy * speed;
-
+		if(abs(this->stepVector.x) <= 0.1f) {
+			rotate0XNext = true;
+		} else {
+			rotateNext = true;
+		}
 		rest = 1 - getDecimals(distance / speed);
 
 		stepCount = floor(distance / speed);
@@ -133,6 +138,7 @@ void dEnPath_c::executeState_FollowPath() {
 	//OSReport("Execute Follow: %d, %d\n", this->waitForPlayer, this->playerCollides);
 	if (stepsDone == stepCount) {
 		this->rotateNext = false;
+		this->rotate0XNext = false;
 		if (waitForPlayer == 0 || (waitForPlayer > 0 && playerCollides)) {
 			if (waitForPlayer == 1) {
 				waitForPlayer = 0;
@@ -161,7 +167,7 @@ void dEnPath_c::executeState_FollowPath() {
 					stepVector.x = ux * speed;
 					stepVector.y = uy * speed;
 					if(abs(this->stepVector.x) <= 0.1f) {
-						//keep rotation
+						rotate0XNext = true;
 					} else {
 						rotateNext = true;
 					}
@@ -193,7 +199,7 @@ void dEnPath_c::executeState_FollowPath() {
 				stepVector.x = ux * speed;
 				stepVector.y = uy * speed;
 				if(abs(this->stepVector.x) <= 0.1f) {
-					//keep rotation
+					rotate0XNext = true;
 				} else {
 					rotateNext = true;
 				}

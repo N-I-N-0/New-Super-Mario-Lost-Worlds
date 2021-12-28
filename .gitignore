@@ -2,3 +2,4 @@ Kamek/NewerASM/
 Kamek/tools/__pycache__/
 Kamek/.vscode/c_cpp_properties.json
 .DS_Store
+*.bak

@@ -819,7 +819,8 @@ enum Actors {
 	UpsideDownWall = 809,
 	BarrelCannon = 810,
 	TikiAirship = 811,
-	MummyMe = 812
+	MummyMe = 812,
+	WingTenten = 813
 };
 
 struct Actor {

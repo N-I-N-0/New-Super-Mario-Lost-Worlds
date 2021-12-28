@@ -563,6 +563,7 @@ enum
 	BarrelCannon = 543,
 	TikiAirship = 544,
 	MummyMe = 545,
+	WingTenten = 546,
 
 	Num
 };
@@ -1389,6 +1390,7 @@ enum
 	BarrelCannon = 810,
 	TikiAirship = 811,
 	MummyMe = 812,
+	WingTenten = 813,
 	
 	Num
 };

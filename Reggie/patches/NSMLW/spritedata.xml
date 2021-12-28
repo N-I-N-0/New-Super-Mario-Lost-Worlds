@@ -3125,8 +3125,8 @@
     <value bit="33-36" title="Goomba Tower Height" comment="How many additional goombas" />
   </sprite> <!-- #524: Goomba Tower -->
   
-  <sprite id="526" name="BusuBusu" asmhacks="True" notes="Where am I going">
-	<dualbox bit="17" title1="Follow path" title2="Left & right" />
+  <sprite id="526" name="BusuBusu" asmhacks="True" notes="A bee!">
+	<dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
 
 	<checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
     <value bit="21-28" title="Flying distance" comment="How far should we fly?" requiredbit="17" requiredval="1" />
@@ -3267,5 +3267,25 @@
   
   <sprite id="545" name="Mummy Me" asmhacks="True" notes="A Mummy Me that attacks the players.">
   </sprite> <!-- #545: Mummy Me -->
+
+  <sprite id="546" name="Para-Biddybud" asmhacks="True" notes="A Para-Biddybud!">
+    <list bit="13-16" title="Color">
+      <entry value="0">Red</entry>
+      <entry value="1">Blue</entry>
+      <entry value="2">Yellow</entry>
+      <entry value="3">Green</entry>
+      <entry value="4">Pink</entry>
+    </list>
+
+	<dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
+
+	<checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
+    <value bit="21-28" title="Flying distance" comment="How far should we fly?" requiredbit="17" requiredval="1" />
+    
+	<value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
+    <value bit="33-40" title="currentNodeNum" comment="Start Node"  requiredbit="17" requiredval="0" />
+
+    <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
+  </sprite> <!-- #546: Para-Biddybud -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
