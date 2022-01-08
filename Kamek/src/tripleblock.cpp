@@ -36,6 +36,7 @@ CREATE_STATE(daEnTripleBlock_c, Wait);
 
 
 int daEnTripleBlock_c::onCreate() {
+	this->pos.y -= 8;
 	blockInit(pos.y);
 
 	physicsInfo.x1 = -24;
