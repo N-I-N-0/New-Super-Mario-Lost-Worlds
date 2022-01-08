@@ -352,7 +352,7 @@ namespace m3d {
 			bool setup(nw4r::g3d::ResMdl modelRes, nw4r::g3d::ResAnmClr anmRes,
 					mAllocator_c *allocator, u32 *sizeOutPtr, int count); // count usually 1 or 2, sizeOutPtr usually 0
 
-			void bind(/*b*/mdl_c *model, nw4r::g3d::ResAnmClr anmRes, int entryNumber, bool playsOnce); // usually entryNumber is 0, param4 is 0 or 1
+			void bind(/*b*/mdl_c *model, nw4r::g3d::ResAnmClr anmRes, int entryNumber, int _param4); // usually entryNumber is 0, param4 is 0 or 1
 
 
 			float getFrameForEntry(int number);

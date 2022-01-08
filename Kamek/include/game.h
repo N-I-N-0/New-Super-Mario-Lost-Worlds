@@ -2299,6 +2299,7 @@ public:
 	bool outOfZone(Vec3 pos, float* rect, u8 zone);
 	bool checkZoneBoundaries(u32 flags); // I think this method is for that, anyway
 	void Delete(u8 param1);				// fBase_c::Delete(void);
+	bool checksSomething();
 
 	~dStageActor_c();
 
@@ -2527,7 +2528,7 @@ public:
 	u16 _438;
 	u32 _43C;
 	Vec velocity1, velocity2;
-	u8 _458, _459, _45A, _45B, _45C, _45D, _45E;
+	u8 _458, _459, _45A, _45B, isOnQuickSand, isImmersedInLiquid_maybe, isOnIce;
 	u32 _460;
 	Vec initialScale;
 	float _470;
@@ -2695,6 +2696,8 @@ public:
 	void bouncePlayer(void* player, float bounceHeight);
 
 	void killByDieFall(dStageActor_c *killedBy);
+
+	bool EnWaterFlagCheck(Vec* pos);
 
 	// States
 	USING_STATES(dEn_c);

@@ -564,6 +564,8 @@ enum
 	TikiAirship = 544,
 	MummyMe = 545,
 	WingTenten = 546,
+	DarkStar = 547,
+	EggBlock = 548,
 
 	Num
 };
@@ -1391,6 +1393,8 @@ enum
 	TikiAirship = 811,
 	MummyMe = 812,
 	WingTenten = 813,
+	DarkStar = 814,
+	EggBlock = 815,
 	
 	Num
 };

@@ -13,11 +13,10 @@ public:
 
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile resFile;
-	nw4r::g3d::ResFile resFileAnim;
 	m3d::mdl_c bodyModel;
-
-	m3d::anmChr_c chrAnimation;
-
+	m3d::anmClr_c clrAnimation;
+	nw4r::g3d::ResAnmClr anmClr;
+	
 	int counter;
 
 	int destroyType;
@@ -132,13 +131,6 @@ dActor_c* daEnLeafPile_c::build() {
 
 extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 
-void daEnLeafPile_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
-	nw4r::g3d::ResAnmChr anmChr = this->resFileAnim.GetResAnmChr(name);
-	this->chrAnimation.bind(&this->bodyModel, anmChr, unk);
-	this->bodyModel.bindAnim(&this->chrAnimation, unk2);
-	this->chrAnimation.setUpdateRate(rate);
-}
-
 int daEnLeafPile_c::onCreate() {
 	this->type = this->settings >> 28 & 0xF;
 
@@ -154,13 +146,22 @@ int daEnLeafPile_c::onCreate() {
 
 	this->resFile.data = getResource("leafPile", "g3d/leafPile.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("karehayama");
-	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	SetupTextures_Player(&bodyModel, 0);
-
-
-	//this->resFileAnim.data = getResource("launchStar", "g3d/launchStarAnim.brres");
-	//nw4r::g3d::ResAnmChr anmChr = this->resFileAnim.GetResAnmChr("idle");
-	//this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
+	bodyModel.setup(mdl, &allocator, 0x128, 1, 0);
+	//SetupTextures_Player(&bodyModel, 0);
+	
+	/*OSReport("1\n");
+	anmClr = this->resFile.GetResAnmClr("karehayama");
+	OSReport("2\n");
+	this->clrAnimation.setup(mdl, anmClr, &this->allocator, 0, 1);
+	OSReport("3\n");
+	this->clrAnimation.bind(&this->bodyModel, &anmClr, 0, 1);
+	OSReport("4\n");
+	this->clrAnimation.setFrameForEntry(0.0f, 0);
+	OSReport("5\n");
+	this->clrAnimation.setUpdateRateForEntry(1.0f, 0);
+	OSReport("6\n");
+	this->bodyModel.bindAnim(&this->clrAnimation);
+	OSReport("7\n");*/
 
 	allocator.unlink();
 
@@ -194,8 +195,6 @@ int daEnLeafPile_c::onCreate() {
 	//this->pos.y -= 4;
 	this->pos.z = 0;
 
-	//daEnLeafPile_c::bindAnimChr_and_setUpdateRate("idle", 1, 0.0, 1.0);
-
 	this->onExecute();
 	return true;
 }
@@ -220,7 +219,7 @@ int daEnLeafPile_c::onDelete() {
 	//WLClass::instance->demoControlAllPlayers();
 	//BalloonRelatedClass::instance->_20 = 1;
 	
-	for (int i = 0; i < 4; i++) {
+	/*for (int i = 0; i < 4; i++) {
 		daPlBase_c *player = GetPlayerOrYoshi(i);
 		if (player) {
 			//player->setFlag(0x71);
@@ -228,8 +227,73 @@ int daEnLeafPile_c::onDelete() {
 			
 			OSReport("\nSetFlag\n");
 		}
+	}*/
+
+	Actors content = EN_ITEM;
+	u32 set;
+	switch(this->settings & 0b1111) {
+		case 0:
+			return true;
+		case 1:
+			break;
+		case 2:
+			set = 0x0B000000;
+			break;
+		case 3:
+			set = 0x0B000009;
+			break;
+		case 4:
+			set = 0x0B000015;
+			break;
+		case 5:
+			set = 0x0B00000E;
+			break;
+		case 6:
+			set = 0x0B000011;
+			break;
+		case 7:
+			set = 0x0B000019;
+			break;
+		case 8:
+			set = 0x0B000001;
+			break;
+		case 9:
+			set = 0x0B000007;
+			break;
+		case 10:
+			set = 0x0B000006;
+			break;
+		case 11:
+			set = 0x0B000014;
+			break;
+		case 12:
+			set = 0x0B000010;
+			break;
+		case 13:
+			set = 0x0B00000F;
+			break;
+		case 14:
+			set = 0x0B000013;
+			break;
+		case 15:
+			set = 0x0B000016;
+			break;
+		case 16:
+			set = 0x0B000012;
+			break;
+		case 17:
+			content = PoisonShroom;
+			//set = 0x008003cc04060000;
+			break;
+		/*case 148:
+			set = 0x008003cc04060000;
+			break;*/
+		default:
+			break;
 	}
 
+    //u32 set = 0x008003cc04060000;
+	CreateActor(content, set, &pos, 0, this->currentLayerID);
 	return true;
 }
 /*Flags:
@@ -251,7 +315,7 @@ int daEnLeafPile_c::onDraw() {
 
 
 void daEnLeafPile_c::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.translation(pos.x, pos.y - 4, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 
 	bodyModel.setDrawMatrix(matrix);
@@ -263,6 +327,12 @@ int daEnLeafPile_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
+	/*counter++;
+	OSReport("counter: %d\n", counter);
+	if(counter == 180) {
+		this->clrAnimation.setUpdateRateForEntry(1.0f, 0);
+		this->clrAnimation.setFrameForEntry(counter % 80, 0);
+	}*/
 
 	/*if(counter%15==0) {
 		for (int i = 0; i < 4; i++) {

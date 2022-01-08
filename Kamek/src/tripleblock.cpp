@@ -147,7 +147,7 @@ void daEnTripleBlock_c::blockWasHit(bool isDown) {
 	nw4r::snd::SoundHandle handle; //Sound Handle
 	
 	u32 enitemsettings; //EN_ITEM settings
-	u32 reggieToIG[] = {0x0,0x1,0x2,0x7,0x9,0xE,0x11,0x15,0x19,0x6,0x2}; //Mushroom, Star, Coin, 1UP, Fire Flower, Ice Flower, Penguin, Propeller, Mini Shroom, Hammer, 10 Coins
+	static u32 reggieToIG[] = {0x0,0x1,0x2,0x7,0x9,0xE,0x11,0x15,0x19,0x6,0x2}; //Mushroom, Star, Coin, 1UP, Fire Flower, Ice Flower, Penguin, Propeller, Mini Shroom, Hammer, 10 Coins
 	u32 powerupToSet = reggieToIG[(this->settings >> 20 & 0xF)]; //Spritedata ID to EN_ITEM ID
 	enitemsettings = 0 | (powerupToSet << 0) | (2 << 18) | (4 << 9) | (2 << 10) | (this->playerID + 8 << 16); //Setting non-GP settings
 	
