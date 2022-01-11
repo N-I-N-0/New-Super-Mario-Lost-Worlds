@@ -13,6 +13,7 @@ public:
 	Physics::Info physicsInfo;
 
 	int wasIHit;
+	int waitUntilNextDownMove;
 
 	int onCreate();
 	int onDelete();
@@ -36,6 +37,7 @@ CREATE_STATE(daEggBlock_c, Wait);
 int daEggBlock_c::onCreate() {
 	this->pos.y -= 8;
 	blockInit(pos.y);
+	this->sub_80021740();
 
 	physicsInfo.x1 = -8;
 	physicsInfo.y1 = 16;
@@ -55,6 +57,9 @@ int daEggBlock_c::onCreate() {
 
 	TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
 	list->add(&tile);
+
+	this->_68B = 1;
+	physics._D8 &= ~0b00101000;
 
 	this->wasIHit = 0.0f;
 	this->pos.z = 200.0f;
@@ -183,7 +188,7 @@ void daEggBlock_c::blockWasHit(bool isDown) {
 	
 	nw4r::snd::SoundHandle handle;
 	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_ITEM_APPEAR, 1);
-	this->wasIHit = 1;
+	//this->wasIHit = 1;
 
 
 	physics.setup(this, &physicsInfo, 3, currentLayerID);
@@ -215,16 +220,30 @@ void daEggBlock_c::endState_Wait() {
 void daEggBlock_c::executeState_Wait() {
 	int result = blockResult();
 
+
 	if (result == 0)
 		return;
 
+	OSReport("blockResult: %d\n", result);
+
+	dAcPy_c *player = (dAcPy_c*)GetSpecificPlayerActor(0);
+	OSReport("Flag: %d\n", player->testFlag(0x1E));
+
 	if (result == 1) {
+		
 		doStateChange(&daEnBlockMain_c::StateID_UpMove);
 		anotherFlag = 2;
 		isGroundPound = false;
 	} else {
-		doStateChange(&daEnBlockMain_c::StateID_DownMove);
-		anotherFlag = 1;
-		isGroundPound = true;
+		//if(waitUntilNextDownMove > 0) {
+		//	waitUntilNextDownMove--;
+		//} else {
+			doStateChange(&daEnBlockMain_c::StateID_DownMove);
+			anotherFlag |= 1;
+			isGroundPound = true;
+			physics._D8 &= ~0b00101000;
+			//_660 = 8;
+		//	waitUntilNextDownMove = 6;
+		//}
 	}
 }

@@ -2739,6 +2739,8 @@ public:
 	void blockUpdate();
 	u8 blockResult();
 
+	void sub_80021740();
+
 	virtual void calledWhenUpMoveBegins();
 	virtual void calledWhenDownMoveBegins();
 

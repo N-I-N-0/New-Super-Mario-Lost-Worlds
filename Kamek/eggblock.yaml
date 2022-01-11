@@ -1,3 +1,8 @@
 ---
-source_files: [../src/eggblock.cpp]
-hooks: []
+source_files: [../src/eggblock.cpp, ../src/eggblock.S]
+hooks:
+  - name: IfNewBlockDontDoStrangeFunctionCall
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8002105c
+    target_func: 'callBackWEdit'
