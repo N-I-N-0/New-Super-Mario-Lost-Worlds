@@ -120,9 +120,16 @@ TEX_YoshiEggSetColour:
 	stw r6, 0x10(sp)
 	stw r7, 0x0C(sp)
 
+	or r3, r28, r28			#get settings
+	andis. r3, r3, 0x20		#if bit 21 set use settings color
+	cmpwi r3, 0
+	bne	useSettingEggColor
+
 	li r3, 10
 	bl GenerateRandomNumber
-	stw r3, 0x5F8(r9)
+	or	r8, r3, r3
+useSettingEggColor:
+	stw r8, 0x5F8(r9)
 
 	lwz r0, 0x24(sp)
 	mr r3, r9

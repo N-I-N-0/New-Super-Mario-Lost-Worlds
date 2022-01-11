@@ -77,11 +77,11 @@ int daEggBlock_c::onCreate() {
 	}*/
 	switch(this->settings & 0xF) {
 		case 0:
-			tile.tileNumber = 0x8C;		//green
+			tile.tileNumber = 0x8C;		//light blue
 			break;
 
 		case 1:
-			tile.tileNumber = 0x8D;		//light blue
+			tile.tileNumber = 0x8D;		//pink
 			break;
 
 		case 2:
@@ -89,23 +89,23 @@ int daEggBlock_c::onCreate() {
 			break;
 
 		case 3:
-			tile.tileNumber = 0x9C;		//pink
+			tile.tileNumber = 0x9C;		//green
 			break;
 
 		case 4:
-			tile.tileNumber = 0x9D;		//dark blue
+			tile.tileNumber = 0x9D;		//blue
 			break;
 
 		case 5:
-			tile.tileNumber = 0x9E;		//orange
+			tile.tileNumber = 0x9E;		//red
 			break;
 
 		case 6:
-			tile.tileNumber = 0x9F;		//red
+			tile.tileNumber = 0x9F;		//orange
 			break;
 
 		case 7:
-			tile.tileNumber = 0xAC;		//purple
+			tile.tileNumber = 0xAC;		//brown
 			break;
 
 		case 8:
@@ -113,7 +113,7 @@ int daEggBlock_c::onCreate() {
 			break;
 
 		case 9:
-			tile.tileNumber = 0xAE;		//black
+			tile.tileNumber = 0xAE;		//purple
 			break;
 
 		case 10:
@@ -184,10 +184,15 @@ void daEggBlock_c::blockWasHit(bool isDown) {
 		default:
 			break;
 	}*/
-	CreateActor(AC_YOSHI_EGG, /*set*/0, &pos, 0, this->currentLayerID);
+	
+	Vec eggPos = pos;
+	eggPos.y += (isDown ? -8 : 8);
+	
+	u8 color = this->settings & 0xF;	//0 = light blue; 1 = pink; 2 = yellow; 3 = green; 4 = blue; 5 = red; 6 = orange; 7 = brown; 8 = white; 9 = purple.
+	CreateActor(AC_YOSHI_EGG, /*set*/(u32)(1 << 21 | color), &eggPos, 0, this->currentLayerID);
 	
 	nw4r::snd::SoundHandle handle;
-	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_ITEM_APPEAR, 1);
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_PLY_YOSHI_EGG_APPEAR, 1);
 	//this->wasIHit = 1;
 
 

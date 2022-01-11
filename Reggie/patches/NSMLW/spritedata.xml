@@ -2890,6 +2890,33 @@
   </sprite> <!-- #495: Launch Star -->
 
   <sprite id="496" name="Leaf Pile" asmhacks="True" notes="A leaf pile ported from MKW.">
+    <list bit="45-48" title="Contains" >
+      <entry value="0">Nothing</entry>
+      <entry value="1">Random</entry>
+      <entry value="2">Mushroom</entry>
+      <entry value="3">Fire Flower</entry>
+      <entry value="4">Propeller Shroom</entry>
+      <entry value="5">Ice Flower</entry>
+      <entry value="6">Penguin Suit</entry>
+      <entry value="7">Mini Shroom</entry>
+      <entry value="8">Power Star</entry>
+      <entry value="9">1-UP Shroom</entry>
+      <entry value="10">Hammer</entry>
+      <entry value="11">Gold Flower</entry>
+      <entry value="12">Spike Shroom</entry>
+      <entry value="13">Boomerang Flower</entry>
+      <entry value="14">Frog Suit</entry>
+      <entry value="15">Cloud Flower</entry>
+      <entry value="16">Rosalina's Wand</entry>
+      <entry value="17">Yoshi Egg</entry>
+      <entry value="17">Coin</entry>
+      <entry value="17">Coin</entry>
+      <entry value="18">Poison Shroom</entry>
+      <!--<entry value="19">Dark Star</entry>-->
+    </list>
+	<dualbox bit="17" title1="Spawn Mode" title2="Normal" comment="High Jump" />
+    <checkbox bit="18" title="Respawn" comment="When enabled, the leaf pile will reappear after some time." />
+    
   </sprite> <!-- #496: Leaf Pile -->
 
   <sprite id="497" name="Player Number Event" asmhacks="True" notes="A sprite triggering different events depending on the number of players." advancednotes="If you set this sprite to be event triggered and not looping it will automatically deactivate the event it was triggered with after finishing.">
@@ -3287,5 +3314,25 @@
 
     <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
   </sprite> <!-- #546: Para-Biddybud -->
+  
+  <sprite id="547" name="Dark Star" asmhacks="True" notes="A Dark Star removing the Power Star effect or making damage.">
+  </sprite> <!-- #547: Dark Star -->
+  
+  <sprite id="548" name="Egg Block" asmhacks="True" notes="An Egg Block from Yoshi's Island spawning Yoshi eggs.">
+//0 = light blue; 1 = pink; 2 = yellow; 3 = green; 4 = blue; 5 = red; 6 = orange; 7 = brown; 8 = white; 9 = purple.
+    <list bit="45-48" title="Color">
+      <entry value="3">Green</entry>
+      <entry value="0">Light Blue</entry>
+      <entry value="2">Yellow</entry>
+      <entry value="1">Pink</entry>
+      <entry value="4">Dark Blue</entry>
+      <entry value="6">Orange</entry>
+      <entry value="5">Red</entry>
+      <entry value="9">Purple</entry>
+      <entry value="8">White</entry>
+      <entry value="7">Black</entry>
+      <entry value="10">Rainbow</entry>
+    </list>
+  </sprite> <!-- #548: Egg Block -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
