@@ -38,6 +38,7 @@ CREATE_STATE(daEnTripleBlock_c, Wait);
 int daEnTripleBlock_c::onCreate() {
 	this->pos.y -= 8;
 	blockInit(pos.y);
+	this->sub_80021740();
 
 	physicsInfo.x1 = -24;
 	physicsInfo.y1 = 16;
@@ -54,6 +55,9 @@ int daEnTripleBlock_c::onCreate() {
 	physics.callback2 = &daEnBlockMain_c::PhysicsCallback2;
 	physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
 	physics.addToList();
+	
+	this->_68B = 1;
+	physics._D8 &= ~0b00101000;
 	
 	TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
 	
