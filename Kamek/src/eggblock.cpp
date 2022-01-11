@@ -189,7 +189,7 @@ void daEggBlock_c::blockWasHit(bool isDown) {
 	eggPos.y += (isDown ? -8 : 8);
 	
 	u8 color = this->settings & 0xF;	//0 = light blue; 1 = pink; 2 = yellow; 3 = green; 4 = blue; 5 = red; 6 = orange; 7 = brown; 8 = white; 9 = purple.
-	CreateActor(AC_YOSHI_EGG, /*set*/(u32)(1 << 21 | color), &eggPos, 0, this->currentLayerID);
+	CreateActor(AC_YOSHI_EGG, /*set*/(color > 9 ? 0 : (u32)(1 << 21 | color)), &eggPos, 0, this->currentLayerID);
 	
 	nw4r::snd::SoundHandle handle;
 	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_PLY_YOSHI_EGG_APPEAR, 1);
