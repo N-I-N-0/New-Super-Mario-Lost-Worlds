@@ -151,3 +151,4 @@ modules:
   - processed/tenten.yaml
   - processed/darkStar.yaml
   - processed/eggblock.yaml
+  - processed/soundtest.yaml

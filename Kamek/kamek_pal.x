@@ -1,4 +1,8 @@
 SECTIONS {
+	AssembleDefaultScWorldMapSettings = 0x80102B50;
+	disableAnim__Q23m2d13EmbedLayout_cFi = 0x800C9580;
+	mbstowcs = 0x802DF0EC;
+
 	aWm_ob_eggbreak = 0x80989d60;
 	aWm_ob_eggbre_0 = 0x80989d74;
 	aWm_ob_eggbre_1 = 0x80989d88;

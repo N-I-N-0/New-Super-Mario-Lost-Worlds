@@ -105,6 +105,8 @@ void FreeFromGameHeap1(void *block);
 
 float GetHermiteCurveValue(float current_frame, HermiteKey* keys, unsigned int key_count);
 
+extern "C" void mbstowcs(wchar_t *destination, const char *source, size_t count);
+
 /* Archive */
 /*#ifdef REGION_PAL
 	#define ARC_TABLE ((*((void**)0x8042A318))+4)
