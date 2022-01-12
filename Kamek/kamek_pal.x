@@ -1,4 +1,9 @@
 SECTIONS {
+	aWm_ob_eggbreak = 0x80989d60;
+	aWm_ob_eggbre_0 = 0x80989d74;
+	aWm_ob_eggbre_1 = 0x80989d88;
+	aWm_ob_eggbre_2 = 0x80989d9c;
+
 	returnFromCallBackWEdit = 0x80021060;
 	returnFromCallBackWEdit2 = 0x80021064;
 	FUN_80020ed0 = 0x80020ed0;

@@ -742,11 +742,11 @@ hooks:
     src_addr_pal: 0x809114B4
     target_func: 'TEX_YoshiEggSetFrame'
 
-  - name: TEX_YoshiEggEffect
+  - name: Insert_EFF_YoshiEggColor
     type: branch_insn
     branch_type: bl
-    src_addr_pal: 0x80911658
-    target_func: 'TEX_YoshiEggEffect'
+    src_addr_pal: 0x80911624
+    target_func: 'Insert_EFF_YoshiEggColor'
 
   - name: TEX_YoshiSetColour
     type: branch_insn
