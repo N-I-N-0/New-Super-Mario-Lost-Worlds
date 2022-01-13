@@ -3,8 +3,6 @@
 dScSoundTest_c *dScSoundTest_c::instance = 0;
 
 dScSoundTest_c *dScSoundTest_c::build() {
-	OSReport("0\n");
-
 	// return new dScSoundTest_c;
 	void *buffer = AllocFromGameHeap1(sizeof(dScSoundTest_c));
 	dScSoundTest_c *c = new(buffer) dScSoundTest_c;
@@ -170,6 +168,7 @@ void dScSoundTest_c::state1_whatever() {
 		sprintf(sfxNum, "%04d:", this->selectedSFX);
 		mbstowcs(text, sfxName, 150);
 		mbstowcs(number, sfxNum, 150);
+		OSReport("set text to: %s\n", sfxName);
 
 		T_SFXTxt_00->SetString(text);
 		T_SFXSha_00->SetString(text);
@@ -221,64 +220,38 @@ int dScSoundTest_c::onDraw() {
 void WorldMapDrawFunc();
 
 void SoundTestDrawFunc() {
-	OSReport("1\n");
 	Reset3DState();
-	OSReport("2\n");
 	
 	LinkScene(0);
-	OSReport("3\n");
 	//DrawOpa();
-	OSReport("4\n");
 	//DrawXlu();
-	OSReport("5\n");
 	UnlinkScene(0);
-	OSReport("6\n");
-
+	
 	SetupLYTDrawing();
-	OSReport("7\n");
 	DrawAllLayoutsBeforeX(0x81);
-	OSReport("8\n");
 	RenderEffects(0, 3);
-	OSReport("9\n");
 	RenderEffects(0, 2);
-	OSReport("0\n");
 	GXDrawDone();
-	OSReport("1\n");
 	RemoveAllFromScnRoot();
-	OSReport("2\n");
 	Reset3DState();
-	OSReport("3\n");
 	SetCurrentCameraID(1);
-	OSReport("4\n");
 	DoSpecialDrawing1();
-	OSReport("5\n");
-
+	
 	LinkScene(1);
-	OSReport("6\n");
 	DrawOpa();
-	OSReport("7\n");
 	DrawXlu();
-	OSReport("8\n");
 	UnlinkScene(1);
-	OSReport("9\n");
-
+	
 	SetCurrentCameraID(0);
-	OSReport("0\n");
 	for (int i = 0; i < 4; i++)
 		RenderEffects(0, 0xB+i);
-	OSReport("1\n");
 	for (int i = 0; i < 4; i++)
 		RenderEffects(0, 7+i);
-	OSReport("2\n");
 	GXDrawDone();
-	OSReport("3\n");
 	// Leaving out some stuff here
 	DrawAllLayoutsAfterX(0x80);
-	OSReport("4\n");
 	ClearLayoutDrawList();
-	OSReport("5\n");
 	SetCurrentCameraID(0);
-	OSReport("6\n");
 }
 
 extern "C" u32 AssembleDefaultScWorldMapSettings();
