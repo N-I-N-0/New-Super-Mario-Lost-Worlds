@@ -204,12 +204,16 @@ int daEnLeafPile_c::onDelete() {
 	S16Vec nullRot = {0,0,0};
 	Vec efScale = {0.05f, 0.05f, 0.05f};
 	Vec oneVec = {1.0f, 1.0f, 1.0f};
+	nw4r::snd::SoundHandle handle;
+
 	switch (this->destroyType) {
 		case 0:
 			SpawnEffect("rk_karehayama0", 0, &this->pos, &nullRot, &efScale);
+			PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_PLY_FOOTNOTE_LEAF, 1);
 			break;
 		case 1:
 			SpawnEffect("Wm_en_explosion", 0, &this->pos, &nullRot, &oneVec);
+			PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_PNGN_ICE_THAW, 1);
 			break;
 		default:
 			break;
