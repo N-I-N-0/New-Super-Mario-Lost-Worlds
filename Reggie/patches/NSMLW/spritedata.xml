@@ -2916,7 +2916,6 @@
     </list>
 	<dualbox bit="17" title1="Spawn Mode" title2="Normal" comment="High Jump" />
     <checkbox bit="18" title="Respawn" comment="When enabled, the leaf pile will reappear after some time." />
-    
   </sprite> <!-- #496: Leaf Pile -->
 
   <sprite id="497" name="Player Number Event" asmhacks="True" notes="A sprite triggering different events depending on the number of players." advancednotes="If you set this sprite to be event triggered and not looping it will automatically deactivate the event it was triggered with after finishing.">
@@ -3319,7 +3318,6 @@
   </sprite> <!-- #547: Dark Star -->
   
   <sprite id="548" name="Egg Block" asmhacks="True" notes="An Egg Block from Yoshi's Island spawning Yoshi eggs.">
-//0 = light blue; 1 = pink; 2 = yellow; 3 = green; 4 = blue; 5 = red; 6 = orange; 7 = brown; 8 = white; 9 = purple.
     <list bit="45-48" title="Color">
       <entry value="3">Green</entry>
       <entry value="0">Light Blue</entry>
@@ -3334,5 +3332,8 @@
       <entry value="10">Rainbow</entry>
     </list>
   </sprite> <!-- #548: Egg Block -->
+
+  <sprite id="549" name="Para Bones" asmhacks="True" notes="A Mummy Me that attacks the players.">
+  </sprite> <!-- #549: Para Bones -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

@@ -566,6 +566,7 @@ enum
 	WingTenten = 546,
 	DarkStar = 547,
 	EggBlock = 548,
+	ParaBones = 549,
 
 	Num
 };
@@ -1395,6 +1396,7 @@ enum
 	WingTenten = 813,
 	DarkStar = 814,
 	EggBlock = 815,
+	ParaBones = 816,
 	
 	Num
 };
