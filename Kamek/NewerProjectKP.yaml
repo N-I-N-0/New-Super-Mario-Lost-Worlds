@@ -153,3 +153,4 @@ modules:
   - processed/eggblock.yaml
   - processed/soundtest.yaml
   - processed/parabones.yaml
+  - processed/exclamationblock.yaml

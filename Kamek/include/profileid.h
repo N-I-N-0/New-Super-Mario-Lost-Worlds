@@ -567,6 +567,7 @@ enum
 	DarkStar = 547,
 	EggBlock = 548,
 	ParaBones = 549,
+	ExclamationBlock = 550,
 
 	Num
 };
@@ -1397,6 +1398,7 @@ enum
 	DarkStar = 814,
 	EggBlock = 815,
 	ParaBones = 816,
+	ExclamationBlock = 817,
 	
 	Num
 };
