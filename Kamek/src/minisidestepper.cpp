@@ -361,7 +361,7 @@ int daMiniSidestepper_c::onCreate() {
 
 	else
 	{
-		this->Delete(1);
+		distbetweenpoints = 80.0;
 	}
 
 
@@ -386,9 +386,12 @@ int daMiniSidestepper_c::onCreate() {
 		this->point2 = this->startposx - distbetweenpoints;
 	}
 
-	else //when error
+	else //when sidestepper boss
 	{
-		this->Delete(1);
+		howmanypoints = 3;
+		this->point0 = this->startposx;
+		this->point1 = this->startposx + distbetweenpoints;
+		this->point2 = this->startposx - distbetweenpoints;
 	}
 
 
