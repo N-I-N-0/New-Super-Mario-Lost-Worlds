@@ -215,7 +215,7 @@ void daBoomerangHax_c::dieFall_End() {
 			}
 
 			//Added by LiQ for CloudPropeller
-			else if (ownername == 818) { return; }
+			else if (ownername == CloudPropeller) { return; }
 
 			else
 			{

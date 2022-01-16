@@ -824,7 +824,8 @@ enum Actors {
 	DarkStar = 814,
 	EggBlock = 815,
 	ParaBones = 816,
-	ExclamationBlock = 817
+	ExclamationBlock = 817,
+	CloudPropeller = 818
 };
 
 struct Actor {
