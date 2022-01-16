@@ -568,6 +568,7 @@ enum
 	EggBlock = 548,
 	ParaBones = 549,
 	ExclamationBlock = 550,
+	CloudPropeller = 551,
 
 	Num
 };
@@ -1399,6 +1400,7 @@ enum
 	EggBlock = 815,
 	ParaBones = 816,
 	ExclamationBlock = 817,
+	CloudPropeller = 818,
 	
 	Num
 };

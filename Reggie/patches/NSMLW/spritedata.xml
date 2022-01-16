@@ -3335,5 +3335,12 @@
 
   <sprite id="549" name="Para Bones" asmhacks="True" notes="A Mummy Me that attacks the players.">
   </sprite> <!-- #549: Para Bones -->
+  
+  <sprite id="551" name="Cloud Propeller" asmhacks="True" notes="A cloud propeller.">
+    <value bit="21-28" title="Wind Length" comment="This defines the length of the wind effect."/>
+    <dualbox bit="32" title1="Horizontal" title2="Vertical" comment="This determines which direction the Windmill will face."/>
+	<dualbox bit="17" title1="Left" title2="Right" comment="Only use this if you set Horizontal above." requiredbit="32" requiredval="0"/>
+    <value bit="37-40" title="Wind Speed" comment="This defines the speed of the wind for the player's clouds." comment2="Every cloud spriteCollision trigger, this->pos.x will gets added or subtracted the speed divided by 10"/>
+  </sprite> <!-- #551: CloudPropeller -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

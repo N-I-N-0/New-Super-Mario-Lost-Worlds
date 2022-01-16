@@ -255,7 +255,7 @@ int daSidestepper_c::onCreate() {
 	this->everysecondtry = false;
 	
 	
-	
+	OSReport("Test1");
 	
 	// Do the following once when object is spawned:
 
@@ -274,7 +274,7 @@ int daSidestepper_c::onCreate() {
 
 	allocator.unlink();
 
-	OSReport("Test12334454w665436");
+	OSReport("Test2");
 
 	// Physics settings. Use hitbox debug mode to test hitbox, [Press "-" 16 times on star coin menu].
 	ActivePhysics::Info Physics;
@@ -304,16 +304,10 @@ int daSidestepper_c::onCreate() {
 	this->startposx = pos.x;
 	this->BaseLine = pos.y;
 
-	if (this->settings >> 31 & 0b1)
-	{
-		this->lives = 24;
-	}
-	else
-	{
-		this->lives = 14;
-	}
 
+	this->lives = 14;
 
+	OSReport("Test3");
 	doStateChange(&StateID_Grow);
 
 	this->onExecute();

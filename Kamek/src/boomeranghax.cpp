@@ -28,6 +28,7 @@ int getNybbleValue(u32 settings, int fromNybble, int toNybble) {	 //Made that fu
 
 
 class daBoomerangHax_c : public dEn_c {
+public:
 	int onCreate();
 	int onDelete();
 	int onExecute();
@@ -212,6 +213,10 @@ void daBoomerangHax_c::dieFall_End() {
 					}
 				}
 			}
+
+			//Added by LiQ for CloudPropeller
+			else if (ownername == 818) { return; }
+
 			else
 			{
 				this->Delete(1);

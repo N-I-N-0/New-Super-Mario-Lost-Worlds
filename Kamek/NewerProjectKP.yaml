@@ -154,3 +154,4 @@ modules:
   - processed/soundtest.yaml
   - processed/parabones.yaml
   - processed/exclamationblock.yaml
+  - processed/cloudpropeller.yaml
