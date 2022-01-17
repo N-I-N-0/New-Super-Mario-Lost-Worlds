@@ -688,6 +688,12 @@ int daBoomerangHax_c::onCreate() {
 		this->pos.y += 16;
 		this->pos.z = 4000;
 
+		//Added by LiQ for cloud x-pos fix
+		if (this->direction == 1)
+			this->pos.x += 24;
+		else
+			this->pos.x -= 24;
+
 
 		doStateChange(&StateID_Cloud_Thrown); 
 

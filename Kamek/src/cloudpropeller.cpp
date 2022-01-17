@@ -13,18 +13,20 @@ public:
 
 
 	void LoadModel(int id);
-	void updateModelMatrices();
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
 
 	static dActor_c* build();
 
-	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
-	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 
 	int horizontalvertical; //0 = horizontal, ...
 	int leftright; //0 = left, 1 = right
 	double speed;
+	double sizeofwind;
+	double n;
+	double m;
+	double x;
+	double y;
 
 	mHeapAllocator_c allocator;
 	m3d::mdl_c bodyModel;
@@ -60,15 +62,6 @@ void daCloudPropeller::LoadModel(int id)
 	return;
 }
 
-void daCloudPropeller::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y, pos.z);
-	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
-
-	bodyModel.setDrawMatrix(matrix);
-	bodyModel.setScale(&scale);
-	bodyModel.calcWorld(false);
-}
-
 
 void daCloudPropeller::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr(name);
@@ -87,18 +80,6 @@ const SpriteData CloudPropellerSpriteData =
 
 Profile CloudPropellerProfile(&daCloudPropeller::build, SpriteId::CloudPropeller, CloudPropellerSpriteData, ProfileId::CloudPropeller, ProfileId::CloudPropeller, "CloudPropeller", CPArcNameList);
 
-
-
-void daCloudPropeller::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther)
-{
-	return;
-}
-
-void daCloudPropeller::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther)
-{
-	return;
-}
-
 void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apOther)
 {
 	
@@ -106,21 +87,23 @@ void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apO
 	{
 		if (((daBoomerangHax_c*)apOther->owner)->variation == 4)
 		{
+			x = abs(pos.x - apOther->owner->pos.x);
+			y = m*x+n;
 			//FINALLY move cloud
 			if (horizontalvertical == 0)
 			{
 				if (leftright == 0)
 				{
-					apOther->owner->pos.x -= speed;
+					apOther->owner->pos.x -= y;
 				}
 				else
 				{
-					apOther->owner->pos.x += speed;
+					apOther->owner->pos.x += y;
 				}
 			}
 			else
 			{
-				apOther->owner->pos.y += speed;
+				apOther->owner->pos.y += y;
 			}
 		}
 	}
@@ -170,11 +153,12 @@ int daCloudPropeller::onCreate() {
 
 	allocator.unlink(); 
 
-	double sizeofwind = (settings >> 20 & 0b111111) * 8;
+	sizeofwind = (settings >> 20 & 0b111111) * 8;
 	speed = (settings >> 8 & 0b1111) / 10.0;
 
 	ActivePhysics::Info HitMeBaby; 
-	HitMeBaby.xDistToCenter = 0.0; 
+	if (leftright == 0) { HitMeBaby.xDistToCenter = -sizeofwind + 16;  }
+	else { HitMeBaby.xDistToCenter = sizeofwind; }
 	HitMeBaby.yDistToCenter = 0.0; 
 	HitMeBaby.xDistToEdge = sizeofwind; 
 	HitMeBaby.yDistToEdge = 64.0; 
@@ -192,7 +176,7 @@ int daCloudPropeller::onCreate() {
 	this->scale.z = 0.5;
 
 	this->pos.y -= 8;
-
+	
 	if (horizontalvertical == 0)
 	{
 		if (leftright == 0)
@@ -211,7 +195,13 @@ int daCloudPropeller::onCreate() {
 	
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 	
+	//PlaySound(this, SE_DEMO_OP_SHIP_PROPELLER_1511f);
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_AMB_SHIP_WIND, 1);
 	
+	n=2*speed;
+	m=-n/(2 * sizeofwind);
+
+
 	this->onExecute();
 
 	return true;
@@ -229,7 +219,6 @@ int daCloudPropeller::onExecute() {
 	if (this->animationChr.isAnimationDone()) {
 		this->animationChr.setCurrentFrame(0.0);
 	}
-
 
 	return true;
 }

@@ -1,4 +1,65 @@
 SECTIONS {
+	AssembleDefaultScWorldMapSettings = 0x80102A40;
+	disableAnim__Q23m2d13EmbedLayout_cFi = 0x800C9490;
+	mbstowcs = 0x802DEDFC;
+
+	aWm_ob_eggbreak = 0x80989D70;
+	aWm_ob_eggbre_0 = 0x80989D84;
+	aWm_ob_eggbre_1 = 0x80989D98;
+	aWm_ob_eggbre_2 = 0x80989DAC;
+
+	returnFromCallBackWEdit = 0x80021060;
+	returnFromCallBackWEdit2 = 0x80021064;
+	FUN_80020ed0 = 0x80020ED0;
+
+	sub_80021740__15daEnBlockMain_cFv = 0x80021740;
+
+	daEnKanon_c__StateID_Walk = 0x80B175A8;
+
+	/*beginState_StarMove__12daDarkStar_cFv = 0x80A2A290;
+	executeState_StarMove__12daDarkStar_cFv = 0x80A2A320;
+	endState_StarMove__12daDarkStar_cFv = 0x80A2A310;*/
+	checksSomething__13dStageActor_cFv = 0x80065110;
+	EnItem_GetZPosToUse = 0x80A28A00;
+	checkLiquidImmersionAndKillIfTouchingLava__5dEn_cFP7Point3df = 0x80097170;
+
+	UpdateSelectCursor = 0x800B44D0;
+	returnToCoin = 0x80783CFC;
+	returnToMulti = 0x80783D10;
+	returnFromNewButtons = 0x80783D94;
+	returnFromNewButtons2 = 0x80783CDC;
+	returnFromNewButtons3 = 0x80783CB0;
+
+	returnTo80783C4C = 0x80783C8C;
+	returnTo80783CE8 = 0x80783D28;
+
+	returnFromSandpillar = 0x80802148;
+	returnFromWaterwaveIn1 = 0x80803398;
+	returnFromWaterwaveIn2 = 0x80803920;
+	returnFromWaterwaveIn3 = 0x80803514;
+
+	returnFromWaterwaveOut1 = 0x808038F4;
+	returnFromWaterwaveOut2 = 0x808034E8;
+	returnFromWaterwaveOut3 = 0x8080336C;
+
+	returnFromWatersplash1 = 0x80803124;
+	returnFromWatersplash2 = 0x80802F08;
+
+	returnFromWater021 = 0x80803540;
+	returnFromWater022 = 0x808032F8;
+	returnFromWater023 = 0x8080316C;
+
+	returnFromFloatSplash = 0x80802704;
+
+	returnFromNoEffectWalking = 0x80802088;
+
+	daPyDemoMng_c__instance = 0x80429C94;
+
+	onCreate_orig__14dCourseClear_cFv = 0x80779A40;
+
+	returnArrowSignboard = 0x8081C964;
+	returnBooCircle = 0x8089FF74;
+
 	ContinueFromSixteenthHook = 0x80143560;
 
 	layerZPositionForByugoHack = 0x8042B954;
@@ -22,6 +83,9 @@ SECTIONS {
 	stunPlayer__7dAcPy_cFv = 0x80137510;
 	unstunPlayer__7dAcPy_cFv = 0x80137650;
 	StateID_Quake__10daPlBase_c = 0x803763B0;
+
+	StateID_Flagdown__12daEnGlpole_c = 0x80B15530;
+	StateID_ProcGoalEnd__14dGameDisplay_c = 0x80377138;
 
 	sub_8004DD00__10daPlBase_cFv = 0x8004DD00;
 	daEnGlpole_c__CheckThis = 0x80A0B1D0;
@@ -1004,6 +1068,7 @@ SECTIONS {
 	__dt__5dEn_cFv = 0x80095130;
 	sub_80097050__5dEn_cFv = 0x80097050;
 	manageBelowCollision__5dEn_cFv = 0x80096F60;
+	EnWaterFlagCheck__5dEn_cFP7Point3d = 0x80097700;
 	afterCreate__5dEn_cFi = 0x800951D0;
 	beforeExecute__5dEn_cFv = 0x80095240;
 	afterExecute__5dEn_cFi = 0x80095480;
@@ -2009,18 +2074,17 @@ SECTIONS {
 	__vt__Q23m3d8anmClr_c = 0x80329518;
 	__dt__Q23m3d8anmClr_cFv = 0x80165E70;
 	vf0C__Q23m3d8anmClr_cFv = 0x801663A0;
-
-	setup__Q23m3d8anmClr_cFQ34nw4r3g3d6ResMdlQ34nw4r3g3d9ResAnmClrP12mAllocator_cPUii = 0x80165C30;
 	bind__Q23m3d8anmClr_cFPQ23m3d5mdl_cQ34nw4r3g3d9ResAnmClrii = 0x80165FD0;
-
-	getFrameForEntry__Q23m3d8anmClrFv = 0x801662E0;
+	setup__Q23m3d8anmClr_cFQ34nw4r3g3d6ResMdlQ34nw4r3g3d9ResAnmClrP12mAllocator_cPUii = 0x80165C30;
+	getFrameForEntry__Q23m3d8anmClr_cFv = 0x801662E0;
 	setFrameForEntry__Q23m3d8anmClrFfi = 0x801662F0;
-	getUpdateRateForEntry__Q23m3d8anmClrFv = 0x80166300;
-	setUpdateRateForEntry__Q23m3d8anmClrFfi = 0x80166310;
-	isEntryAnimationDone__Q23m3d8anmClrFi = 0x80166320;
-	queryEntrySomething__Q23m3d8anmClrFv = 0x80166330;
-	setEntryByte34__Q23m3d8anmClrFUci = 0x80166340;
-	getEntryField28__Q23m3d8anmClrFv = 0x80166360;
+	setFrameForEntry__Q23m3d8anmClr_cFfi = 0x801662F0;
+	getUpdateRateForEntry__Q23m3d8anmClr_cFv = 0x80166300;
+	setUpdateRateForEntry__Q23m3d8anmClr_cFfi = 0x80166310;
+	isEntryAnimationDone__Q23m3d8anmClr_cFi = 0x80166320;
+	queryEntrySomething__Q23m3d8anmClr_cFv = 0x80166330;
+	setEntryByte34__Q23m3d8anmClr_cFUci = 0x80166340;
+	getEntryField28__Q23m3d8anmClr_cFv = 0x80166360;
 
 	/* m3d::anmTexPat_c */
 	__vt__Q23m3d11anmTexPat_c = 0x80329548;
@@ -2114,6 +2178,7 @@ SECTIONS {
 	PlayerProjectileShooting = 0x8013BB90;
 
 	PlayPlayerSound = 0x80057E70;
+	CreateActor__F6ActorsUiP7Point3dPvc = 0x80064610;
 	CreateActor = 0x80064610;
 	Actor_SearchByName = 0x80162D50;
 
