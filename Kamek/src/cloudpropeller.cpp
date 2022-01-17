@@ -17,7 +17,10 @@ public:
 
 	static dActor_c* build();
 
+	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 	void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+
+	ActivePhysics bPhysics;
 
 	int horizontalvertical; //0 = horizontal, ...
 	int leftright; //0 = left, 1 = right
@@ -87,11 +90,11 @@ void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apO
 	{
 		if (((daBoomerangHax_c*)apOther->owner)->variation == 4)
 		{
-			x = abs(pos.x - apOther->owner->pos.x);
-			y = m*x+n;
 			//FINALLY move cloud
 			if (horizontalvertical == 0)
 			{
+				x = abs(pos.x - apOther->owner->pos.x);
+				y = m*x+n;
 				if (leftright == 0)
 				{
 					apOther->owner->pos.x -= y;
@@ -103,6 +106,8 @@ void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apO
 			}
 			else
 			{
+				x = abs(pos.y - apOther->owner->pos.y);
+				y = m*x+n;
 				apOther->owner->pos.y += y;
 			}
 		}
@@ -110,6 +115,11 @@ void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apO
 	
 	return;
 
+}
+
+void daCloudPropeller::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther)
+{
+	this->_vf220(apOther->owner);
 }
 
 
@@ -157,25 +167,47 @@ int daCloudPropeller::onCreate() {
 	speed = (settings >> 8 & 0b1111) / 10.0;
 
 	ActivePhysics::Info HitMeBaby; 
-	if (leftright == 0) { HitMeBaby.xDistToCenter = -sizeofwind + 16;  }
-	else { HitMeBaby.xDistToCenter = sizeofwind; }
-	HitMeBaby.yDistToCenter = 0.0; 
-	HitMeBaby.xDistToEdge = sizeofwind; 
-	HitMeBaby.yDistToEdge = 64.0; 
-	HitMeBaby.category1 = 0x3; 
-	HitMeBaby.category2 = 0x0; 
-	HitMeBaby.bitfield1 = 0x8; 
-	HitMeBaby.bitfield2 = 0xFFC00000; 
-	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
-	this->aPhysics.initWithStruct(this, &HitMeBaby); 
-	this->aPhysics.addToList();
 
-	this->scale.x = 0.5;
-	this->scale.y = 0.5;
-	this->scale.z = 0.5;
+	if (horizontalvertical == 0)
+	{
+		if (leftright == 0) { HitMeBaby.xDistToCenter = -sizeofwind + 16;  }
+		else { HitMeBaby.xDistToCenter = sizeofwind; }
+		HitMeBaby.yDistToCenter = 0.0; 
+		HitMeBaby.xDistToEdge = sizeofwind; 
+		HitMeBaby.yDistToEdge = 64.0; 
+		HitMeBaby.category1 = 0x3; 
+		HitMeBaby.category2 = 0x0; 
+		HitMeBaby.bitfield1 = 0x8; 
+		HitMeBaby.bitfield2 = 0xFFC00000; 
+		HitMeBaby.unkShort1C = 0; 
+		HitMeBaby.callback = &dEn_c::collisionCallback; 
+		this->aPhysics.initWithStruct(this, &HitMeBaby); 
+		this->aPhysics.addToList();
+		this->pos.y -= 8;
+		this->scale.x = 0.5;
+		this->scale.y = 0.5;
+		this->scale.z = 0.5;
+	}
+	else
+	{
+		HitMeBaby.xDistToCenter = 0.0;
+		HitMeBaby.yDistToCenter = sizeofwind; 
+		HitMeBaby.xDistToEdge = 64.0; 
+		HitMeBaby.yDistToEdge = sizeofwind; 
+		HitMeBaby.category1 = 0x3; 
+		HitMeBaby.category2 = 0x0; 
+		HitMeBaby.bitfield1 = 0x8; 
+		HitMeBaby.bitfield2 = 0xFFC00000; 
+		HitMeBaby.unkShort1C = 0; 
+		HitMeBaby.callback = &dEn_c::collisionCallback; 
+		this->aPhysics.initWithStruct(this, &HitMeBaby); 
+		this->aPhysics.addToList();
 
-	this->pos.y -= 8;
+		this->scale.x = 0.3;
+		this->scale.y = 0.3;
+		this->scale.z = 0.3;
+	}
+
 	
 	if (horizontalvertical == 0)
 	{
@@ -190,6 +222,11 @@ int daCloudPropeller::onCreate() {
 			matrix.translation(pos.x - 38, pos.y, pos.z);
 		}
 	}
+	else
+	{
+		this->rot.y = 0x4000;
+		matrix.translation(pos.x, pos.y + 8.0, pos.z);
+	}
 	bindAnimChr_and_setUpdateRate("rotate", 1, 0.0, 1.0);
 	
 	
@@ -200,6 +237,39 @@ int daCloudPropeller::onCreate() {
 	
 	n=2*speed;
 	m=-n/(2 * sizeofwind);
+
+	ActivePhysics::Info HitMePropeller;
+
+	if (horizontalvertical == 0)
+	{
+		HitMePropeller.xDistToCenter = 8.0;
+		HitMePropeller.yDistToCenter = 0.0; 
+		HitMePropeller.xDistToEdge = 8.0; 
+		HitMePropeller.yDistToEdge = 16.0; 
+		HitMePropeller.category1 = 0x3; 
+		HitMePropeller.category2 = 0x0; 
+		HitMePropeller.bitfield1 = 0x1; 
+		HitMePropeller.bitfield2 = 0xFFC00000; 
+		HitMePropeller.unkShort1C = 0; 
+		HitMePropeller.callback = &dEn_c::collisionCallback; 
+		this->bPhysics.initWithStruct(this, &HitMePropeller); 
+		this->bPhysics.addToList(); 
+	}
+	else 
+	{
+		HitMePropeller.xDistToCenter = 0.0;
+		HitMePropeller.yDistToCenter = 8.0; 
+		HitMePropeller.xDistToEdge = 18.0; 
+		HitMePropeller.yDistToEdge = 6.0; 
+		HitMePropeller.category1 = 0x3; 
+		HitMePropeller.category2 = 0x0; 
+		HitMePropeller.bitfield1 = 0x1; 
+		HitMePropeller.bitfield2 = 0xFFC00000; 
+		HitMePropeller.unkShort1C = 0; 
+		HitMePropeller.callback = &dEn_c::collisionCallback; 
+		this->bPhysics.initWithStruct(this, &HitMePropeller); 
+		this->bPhysics.addToList(); 
+	}
 
 
 	this->onExecute();
