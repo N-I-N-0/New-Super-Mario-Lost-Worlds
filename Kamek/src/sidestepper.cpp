@@ -6,6 +6,7 @@
 #include <profile.h>
 #include "boss.h"
 
+
 const char* SidestepperArcNameList [] = 
 {
 	
@@ -14,6 +15,108 @@ const char* SidestepperArcNameList [] =
 };
 
 extern "C" void destroyBarrel(dStageActor_c*);
+
+
+class daMiniSidestepper_c : public dEn_c {
+public:
+
+	int onCreate();
+	int onExecute();
+	int onDelete();
+	int onDraw();
+
+	mHeapAllocator_c allocator;
+	m3d::mdl_c bodyModel;
+	nw4r::g3d::ResFile resFile;
+	m3d::anmChr_c chrAnimation;
+
+	u64 eventFlag;
+	u32 delay;
+
+	u32 effect;
+	u8 type;
+
+	S16Vec nullRot;
+	Vec efScale;
+
+
+	dAc_Py_c* target;
+
+	float BaseLine;
+	int randomnum;
+	int isBuried; //0 when not, 1 when yes
+	int startposx;
+	bool left;
+	bool right;
+	bool fastwalkafterhit;
+	bool everysecondtry;
+	float rndmnum;
+	int plusorminus; // 0-Plus, 1-Minus
+	int plusorminusrock; // 0-Plus, 1-Minus
+	int rndmactor;
+	int buryprojectiletimer;
+	bool everysecondtry2;
+	int walkwaitwalk; //for wait 
+	bool left2;
+	bool right2;
+	int timerock;
+	int rndmtimerock;
+	bool morelives;
+	float point0;
+	float point1;
+	float point2;
+	int howmanypoints; //Used for the BackUp State
+	int whichpoint;
+	float distbetweenpoints;
+	bool bossFlag;
+	
+	int timer;
+
+	int lives;
+
+
+	Vec possand;
+	Vec BackUpEffect;
+	Vec posbarrel;
+	Vec posenemy;
+	Vec posrock;
+	Vec barreleffect;
+	Vec enemyeffect;
+
+
+	static dActor_c* build();
+
+	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
+
+	void _vf148();
+	void _vf14C();
+	bool CreateIceActors();
+
+	void updateModelMatrices();
+	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
+
+	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat5_Mario(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat8_FencePunch(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat11_PipeCannon(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
+	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
+
+	USING_STATES(daMiniSidestepper_c);
+	DECLARE_STATE(Wait);
+	DECLARE_STATE(Walk);
+	DECLARE_STATE(Bury);
+	DECLARE_STATE(MoveSand);
+	DECLARE_STATE(BackUp);
+	DECLARE_STATE(Outro);
+};
 
 class daSidestepper_c : public daBoss {
 public:
@@ -75,7 +178,7 @@ public:
 
 
 	dStageActor_c* barrel;
-	dStageActor_c* enemy;
+	daMiniSidestepper_c* enemy;
 	dStageActor_c* rock;
 	dStageActor_c* claw;
 
@@ -1023,11 +1126,11 @@ void daSidestepper_c::executeState_Actors()
 		plusorminus = GenerateRandomNumber(2); //plus or minus
 		if (plusorminus == 0)
 		{
-			this->posenemy = (Vec){ pos.x + rndmnum, pos.y, pos.z - 100.0 };
+			this->posenemy = (Vec){ pos.x + rndmnum, this->BaseLine, pos.z - 100.0 };
 		}
 		else if (plusorminus == 1)
 		{
-			this->posenemy = (Vec){ pos.x - rndmnum, pos.y, pos.z - 100.0 };
+			this->posenemy = (Vec){ pos.x - rndmnum, this->BaseLine, pos.z - 100.0 };
 		}
 		else
 			this->Delete(1);
@@ -1054,19 +1157,18 @@ void daSidestepper_c::executeState_Actors()
 
 				if (target->pos.x < pos.x)
 				{
-					this->enemy = CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy->bossFlag = true;
 				}
 				else
 				{
-					this->enemy = CreateActor(780, 0, this->posenemy, 0, 0); //1 << 0
+					this->enemy = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy->bossFlag = true;
 				}
 			}
 			barrel->pos.y += 2.0;
 			barrel->pos.y += 2.0;
 			barrel->pos.y += 2.0;
-			enemy->pos.y += 2.0;
-			enemy->pos.y += 2.0;
-			enemy->pos.y += 1.25;
 		}
 	}
 	if (timer > 73)
@@ -1122,7 +1224,7 @@ void daSidestepper_c::beginState_BackUp()
 
 	SpawnEffect("Wm_mr_sanddive_out", 0, &this->BackUpEffect, &nullRot, &efScale);
 	SpawnEffect("Wm_mr_sanddive_smk", 0, &this->BackUpEffect, &nullRot, &efScale);
-	//PlaySound(this, 775);
+	PlaySound(this, 775);
 }
 
 void daSidestepper_c::executeState_BackUp()

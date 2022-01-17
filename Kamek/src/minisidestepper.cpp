@@ -16,105 +16,7 @@ const char* MiniSidestepperArcNameList[] =
 	NULL
 };
 
-class daMiniSidestepper_c : public dEn_c {
-public:
-
-	int onCreate();
-	int onExecute();
-	int onDelete();
-	int onDraw();
-
-	mHeapAllocator_c allocator;
-	m3d::mdl_c bodyModel;
-	nw4r::g3d::ResFile resFile;
-	m3d::anmChr_c chrAnimation;
-
-	u64 eventFlag;
-	u32 delay;
-
-	u32 effect;
-	u8 type;
-
-	S16Vec nullRot;
-	Vec efScale;
-
-
-	dAc_Py_c* target;
-
-	float BaseLine;
-	int randomnum;
-	int isBuried; //0 when not, 1 when yes
-	int startposx;
-	bool left;
-	bool right;
-	bool fastwalkafterhit;
-	bool everysecondtry;
-	float rndmnum;
-	int plusorminus; // 0-Plus, 1-Minus
-	int plusorminusrock; // 0-Plus, 1-Minus
-	int rndmactor;
-	int buryprojectiletimer;
-	bool everysecondtry2;
-	int walkwaitwalk; //for wait 
-	bool left2;
-	bool right2;
-	int timerock;
-	int rndmtimerock;
-	bool morelives;
-	float point0;
-	float point1;
-	float point2;
-	int howmanypoints; //Used for the BackUp State
-	int whichpoint;
-	float distbetweenpoints;
-	
-	int timer;
-
-	int lives;
-
-
-	Vec possand;
-	Vec BackUpEffect;
-	Vec posbarrel;
-	Vec posenemy;
-	Vec posrock;
-	Vec barreleffect;
-	Vec enemyeffect;
-
-
-	static dActor_c* build();
-
-	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
-
-	void _vf148();
-	void _vf14C();
-	bool CreateIceActors();
-
-	void updateModelMatrices();
-	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
-
-	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat5_Mario(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat8_FencePunch(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat11_PipeCannon(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
-	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
-
-	USING_STATES(daMiniSidestepper_c);
-	DECLARE_STATE(Wait);
-	DECLARE_STATE(Walk);
-	DECLARE_STATE(Bury);
-	DECLARE_STATE(MoveSand);
-	DECLARE_STATE(BackUp);
-	DECLARE_STATE(Outro);
-};
+//class defined in sidestepper.cpp
 
 CREATE_STATE(daMiniSidestepper_c, Wait);
 CREATE_STATE(daMiniSidestepper_c, Walk);
@@ -334,6 +236,12 @@ int daMiniSidestepper_c::onCreate() {
 	this->pos.z = -1000.0;
 
 	this->startposx = pos.x;
+
+
+	daSidestepper_c* test;
+
+
+
 	this->BaseLine = pos.y;
 
 
@@ -359,9 +267,14 @@ int daMiniSidestepper_c::onCreate() {
 		distbetweenpoints = 80.0;
 	}
 
-	else
+	else if (bossFlag)
 	{
 		distbetweenpoints = 80.0;
+	}
+
+	else
+	{
+		distbetweenpoints = 16.0;
 	}
 
 
@@ -386,14 +299,18 @@ int daMiniSidestepper_c::onCreate() {
 		this->point2 = this->startposx - distbetweenpoints;
 	}
 
-	else //when sidestepper boss
+	else if (bossFlag) //when sidestepper boss
 	{
 		howmanypoints = 3;
 		this->point0 = this->startposx;
 		this->point1 = this->startposx + distbetweenpoints;
 		this->point2 = this->startposx - distbetweenpoints;
 	}
-
+	else //1 point
+	{
+		howmanypoints = 1;
+		this->point0 = this->startposx;
+	}
 
 
 	doStateChange(&StateID_Wait);
