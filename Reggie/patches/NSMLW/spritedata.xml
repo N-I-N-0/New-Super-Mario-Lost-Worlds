@@ -3342,5 +3342,17 @@
 	<dualbox bit="17" title1="Left" title2="Right" comment="Only use this if you set Horizontal above." requiredbit="32" requiredval="0"/>
     <value bit="37-40" title="Wind Speed" comment="This defines the speed of the wind for the player's clouds." comment2="Every cloud spriteCollision trigger, this->pos.x will gets added or subtracted the speed divided by 10"/>
   </sprite> <!-- #551: CloudPropeller -->
+
+  <sprite id="550" name="!-Block" asmhacks="True" notes="A !-Block.">
+    <value bit="33-40" title="ID" />
+    <value bit="25-32" title="Sub ID" comment="Connect multiple blocks!" />
+    <value bit="41-44" title="Length" comment="Use sub blocks for more than 16!" />
+    <list bit="45-48" title="Direction">
+      <entry value="0">Right</entry>
+      <entry value="1">Down</entry>
+      <entry value="2">Left</entry>
+      <entry value="3">Up</entry>
+    </list>
+  </sprite> <!-- #550: !-Block -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
