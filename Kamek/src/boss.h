@@ -42,5 +42,8 @@ void BossExplode(daBoss* actor, Vec *pos);
 void PlayerVictoryCries(daBoss* actor);
 void BossGoalForAllPlayers();
 
-#endif
+void SetupBoss();
+void CleanupBoss();
+bool GrowBossNoKameck(daBoss* actor, daKameckDemo *Kameck, float initialScale, float endScale, float yPosModifier, int timer);
 
+#endif

@@ -167,3 +167,62 @@ void PlayerVictoryCries(daBoss *actor) {
 	if (players[3] && strcmp(players[3]->states2.getCurrentState()->getName(), "dAcPy_c::StateID_Balloon"))
 		PlaySoundWithFunctionB4(SoundRelatedClass, &handle4, SE_VOC_KO2_CLEAR_BOSS, 1);*/
 }
+
+
+void SetupBoss() {
+    // Stop the BGM Music
+    StopBGMMusic();
+
+    // Set the necessary Flags and make Mario enter Demo Mode
+    dStage32C_c::instance->freezeMarioBossFlag = 1;
+    WLClass::instance->_4 = 4;
+    WLClass::instance->_8 = 0;
+
+    MakeMarioEnterDemoMode();
+}
+
+
+void CleanupBoss() {
+    // Clean up the flags
+    dStage32C_c::instance->freezeMarioBossFlag = 0;
+    WLClass::instance->_8 = 1;
+
+    MakeMarioExitDemoMode();
+    StartBGMMusic();
+}
+
+
+bool GrowBossNoKameck(daBoss *actor, float initialScale, float endScale, float yPosModifier, int timer) {
+	//if (timer == 130) { actor->Kameck->doStateChange(&daKameckDemo::StateID_DemoSt); }
+	//if (timer == 400) { actor->Kameck->doStateChange(&daKameckDemo::StateID_DemoSt2); }
+
+	float scaleSpeed, yPosScaling;
+
+	if (timer == 150) { PlaySound(actor, SE_BOSS_IGGY_WANWAN_TO_L);  }
+	
+	if ((timer > 150) && (timer < 230)) {
+		scaleSpeed = (endScale -initialScale) / 80.0;
+	
+		float modifier;
+
+		modifier = initialScale + ((timer - 150) * scaleSpeed);
+		
+		actor->scale = (Vec){modifier, modifier, modifier};
+		actor->pos.y = actor->pos.y + (yPosModifier/80.0);
+	}
+
+	if (timer == 360) { 
+		Vec tempPos = (Vec){actor->pos.x - 40.0, actor->pos.y + 120.0, 3564.0};
+		SpawnEffect("Wm_ob_greencoinkira", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_mr_yoshiicehit_a", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_mr_yoshiicehit_b", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_ob_redringget", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_ob_keyget01", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_ob_greencoinkira_a", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		SpawnEffect("Wm_ob_keyget01_c", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	}
+
+	if (timer > 420) { return true; }
+	return false;
+}
+
