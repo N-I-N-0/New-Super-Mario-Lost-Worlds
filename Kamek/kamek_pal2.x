@@ -1,4 +1,11 @@
 SECTIONS {
+	returnFromShellTest = 0x801471D8;
+
+	FUN_80a28e00 = 0x80A28E20;
+	FUN_80a28d10 = 0x80A28D30;
+	FUN_80a29110 = 0x80A29130;
+	FUN_80a286c0 = 0x80A286E0;
+
 	AssembleDefaultScWorldMapSettings = 0x80102B50;
 	disableAnim__Q23m2d13EmbedLayout_cFi = 0x800C9580;
 	mbstowcs = 0x802DF0EC;
@@ -83,6 +90,7 @@ SECTIONS {
 	stunPlayer__7dAcPy_cFv = 0x80137650;
 	unstunPlayer__7dAcPy_cFv = 0x80137790;
 	StateID_Quake__10daPlBase_c = 0x803766B0;
+	StateID_Jump__10daPlBase_c = 0x80375F6C;
 
 	StateID_Flagdown__12daEnGlpole_c = 0x80B15510;
 	StateID_ProcGoalEnd__14dGameDisplay_c = 0x80377438;
@@ -307,6 +315,7 @@ SECTIONS {
 	/* daEnShell_c */
 	sub_8003A240__FPvPv = 0x8003A240;
 	daEnShell_c_StateID_Sleep = 0x80353CE4;
+	StateID_Slide__11daEnShell_c = 0x80353D64;
 	daEnShell_c_StateID_Slide = 0x80353D64;
 	_ZN11daEnShell_c13StateID_SlideE = 0x80353D64;/*addAnyway*/
 	afterExecute__11daEnShell_cFi = 0x80038670;

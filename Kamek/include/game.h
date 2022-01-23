@@ -2458,6 +2458,8 @@ class daPlBase_c : public dStageActor_c {
 		
 		USING_STATES(daPlBase_c);
 		REF_NINTENDO_STATE(Quake);
+		REF_NINTENDO_STATE(Jump);
+		DECLARE_STATE(ShellConnect);
 };
 
 

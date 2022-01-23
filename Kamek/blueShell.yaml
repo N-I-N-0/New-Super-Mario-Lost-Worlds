@@ -1,0 +1,8 @@
+---
+source_files: [../src/blueShell.cpp, ../src/blueShell.S]
+hooks:
+  - name: shellTest
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801471d4
+    target_func: 'shellTest'
