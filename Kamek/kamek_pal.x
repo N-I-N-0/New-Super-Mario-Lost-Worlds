@@ -1,4 +1,6 @@
 SECTIONS {
+	getNodeWorldMtxMultVecZero__Q23m3d5mdl_cFUiP7Point3d = 0x80168370;
+
 	returnFromShellTest = 0x801471d8;
 
 	FUN_80a28e00 = 0x80a28e00;

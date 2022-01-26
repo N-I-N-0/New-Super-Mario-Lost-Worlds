@@ -569,6 +569,8 @@ enum
 	ParaBones = 549,
 	ExclamationBlock = 550,
 	CloudPropeller = 551,
+	FishingBoo = 552,
+	NakedNokonoko = 553,
 
 	Num
 };
@@ -1401,6 +1403,8 @@ enum
 	ParaBones = 816,
 	ExclamationBlock = 817,
 	CloudPropeller = 818,
+	FishingBoo = 819,
+	NakedNokonoko = 820,
 	
 	Num
 };

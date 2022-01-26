@@ -202,6 +202,7 @@ namespace m3d {
 	void DisableIndirectTexturing();
 	void InitTexObjWithResTex(GXTexObj *obj, /* ResTex */ void *resTex, GXTexWrapMode wrapS, GXTexWrapMode wrapT, GXTexFilter minFilt, GXTexFilter magFilt); 
 
+	u32 getNodeID(nw4r::g3d::ResMdl model, const char *bone_name);
 
 	class scnLeaf_c {
 		public:
@@ -265,6 +266,7 @@ namespace m3d {
 			void calcWorld(bool unk);
 
 			bool getMatrixForNode(u32 nodeID, MtxPtr matrix); // bmdl_c 801682C0
+			bool getNodeWorldMtxMultVecZero(u32 nodeID, Vec* pos); // bmdl_c 80168370
 
 			void bindAnim(banm_c *animation, float unk);
 

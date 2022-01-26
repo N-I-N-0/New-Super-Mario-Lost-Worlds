@@ -156,3 +156,4 @@ modules:
   - processed/exclamationblock.yaml
   - processed/cloudpropeller.yaml
   - processed/blueShell.yaml
+  - processed/fishinBoo.yaml
