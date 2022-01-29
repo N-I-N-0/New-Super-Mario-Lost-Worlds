@@ -1,5 +1,6 @@
 #include <profile.h>
 #include <game.h>
+#include <sfx.h>
 
 const char* ClawANL [] = { "test_lift", NULL };
 
@@ -152,8 +153,18 @@ int daClaw::onCreate() {
 
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
+/*
+	this->resFile.data = getResource("test_lift", "g3d/test_lift.brres");
+
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("test_lift");
+	bodyModel.setup(mdl, &this->allocator, 0x224, 1, 0);
+	SetupTextures_MapObj(&bodyModel, 0);
+
+	nw4r::g3d::ResAnmChr anmChr = resFile.GetResAnmChr("wait");
+	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
+*/
 	resFile.data = getResource("test_lift", "g3d/test_lift.brres");
-	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("claw");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("test_lift");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Boss(&bodyModel, 0);
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("clawAppear");
@@ -180,9 +191,9 @@ int daClaw::onCreate() {
 	this->scale.z = 0.4; 
 
 
-	sidestepper = (dStageActor_c*)fBase_c::search(Sidestepper);
+	//sidestepper = (dStageActor_c*)fBase_c::search(779);
 
-	this->pos = sidestepper->pos;
+	//this->pos = sidestepper->pos;
 	this->pos.z = -1000;
 
 	bindAnimChr_and_setUpdateRate("clawAppear", 1, 0.0, 1.0);
@@ -225,7 +236,7 @@ void daClaw::beginState_Appear() {
 
 	bindAnimChr_and_setUpdateRate("clawAppear", 1, 0.0, 1.0);
 
-	this->pos.x = sidestepper->pos.x;
+	//this->pos.x = sidestepper->pos.x;
 	this->pos.y = pos.y + 100.0;
 }
 void daClaw::executeState_Appear() {

@@ -6,6 +6,7 @@
 #include <profile.h>
 #include "boss.h"
 
+#define NUMBER_OF_MINIS 3
 
 const char* SidestepperArcNameList [] = 
 {
@@ -118,6 +119,13 @@ public:
 	DECLARE_STATE(Outro);
 };
 
+CREATE_STATE(daMiniSidestepper_c, Wait);
+CREATE_STATE(daMiniSidestepper_c, Walk);
+CREATE_STATE(daMiniSidestepper_c, Bury);
+CREATE_STATE(daMiniSidestepper_c, MoveSand);
+CREATE_STATE(daMiniSidestepper_c, BackUp);
+CREATE_STATE(daMiniSidestepper_c, Outro);
+
 class daSidestepper_c : public daBoss {
 public:
 	
@@ -175,10 +183,12 @@ public:
 	bool rockisleft;
 	u32 barrelid;
 	int barrelisthere;
+	int rndmnumms;
+	int rndmspeedr;
 
 
 	dStageActor_c* barrel;
-	daMiniSidestepper_c* enemy;
+	daMiniSidestepper_c* enemy[NUMBER_OF_MINIS];
 	dStageActor_c* rock;
 	dStageActor_c* claw;
 
@@ -329,8 +339,9 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 		return true;
 	}
 
-
 	PlaySound(this, SE_EMY_DOWN);
+
+	PlaySound(this, SE_EMY_BLOW_PAKKUN_DOWN);
 	
 	SpawnEffect("Wm_mr_kickhit", 0, &blah->pos, &nullRot, &oneVec);
 
@@ -339,6 +350,12 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 
 	if (this->damage > this->lives)
 	{
+		if (enemy[0] != NULL)
+			enemy[0]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
+		if (enemy[1] != NULL)
+			enemy[1]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
+		if (enemy[2] != NULL)
+			enemy[2]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
 		doStateChange(&StateID_Outro);
 	}
 	else { 
@@ -396,7 +413,6 @@ int daSidestepper_c::onCreate() {
 
 	this->barrelid = 418;
 	
-	OSReport("Test1");
 	
 	// Do the following once when object is spawned:
 
@@ -473,7 +489,6 @@ int daSidestepper_c::onCreate() {
 
 	this->lives = 14;
 
-	OSReport("Test3");
 	doStateChange(&StateID_Grow);
 
 	this->onExecute();
@@ -517,7 +532,13 @@ int daSidestepper_c::onExecute() {
 	if (this->chrAnimation.isAnimationDone()) {
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
-
+	
+	for (int i = 0; i < NUMBER_OF_MINIS; i++) {
+    	if (enemy[i] != NULL && enemy[i]->acState.getCurrentState() == &daMiniSidestepper_c::StateID_Outro) {
+        	enemy[i] = NULL;
+		}
+    }
+	
 
 	return true;
 }
@@ -535,7 +556,7 @@ void daSidestepper_c::beginState_Grow()
 
 	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
 
-	SetupKameck(this, Kameck);
+	SetupBoss();
 }
 
 void daSidestepper_c::executeState_Grow()
@@ -543,7 +564,7 @@ void daSidestepper_c::executeState_Grow()
 	this->timer += 1;
 
 	bool ret;
-	ret = GrowBoss(this, Kameck, 0.15, 0.4, 0, this->timer);
+	ret = GrowBossNoKameck(this, 0.15, 0.4, 0, this->timer);
 
 
 	//Grow Sound Test
@@ -558,7 +579,7 @@ void daSidestepper_c::executeState_Grow()
 
 void daSidestepper_c::endState_Grow()
 {
-	CleanupKameck(this, Kameck);
+	CleanupBoss();
 	this->BaseLine = this->pos.y;
 }
 
@@ -605,7 +626,7 @@ void daSidestepper_c::executeState_Wait()
 			}
 			else
 			{
-				everysecondtry2 = true;
+				//everysecondtry2 = true;
 				doStateChange(&StateID_MoveSand);
 			}
 				
@@ -737,14 +758,14 @@ void daSidestepper_c::beginState_Projectiles()
 		bindAnimChr_and_setUpdateRate("projectileRotRight", 1, 0.0, 1.0);
 		this->right = true;
 		this->left = false;
-		this->posrock = (Vec){ pos.x + 10.0 , pos.y + 25.0 , 0 };
+		this->posrock = (Vec){ pos.x + 20.0 , pos.y + 20.0 , 0 };
 	}
 	else if (target->pos.x < pos.x)
 	{
 		bindAnimChr_and_setUpdateRate("projectileRotLeft", 1, 0.0, 1.0);
 		this->left = true;
 		this->right = false;
-		this->posrock = (Vec){ pos.x - 10.0 , pos.y + 25.0 , 0 };
+		this->posrock = (Vec){ pos.x - 20.0 , pos.y + 20.0 , 0 };
 	}
 }
 
@@ -780,6 +801,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 240)
@@ -794,6 +816,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 282)
@@ -833,6 +856,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 240)
@@ -847,6 +871,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 284)
@@ -861,6 +886,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 328)
@@ -875,6 +901,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 370)
@@ -918,6 +945,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 240)
@@ -932,6 +960,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 282)
@@ -971,6 +1000,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 240)
@@ -985,6 +1015,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 284)
@@ -999,6 +1030,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 328)
@@ -1013,6 +1045,7 @@ void daSidestepper_c::executeState_Projectiles()
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
 				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
 			if (timer == 370)
@@ -1038,6 +1071,8 @@ void daSidestepper_c::executeState_Projectiles()
 			this->round0 = false;
 			this->round1 = false;
 
+			everysecondtry2 = true;
+
 			doStateChange(&StateID_Bury);
 		}
 	}
@@ -1047,6 +1082,8 @@ void daSidestepper_c::executeState_Projectiles()
 		{
 			this->round0 = false;
 			this->round1 = false;
+
+			everysecondtry2 = true;
 
 			doStateChange(&StateID_Bury);
 		}
@@ -1059,7 +1096,7 @@ void daSidestepper_c::endState_Projectiles()
 
 void daSidestepper_c::beginState_Bury()
 {
-	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
+	bindAnimChr_and_setUpdateRate("groundDisappear", 1, 0.0, 1.0);
 
 	this->timer = 0;
 
@@ -1078,7 +1115,9 @@ void daSidestepper_c::executeState_Bury()
 	}
 
 	if (this->timer > 90) {
+
 		this->isBuried = 1;
+
 		doStateChange(&StateID_Wait);
 	}
 
@@ -1142,9 +1181,12 @@ void daSidestepper_c::executeState_Actors()
 		SpawnEffect("Wm_mr_sanddive_smk", 0, &this->barreleffect, &nullRot, &efScale);
 
 		//Create Effect at crabs pos
-		this->enemyeffect = (Vec){ this->posenemy.x, this->BaseLine, 0 };
-		SpawnEffect("Wm_mr_sanddive_out", 0, &this->enemyeffect, &nullRot, &efScale);
-		SpawnEffect("Wm_mr_sanddive_smk", 0, &this->enemyeffect, &nullRot, &efScale);
+		if (this->enemy[1] == NULL || this->enemy[0] == NULL || this->enemy[2] == NULL)
+		{
+			this->enemyeffect = (Vec){ this->posenemy.x, this->BaseLine, 0 };
+			SpawnEffect("Wm_mr_sanddive_out", 0, &this->enemyeffect, &nullRot, &efScale);
+			SpawnEffect("Wm_mr_sanddive_smk", 0, &this->enemyeffect, &nullRot, &efScale);
+		}
 	}
 	
 	if (timer > 50)
@@ -1155,15 +1197,20 @@ void daSidestepper_c::executeState_Actors()
 			{
 				this->barrel = CreateActor(418, 0, this->posbarrel, 0, 0);
 
-				if (target->pos.x < pos.x)
+				if (this->enemy[0] == NULL)
 				{
-					this->enemy = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
-					this->enemy->bossFlag = true;
+					this->enemy[0] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[0]->bossFlag = true;
 				}
-				else
+				else if (this->enemy[1] == NULL)
 				{
-					this->enemy = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
-					this->enemy->bossFlag = true;
+					this->enemy[1] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[1]->bossFlag = true;	
+				}
+				else if (this->enemy[2] == NULL)
+				{
+					this->enemy[2] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[2]->bossFlag = true;	
 				}
 			}
 			barrel->pos.y += 2.0;
@@ -1187,10 +1234,15 @@ void daSidestepper_c::beginState_MoveSand()
 	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
 	this->timer = 0;
 
+	this->rndmnumms = GenerateRandomNumber(4) + 1;
+
 }
 
 void daSidestepper_c::executeState_MoveSand()
 {
+	
+
+
 	this->timer += 1;
 
 	if (this->timer == 60)
@@ -1203,6 +1255,24 @@ void daSidestepper_c::executeState_MoveSand()
 	}
 
 	if (this->timer == 120)
+	{
+
+		this->possand = (Vec){ target->pos.x, this->BaseLine, 0 };
+
+		SpawnEffect("Wm_mr_sanddive_out", 0, &this->possand, &nullRot, &efScale);
+		SpawnEffect("Wm_mr_sanddive_smk", 0, &this->possand, &nullRot, &efScale);
+	}
+
+	if (this->timer == 180)
+	{
+
+		this->possand = (Vec){ target->pos.x, this->BaseLine, 0 };
+
+		SpawnEffect("Wm_mr_sanddive_out", 0, &this->possand, &nullRot, &efScale);
+		SpawnEffect("Wm_mr_sanddive_smk", 0, &this->possand, &nullRot, &efScale);
+	}
+
+	if (this->timer == (this->rndmnumms * 60))
 	{
 		pos.x = target->pos.x;
 		doStateChange(&StateID_BackUp);
@@ -1217,7 +1287,7 @@ void daSidestepper_c::endState_MoveSand()
 
 void daSidestepper_c::beginState_BackUp()
 {
-	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
+	bindAnimChr_and_setUpdateRate("groundAppear", 1, 0.0, 1.0);
 	this->timer = 0;
 
 	BackUpEffect = (Vec){ pos.x, this->BaseLine, 0 };
@@ -1229,11 +1299,13 @@ void daSidestepper_c::beginState_BackUp()
 
 void daSidestepper_c::executeState_BackUp()
 {
-	if (this->timer < 60) {
+	if (this->timer < 90 && this->timer > 29) {
 		this->pos.y += 2.0;  // Height is 54 pixels, move down
 	}
 
-	if (this->timer > 90) {
+	if (this->timer == 90) { bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0); }
+
+	if (this->timer > 120) {
 		if (pos.y != this->BaseLine)
 		{
 			pos.y = this->BaseLine;
@@ -1260,15 +1332,22 @@ void daSidestepper_c::beginState_Run()
 {
 	this->timer = 0;
 
+	this->rndmspeedr = GenerateRandomNumber(3) + 2;
+
+	if (this->damage > 5)
+	{
+		this->rndmspeedr = 4;
+	}
+
 	if (target->pos.x > pos.x)
 	{
-		bindAnimChr_and_setUpdateRate("walk_r", 1, 0.0, 1.0);
+		bindAnimChr_and_setUpdateRate("attack_l_down", 1, 0.0, 1.0);
 		this->right = true;
 		this->left = false;
 	}
 	else if (target->pos.x <= pos.x)
 	{
-		bindAnimChr_and_setUpdateRate("walk_l", 1, 0.0, 1.0);
+		bindAnimChr_and_setUpdateRate("attack_r_down", 1, 0.0, 1.0);
 		this->left = true;
 		this->right = false;
 	}
@@ -1286,9 +1365,9 @@ void daSidestepper_c::executeState_Run()
 		}
 		if (this->timer >= 60)
 		{
-
+			if (timer == 60) { bindAnimChr_and_setUpdateRate("attack_l_loop", 1, 0.0, 1.0); }
 			PlaySound(this, SE_OBJ_TEKKYU_G_CRASH);
-			pos.x += 3;
+			pos.x += this->rndmspeedr;
 
 			if (everysecondtry == true) {
 				SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
@@ -1308,9 +1387,9 @@ void daSidestepper_c::executeState_Run()
 		}
 		if (this->timer >= 60)
 		{
-
+			if (timer == 60) { bindAnimChr_and_setUpdateRate("attack_r_loop", 1, 0.0, 1.0); }
 			PlaySound(this, SE_OBJ_TEKKYU_G_CRASH);
-			pos.x -= 3;
+			pos.x -= this->rndmspeedr;
 
 			if (everysecondtry == true) {
 				SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
@@ -1322,9 +1401,68 @@ void daSidestepper_c::executeState_Run()
 		}
 	}
 
-	if (this->timer > 230)
+
+	if (this->damage != 10) 
 	{
-		doStateChange(&StateID_Bury);
+		OSReport("Damage value: %x\n", this->damage);
+		if (this->timer > 230)
+		{
+			doStateChange(&StateID_Bury);
+		}
+	}
+	else 
+	{
+		if (this->timer > 230)
+		{
+			if (this->right == true)
+			{
+				if (this->timer < 291)
+				{
+					SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
+				}
+				if (this->timer >= 291)
+				{
+					if (timer == 291) { bindAnimChr_and_setUpdateRate("attack_l_loop", 1, 0.0, 1.0); }
+					PlaySound(this, SE_OBJ_TEKKYU_G_CRASH);
+					pos.x += this->rndmspeedr;
+
+					if (everysecondtry == true) {
+						SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
+						everysecondtry = false;
+					}
+					if (everysecondtry == false) {
+						everysecondtry = true;
+					}
+				}
+				
+			}
+			else if (this->left == true)
+			{
+				if (this->timer < 291)
+				{
+					SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
+				}
+				if (this->timer >= 291)
+				{
+					if (timer == 291) { bindAnimChr_and_setUpdateRate("attack_r_loop", 1, 0.0, 1.0); }
+					PlaySound(this, SE_OBJ_TEKKYU_G_CRASH);
+					pos.x -= this->rndmspeedr;
+
+					if (everysecondtry == true) {
+						SpawnEffect("Wm_mr_sanddive_smk", 0, &this->pos, &nullRot, &efScale);
+						everysecondtry = false;
+					}
+					if (everysecondtry == false) {
+						everysecondtry = true;
+					}
+				}
+			}
+		}
+		
+		if (this->timer > 291)
+		{
+			doStateChange(&StateID_Bury);
+		}
 	}
 }
 
@@ -1343,7 +1481,7 @@ void daSidestepper_c::executeState_Claw()
 {
 	if (timer == 350)
 	{
-		doStateChange(&StateID_Actors);
+		doStateChange(&StateID_BackUp);
 	}
 	
 	timer++;
@@ -1377,6 +1515,7 @@ void daSidestepper_c::executeState_Outro()
 	ret = ShrinkBoss(this, &this->pos, 0.4, this->timer);
 
 	if (ret == true) {
+		this->pos.z = 10000.0;
 		BossExplode(this, &this->pos);
 		this->dying = 1;
 		this->timer = 0;

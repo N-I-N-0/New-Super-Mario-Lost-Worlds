@@ -8,6 +8,7 @@
 
 //Yeah... I know... This is a lazy copy of the sidestepper boss... But it works! -LiQ | 02/06/21 11:13am
 
+extern "C" void destroyBarrel(dStageActor_c*);
 
 const char* MiniSidestepperArcNameList[] =
 {
@@ -17,13 +18,6 @@ const char* MiniSidestepperArcNameList[] =
 };
 
 //class defined in sidestepper.cpp
-
-CREATE_STATE(daMiniSidestepper_c, Wait);
-CREATE_STATE(daMiniSidestepper_c, Walk);
-CREATE_STATE(daMiniSidestepper_c, Bury);
-CREATE_STATE(daMiniSidestepper_c, MoveSand);
-CREATE_STATE(daMiniSidestepper_c, BackUp);
-CREATE_STATE(daMiniSidestepper_c, Outro);
 
 void daMiniSidestepper_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr(name);
@@ -90,6 +84,16 @@ bool daMiniSidestepper_c::collisionCat11_PipeCannon(ActivePhysics* apThis, Activ
 }
 bool daMiniSidestepper_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
 	// When player throws object at sprite
+	if (bossFlag)
+	{
+		dActor_c *block = apOther->owner;
+		dEn_c* blah = (dEn_c*)block;
+
+		if (block->name == BLOCK_TARU)
+		{
+			destroyBarrel(blah);
+		}
+	}
 
 	PlaySound(this, SE_EMY_DOWN);
 

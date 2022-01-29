@@ -198,19 +198,19 @@ bool GrowBossNoKameck(daBoss *actor, float initialScale, float endScale, float y
 
 	float scaleSpeed, yPosScaling;
 
-	if (timer == 150) { PlaySound(actor, SE_BOSS_IGGY_WANWAN_TO_L);  }
+	if (timer == 30) { PlaySound(actor, SE_BOSS_IGGY_WANWAN_TO_L);  }
 	
-	if ((timer > 150) && (timer < 230)) {
+	if ((timer > 30) && (timer < 110)) {
 		scaleSpeed = (endScale -initialScale) / 80.0;
 	
 		float modifier;
 
-		modifier = initialScale + ((timer - 150) * scaleSpeed);
+		modifier = initialScale + ((timer - 30) * scaleSpeed);
 		
 		actor->scale = (Vec){modifier, modifier, modifier};
 		actor->pos.y = actor->pos.y + (yPosModifier/80.0);
 	}
-
+	/*
 	if (timer == 360) { 
 		Vec tempPos = (Vec){actor->pos.x - 40.0, actor->pos.y + 120.0, 3564.0};
 		SpawnEffect("Wm_ob_greencoinkira", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
@@ -221,8 +221,8 @@ bool GrowBossNoKameck(daBoss *actor, float initialScale, float endScale, float y
 		SpawnEffect("Wm_ob_greencoinkira_a", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 		SpawnEffect("Wm_ob_keyget01_c", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	}
-
-	if (timer > 420) { return true; }
+	*/
+	if (timer > 200) { return true; }
 	return false;
 }
 
