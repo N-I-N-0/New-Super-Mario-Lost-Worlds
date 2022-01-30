@@ -864,6 +864,24 @@ ScriptCommand Z_Shop_Menu[] = {
     {5, 0},
 };
 
+ScriptCommand Z_boss_in[] = {
+    {128, 0},
+    {114, 0},
+    {136, 0},
+    {0, 10},
+    {49, 0},
+    {15, 0},
+    {10, 0},
+    {16, 0},
+    {0, 5},
+    {118, 0},
+    {0, 20},
+    {58, 0},
+    {8, 5},
+    {12, 0},
+    {5, 0},
+};
+
 ScriptCommand *custom_world_map_scripts_table[] = {
     Z_default_clr,					//0x00
     Z_default_fail,					//0x01
@@ -921,4 +939,5 @@ ScriptCommand *custom_world_map_scripts_table[] = {
 	
 	// new scripts
 	Z_Shop_Menu,					//0x35
+	Z_boss_in,						//0x36
 };

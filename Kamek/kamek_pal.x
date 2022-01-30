@@ -1,4 +1,8 @@
 SECTIONS {
+	check_GROUP_CASTLE = 0x800f9994;
+	return_after_GROUP_BOSS_script = 0x80904700;
+	not_GROUP_BOSS_script = 0x80904488;
+
 	getNodeWorldMtxMultVecZero__Q23m3d5mdl_cFUiP7Point3d = 0x80168370;
 
 	returnFromShellTest = 0x801471d8;

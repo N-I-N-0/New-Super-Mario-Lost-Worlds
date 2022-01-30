@@ -1,0 +1,14 @@
+---
+source_files: [../src/worldmapBossNode.S]
+hooks:
+  - name: check_GROUP_BOSS
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x800f9988
+    target_func: 'check_GROUP_BOSS'
+
+  - name: GROUP_BOSS_script
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80904484
+    target_func: 'GROUP_BOSS_script'
