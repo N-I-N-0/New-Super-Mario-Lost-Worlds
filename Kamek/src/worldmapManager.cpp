@@ -177,7 +177,7 @@ int dWMManager_c::onExecute() {
 		shopText->SetString(L"Shop " L"\x0B\x012B");
 	}
 	
-	if(nowPressed & (WPAD_B | WPAD_A)) DoSceneChange(0x238, 0, 0);
+	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(0x238, 0, 0);
 	
 	u8 CurrentNodeNum = *(u8*)((int)(csMng) + 0x4D7);
 
