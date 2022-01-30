@@ -18,6 +18,10 @@ hooks:
     type: nop_insn
     area_pal: 0x808e1d10
 
+  - name: removeIvyW7
+    type: nop_insn
+    area_pal: 0x808e1cd0
+
   - name: expandMapHeap         #our models seem to be a bit bigger in size than the original maps so ...
     type: patch
     addr_pal: 0x808df15c
