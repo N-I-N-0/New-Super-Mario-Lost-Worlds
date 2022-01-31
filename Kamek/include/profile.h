@@ -26,6 +26,7 @@ public:
     dActor_c* (*buildFunc)();
     u16 executeOrderProfileId;
     u16 drawOrderProfileId;
+	u32 bitfield;
 };
 
 extern "C" SpriteData originalSprites[483];
