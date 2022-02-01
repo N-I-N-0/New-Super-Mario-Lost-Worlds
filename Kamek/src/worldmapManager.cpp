@@ -236,17 +236,25 @@ int dWMManager_c::onExecute() {
 				worldNum->SetString(worldString);
 			} else {
 				dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchBySlot(worldNumber, CurrentNodeNum);
-				bool isPictureLevel = getLevelNameForDisplayNums(level->displayWorld, level->displayLevel, &worldString[0], &levelString[0]);
+				if(level) {
+					bool isPictureLevel = getLevelNameForDisplayNums(level->displayWorld, level->displayLevel, &worldString[0], &levelString[0]);
 				
-				OSReport("level: %d, world: %d, displayLevel: %d, displayWorld: %d\n", CurrentNodeNum, worldNumber, level->displayLevel, level->displayWorld);
-				
-				worldNum->SetString(worldString);
-				if(isPictureLevel) {
-					cSelectPic->SetString(levelString);
-					cSelect->SetString(L"");
+					OSReport("level: %d, world: %d, displayLevel: %d, displayWorld: %d\n", CurrentNodeNum, worldNumber, level->displayLevel, level->displayWorld);
+					
+					worldNum->SetString(worldString);
+					if(isPictureLevel) {
+						cSelectPic->SetString(levelString);
+						cSelect->SetString(L"");
+					} else {
+						cSelect->SetString(levelString);
+						cSelectPic->SetString(L"");
+					}
 				} else {
-					cSelect->SetString(levelString);
+					OSReport("Level %02x-%02d not found in LevelInfo\n", worldNumber+1, CurrentNodeNum+1);
+					wcscpy(&worldString[0], numberKinds3[worldNumber]);
 					cSelectPic->SetString(L"");
+					cSelect->SetString(L"?");
+					worldNum->SetString(worldString);
 				}
 			}
 			previousNodeNum = CurrentNodeNum;
