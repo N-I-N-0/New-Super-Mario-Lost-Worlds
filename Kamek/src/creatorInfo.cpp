@@ -141,7 +141,7 @@ class dCreatorInfo_c : public dActor_c {
 #endif
 
 const char* CreatorFileList[] = {NULL};
-Profile CreatorInfoProfile(&dCreatorInfo_c::build, SpriteId::Ballon, NULL, ProfileId::CreatorInfo, ProfileId::CreatorInfo, "CreatorInfo", CreatorFileList);
+Profile CreatorInfoProfile(&dCreatorInfo_c::build, ProfileId::CreatorInfo, NULL, ProfileId::CreatorInfo, ProfileId::CreatorInfo, "CreatorInfo", CreatorFileList);
 
 
 extern int PtrToWM_CS_SEQ_MNG;
