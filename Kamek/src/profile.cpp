@@ -1,5 +1,11 @@
 #include <profile.h>
 
+#if defined(REGION_K) || defined(REGION_W)
+	#define ORIGINAL_PROFILES 752
+#else
+	#define ORIGINAL_PROFILES 750
+#endif
+
 /* SPRITES */
 
 SpriteData sprites[SpriteId::Num] = { 0 };
@@ -33,7 +39,7 @@ ProfileSetter::ProfileSetter()
 {
     ObjectProfileList = &profiles[0];
 
-    for (u32 i = 0; i < 750; i++) {
+    for (u32 i = 0; i < ORIGINAL_PROFILES; i++) {
         profiles[i] = originalProfiles[i];
     }
 }
@@ -52,16 +58,16 @@ const char** customSpriteFiles[SpriteId::Num - 483] = { 0 };
 
 /* PROFILE NAMES*/
 
-extern "C" const char* profileNames[750];
-const char* customProfileNames[ProfileId::Num - 750] = { 0 };
+extern "C" const char* profileNames[ORIGINAL_PROFILES];
+const char* customProfileNames[ProfileId::Num - ORIGINAL_PROFILES] = { 0 };
 
 const char* GetProfileName(u32 profileId)
 {
-    if (profileId < 750) {
+    if (profileId < ORIGINAL_PROFILES) {
         return profileNames[profileId];
     }
 
-    return customProfileNames[profileId - 750];
+    return customProfileNames[profileId - ORIGINAL_PROFILES];
 }
 
 /* CUSTOM PROFILE CTOR */
@@ -86,9 +92,9 @@ Profile::Profile(dActor_c* (*buildFunc)(), u32 id, const SpriteData* spriteData,
 	}
 	
 	profiles[profileId] = this;
-	if (profileId < 750) {
+	if (profileId < ORIGINAL_PROFILES) {
 		profileNames[profileId] = name;
 	} else {
-		customProfileNames[profileId - 750] = name;
+		customProfileNames[profileId - ORIGINAL_PROFILES] = name;
 	}
 }
