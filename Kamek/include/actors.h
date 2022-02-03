@@ -831,7 +831,7 @@ enum Actors {
 	CloudPropeller, //818
 	FishingBoo, //819
 	NakedNokonoko, //820
-	CreatorInfo
+	CreatorInfo, //821
 };
 
 struct Actor {
