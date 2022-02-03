@@ -93,7 +93,7 @@ void daBallon_c::endState_Wait() {}
 
 
 const SpriteData BallonSpriteData = { ProfileId::Ballon, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile BallonProfile(&daBallon_c::build, SpriteId::Ballon, BallonSpriteData, ProfileId::Ballon, ProfileId::Ballon, "Ballon", BallonFileList);
+Profile BallonProfile(&daBallon_c::build, SpriteId::Ballon, &BallonSpriteData, ProfileId::Ballon, ProfileId::Ballon, "Ballon", BallonFileList);
 
 
 void daBallon_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {

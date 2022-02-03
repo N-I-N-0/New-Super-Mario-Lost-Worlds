@@ -64,7 +64,7 @@ public:
 };
 
 const SpriteData WingTentenSpriteData = { ProfileId::WingTenten, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile WingTentenProfile(&daEnParaTenten_c::build, SpriteId::WingTenten, WingTentenSpriteData, ProfileId::WingTenten, ProfileId::WingTenten, "WingTenten", WingTentenFileList);
+Profile WingTentenProfile(&daEnParaTenten_c::build, SpriteId::WingTenten, &WingTentenSpriteData, ProfileId::WingTenten, ProfileId::WingTenten, "WingTenten", WingTentenFileList);
 
 
 

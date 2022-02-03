@@ -1,6 +1,11 @@
 #ifndef __KAMEK_PROFILEID_H
 #define __KAMEK_PROFILEID_H
 
+#if defined(REGION_K) || defined(REGION_W)
+    #define PROFCNT 752
+#else
+    #define PROFCNT 750
+#endif
 
 namespace SpriteId
 {
@@ -1405,6 +1410,7 @@ enum
 	CloudPropeller = 818,
 	FishingBoo = 819,
 	NakedNokonoko = 820,
+	CreatorInfo = 821,
 	
 	Num
 };

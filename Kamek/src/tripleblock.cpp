@@ -130,7 +130,7 @@ int daEnTripleBlock_c::onExecute() {
 
 const char *TripleBlockFileList[] = {0};
 const SpriteData TripleBlockSpriteData = { ProfileId::TripleBlock, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TripleBlockProfile(&daEnTripleBlock_c::build, SpriteId::TripleBlock, TripleBlockSpriteData, ProfileId::TripleBlock, ProfileId::TripleBlock, "TripleBlock", TripleBlockFileList);
+Profile TripleBlockProfile(&daEnTripleBlock_c::build, SpriteId::TripleBlock, &TripleBlockSpriteData, ProfileId::TripleBlock, ProfileId::TripleBlock, "TripleBlock", TripleBlockFileList);
 
 dActor_c *daEnTripleBlock_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daEnTripleBlock_c));

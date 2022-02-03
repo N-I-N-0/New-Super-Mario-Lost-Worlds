@@ -203,7 +203,7 @@ dActor_c *daGreenRing_c::build() {
 }
 
 const SpriteData GreenRingSpriteData = { ProfileId::GreenRing, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile GreenRingProfile(&daGreenRing_c::build, SpriteId::GreenRing, GreenRingSpriteData, ProfileId::GreenRing, ProfileId::GreenRing, "Green Ring", GreenRingAndCoinFileList);
+Profile GreenRingProfile(&daGreenRing_c::build, SpriteId::GreenRing, &GreenRingSpriteData, ProfileId::GreenRing, ProfileId::GreenRing, "Green Ring", GreenRingAndCoinFileList);
 
 // When the green ring is created...
 int daGreenRing_c::onCreate() {
@@ -344,7 +344,7 @@ dActor_c *daGreenCoin_c::build() {
 }
 
 const SpriteData GreenCoinSpriteData = { ProfileId::GreenCoin, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile GreenCoinProfile(&daGreenCoin_c::build, SpriteId::GreenCoin, GreenCoinSpriteData, ProfileId::GreenCoin, ProfileId::GreenCoin, "Green Coin", GreenRingAndCoinFileList);
+Profile GreenCoinProfile(&daGreenCoin_c::build, SpriteId::GreenCoin, &GreenCoinSpriteData, ProfileId::GreenCoin, ProfileId::GreenCoin, "Green Coin", GreenRingAndCoinFileList);
 
 // We make the coin visible and we activate everything, including models and animations
 int daGreenCoin_c::makeVisible() {

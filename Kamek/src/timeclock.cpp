@@ -56,7 +56,7 @@ public:
 };
 
 const SpriteData timeClockSpriteData = { ProfileId::TimeClock, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile timeClockEventProfile(&daTimeClock_c::build, SpriteId::TimeClock, timeClockSpriteData, ProfileId::TimeClock, ProfileId::TimeClock, "TimeClock", TimeClockFileList);
+Profile timeClockEventProfile(&daTimeClock_c::build, SpriteId::TimeClock, &timeClockSpriteData, ProfileId::TimeClock, ProfileId::TimeClock, "TimeClock", TimeClockFileList);
 
 
 

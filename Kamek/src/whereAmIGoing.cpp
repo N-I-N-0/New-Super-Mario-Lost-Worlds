@@ -31,7 +31,7 @@ public:
 
 const char* WhereAmIGoingFileList[] = { 0 };
 const SpriteData WhereAmIGoingSpriteData = { ProfileId::WhereAmIGoing, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile WhereAmIGoingProfile(&whereAmIGoing::build, SpriteId::WhereAmIGoing, WhereAmIGoingSpriteData, ProfileId::WhereAmIGoing, ProfileId::WhereAmIGoing, "WhereAmIGoing", WhereAmIGoingFileList);
+Profile WhereAmIGoingProfile(&whereAmIGoing::build, SpriteId::WhereAmIGoing, &WhereAmIGoingSpriteData, ProfileId::WhereAmIGoing, ProfileId::WhereAmIGoing, "WhereAmIGoing", WhereAmIGoingFileList);
 
 
 dActor_c* whereAmIGoing::build() {

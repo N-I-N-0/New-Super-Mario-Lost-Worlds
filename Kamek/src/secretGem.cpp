@@ -86,7 +86,7 @@ void daEnSecretGem_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 
 
 const SpriteData SecretGemSpriteData = { ProfileId::SecretGem, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile SecretGemProfile(&daEnSecretGem_c::build, SpriteId::SecretGem, SecretGemSpriteData, ProfileId::SecretGem, ProfileId::SecretGem, "SecretGem", SecretGemFileList);
+Profile SecretGemProfile(&daEnSecretGem_c::build, SpriteId::SecretGem, &SecretGemSpriteData, ProfileId::SecretGem, ProfileId::SecretGem, "SecretGem", SecretGemFileList);
 
 
 

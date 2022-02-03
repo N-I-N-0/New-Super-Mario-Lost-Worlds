@@ -1,7 +1,96 @@
 #include <game.h>
 #include "daEnShell_c.h"
+#include <common.h>
+#include <g3dhax.h>
+#include <sfx.h>
+#include <profile.h>
 
+class daNakedNokonoko_c : public dEn_c {
+public:
+	int onCreate();
+	int onDelete();
+	int onExecute();
+	int onDraw();
 
+	mHeapAllocator_c allocator;
+	nw4r::g3d::ResFile resFile;
+	nw4r::g3d::ResFile anmFile;
+
+	m3d::mdl_c bodyModel;
+	m3d::anmChr_c chrAnimation;
+	mEf::es2 effect;
+
+	int timer;
+	int type;
+	float dying;
+	float Baseline;
+	char damage;
+	char isDown;
+	Vec initialPos;
+	int distance;
+	float XSpeed;
+	u32 cmgr_returnValue;
+	bool isBouncing;
+	int directionStore;
+	
+	int appearTimer;
+	
+	bool foundMyShell;
+	u32 shellId;
+	daEnShell_c* shell;
+
+	public: static dActor_c *build();
+
+	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
+	void updateModelMatrices();
+	bool calculateTileCollisions();
+
+	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+
+	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther);
+
+	void powBlockActivated(bool isNotMPGP);
+
+	void _vf148();
+	void _vf14C();
+	bool CreateIceActors();
+	void addScoreWhenHit(void *other);
+	void bouncePlayerWhenJumpedOn(void *player);
+
+	void spawnHitEffectAtPosition(Vec2 pos);
+	void doSomethingWithHardHitAndSoftHitEffects(Vec pos);
+	void playEnemyDownSound2();
+	void playHpdpSound1(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
+	void playEnemyDownSound1();
+	void playEnemyDownComboSound(void *player); // AcPy_c/daPlBase_c?
+	void playHpdpSound2(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
+	void _vf260(void *other); // AcPy/PlBase? plays the SE_EMY_FUMU_%d sounds based on some value
+	void _vf264(dStageActor_c *other); // if other is player or yoshi, do Wm_en_hit and a few other things
+	void _vf268(void *other); // AcPy/PlBase? plays the SE_EMY_DOWN_SPIN_%d sounds based on some value
+	void _vf278(void *other); // AcPy/PlBase? plays the SE_EMY_YOSHI_FUMU_%d sounds based on some value
+
+	USING_STATES(daNakedNokonoko_c);
+	DECLARE_STATE(Appear);
+	DECLARE_STATE(Appear2);
+	DECLARE_STATE(Appear3);
+	DECLARE_STATE(Appear4);
+	DECLARE_STATE(Search);
+	DECLARE_STATE(RealWalk);
+	DECLARE_STATE(RealTurn);
+	DECLARE_STATE(Die);
+};
 
 
 /*
@@ -21,7 +110,7 @@
 
 CREATE_STATE(daPlBase_c, ShellConnect);
 
-daEnShell_c* blueShells[4];	//blue shell pointers
+u32 blueShells[4];	//blue shell pointers
 int blueShellTimers[4];		//blue shell timers
 
 void daPlBase_c::beginState_ShellConnect() {
@@ -33,7 +122,7 @@ void daPlBase_c::beginState_ShellConnect() {
 	//this->setFlag(0x71);
 	this->useDemoControl();
 	blueShellTimers[this->settings % 4] = 0;
-	daEnShell_c* shell = blueShells[this->settings % 4];
+	daEnShell_c* shell = (daEnShell_c*)fBase_c::search(blueShells[this->settings % 4]);
 	shell->speed.x = MIN_SHELL_SPEED + abs(this->speed.x / 2);
 	if(shell->speed.x > MAX_SHELL_SPEED) {
 		shell->speed.x = MAX_SHELL_SPEED;
@@ -45,7 +134,12 @@ void daPlBase_c::beginState_ShellConnect() {
 }
 
 void daPlBase_c::executeState_ShellConnect(){
-	daEnShell_c* shell = blueShells[this->settings % 4];
+	daEnShell_c* shell = (daEnShell_c*)fBase_c::search(blueShells[this->settings % 4]);
+	if (shell == 0) {
+		((dAcPy_c*)this)->hurtPlayer_maybe(); //not sure whether this works - ghidra says this should get 2 more arguments
+		this->states2.setState(&daPlBase_c::StateID_Jump);
+		return;
+	}
 	Vec bindPos = shell->pos;
 	bindPos.y -= 4;
 	this->pos = bindPos;
@@ -103,13 +197,14 @@ void setPlayerStateBlueShell(dAcPy_c* player) {			//setPlayerStateBlueShell__FP7
 	dStageActor_c* carrying = Actor_SearchByID(*(u32*)((u32)(player)+0x2A78)); //Actor_SearchByID(player->idWeAreCarrying)
 	//OSReport("ID: %d, Pointer: %p, Name: %d\n", player->idWeAreCarrying, carrying, carrying->name);
 	if (carrying->name == 54 || carrying->name == 55) {	//if Koopa or Parakoopa Shell
-		blueShells[player->settings % 4] = (daEnShell_c*)carrying;
+		blueShells[player->settings % 4] = carrying->id;
 		player->states2.setState(&daPlBase_c::StateID_ShellConnect);
 		Vec spawnPos = player->pos;
 		spawnPos.x += 10;
-		dStageActor_c* nokonokoN = CreateActor(NakedNokonoko, 0, spawnPos, 0, 0);
+		daNakedNokonoko_c* nokonokoN = (daNakedNokonoko_c*)CreateActor(NakedNokonoko, 0, spawnPos, 0, 0);
 		nokonokoN->speed.x = player->speed.x*2;
 		nokonokoN->direction = player->direction;
+		nokonokoN->shellId = carrying->id;
 		if(player->direction == 0) {
 			if(nokonokoN->speed.x < 2) {
 				nokonokoN->speed.x = 2;
@@ -137,104 +232,14 @@ void setPlayerStateBlueShell(dAcPy_c* player) {			//setPlayerStateBlueShell__FP7
 
 
 
-#include <common.h>
-#include <game.h>
-#include <g3dhax.h>
-#include <sfx.h>
-#include <profile.h>
 
-extern void shyCollisionCallback(ActivePhysics *apThis, ActivePhysics *apOther);
 const char* NakedNokonokoFileList [] = {
 	"nokonokoA",
 	NULL	
 };
 
-
-
-
-class daNakedNokonoko_c : public dEn_c {
-	int onCreate();
-	int onDelete();
-	int onExecute();
-	int onDraw();
-
-	mHeapAllocator_c allocator;
-	nw4r::g3d::ResFile resFile;
-	nw4r::g3d::ResFile anmFile;
-
-	m3d::mdl_c bodyModel;
-	m3d::anmChr_c chrAnimation;
-	mEf::es2 effect;
-
-	int timer;
-	int type;
-	float dying;
-	float Baseline;
-	char damage;
-	char isDown;
-	Vec initialPos;
-	int distance;
-	float XSpeed;
-	u32 cmgr_returnValue;
-	bool isBouncing;
-	int directionStore;
-	
-	int appearTimer;
-
-	public: static dActor_c *build();
-
-	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
-	void updateModelMatrices();
-	bool calculateTileCollisions();
-
-	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-	void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-
-	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther);
-
-	void powBlockActivated(bool isNotMPGP);
-
-	void _vf148();
-	void _vf14C();
-	bool CreateIceActors();
-	void addScoreWhenHit(void *other);
-	void bouncePlayerWhenJumpedOn(void *player);
-
-	void spawnHitEffectAtPosition(Vec2 pos);
-	void doSomethingWithHardHitAndSoftHitEffects(Vec pos);
-	void playEnemyDownSound2();
-	void playHpdpSound1(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-	void playEnemyDownSound1();
-	void playEnemyDownComboSound(void *player); // AcPy_c/daPlBase_c?
-	void playHpdpSound2(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-	void _vf260(void *other); // AcPy/PlBase? plays the SE_EMY_FUMU_%d sounds based on some value
-	void _vf264(dStageActor_c *other); // if other is player or yoshi, do Wm_en_hit and a few other things
-	void _vf268(void *other); // AcPy/PlBase? plays the SE_EMY_DOWN_SPIN_%d sounds based on some value
-	void _vf278(void *other); // AcPy/PlBase? plays the SE_EMY_YOSHI_FUMU_%d sounds based on some value
-
-	USING_STATES(daNakedNokonoko_c);
-	DECLARE_STATE(Appear);
-	DECLARE_STATE(Appear2);
-	DECLARE_STATE(Appear3);
-	DECLARE_STATE(Appear4);
-	DECLARE_STATE(RealWalk);
-	DECLARE_STATE(RealTurn);
-	DECLARE_STATE(Die);
-};
-
 const SpriteData NakedNokonokoSpriteData = {ProfileId::NakedNokonoko, 0x5, -0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
-Profile NakedNokonokoProfile(&daNakedNokonoko_c::build, SpriteId::NakedNokonoko, NakedNokonokoSpriteData, ProfileId::NakedNokonoko, ProfileId::NakedNokonoko, "Naked Nokonoko", NakedNokonokoFileList);
+Profile NakedNokonokoProfile(&daNakedNokonoko_c::build, SpriteId::NakedNokonoko, &NakedNokonokoSpriteData, ProfileId::NakedNokonoko, ProfileId::NakedNokonoko, "Naked Nokonoko", NakedNokonokoFileList);
 
 dActor_c *daNakedNokonoko_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daNakedNokonoko_c));
@@ -266,6 +271,7 @@ CREATE_STATE(daNakedNokonoko_c, Appear);
 CREATE_STATE(daNakedNokonoko_c, Appear2);
 CREATE_STATE(daNakedNokonoko_c, Appear3);
 CREATE_STATE(daNakedNokonoko_c, Appear4);
+CREATE_STATE(daNakedNokonoko_c, Search);
 CREATE_STATE(daNakedNokonoko_c, RealWalk);
 CREATE_STATE(daNakedNokonoko_c, RealTurn);
 CREATE_STATE(daNakedNokonoko_c, Die);
@@ -525,7 +531,7 @@ int daNakedNokonoko_c::onCreate() {
 	HitMeBaby.bitfield1 = 0x1;
 	HitMeBaby.bitfield2 = 0x820A4;
 	HitMeBaby.unkShort1C = 0x0;
-	HitMeBaby.callback = &shyCollisionCallback;
+	HitMeBaby.callback = &dEn_c::collisionCallback;
 
 	this->aPhysics.initWithStruct(this, &HitMeBaby);
 	this->aPhysics.addToList();
@@ -551,6 +557,7 @@ int daNakedNokonoko_c::onDelete() {
 }
 
 int daNakedNokonoko_c::onExecute() {
+	this->shell = (daEnShell_c*)fBase_c::search(this->shellId);
 	acState.execute();
 	updateModelMatrices();
 	bodyModel._vf1C();
@@ -695,13 +702,29 @@ void daNakedNokonoko_c::beginState_Appear4() {
 }
 void daNakedNokonoko_c::executeState_Appear4() {
 	if(this->chrAnimation.isAnimationDone()) {
-		doStateChange(&StateID_RealWalk);
+		doStateChange(&StateID_Search);
 	}
 }
 void daNakedNokonoko_c::endState_Appear4() {
-	bindAnimChr_and_setUpdateRate("Run", 1, 0.0, 1.0);
+	//bindAnimChr_and_setUpdateRate("Run", 1, 0.0, 1.0);
 }
 
+///////////////
+// Search State
+///////////////
+void daNakedNokonoko_c::beginState_Search() {
+	bindAnimChr_and_setUpdateRate("FindShell", 1, 0.0, 1.0);
+}
+void daNakedNokonoko_c::executeState_Search() {
+	
+	/*if (direction == 0) {
+		if (
+	}*/
+
+}
+void daNakedNokonoko_c::endState_Search() {
+	//bindAnimChr_and_setUpdateRate("Run", 1, 0.0, 1.0);
+}
 
 ///////////////
 // Die State

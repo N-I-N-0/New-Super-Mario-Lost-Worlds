@@ -55,7 +55,7 @@ public:
 };
 
 const SpriteData PumpkinGoombaSpriteData = { ProfileId::PumpkinGoomba, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile PumpkinGoombaProfile(&dGoombaPie::build, SpriteId::PumpkinGoomba, PumpkinGoombaSpriteData, ProfileId::PumpkinGoomba, ProfileId::PumpkinGoomba, "PumpkinGoomba", PumpkinGoombaFileList);
+Profile PumpkinGoombaProfile(&dGoombaPie::build, SpriteId::PumpkinGoomba, &PumpkinGoombaSpriteData, ProfileId::PumpkinGoomba, ProfileId::PumpkinGoomba, "PumpkinGoomba", PumpkinGoombaFileList);
 
 dActor_c *dGoombaPie::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(dGoombaPie));

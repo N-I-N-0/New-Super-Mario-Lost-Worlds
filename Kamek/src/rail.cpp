@@ -43,7 +43,7 @@ public:
 };
 
 const SpriteData RailSpriteData = { ProfileId::Rail, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile RailProfile(&daEnRail_c::build, SpriteId::Rail, RailSpriteData, ProfileId::Rail, ProfileId::Rail, "Rail", RailFileList);
+Profile RailProfile(&daEnRail_c::build, SpriteId::Rail, &RailSpriteData, ProfileId::Rail, ProfileId::Rail, "Rail", RailFileList);
 
 
 

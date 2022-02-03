@@ -66,7 +66,7 @@ public:
 };
 
 const SpriteData ParaBonesSpriteData = { ProfileId::ParaBones, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ParaBonesProfile(&daEnParaBones_c::build, SpriteId::ParaBones, ParaBonesSpriteData, ProfileId::ParaBones, ProfileId::ParaBones, "ParaBones", paraBonesFileList);
+Profile ParaBonesProfile(&daEnParaBones_c::build, SpriteId::ParaBones, &ParaBonesSpriteData, ProfileId::ParaBones, ProfileId::ParaBones, "ParaBones", paraBonesFileList);
 
 
 

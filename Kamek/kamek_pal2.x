@@ -1,4 +1,8 @@
 SECTIONS {
+	check_GROUP_CASTLE = 0x800F9994;
+	return_after_GROUP_BOSS_script = 0x80904710;
+	not_GROUP_BOSS_script = 0x80904498;
+
 	getNodeWorldMtxMultVecZero__Q23m3d5mdl_cFUiP7Point3d = 0x80168370;
 
 	returnFromShellTest = 0x801471D8;
@@ -691,6 +695,7 @@ SECTIONS {
 	BigHanaFireball = 0x809B3A70;
 	BigHanaIceball = 0x809B3A40;
 
+	hurtPlayer_maybe__7dAcPy_cFv = 0x80146230;
 	dAcPy_vf3F4 = 0x80146230;
 	dAcPy_vf3F8 = 0x80146310;
 	dAcPy_vf3FC = 0x80146A10;

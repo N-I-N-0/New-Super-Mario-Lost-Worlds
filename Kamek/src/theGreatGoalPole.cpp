@@ -88,7 +88,7 @@ void daGreatGoalPole_c::bindAnimChr_and_setUpdateRate(const char* name, int unk,
 
 
 const SpriteData GreatGoalPoleSpriteData = { ProfileId::GreatGoalPole, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile GreatGoalPoleProfile(&daGreatGoalPole_c::build, SpriteId::GreatGoalPole, GreatGoalPoleSpriteData, ProfileId::GreatGoalPole, ProfileId::GreatGoalPole, "TheGreatGoalPole", GreatGoalPoleFileList);
+Profile GreatGoalPoleProfile(&daGreatGoalPole_c::build, SpriteId::GreatGoalPole, &GreatGoalPoleSpriteData, ProfileId::GreatGoalPole, ProfileId::GreatGoalPole, "TheGreatGoalPole", GreatGoalPoleFileList);
 
 
 void daGreatGoalPole_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {

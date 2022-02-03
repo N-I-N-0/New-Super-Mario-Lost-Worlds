@@ -23,7 +23,7 @@ public:
 
 const char *PlayerNumberEventFileList[] = {0};
 const SpriteData playerNumberEventSpriteData = { ProfileId::PlayerNumberEvent, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile playerNumberEventProfile(&playerNumberEvent::build, SpriteId::PlayerNumberEvent, playerNumberEventSpriteData, ProfileId::PlayerNumberEvent, ProfileId::PlayerNumberEvent, "PlayerNumberEvent", PlayerNumberEventFileList);
+Profile playerNumberEventProfile(&playerNumberEvent::build, SpriteId::PlayerNumberEvent, &playerNumberEventSpriteData, ProfileId::PlayerNumberEvent, ProfileId::PlayerNumberEvent, "PlayerNumberEvent", PlayerNumberEventFileList);
 
 
 dActor_c  *playerNumberEvent::build() {

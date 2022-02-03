@@ -67,7 +67,7 @@ class daTopman : public dEn_c {
 };
 
 const SpriteData TopmanSpriteData = { ProfileId::Topman, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TopmanProfile(&daTopman::build, SpriteId::Topman, TopmanSpriteData, ProfileId::TARZAN_ROPE, ProfileId::Topman, "Topman", TMarcNameList);
+Profile TopmanProfile(&daTopman::build, SpriteId::Topman, &TopmanSpriteData, ProfileId::TARZAN_ROPE, ProfileId::Topman, "Topman", TMarcNameList);
 
 dActor_c *daTopman::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daTopman));

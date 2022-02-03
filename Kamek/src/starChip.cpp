@@ -51,7 +51,7 @@ public:
 };
 
 const SpriteData StarChipSpriteData = { ProfileId::StarChip, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile StarChipProfile(&daEnStarChip_c::build, SpriteId::StarChip, StarChipSpriteData, ProfileId::StarChip, ProfileId::StarChip, "StarChip", StarChipFileList);
+Profile StarChipProfile(&daEnStarChip_c::build, SpriteId::StarChip, &StarChipSpriteData, ProfileId::StarChip, ProfileId::StarChip, "StarChip", StarChipFileList);
 
 
 

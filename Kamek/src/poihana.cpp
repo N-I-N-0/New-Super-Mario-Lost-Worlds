@@ -94,7 +94,7 @@ dActor_c *daPoihana_c::build() {
 }
 
 const SpriteData PoihanaSpriteData = { ProfileId::Poihana, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile PoihanaProfile(&daPoihana_c::build, SpriteId::Poihana, PoihanaSpriteData, ProfileId::Poihana, ProfileId::Poihana, "Poihana", PoihanaFileList);
+Profile PoihanaProfile(&daPoihana_c::build, SpriteId::Poihana, &PoihanaSpriteData, ProfileId::Poihana, ProfileId::Poihana, "Poihana", PoihanaFileList);
 
 
 ///////////////////////

@@ -72,7 +72,7 @@ void daBarrelCannon_c::endState_Wait() {}
 
 
 const SpriteData BarrelCannonSpriteData = { ProfileId::BarrelCannon, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile BarrelCannonProfile(&daBarrelCannon_c::build, SpriteId::BarrelCannon, BarrelCannonSpriteData, ProfileId::BarrelCannon, ProfileId::BarrelCannon, "BarrelCannon", BarrelCannonFileList);
+Profile BarrelCannonProfile(&daBarrelCannon_c::build, SpriteId::BarrelCannon, &BarrelCannonSpriteData, ProfileId::BarrelCannon, ProfileId::BarrelCannon, "BarrelCannon", BarrelCannonFileList);
 
 
 void daBarrelCannon_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {

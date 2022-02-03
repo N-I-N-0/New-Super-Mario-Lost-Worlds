@@ -19,7 +19,7 @@ public:
 
 const char *RandomLooperEventFileList[] = {0};
 const SpriteData randomLooperEventSpriteData = { ProfileId::RandomLooperEvent, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile randomLooperEventProfile(&randomLooperEvent::build, SpriteId::RandomLooperEvent, randomLooperEventSpriteData, ProfileId::RandomLooperEvent, ProfileId::RandomLooperEvent, "RandomLooperEvent", RandomLooperEventFileList);
+Profile randomLooperEventProfile(&randomLooperEvent::build, SpriteId::RandomLooperEvent, &randomLooperEventSpriteData, ProfileId::RandomLooperEvent, ProfileId::RandomLooperEvent, "RandomLooperEvent", RandomLooperEventFileList);
 
 
 dActor_c  *randomLooperEvent::build() {

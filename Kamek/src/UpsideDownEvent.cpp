@@ -22,7 +22,7 @@ public:
 
 const char *UpsideDownEventFileList[] = {0};
 const SpriteData upsideDownEventSpriteData = { ProfileId::UpsideDownEvent, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile upsideDownEventProfile(&upsideDownEvent::build, SpriteId::UpsideDownEvent, upsideDownEventSpriteData, ProfileId::UpsideDownEvent, ProfileId::UpsideDownEvent, "UpsideDownEvent", UpsideDownEventFileList);
+Profile upsideDownEventProfile(&upsideDownEvent::build, SpriteId::UpsideDownEvent, &upsideDownEventSpriteData, ProfileId::UpsideDownEvent, ProfileId::UpsideDownEvent, "UpsideDownEvent", UpsideDownEventFileList);
 
 
 dActor_c  *upsideDownEvent::build() {

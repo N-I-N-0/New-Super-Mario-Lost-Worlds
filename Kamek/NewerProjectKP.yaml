@@ -157,3 +157,4 @@ modules:
   - processed/cloudpropeller.yaml
   - processed/blueShell.yaml
   - processed/fishinBoo.yaml
+  - processed/creatorInfo.yaml

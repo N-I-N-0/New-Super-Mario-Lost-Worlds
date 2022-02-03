@@ -219,7 +219,7 @@ void daEnBoshi_c::endState_Run() { OSReport("HI 5.3\n"); }
 
 
 const SpriteData BoshiSpriteData = { ProfileId::Boshi, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile BoshiProfile(&daEnBoshi_c::build, SpriteId::Boshi, BoshiSpriteData, ProfileId::Boshi, ProfileId::Boshi, "Boshi", BoshiFileList);
+Profile BoshiProfile(&daEnBoshi_c::build, SpriteId::Boshi, &BoshiSpriteData, ProfileId::Boshi, ProfileId::Boshi, "Boshi", BoshiFileList);
 
 
 

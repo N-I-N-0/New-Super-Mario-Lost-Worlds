@@ -59,7 +59,7 @@ public:
 };
 
 const SpriteData BusuBusuSpriteData = { ProfileId::BusuBusu, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile BusuBusuProfile(&daEnBusuBusu_c::build, SpriteId::BusuBusu, BusuBusuSpriteData, ProfileId::BusuBusu, ProfileId::BusuBusu, "BusuBusu", BusuBusuFileList);
+Profile BusuBusuProfile(&daEnBusuBusu_c::build, SpriteId::BusuBusu, &BusuBusuSpriteData, ProfileId::BusuBusu, ProfileId::BusuBusu, "BusuBusu", BusuBusuFileList);
 
 
 

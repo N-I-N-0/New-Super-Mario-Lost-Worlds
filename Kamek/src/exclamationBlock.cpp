@@ -58,6 +58,7 @@ public:
 	void activateOne();
 	bool testOne();
 	void deactivate();
+	void switchMainPhysics(bool activate);
 
 	USING_STATES(daExclamationBlock_c);
 	DECLARE_STATE(Wait);
@@ -258,6 +259,25 @@ int daExclamationBlock_c::onDelete() {
 	return true;
 }
 
+void daExclamationBlock_c::switchMainPhysics(bool activate) {
+	if (activate) {
+		physics.callback1 = &daEnBlockMain_c::PhysicsCallback1;
+		physics.callback2 = &daEnBlockMain_c::PhysicsCallback2;
+		physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
+		
+		physics.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
+		physics.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
+		physics.otherCallback3 = &daEnBlockMain_c::OPhysicsCallback3;
+	} else {
+		physics.otherCallback1 = (void*)&PhysCB1;
+		physics.otherCallback2 = (void*)&PhysCB2;
+		physics.otherCallback3 = (void*)&PhysCB3;
+
+		physics.callback1 = (void*)&PhysCB4;
+		physics.callback2 = (void*)&PhysCB5;
+		physics.callback3 = (void*)&PhysCB6;
+	}
+}
 
 int daExclamationBlock_c::onExecute() {
 	acState.execute();
@@ -276,6 +296,8 @@ int daExclamationBlock_c::onExecute() {
 			} else {
 				tile.tileNumber = 0x32;
 				activateEntirely = false;
+				
+				switchMainPhysics(false);
 			}
 			activateEntirelyDelay = 0;
 		}
@@ -286,6 +308,7 @@ int daExclamationBlock_c::onExecute() {
 		if (counter >= 600) {
 			deactivate();
 			tile.tileNumber = 0x31;
+			switchMainPhysics(true);
 			counter = 0;
 		} else {
 			counter++;
@@ -309,7 +332,7 @@ dActor_c *daExclamationBlock_c::build() {
 
 const char *ExclamationBlockFileList[] = {0};
 const SpriteData ExclamationBlockSpriteData = { ProfileId::ExclamationBlock, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ExclamationBlockProfile(&daExclamationBlock_c::build, SpriteId::ExclamationBlock, ExclamationBlockSpriteData, ProfileId::ExclamationBlock, ProfileId::ExclamationBlock, "ExclamationBlock", ExclamationBlockFileList);
+Profile ExclamationBlockProfile(&daExclamationBlock_c::build, SpriteId::ExclamationBlock, &ExclamationBlockSpriteData, ProfileId::ExclamationBlock, ProfileId::ExclamationBlock, "ExclamationBlock", ExclamationBlockFileList);
 
 
 void daExclamationBlock_c::blockWasHit(bool isDown) {

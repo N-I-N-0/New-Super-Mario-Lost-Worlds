@@ -106,7 +106,7 @@ class daMegaGoomba_c : public dEn_c {
 };
 
 const SpriteData MegaGoombaSpriteData = { ProfileId::MegaGoomba, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile MegaGoombaProfile(&daMegaGoomba_c::build, SpriteId::MegaGoomba, MegaGoombaSpriteData, ProfileId::MegaGoomba, ProfileId::MegaGoomba, "MegaGoomba", MegaGoombaFileList);
+Profile MegaGoombaProfile(&daMegaGoomba_c::build, SpriteId::MegaGoomba, &MegaGoombaSpriteData, ProfileId::MegaGoomba, ProfileId::MegaGoomba, "MegaGoomba", MegaGoombaFileList);
 
 dActor_c *daMegaGoomba_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daMegaGoomba_c));

@@ -388,10 +388,8 @@ dActor_c *daSidestepper_c::build() {
 	return new(buffer) daSidestepper_c;
 }
 
-const SpriteData SidestepperSpriteData =
-	{ ProfileId::Sidestepper, 0, 0 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-
-Profile SidestepperProfile(&daSidestepper_c::build, SpriteId::Sidestepper, SidestepperSpriteData, ProfileId::Sidestepper, ProfileId::Sidestepper, "Sidestepper", SidestepperArcNameList);
+const SpriteData SidestepperSpriteData = { ProfileId::Sidestepper, 0, 0 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile SidestepperProfile(&daSidestepper_c::build, SpriteId::Sidestepper, &SidestepperSpriteData, ProfileId::Sidestepper, ProfileId::Sidestepper, "Sidestepper", SidestepperArcNameList);
 
 
 int daSidestepper_c::onCreate() {

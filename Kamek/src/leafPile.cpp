@@ -45,7 +45,7 @@ public:
 };
 
 const SpriteData LeafPileSpriteData = { ProfileId::LeafPile, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile LeafPileProfile(&daEnLeafPile_c::build, SpriteId::LeafPile, LeafPileSpriteData, ProfileId::LeafPile, ProfileId::LeafPile, "LeafPile", LeafPileFileList);
+Profile LeafPileProfile(&daEnLeafPile_c::build, SpriteId::LeafPile, &LeafPileSpriteData, ProfileId::LeafPile, ProfileId::LeafPile, "LeafPile", LeafPileFileList);
 
 
 

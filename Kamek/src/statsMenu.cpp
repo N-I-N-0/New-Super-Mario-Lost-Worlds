@@ -94,7 +94,7 @@ dActor_c *dStatsMenu_c::build() {
 
 const char *StatsMenuFileList[] = {0};
 const SpriteData StatsMenuSpriteData = { ProfileId::NumPad, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile StatsMenuProfile(&dStatsMenu_c::build, SpriteId::StatsMenu, StatsMenuSpriteData, ProfileId::StatsMenu, ProfileId::StatsMenu, "StatsMenu", StatsMenuFileList);
+Profile StatsMenuProfile(&dStatsMenu_c::build, SpriteId::StatsMenu, &StatsMenuSpriteData, ProfileId::StatsMenu, ProfileId::StatsMenu, "StatsMenu", StatsMenuFileList);
 
 
 #define ANIM_WINDOW_IN 0

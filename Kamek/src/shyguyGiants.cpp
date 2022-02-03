@@ -103,7 +103,7 @@ class daShyGuyGiant : public dEn_c {
 
 const SpriteData ShyGuyGiantSpriteData = {ProfileId::ShyGuyGiant, 0x5, -0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
 // #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
-Profile ShyGuyGiantsProfile(&daShyGuyGiant::build, SpriteId::ShyGuyGiant, ShyGuyGiantSpriteData, ProfileId::WM_TREASURESHIP, ProfileId::ShyGuyGiant, "ShyGuyGiant", SGGarcNameList);
+Profile ShyGuyGiantsProfile(&daShyGuyGiant::build, SpriteId::ShyGuyGiant, &ShyGuyGiantSpriteData, ProfileId::WM_TREASURESHIP, ProfileId::ShyGuyGiant, "ShyGuyGiant", SGGarcNameList);
 
 dActor_c *daShyGuyGiant::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daShyGuyGiant));

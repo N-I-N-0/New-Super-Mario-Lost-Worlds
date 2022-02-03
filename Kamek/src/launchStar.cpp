@@ -89,7 +89,7 @@ public:
 };
 
 const SpriteData LaunchStarSpriteData = { ProfileId::LaunchStar, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile LaunchStarProfile(&daEnLaunchStar_c::build, SpriteId::LaunchStar, LaunchStarSpriteData, ProfileId::LaunchStar, ProfileId::LaunchStar, "LaunchStar", LaunchStarFileList);
+Profile LaunchStarProfile(&daEnLaunchStar_c::build, SpriteId::LaunchStar, &LaunchStarSpriteData, ProfileId::LaunchStar, ProfileId::LaunchStar, "LaunchStar", LaunchStarFileList);
 
 u8 hijackMusicWithSongName(const char* songName, int themeID, bool hasFast, int channelCount, int trackCount, int* wantRealStreamID);
 

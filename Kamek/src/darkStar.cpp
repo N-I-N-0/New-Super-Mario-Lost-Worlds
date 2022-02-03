@@ -34,12 +34,16 @@ public:
 	m3d::anmChr_c animationChr;
 	nw4r::g3d::ResFile resFile;
 	
-	u8 padding[0x8000];
+	u16 unk1;	//0xdd4
+	u16 unk2;	//0xdd8
+	int unk3;	//0xd88
 
 	USING_STATES(daDarkStar_c);
 	DECLARE_STATE(StarMove);
 	
 	bool FUN_80a290c0();
+	void FUN_80a288d0();
+	void FUN_80a29280();
 };
 
 CREATE_STATE(daDarkStar_c, StarMove);
@@ -67,7 +71,7 @@ dActor_c* daDarkStar_c::build() {
 }
 
 const SpriteData DarkStarSpriteData = { ProfileId::DarkStar, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile DarkStarProfile(&daDarkStar_c::build, SpriteId::DarkStar, DarkStarSpriteData, ProfileId::DarkStar, ProfileId::DarkStar, "Dark Star", DarkStarFileList);
+Profile DarkStarProfile(&daDarkStar_c::build, SpriteId::DarkStar, &DarkStarSpriteData, ProfileId::DarkStar, ProfileId::DarkStar, "Dark Star", DarkStarFileList);
 
 
 int daDarkStar_c::onCreate() {
@@ -150,6 +154,21 @@ void daDarkStar_c::beginState_StarMove() {
 }
 
 
+void daDarkStar_c::FUN_80a288d0() {
+	if (unk2 == 0) {
+		return;
+	}
+	if (unk1 != 0) {
+		unk1 -= 1;
+	}
+	if (unk1 != 0) {
+		return;
+	}
+	unk2 = 0;
+	return;
+}
+
+
 bool daDarkStar_c::FUN_80a290c0() {
   int iVar1 = this->EnWaterFlagCheck(&this->pos);
   if (iVar1) {
@@ -159,8 +178,21 @@ bool daDarkStar_c::FUN_80a290c0() {
 }
 
 
+void daDarkStar_c::FUN_80a29280(){
+  if (unk3 == 3) {
+    return;
+  }
+  //EnItem_BindAnimation(this,3);
+  return;
+}
+
+
 extern "C" int SomeStrangeModification(dStageActor_c* actor);
 extern "C" float EnItem_GetZPosToUse(dEn_c* item);
+extern "C" void FUN_80a28e00(dActor_c* item);
+extern "C" void FUN_80a28d10(dActor_c* item);
+extern "C" void FUN_80a29110(dActor_c* item);
+extern "C" void FUN_80a286c0(dActor_c* item);
 
 void daDarkStar_c::executeState_StarMove(){
   //bool bVar1;
@@ -171,11 +203,11 @@ void daDarkStar_c::executeState_StarMove(){
   
   this->HandleYSpeed();
   this->doSpriteMovement();
-  //FUN_80a288d0(this);
+  this->FUN_80a288d0();
   //FUN_80a28bb0(this);
-  if (this->disableFlagMask == 0) {
+  if (this->unk2 == 0) {
     uVar3 = SomeStrangeModification(this);
-    //FUN_80a28e00(this);
+    FUN_80a28e00(this);
     if (uVar3 & 1) {
       if (this->isOnQuickSand == 0) {
         if (this->isImmersedInLiquid_maybe == 0) {
@@ -183,8 +215,8 @@ void daDarkStar_c::executeState_StarMove(){
         } else {
           this->speed.y = 2.0f;
         }
-        //FUN_80a28d10(this);
-        //FUN_80a29280(this);
+        FUN_80a28d10(this);
+        this->FUN_80a29280();
 		Vec2 soundPos;
         ConvertStagePositionToScreenPosition(&soundPos,&this->pos);
         SoundPlayingClass::instance2->PlaySoundAtPosition(SE_OBJ_STAR_BOUND,&soundPos,0);
@@ -202,10 +234,10 @@ void daDarkStar_c::executeState_StarMove(){
       this->direction ^= 1;
       this->speed.x = -this->speed.x;
     }
-    //FUN_80a29110(this);
+    FUN_80a29110(this);
     
     if (this->checksSomething()) {
-      //FUN_80a286c0(this);
+      FUN_80a286c0(this);
       return;
     }
   }

@@ -67,7 +67,7 @@ public:
 };
 
 const SpriteData SuperBubbleSpriteData = { ProfileId::SuperBubble, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile SuperBubbleProfile(&daSuperBubble_c::build, SpriteId::SuperBubble, SuperBubbleSpriteData, ProfileId::SuperBubble, ProfileId::SuperBubble, "SuperBubble", SuperBubbleFileList);
+Profile SuperBubbleProfile(&daSuperBubble_c::build, SpriteId::SuperBubble, &SuperBubbleSpriteData, ProfileId::SuperBubble, ProfileId::SuperBubble, "SuperBubble", SuperBubbleFileList);
 
 
 CREATE_STATE(daSuperBubble_c, Bubble_Thrown);

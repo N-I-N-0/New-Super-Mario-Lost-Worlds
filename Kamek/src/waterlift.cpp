@@ -11,7 +11,7 @@ public:
 
 
 const SpriteData WaterliftSpawnerSpriteData = { ProfileId::WATER_LIFT_NEW, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile WaterliftSpawnerProfile(&dWaterliftSpawner::build, SpriteId::WATER_LIFT, WaterliftSpawnerSpriteData, ProfileId::WATER_LIFT_NEW, ProfileId::WATER_LIFT_NEW, "WATER_LIFT", WaterliftFileList);
+Profile WaterliftSpawnerProfile(&dWaterliftSpawner::build, SpriteId::WATER_LIFT, &WaterliftSpawnerSpriteData, ProfileId::WATER_LIFT_NEW, ProfileId::WATER_LIFT_NEW, "WATER_LIFT", WaterliftFileList);
 
 
 dActor_c* dWaterliftSpawner::build() {

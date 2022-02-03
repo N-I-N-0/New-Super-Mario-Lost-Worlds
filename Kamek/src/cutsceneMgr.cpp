@@ -54,7 +54,7 @@ public:
 
 const char *CutsceneMgrFileList[] = {0};
 const SpriteData cutsceneMgrSpriteData = { ProfileId::CutsceneMgr, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile cutsceneMgrProfile(&cutsceneMgr::build, SpriteId::CutsceneMgr, cutsceneMgrSpriteData, ProfileId::CutsceneMgr, ProfileId::CutsceneMgr, "CutsceneMgr", CutsceneMgrFileList);
+Profile cutsceneMgrProfile(&cutsceneMgr::build, SpriteId::CutsceneMgr, &cutsceneMgrSpriteData, ProfileId::CutsceneMgr, ProfileId::CutsceneMgr, "CutsceneMgr", CutsceneMgrFileList);
 
 
 dActor_c  *cutsceneMgr::build() {

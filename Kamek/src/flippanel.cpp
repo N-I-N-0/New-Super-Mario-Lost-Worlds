@@ -32,7 +32,7 @@ public:
 };
 
 const SpriteData flipPanelSpriteData = { ProfileId::FlipPanel, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, flipPanelSpriteData, ProfileId::FlipPanel, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
+Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, &flipPanelSpriteData, ProfileId::FlipPanel, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
 
 
 CREATE_STATE(daEnFlipPanel_c, Wait);

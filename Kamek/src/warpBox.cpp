@@ -39,7 +39,7 @@ public:
 };
 
 const SpriteData WarpBoxSpriteData = { ProfileId::WarpBox, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile WarpBoxProfile(&daEnWarpBox_c::build, SpriteId::WarpBox, WarpBoxSpriteData, ProfileId::WarpBox, ProfileId::WarpBox, "WarpBox", WarpBoxFileList);
+Profile WarpBoxProfile(&daEnWarpBox_c::build, SpriteId::WarpBox, &WarpBoxSpriteData, ProfileId::WarpBox, ProfileId::WarpBox, "WarpBox", WarpBoxFileList);
 
 
 

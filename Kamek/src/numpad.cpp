@@ -22,7 +22,7 @@ dActor_c *dNumpadSpawner_c::build() {
 
 const char *NumPadFileList[] = {0};
 const SpriteData NumPadSpriteData = { ProfileId::NumPad, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile NumPadProfile(&dNumpadSpawner_c::build, SpriteId::NumPad, NumPadSpriteData, ProfileId::NumPad, ProfileId::NumPad, "NumPad", NumPadFileList);
+Profile NumPadProfile(&dNumpadSpawner_c::build, SpriteId::NumPad, &NumPadSpriteData, ProfileId::NumPad, ProfileId::NumPad, "NumPad", NumPadFileList);
 
 
 #define ANIM_BUTTON_APPEAR 0 //0, 0, 1, 2, 3, 4, 6, 8

@@ -78,10 +78,9 @@ dActor_c* daCloudPropeller::build() {
 	return new(buffer) daCloudPropeller;
 }
 
-const SpriteData CloudPropellerSpriteData = 
-{ ProfileId::CloudPropeller, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData CloudPropellerSpriteData = { ProfileId::CloudPropeller, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 
-Profile CloudPropellerProfile(&daCloudPropeller::build, SpriteId::CloudPropeller, CloudPropellerSpriteData, ProfileId::CloudPropeller, ProfileId::CloudPropeller, "CloudPropeller", CPArcNameList);
+Profile CloudPropellerProfile(&daCloudPropeller::build, SpriteId::CloudPropeller, &CloudPropellerSpriteData, ProfileId::CloudPropeller, ProfileId::CloudPropeller, "CloudPropeller", CPArcNameList);
 
 void daCloudPropeller::spriteCollision(ActivePhysics* apThis, ActivePhysics* apOther)
 {

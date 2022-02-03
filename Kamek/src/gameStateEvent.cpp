@@ -36,7 +36,7 @@ public:
 
 const char *GameStateEventFileList[] = {0};
 const SpriteData gameStateEventSpriteData = { ProfileId::GameStateEvent, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile gameStateEventProfile(&gameStateEvent::build, SpriteId::GameStateEvent, gameStateEventSpriteData, ProfileId::GameStateEvent, ProfileId::GameStateEvent, "GameStateEvent", GameStateEventFileList);
+Profile gameStateEventProfile(&gameStateEvent::build, SpriteId::GameStateEvent, &gameStateEventSpriteData, ProfileId::GameStateEvent, ProfileId::GameStateEvent, "GameStateEvent", GameStateEventFileList);
 
 
 dActor_c  *gameStateEvent::build() {

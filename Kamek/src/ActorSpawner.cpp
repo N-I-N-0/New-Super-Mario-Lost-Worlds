@@ -53,7 +53,7 @@ public:
 };
 
 const SpriteData NewActorSpawnerSpriteData = { ProfileId::NewActorSpawner, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile NewActorSpawnerProfile(&dActorSpawner_c::build, SpriteId::NewActorSpawner, NewActorSpawnerSpriteData, ProfileId::NewActorSpawner, ProfileId::NewActorSpawner, "NewActorSpawner", SpawnerFileList);
+Profile NewActorSpawnerProfile(&dActorSpawner_c::build, SpriteId::NewActorSpawner, &NewActorSpawnerSpriteData, ProfileId::NewActorSpawner, ProfileId::NewActorSpawner, "NewActorSpawner", SpawnerFileList);
 
 
 dActor_c* dActorSpawner_c::build() {
@@ -178,7 +178,7 @@ bool dActorSpawner_c::newActorIsAlive() {
 
 
 const SpriteData NewActorSpawnerDataBankSpriteData = { ProfileId::NewActorSpawnerDataBank, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile NewActorSpawnerDataBankProfile(&dSpawnerDataBank_c::build, SpriteId::NewActorSpawnerDataBank, NewActorSpawnerDataBankSpriteData, ProfileId::NewActorSpawnerDataBank, ProfileId::NewActorSpawnerDataBank, "NewActorSpawnerDataBank", SpawnerFileList);
+Profile NewActorSpawnerDataBankProfile(&dSpawnerDataBank_c::build, SpriteId::NewActorSpawnerDataBank, &NewActorSpawnerDataBankSpriteData, ProfileId::NewActorSpawnerDataBank, ProfileId::NewActorSpawnerDataBank, "NewActorSpawnerDataBank", SpawnerFileList);
 
 
 dActor_c* dSpawnerDataBank_c::build() {
@@ -209,7 +209,7 @@ int dSpawnerDataBank_c::onExecute() {
 
 
 const SpriteData NewActorSpawnerPathSpriteData = { ProfileId::NewActorSpawnerPath, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile NewActorSpawnerPathProfile(&dPathSpawner_c::build, SpriteId::NewActorSpawnerPath, NewActorSpawnerPathSpriteData, ProfileId::NewActorSpawnerPath, ProfileId::NewActorSpawnerPath, "NewActorSpawnerPath", SpawnerFileList);
+Profile NewActorSpawnerPathProfile(&dPathSpawner_c::build, SpriteId::NewActorSpawnerPath, &NewActorSpawnerPathSpriteData, ProfileId::NewActorSpawnerPath, ProfileId::NewActorSpawnerPath, "NewActorSpawnerPath", SpawnerFileList);
 
 
 dActor_c* dPathSpawner_c::build() {

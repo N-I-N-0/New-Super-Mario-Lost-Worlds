@@ -80,7 +80,7 @@ public:
 };
 
 const SpriteData SuperTopmanSpriteData = { ProfileId::SuperTopman, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile SuperTopmanProfile(&daDreidel::build, SpriteId::SuperTopman, SuperTopmanSpriteData, ProfileId::SLOW_QUICK_TAG, ProfileId::SuperTopman, "Topman", STMarcNameList);
+Profile SuperTopmanProfile(&daDreidel::build, SpriteId::SuperTopman, &SuperTopmanSpriteData, ProfileId::SLOW_QUICK_TAG, ProfileId::SuperTopman, "Topman", STMarcNameList);
 
 dActor_c *daDreidel::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daDreidel));

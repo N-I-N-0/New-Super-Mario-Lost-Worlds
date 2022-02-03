@@ -695,6 +695,7 @@ SECTIONS {
 	BigHanaFireball = 0x809B3A50;
 	BigHanaIceball = 0x809B3A20;
 
+	hurtPlayer_maybe__7dAcPy_cFv = 0x80146230;
 	dAcPy_vf3F4 = 0x80146230;
 	dAcPy_vf3F8 = 0x80146310;
 	dAcPy_vf3FC = 0x80146A10;

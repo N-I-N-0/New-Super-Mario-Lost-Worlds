@@ -18,7 +18,7 @@ class dSpriteSpawner_c : public dStageActor_c {
 
 const char *SpriteSpawnerFileList[] = {0};
 const SpriteData SpriteSpawnerSpriteData = { ProfileId::SpriteSpawner, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile SpriteSpawnerProfile(&dSpriteSpawner_c::build, SpriteId::SpriteSpawner, SpriteSpawnerSpriteData, ProfileId::EN_BOYON, ProfileId::SpriteSpawner, "SpriteSpawner", SpriteSpawnerFileList);
+Profile SpriteSpawnerProfile(&dSpriteSpawner_c::build, SpriteId::SpriteSpawner, &SpriteSpawnerSpriteData, ProfileId::EN_BOYON, ProfileId::SpriteSpawner, "SpriteSpawner", SpriteSpawnerFileList);
 
 
 dActor_c *dSpriteSpawner_c::build() {

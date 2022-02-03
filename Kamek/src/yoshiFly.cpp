@@ -103,7 +103,7 @@ public:
 };
 
 const SpriteData YoshiWingsSpriteData = { ProfileId::EN_YOSHIWINGS, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile YoshiWingsProfile(&daEnYoshiWings_c::build, SpriteId::EN_YOSHIWINGS, YoshiWingsSpriteData, ProfileId::EN_YOSHIWINGS, ProfileId::EN_YOSHIWINGS, "daEnYoshiWings_c", YoshiWingsFileList);
+Profile YoshiWingsProfile(&daEnYoshiWings_c::build, SpriteId::EN_YOSHIWINGS, &YoshiWingsSpriteData, ProfileId::EN_YOSHIWINGS, ProfileId::EN_YOSHIWINGS, "daEnYoshiWings_c", YoshiWingsFileList);
 
 
 

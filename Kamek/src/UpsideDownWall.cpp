@@ -19,7 +19,7 @@ public:
 
 const char *UpsideDownWallFileList[] = {0};
 const SpriteData UpsideDownWallSpriteData = { ProfileId::UpsideDownWall, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile UpsideDownWallProfile(&dUpsideDownWall_c::build, SpriteId::UpsideDownWall, UpsideDownWallSpriteData, ProfileId::UpsideDownWall, ProfileId::UpsideDownWall, "UpsideDownWall", UpsideDownWallFileList);
+Profile UpsideDownWallProfile(&dUpsideDownWall_c::build, SpriteId::UpsideDownWall, &UpsideDownWallSpriteData, ProfileId::UpsideDownWall, ProfileId::UpsideDownWall, "UpsideDownWall", UpsideDownWallFileList);
 
 
 dActor_c  *dUpsideDownWall_c::build() {

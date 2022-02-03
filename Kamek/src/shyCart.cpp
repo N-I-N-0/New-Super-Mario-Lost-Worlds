@@ -55,7 +55,7 @@ public:
 };
 
 const SpriteData ShyCartSpriteData = { ProfileId::ShyCart, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ShyCartProfile(&daEnShyCart_c::build, SpriteId::ShyCart, ShyCartSpriteData, ProfileId::ShyCart, ProfileId::ShyCart, "ShyCart", ShyCartFileList);
+Profile ShyCartProfile(&daEnShyCart_c::build, SpriteId::ShyCart, &ShyCartSpriteData, ProfileId::ShyCart, ProfileId::ShyCart, "ShyCart", ShyCartFileList);
 
 
 

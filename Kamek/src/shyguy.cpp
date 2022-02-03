@@ -142,7 +142,7 @@ class daShyGuy : public dEn_c {
 
 const SpriteData ShyGuySpriteData = {ProfileId::ShyGuy, 0x5, -0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
 // #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
-Profile ShyGuyProfile(&daShyGuy::build, SpriteId::ShyGuy, ShyGuySpriteData, ProfileId::DUMMY_DOOR_CHILD, ProfileId::ShyGuy, "ShyGuy", SGarcNameList);
+Profile ShyGuyProfile(&daShyGuy::build, SpriteId::ShyGuy, &ShyGuySpriteData, ProfileId::DUMMY_DOOR_CHILD, ProfileId::ShyGuy, "ShyGuy", SGarcNameList);
 
 
 dActor_c *daShyGuy::build() {

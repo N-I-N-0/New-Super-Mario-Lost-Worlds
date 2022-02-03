@@ -68,7 +68,7 @@ dActor_c *daPoisonShroom_c::build() {
 }
 
 const SpriteData PoisonShroomSpriteData = { ProfileId::PoisonShroom, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile PoisonShroomProfile(&daPoisonShroom_c::build, SpriteId::PoisonShroom, PoisonShroomSpriteData, ProfileId::PoisonShroom, ProfileId::PoisonShroom, "PoisonShroom", PMarcNameList);
+Profile PoisonShroomProfile(&daPoisonShroom_c::build, SpriteId::PoisonShroom, &PoisonShroomSpriteData, ProfileId::PoisonShroom, ProfileId::PoisonShroom, "PoisonShroom", PMarcNameList);
 
 ///////////////////////
 // States

@@ -28,7 +28,7 @@ class daElectricLine : public dEn_c {
 
 const char *ElectricLineFileList[] = {0};
 const SpriteData ElectricLineSpriteData = { ProfileId::ElectricLine, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ElectricLineProfile(&daElectricLine::build, SpriteId::ElectricLine, ElectricLineSpriteData, ProfileId::KAWANAGARE, ProfileId::ElectricLine, "ElectricLine", ElectricLineFileList);
+Profile ElectricLineProfile(&daElectricLine::build, SpriteId::ElectricLine, &ElectricLineSpriteData, ProfileId::KAWANAGARE, ProfileId::ElectricLine, "ElectricLine", ElectricLineFileList);
 
 dActor_c *daElectricLine::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daElectricLine));

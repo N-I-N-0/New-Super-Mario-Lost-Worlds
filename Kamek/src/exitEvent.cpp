@@ -22,7 +22,7 @@ dActor_c *dExitEvent_c::build() {
 }
 
 const SpriteData ExitEventSpriteData = { ProfileId::ExitEvent, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ExitEventProfile(&dExitEvent_c::build, SpriteId::ExitEvent, ExitEventSpriteData, ProfileId::ExitEvent, ProfileId::ExitEvent, "ExitEvent", ExitEventFileList);
+Profile ExitEventProfile(&dExitEvent_c::build, SpriteId::ExitEvent, &ExitEventSpriteData, ProfileId::ExitEvent, ProfileId::ExitEvent, "ExitEvent", ExitEventFileList);
 
 
 int dExitEvent_c::onExecute() {

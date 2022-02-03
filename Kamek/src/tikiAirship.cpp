@@ -77,7 +77,7 @@ void daTikiAirship_c::endState_Wait() {}
 
 
 const SpriteData TikiAirshipSpriteData = { ProfileId::TikiAirship, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TikiAirshipProfile(&daTikiAirship_c::build, SpriteId::TikiAirship, TikiAirshipSpriteData, ProfileId::TikiAirship, ProfileId::TikiAirship, "TikiAirship", TikiAirshipFileList);
+Profile TikiAirshipProfile(&daTikiAirship_c::build, SpriteId::TikiAirship, &TikiAirshipSpriteData, ProfileId::TikiAirship, ProfileId::TikiAirship, "TikiAirship", TikiAirshipFileList);
 
 
 void daTikiAirship_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {

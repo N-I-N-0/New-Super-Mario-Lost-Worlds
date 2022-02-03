@@ -163,7 +163,7 @@ dActor_c *daEggBlock_c::build() {
 
 const char *EggBlockFileList[] = {0};
 const SpriteData EggBlockSpriteData = { ProfileId::EggBlock, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile EggBlockProfile(&daEggBlock_c::build, SpriteId::EggBlock, EggBlockSpriteData, ProfileId::EggBlock, ProfileId::EggBlock, "EggBlock", EggBlockFileList);
+Profile EggBlockProfile(&daEggBlock_c::build, SpriteId::EggBlock, &EggBlockSpriteData, ProfileId::EggBlock, ProfileId::EggBlock, "EggBlock", EggBlockFileList);
 
 
 void daEggBlock_c::blockWasHit(bool isDown) {

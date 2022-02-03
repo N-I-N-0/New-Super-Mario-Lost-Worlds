@@ -21,12 +21,12 @@ struct SpriteData
 class Profile
 {
 public:
-    Profile(dActor_c* (*buildFunc)(), u32 spriteId, const SpriteData& spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files=NULL);
+    Profile(dActor_c* (*buildFunc)(), u32 spriteId, const SpriteData* spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files=NULL, u32 unk = 0);
 
     dActor_c* (*buildFunc)();
     u16 executeOrderProfileId;
     u16 drawOrderProfileId;
-	u32 bitfield;
+	u32 _8; //bitfield?
 };
 
 extern "C" SpriteData originalSprites[483];

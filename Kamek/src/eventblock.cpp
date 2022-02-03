@@ -38,7 +38,7 @@ public:
 
 const char *EventBlockFileList[] = {0};
 const SpriteData eventBlockSpriteData = { ProfileId::EventBlock, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile eventBlockProfile(&daEnEventBlock_c::build, SpriteId::EventBlock, eventBlockSpriteData, ProfileId::MIST_INTERMITTENT, ProfileId::EventBlock, "EventBlock", EventBlockFileList);
+Profile eventBlockProfile(&daEnEventBlock_c::build, SpriteId::EventBlock, &eventBlockSpriteData, ProfileId::MIST_INTERMITTENT, ProfileId::EventBlock, "EventBlock", EventBlockFileList);
 
 
 CREATE_STATE(daEnEventBlock_c, Wait);

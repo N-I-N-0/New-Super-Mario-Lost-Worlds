@@ -28,7 +28,7 @@ public:
 };
 
 const SpriteData GoombaTowerSpriteData = { ProfileId::GoombaTower, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile GoombaTowerProfile(&daEnGoombaTower_c::build, SpriteId::GoombaTower, GoombaTowerSpriteData, ProfileId::GoombaTower, ProfileId::GoombaTower, "GoombaTower", GoombaTowerFileList);
+Profile GoombaTowerProfile(&daEnGoombaTower_c::build, SpriteId::GoombaTower, &GoombaTowerSpriteData, ProfileId::GoombaTower, ProfileId::GoombaTower, "GoombaTower", GoombaTowerFileList);
 
 dActor_c* daEnGoombaTower_c::build() {
 	void* buffer = AllocFromGameHeap1(sizeof(daEnGoombaTower_c));

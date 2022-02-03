@@ -76,7 +76,7 @@ dActor_c *daFishinBoo_c::build() {
 }
 
 const SpriteData FishingBooSpriteData = { ProfileId::FishingBoo, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile FishingBooProfile(&daFishinBoo_c::build, SpriteId::FishingBoo, FishingBooSpriteData, ProfileId::FishingBoo, ProfileId::FishingBoo, "Fishin' Boo", FishingBooFileList);
+Profile FishingBooProfile(&daFishinBoo_c::build, SpriteId::FishingBoo, &FishingBooSpriteData, ProfileId::FishingBoo, ProfileId::FishingBoo, "Fishin' Boo", FishingBooFileList);
 
 
 

@@ -89,7 +89,7 @@ class daMummyMe_c : public dEn_c {
 };
 
 const SpriteData MummyMeSpriteData = {ProfileId::MummyMe, 0x5, -0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
-Profile MummyMeProfile(&daMummyMe_c::build, SpriteId::MummyMe, MummyMeSpriteData, ProfileId::MummyMe, ProfileId::MummyMe, "Mummy-Me", MummyMeFileList);
+Profile MummyMeProfile(&daMummyMe_c::build, SpriteId::MummyMe, &MummyMeSpriteData, ProfileId::MummyMe, ProfileId::MummyMe, "Mummy-Me", MummyMeFileList);
 
 dActor_c *daMummyMe_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daMummyMe_c));

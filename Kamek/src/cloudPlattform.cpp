@@ -236,7 +236,7 @@ void daEnCloudPlattform_c::endState_Run() { OSReport("HI 5.3\n"); }*/
 
 
 const SpriteData CloudPlattformSpriteData = { ProfileId::CloudPlattform, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile CloudPlattformProfile(&daEnCloudPlattform_c::build, SpriteId::CloudPlattform, CloudPlattformSpriteData, ProfileId::CloudPlattform, ProfileId::CloudPlattform, "CloudPlattform", CloudPlattformFileList);
+Profile CloudPlattformProfile(&daEnCloudPlattform_c::build, SpriteId::CloudPlattform, &CloudPlattformSpriteData, ProfileId::CloudPlattform, ProfileId::CloudPlattform, "CloudPlattform", CloudPlattformFileList);
 
 
 

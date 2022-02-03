@@ -66,25 +66,29 @@ const char* GetProfileName(u32 profileId)
 
 /* CUSTOM PROFILE CTOR */
 
-Profile::Profile(dActor_c* (*buildFunc)(), u32 spriteId, const SpriteData &spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files)
-{
+Profile::Profile(dActor_c* (*buildFunc)(), u32 id, const SpriteData* spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files, u32 unk) {
     this->buildFunc = buildFunc;
     this->executeOrderProfileId = executeOrderProfileId;
     this->drawOrderProfileId = drawOrderProfileId;
+	this->_8 = unk;
 
-    sprites[spriteId] = spriteData;
-    if (spriteId < 483) {
-        spriteFiles[spriteId] = files;
-    }
-    else {
-        customSpriteFiles[spriteId - 483] = files;
-    }
-
-    profiles[spriteData.profileId] = this;
-    if (spriteData.profileId < 750) {
-        profileNames[spriteData.profileId] = name;
-    }
-    else {
-        customProfileNames[spriteData.profileId - 750] = name;
-    }
+	u32 profileId;
+	if (spriteData) {
+		sprites[id] = *spriteData;
+		if (id < 483) {
+			spriteFiles[id] = files;
+		} else {
+			customSpriteFiles[id - 483] = files;
+		}
+		profileId = spriteData->profileId;
+	} else {
+		profileId = id;
+	}
+	
+	profiles[profileId] = this;
+	if (profileId < 750) {
+		profileNames[profileId] = name;
+	} else {
+		customProfileNames[profileId - 750] = name;
+	}
 }

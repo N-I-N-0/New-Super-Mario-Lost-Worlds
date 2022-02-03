@@ -41,7 +41,7 @@ public:
 };
 
 const SpriteData PurpleCoinSpriteData = { ProfileId::PurpleCoin, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile PurpleCoinProfile(&daEnPurpleCoin_c::build, SpriteId::PurpleCoin, PurpleCoinSpriteData, ProfileId::PurpleCoin, ProfileId::PurpleCoin, "PurpleCoin", PurpleCoinFileList);
+Profile PurpleCoinProfile(&daEnPurpleCoin_c::build, SpriteId::PurpleCoin, &PurpleCoinSpriteData, ProfileId::PurpleCoin, ProfileId::PurpleCoin, "PurpleCoin", PurpleCoinFileList);
 
 
 

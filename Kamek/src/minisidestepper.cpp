@@ -162,7 +162,7 @@ dActor_c* daMiniSidestepper_c::build() {
 const SpriteData MiniSidestepperSpriteData =
 { ProfileId::MiniSidestepper, 0, 0 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 2 };
 
-Profile MiniSidestepperProfile(&daMiniSidestepper_c::build, SpriteId::MiniSidestepper, MiniSidestepperSpriteData, ProfileId::MiniSidestepper, ProfileId::MiniSidestepper, "MiniSidestepper", MiniSidestepperArcNameList);
+Profile MiniSidestepperProfile(&daMiniSidestepper_c::build, SpriteId::MiniSidestepper, &MiniSidestepperSpriteData, ProfileId::MiniSidestepper, ProfileId::MiniSidestepper, "MiniSidestepper", MiniSidestepperArcNameList);
 
 
 int daMiniSidestepper_c::onCreate() {

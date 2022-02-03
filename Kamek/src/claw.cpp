@@ -76,10 +76,9 @@ dActor_c* daClaw::build() {
 	return new(buffer) daClaw;
 }
 
-const SpriteData ClawSpriteData = 
-{ ProfileId::Claw, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData ClawSpriteData = { ProfileId::Claw, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 
-Profile ClawProfile(&daClaw::build, SpriteId::Claw, ClawSpriteData, ProfileId::Claw, ProfileId::Claw, "Claw", ClawANL);
+Profile ClawProfile(&daClaw::build, SpriteId::Claw, &ClawSpriteData, ProfileId::Claw, ProfileId::Claw, "Claw", ClawANL);
 
 
 

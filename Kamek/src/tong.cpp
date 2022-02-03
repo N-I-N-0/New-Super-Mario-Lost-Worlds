@@ -68,7 +68,7 @@ dActor_c* daTikiTongHand_c::build() {
 }
 
 const SpriteData TikiTongHandSpriteData = { ProfileId::TikiTongHand, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TikiTongHandProfile(&daTikiTongHand_c::build, SpriteId::TikiTongHand, TikiTongHandSpriteData, ProfileId::TikiTongHand, ProfileId::TikiTongHand, "TikiTongHand", TikiTongList);
+Profile TikiTongHandProfile(&daTikiTongHand_c::build, SpriteId::TikiTongHand, &TikiTongHandSpriteData, ProfileId::TikiTongHand, ProfileId::TikiTongHand, "TikiTongHand", TikiTongList);
 
 
 

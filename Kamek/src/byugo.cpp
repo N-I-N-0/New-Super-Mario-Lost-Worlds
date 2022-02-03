@@ -60,7 +60,7 @@ dActor_c* daByugo_c::build() {
 }
 
 const SpriteData ByugoSpriteData = { ProfileId::Byugo, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ByugoProfile(&daByugo_c::build, SpriteId::Byugo, ByugoSpriteData, ProfileId::Byugo, ProfileId::Byugo, "Byugo", ByugoNameList);
+Profile ByugoProfile(&daByugo_c::build, SpriteId::Byugo, &ByugoSpriteData, ProfileId::Byugo, ProfileId::Byugo, "Byugo", ByugoNameList);
 
 
 int daByugo_c::onCreate() {
@@ -225,7 +225,7 @@ dActor_c* daSwitchLayer_c::build() {
 }
 
 const SpriteData SwitchLayerSpriteData = { ProfileId::SwitchLayer, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile SwitchLayerProfile(&daSwitchLayer_c::build, SpriteId::SwitchLayer, SwitchLayerSpriteData, ProfileId::SwitchLayer, ProfileId::SwitchLayer, "SwitchLayer", SwitchLayerFileList);
+Profile SwitchLayerProfile(&daSwitchLayer_c::build, SpriteId::SwitchLayer, &SwitchLayerSpriteData, ProfileId::SwitchLayer, ProfileId::SwitchLayer, "SwitchLayer", SwitchLayerFileList);
 
 int daSwitchLayer_c::onCreate() {
 	ActivePhysics::Info HitMeBaby; 
