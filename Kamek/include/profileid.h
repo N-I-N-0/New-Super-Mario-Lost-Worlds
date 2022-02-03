@@ -1289,128 +1289,132 @@ enum
 	EVENT_OPENING_TITLE = 699,
 	SELECT_PLAYER = 700,
 	MULTI_COURSE_SELECT = 701,
-	TIME_UP = 702,
-	COURSE_TIME_UP = 703,
-	YES_NO_WINDOW = 704,
-	COURSE_SELECT_MANAGER = 705,
-	FUKIDASHI_MANAGER = 706,
-	SMALL_SCORE_MANAGER = 707,
-	GAMEDISPLAY = 708,
-	OTASUKE_INFO = 709,
-	PAUSEWINDOW = 710,
-	RESULT = 711,
-	POINT_RESULT_MULTI = 712,
-	POINT_RESULT_DATE_FILE = 713,
-	POINT_RESULT_DATE_FILE_FREE = 714,
-	GOAL_MANAGER = 715,
-	COURSE_CLEAR = 716,
-	OTEHON_CLEAR = 717,
-	INFO_WINDOW = 718,
-	SELECT_CURSOR = 719,
-	WARNING_MANAGER = 720,
-	SEQUENCE_BG = 721,
-	GAME_OVER = 722,
-	MODE_SELECT = 723,
-	DATE_FILE = 724,
-	FILE_SELECT = 725,
-	CONTINUE = 726,
-	MINI_GAME_CANNON = 727,
-	MINI_GAME_WIRE = 728,
-	MODEL_PLAY_MANAGER = 729,
-	MODEL_PLAY_BASE = 730,
-	MODEL_PLAY_DATE = 731,
-	MODEL_PLAY_ARROW = 732,
-	MODEL_PLAY_GUIDE = 733,
-	MESSAGE_WINDOW = 734,
-	CHARACTER_CHANGE_SELECT_BASE = 735,
-	CHARACTER_CHANGE_SELECT_CONTENTS = 736,
-	CHARACTER_CHANGE_SELECT_ARROW = 737,
-	CHARACTER_CHANGE_INDICATOR = 738,
-	MULTI_COURSE_SELECT_CONTENTS = 739,
-	COLLECTION_COIN_DATE = 740,
-	CONTROLLER_INFORMATION = 741,
-	DRAW_GAME = 742,
-	STAFF_CREDIT_SCORE = 743,
-	THE_END = 744,
-	DEMO_MESSAGE = 745,
-	LETTER_WINDOW = 746,
-	DUMMY_ACTOR = 747,
-	LASTACTOR_STAGE = 748,
-	LASTACTOR = 749,
-
-	// Start of custom entries
-	PurpleCoin = 750,
-	FlipBlock = 751,
-	BonePiece = 752,
-	EventBlock = 753,
-	ShyGuy = 754,
-	ShyGuyGiant = 755,
-	Samurshai = 756,
-	Topman = 757,
-	SuperTopman = 758,
-	ElectricLine = 759,
-	SpriteSpawner = 760,
-	SpriteSwapper = 761,
-	LaunchStar = 762,
-	LeafPile = 763,
-	PlayerNumberEvent = 764,
-	GameStateEvent = 765,
-	TimeClock = 766,
-	SuperBubble = 767,
-	ExitEvent = 768,
-	NumPad = 769,
-	EN_YOSHIWINGS = 770,
-	UpsideDownEvent = 771,
-	MegaGoomba = 772,
-	PumpkinGoomba = 773,
-	Ballon = 774,
-	TripleBlock = 775,
-	NewActorSpawner = 776,
-	GreatGoalPole = 777,
-	WATER_LIFT_NEW = 778,
-	Sidestepper = 779,
-	MiniSidestepper = 780,
-	BoomBoom = 781,
-	CutsceneMgr = 782,
-	SecretGem = 783,
-	ShroobUfo = 784,
-	StarChip = 785,
-	ShyCart = 786,
-	Rail = 787,
-	WhereAmIGoing = 788,
-	WarpBox = 789,
-	Boshi = 790,
-	CloudPlattform = 791,
-	GoombaTower = 792,
-	BusuBusu = 793,
-	TikiTongBody = 794,
-	TikiTongHand = 795,
-	TikiTongCrown = 796,
-	StatsMenu = 797,
-	GreenRing = 798,
-	GreenCoin = 799,
-	Poihana = 800,
-	FlipPanel = 801,
-	Byugo = 802,
-	ShroobUFOLaserBall = 803,
-	SwitchLayer = 804,
-	PoisonShroom = 805,
-	RandomLooperEvent = 806,
-	NewActorSpawnerPath = 807,
-	NewActorSpawnerDataBank = 808,
-	UpsideDownWall = 809,
-	BarrelCannon = 810,
-	TikiAirship = 811,
-	MummyMe = 812,
-	WingTenten = 813,
-	DarkStar = 814,
-	EggBlock = 815,
-	ParaBones = 816,
-	ExclamationBlock = 817,
-	CloudPropeller = 818,
-	FishingBoo = 819,
-	NakedNokonoko = 820,
-	CreatorInfo = 821,
+	#if defined(REGION_K) || defined(REGION_W) // The Korean and Taiwanese versions have two extra profiles here. Who thought this was a good idea?
+	MULTI_COURSE_SELECT_TOURNAMENT = 702,
+	MULTI_COURSE_SELECT_TOURNAMENT_BUTTON = 703,
+	#endif
+	TIME_UP, //702
+	COURSE_TIME_UP, //703
+	YES_NO_WINDOW, //704
+	COURSE_SELECT_MANAGER, //705
+	FUKIDASHI_MANAGER, //706
+	SMALL_SCORE_MANAGER, //707
+	GAMEDISPLAY, //708
+	OTASUKE_INFO, //709
+	PAUSEWINDOW, //710
+	RESULT, //711
+	POINT_RESULT_MULTI, //712
+	POINT_RESULT_DATE_FILE, //713
+	POINT_RESULT_DATE_FILE_FREE, //714
+	GOAL_MANAGER, //715
+	COURSE_CLEAR, //716
+	OTEHON_CLEAR, //717
+	INFO_WINDOW, //718
+	SELECT_CURSOR, //719
+	WARNING_MANAGER, //720
+	SEQUENCE_BG, //721
+	GAME_OVER, //722
+	MODE_SELECT, //723
+	DATE_FILE, //724
+	FILE_SELECT, //725
+	CONTINUE, //726
+	MINI_GAME_CANNON, //727
+	MINI_GAME_WIRE, //728
+	MODEL_PLAY_MANAGER, //729
+	MODEL_PLAY_BASE, //730
+	MODEL_PLAY_DATE, //731
+	MODEL_PLAY_ARROW, //732
+	MODEL_PLAY_GUIDE, //733
+	MESSAGE_WINDOW, //734
+	CHARACTER_CHANGE_SELECT_BASE, //735
+	CHARACTER_CHANGE_SELECT_CONTENTS, //736
+	CHARACTER_CHANGE_SELECT_ARROW, //737
+	CHARACTER_CHANGE_INDICATOR, //738
+	MULTI_COURSE_SELECT_CONTENTS, //739
+	COLLECTION_COIN_DATE, //740
+	CONTROLLER_INFORMATION, //741
+	DRAW_GAME, //742
+	STAFF_CREDIT_SCORE, //743
+	THE_END, //744
+	DEMO_MESSAGE, //745
+	LETTER_WINDOW, //746
+	DUMMY_ACTOR, //747
+	LASTACTOR_STAGE, //748
+	LASTACTOR, //749
+	
+	//Beginning of new entries
+	PurpleCoin, //750
+	FlipBlock, //751
+	BonePiece, //752
+	EventBlock, //753
+	ShyGuy, //754
+	ShyGuyGiant, //755
+	Samurshai, //756
+	Topman, //757
+	SuperTopman, //758
+	ElectricLine, //759
+	SpriteSpawner, //760
+	SpriteSwapper, //761
+	LaunchStar, //762
+	LeafPile, //763
+	PlayerNumberEvent, //764
+	GameStateEvent, //765
+	TimeClock, //766
+	SuperBubble, //767
+	ExitEvent, //768
+	NumPad, //769
+	EN_YOSHIWINGS, //770
+	UpsideDownEvent, //771
+	MegaGoomba, //772
+	PumpkinGoomba, //773
+	Ballon, //774
+	TripleBlock, //775
+	NewActorSpawner, //776
+	GreatGoalPole, //777
+	WATER_LIFT_NEW, //778
+	Sidestepper, //779
+	MiniSidestepper, //780
+	BoomBoom, //781
+	CutsceneMgr, //782
+	SecretGem, //783
+	ShroobUfo, //784
+	StarChip, //785
+	ShyCart, //786
+	Rail, //787
+	WhereAmIGoing, //788
+	WarpBox, //789
+	Boshi, //790
+	CloudPlattform, //791
+	GoombaTower, //792
+	BusuBusu, //793
+	TikiTongBody, //794
+	TikiTongHand, //795
+	TikiTongCrown, //796
+	StatsMenu, //797
+	GreenRing, //798
+	GreenCoin, //799
+	Poihana, //800
+	FlipPanel, //801
+	Byugo, //802,
+	ShroobUFOLaserBall, //803
+	SwitchLayer, //804
+	PoisonShroom, //805
+	RandomLooperEvent, //806
+	NewActorSpawnerPath, //807
+	NewActorSpawnerDataBank, //808
+	UpsideDownWall, //809
+	BarrelCannon, //810
+	TikiAirship, //811
+	MummyMe, //812
+	WingTenten, //813
+	DarkStar, //814
+	EggBlock, //815
+	ParaBones, //816
+	ExclamationBlock, //817
+	CloudPropeller, //818
+	FishingBoo, //819
+	NakedNokonoko, //820
+	CreatorInfo, //821
 	
 	Num
 };

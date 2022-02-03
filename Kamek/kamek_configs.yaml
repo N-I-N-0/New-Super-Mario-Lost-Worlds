@@ -1,66 +1,72 @@
 ---
-- friendly_name: "New Super Mario Bros. Wii"
+- friendly_name: "New Super Mario Bros. Wii (PAL)"
   short_name: 'n'
   include_dirs: ['include', 'src']
+  defines: {'REGION_P'}
   multi_build: {
     pal: 'kamek_pal.x',
   }
   dynamic_link: true
   
-- friendly_name: "New Super Mario Bros. Wii"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  multi_build: {
-    pal2: 'kamek_pal2.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (PAL2)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_P2'}
+#  multi_build: {
+#    pal2: 'kamek_pal2.x',
+#  }
+#  dynamic_link: true
   
-- friendly_name: "New Super Mario Bros. Wii"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  multi_build: {
-    ntsc: 'kamek_ntsc.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (NTSC)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_N'}
+#  multi_build: {
+#    ntsc: 'kamek_ntsc.x',
+#  }
+#  dynamic_link: true
   
-- friendly_name: "New Super Mario Bros. Wii"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  multi_build: {
-    ntsc2: 'kamek_ntsc2.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (NTSC2)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_N2'}
+#  multi_build: {
+#    ntsc2: 'kamek_ntsc2.x',
+#  }
+#  dynamic_link: true
   
-- friendly_name: "New Super Mario Bros. Wii"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  multi_build: {
-    jpn: 'kamek_jpn.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (JPN)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_J'}
+#  multi_build: {
+#    jpn: 'kamek_jpn.x',
+#  }
+#  dynamic_link: true
   
-- friendly_name: "New Super Mario Bros. Wii"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  multi_build: {
-    jpn2: 'kamek_jpn2.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (JPN2)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_J2'}
+#  multi_build: {
+#    jpn2: 'kamek_jpn2.x',
+#  }
+#  dynamic_link: true
 
-- friendly_name: "New Super Mario Bros. Wii (Korean Version)"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  defines: {'REGION_K'}
-  multi_build: {
-    kor: 'kamek_kor.x',
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (Korean)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_K'}
+#  multi_build: {
+#    kor: 'kamek_kor.x',
+#  }
+#  dynamic_link: true
 
-- friendly_name: "New Super Mario Bros. Wii (Taiwan Version)"
-  short_name: 'n'
-  include_dirs: ['include', 'src']
-  defines: {'REGION_W'}
-  multi_build: {
-    twn: 'kamek_twn.x'
-  }
-  dynamic_link: true
+#- friendly_name: "New Super Mario Bros. Wii (Taiwan)"
+#  short_name: 'n'
+#  include_dirs: ['include', 'src']
+#  defines: {'REGION_W'}
+#  multi_build: {
+#    twn: 'kamek_twn.x'
+#  }
+#  dynamic_link: true
