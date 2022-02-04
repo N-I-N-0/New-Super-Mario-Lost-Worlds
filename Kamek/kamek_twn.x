@@ -1,4 +1,7 @@
 SECTIONS {
+	returnToOriginalAnimationCode1 = 0x800F51F0;
+	returnToOriginalAnimationCode2 = 0x800F51CC;
+
 	check_GROUP_CASTLE = 0x800F99A4;
 	return_after_GROUP_BOSS_script = 0x80908900;
 	not_GROUP_BOSS_script = 0x80908688;

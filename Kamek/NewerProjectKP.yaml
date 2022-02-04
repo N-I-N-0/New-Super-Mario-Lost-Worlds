@@ -158,3 +158,4 @@ modules:
   - processed/blueShell.yaml
   - processed/fishinBoo.yaml
   - processed/creatorInfo.yaml
+  - processed/worldmapAnimations.yaml

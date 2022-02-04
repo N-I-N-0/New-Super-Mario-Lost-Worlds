@@ -1,0 +1,14 @@
+---
+source_files: [../src/worldmapAnimations.cpp, ../src/worldmapAnimations.S]
+hooks:
+  - name: insert_animation_ids
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x800f51ec
+    target_func: 'insert_animation_ids'
+
+  - name: insert_animation_strings
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x800f51c8
+    target_func: 'insert_animation_strings'
