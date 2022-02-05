@@ -33,6 +33,8 @@ SECTIONS {
 	sub_80021740__15daEnBlockMain_cFv = 0x80021740;
 
 	daEnKanon_c__StateID_Walk = 0x80B17588;
+	daEnKanon_c__StateID_Turn = 0x80B175C8;
+	daEnKanon_c__StateID_Damage = 0x80B17648;
 
 	/*beginState_StarMove__12daDarkStar_cFv = 0x80A2A270;
 	executeState_StarMove__12daDarkStar_cFv = 0x80A2A300;

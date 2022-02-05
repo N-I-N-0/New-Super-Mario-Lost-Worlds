@@ -274,6 +274,30 @@ TEX_WoodBox:
 	b GetTexFilenameForR5
 
 
+.global TEX_DryBones
+TEX_DryBones:
+	lbz r5, 4(r28)
+	b GetTexFilenameForR5
+
+.global TEX_DryBones2
+TEX_DryBones2:
+	lbz r5, 4(r29)
+	b GetTexFilenameForR5
+
+.extern createChild__13dStageActor_cF6ActorsP13dStageActor_cUiP7Point3dP6S16VecUc
+.global TEX_DryBones3
+TEX_DryBones3:
+	stwu sp, -0x10(sp)
+	stw r4, 0x8(sp)
+	lbz		r4, 4(r4)
+	slwi	r4, r4, 24
+	add		r5, r5, r4
+	lwz r4, 0x8(sp)
+	addi sp, sp, 0x10
+	b		createChild__13dStageActor_cF6ActorsP13dStageActor_cUiP7Point3dP6S16VecUc
+	
+
+
 .extern returnFromSandpillar
 .global TEX_Sandpillar
 TEX_Sandpillar:

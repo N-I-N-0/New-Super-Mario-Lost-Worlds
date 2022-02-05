@@ -724,6 +724,24 @@ hooks:
   - {name: BombMouseHole5, data: '00040200', addr_pal: 0x80ACE550, type: patch}
   - {name: BombMouseHole6, data: '00040200', addr_pal: 0x80ACE55C, type: patch}
 
+  - name: TEX_DryBones
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a427d8
+    target_func: 'TEX_DryBones'
+
+  - name: TEX_DryBones2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a44ff4
+    target_func: 'TEX_DryBones2'
+
+  - name: TEX_DryBones3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80a42fd0
+    target_func: 'TEX_DryBones3'
+
   - name: TEX_YoshiEggSetColour
     type: branch_insn
     branch_type: bl

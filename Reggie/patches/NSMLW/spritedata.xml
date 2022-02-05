@@ -881,6 +881,25 @@
     <checkbox bit="44" title="Disable Goal Wall" comment="When enabled, the player can jump over the Goal Pole."/>
   </sprite> <!-- #113: Goal Pole and Fortress -->
 
+  <sprite id="118" name="Dry Bones" notes="A skeletal Koopa Troopa that cannot die from being stomped on. It will also not walk off of platforms.">
+    <checkbox bit="48" title="Immune to Lava" comment="When enabled, the Dry Bones will not 'disappear' when he touches lava."/>
+    <list nybble="5-6" title="Color" comment="This determines the color of the Dry Bone.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Dark</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Dull</entry>
+    </list>
+  </sprite> <!-- #118: Dry Bones -->
+
+  <sprite id="119" name="Giant Dry Bones" notes="A large version of the Dry Bones enemy that must be ground-pounded in order to be rendered unconscious.">
+    <list nybble="5-6" title="Color" comment="This determines the color of the Dry Bone.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Dark</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Dull</entry>
+    </list>
+  </sprite> <!-- #119: Giant Dry Bones -->
+
 <!-- Can this still be used as 'an ugly loose arrow' and placed into stages with an editable Arrow Direction? -->
   <sprite id="143" name="arrow.arc" asmhacks="True" notes="This stores many of the models used by NewerSMBW for their cinematics. &lt;font color=&quot;red&quot;&gt;This sprite freezes the game if it shows up on-screen.">
     <dependency notes="If using option 0-6 or 17-24 of the Custom Model Loader (11), you'll need one of these placed somewhere in the level. It does not have to be within a Zone.">
@@ -2914,7 +2933,7 @@
       <entry value="18">Poison Shroom</entry>
       <!--<entry value="19">Dark Star</entry>-->
     </list>
-	<dualbox bit="17" title1="Spawn Mode" title2="Normal" comment="High Jump" />
+    <dualbox bit="17" title1="Spawn Mode" title2="Normal" comment="High Jump" />
     <checkbox bit="18" title="Respawn" comment="When enabled, the leaf pile will reappear after some time." />
   </sprite> <!-- #496: Leaf Pile -->
 
@@ -3152,12 +3171,12 @@
   </sprite> <!-- #524: Goomba Tower -->
   
   <sprite id="526" name="BusuBusu" asmhacks="True" notes="A bee!">
-	<dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
+    <dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
 
-	<checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
+    <checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
     <value bit="21-28" title="Flying distance" comment="How far should we fly?" requiredbit="17" requiredval="1" />
     
-	<value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
+    <value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
     <value bit="33-40" title="currentNodeNum" comment="Start Node"  requiredbit="17" requiredval="0" />
 
     <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
@@ -3224,7 +3243,7 @@
   
   <sprite id="539" name="Random Looper Event" asmhacks="True">
     <value bit="2-8" title="Target Event ID" comment="This event will be turned on and off by this sprite." idtype="Target Event"/>
-	<value bit="10-16" title="Triggering Event ID" comment="This event determines whether the sprite is turned on or off." idtype="Triggering Event"/>
+    <value bit="10-16" title="Triggering Event ID" comment="This event determines whether the sprite is turned on or off." idtype="Triggering Event"/>
     <value nybble="5-6" title="Min Delay Activate" />
     <value nybble="7-8" title="Max Delay Activate" />
     <value nybble="9-10" title="Min Delay Deactivate" />
@@ -3241,7 +3260,7 @@
     <checkbox bit="30" title="Despawn Without Event" comment="When checked, the Actor Spawner will despawn the actor it spawned when its event is turned off." requiredbit="32" requiredval="0" />
     <checkbox bit="31" title="Save Despawn Position" comment="When checked, when the Actor Spawner despawns an actor due to its event being turned off it will move to the position the actor was just in. If the event is turned back on, the new actor will be spawned at that position." requiredbit="30, 32" requiredval="1, 0" />
 
-	
+    
     <value bit="41-48" title="Location ID" comment="If this isn't set to 0 the spawned sprite(s) will be randomly placed in the location with the ID of this field." comment2="This setting is not compatible with the Actor Spawner Path Controller!" />
     <value nybble="15-16" title="Layer" />
   </sprite>
@@ -3250,7 +3269,7 @@
     <value bit="41-48" title="Path ID" />
     <value bit="33-40" title="currentNodeNum" comment="Start Node" />
     <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
-	<value bit="21-28" title="Spawner ID" />
+    <value bit="21-28" title="Spawner ID" />
     <list bit="19-20" title="WaitMode" comment="This determines the condition for the cloud to start moving." >
       <entry value="0">Auto-start</entry>
       <entry value="1">Wait for one Player to start</entry>
@@ -3303,12 +3322,12 @@
       <entry value="4">Pink</entry>
     </list>
 
-	<dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
+    <dualbox bit="17" title1="Follow path" title2="Left &amp; right" />
 
-	<checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
+    <checkbox bit="18" title="Face right" comment="Start to the right" requiredbit="17" requiredval="1" />
     <value bit="21-28" title="Flying distance" comment="How far should we fly?" requiredbit="17" requiredval="1" />
     
-	<value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
+    <value bit="41-48" title="Path ID" requiredbit="17" requiredval="0" />
     <value bit="33-40" title="currentNodeNum" comment="Start Node"  requiredbit="17" requiredval="0" />
 
     <value bit="29-32" title="Speed" comment="Don't use speed 0!" />
@@ -3333,7 +3352,16 @@
     </list>
   </sprite> <!-- #548: Egg Block -->
 
-  <sprite id="549" name="Para Bones" asmhacks="True" notes="A Mummy Me that attacks the players.">
+  <sprite id="549" name="Para Bones" asmhacks="True" notes="A Para Bone that follows a path.">
+    <value bit="41-48" title="Path ID" comment="0 means that this Para Bone won't ever fly as there is no path to follow." />
+    <value bit="33-40" title="Start Node" />
+    <value bit="29-32" title="Speed" />
+    <list nybble="5-6" title="Color" comment="This determines the color of the Dry Bone.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Dark</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Dull</entry>
+    </list>
   </sprite> <!-- #549: Para Bones -->
 
   <sprite id="550" name="!-Block" asmhacks="True" notes="A !-Block.">
@@ -3351,7 +3379,7 @@
   <sprite id="551" name="Cloud Propeller" asmhacks="True" notes="A cloud propeller.">
     <value bit="21-28" title="Wind Length" comment="This defines the length of the wind effect."/>
     <dualbox bit="32" title1="Horizontal" title2="Vertical" comment="This determines which direction the Windmill will face."/>
-	<dualbox bit="17" title1="Left" title2="Right" comment="Only use this if you set Horizontal above." requiredbit="32" requiredval="0"/>
+    <dualbox bit="17" title1="Left" title2="Right" comment="Only use this if you set Horizontal above." requiredbit="32" requiredval="0"/>
     <value bit="37-40" title="Wind Speed" comment="This defines the speed of the wind for the player's clouds." comment2="Every cloud spriteCollision trigger, this->pos.x will gets added or subtracted the speed divided by 10"/>
   </sprite> <!-- #551: CloudPropeller -->
   
