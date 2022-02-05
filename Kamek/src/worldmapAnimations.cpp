@@ -43,6 +43,10 @@ u32 custom_map_animation_ids[] = {
 	0x19,
 	0x17,
 	//custom animations:
-	0x02,
-	
+	0x20,
+};
+
+
+u32 custom_map_animation_conversions[] = {
+	0x25, //0x20
 };

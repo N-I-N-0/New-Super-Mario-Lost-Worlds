@@ -12,3 +12,9 @@ hooks:
     branch_type: b
     src_addr_pal: 0x800f51c8
     target_func: 'insert_animation_strings'
+
+  - name: insert_animation_id_conversion
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809065c8
+    target_func: 'insert_animation_id_conversion'
