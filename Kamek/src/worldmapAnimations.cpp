@@ -46,7 +46,7 @@ u32 custom_map_animation_ids[] = {
 	0x20,
 };
 
-
-u32 custom_map_animation_conversions[] = {
-	0x25, //0x20
+#include <playerAnim.h>
+PlayerAnim custom_map_animation_conversions[] = {
+	swim, //0x20
 };
