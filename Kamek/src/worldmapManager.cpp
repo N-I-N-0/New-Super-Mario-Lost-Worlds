@@ -110,7 +110,22 @@ public:
 	
 	nw4r::lyt::TextBox
 		*worldName, *shopText, *worldNum, *cSelect, *cSelectPic;
+	
+	mEf::es2 effects[7];
+	
+	void spawnEffects();
 };
+
+void dWMManager_c::spawnEffects() {
+	const S16Vec efRot = {0x1800, 0, 0};
+	switch(CurrentWorldNumForWorldMap) {
+		case 6:
+			effects[0].spawn("Wm_mr_slipsmoke_ss", 0, &(Vec){655.0, -100.0, -230.0}, &efRot, &(Vec){25.0, 15.0, 10.0});
+			break;
+		default:
+			break;
+	}
+}
 
 dWMManager_c *dWMManager_c::instance = 0;
 
@@ -266,6 +281,8 @@ int dWMManager_c::onExecute() {
 			worldNum->SetString(worldString);
 		}
 	}
+	
+	spawnEffects();
 	
 	return true;
 }
