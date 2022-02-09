@@ -1150,6 +1150,29 @@ int dGameDisplay_c::cleanClouds() {
 	return orig_val;
 }
 
+
+void wandCurve(Vec* pos, float speed, u8 direction, u32 i) {
+	pos->x += (direction ? -i : i)*speed;
+	pos->y += (-0.01*i*i+1.5*i)*speed;
+}
+
+//WandDot lotsOfDots[4][wandDotAmount];
+void placeWandDots(dAcPy_c* player, u8 id) {
+	for(int i = 0; i < wandDotAmount; i++) {
+		Vec pos = player->pos;
+		wandCurve(&pos, 1, player->direction, i*15);
+		lotsOfDots[id][i].x = pos.x;
+		lotsOfDots[id][i].y = pos.y;
+		lotsOfDots[id][i].drawMe = true;
+	}
+}
+
+void removeWandDots(u8 id) {
+	for(int i = 0; i < wandDotAmount; i++) {
+		lotsOfDots[id][i].drawMe = false;
+	}
+}
+
 int dGameDisplay_c::doWaitCheck() {
 	int orig_val = this->onExecute_orig();
 	if(doWait > 0) {
@@ -1184,6 +1207,22 @@ int dGameDisplay_c::doWaitCheck() {
 			doWait = 30;
 		}
 	}
+	
+	
+	
+	
+	for(int i=0; i<4; i++) {
+		dAcPy_c *player = dAcPy_c::findByID(i);
+		if (CheckExistingPowerup(player) == 13 && (player->input.heldButtons & WPAD_B) /*&& cloudSpawned[i] < 3*/) {
+			//imDoneDoingVisibility = false;
+			placeWandDots(player, i);
+		}
+	}
+	
+	
+	
+	
+	
 	
 	for(int i=1; i<4; i++) {
 		dAcPy_c *player = dAcPy_c::findByID(i);

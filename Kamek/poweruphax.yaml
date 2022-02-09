@@ -1,5 +1,5 @@
 ---
-source_files: [../src/levelDrawer.cpp, ../src/poweruphax.cpp, ../src/poweruphax.S, ../src/loading.S, ../src/stockItemFix.S]
+source_files: [../src/poweruphax.cpp, ../src/poweruphax.S, ../src/loading.S, ../src/stockItemFix.S]
 hooks:
 
 #  - name: FixVanillaMap1
@@ -56,17 +56,6 @@ hooks:
     type: patch
     addr_pal: 0x809272CC
     data: '907a08e0' #Orig: 907a02f4
-
-#=====================wand dots drawer=====================#
-
-  - name: DrawWandDots
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x80830BD8
-    target_func: 'LevelDraw(void)'
-
-#=====================wand dots drawer=====================#
-
 
 #==================new_powerups_available==================#
 

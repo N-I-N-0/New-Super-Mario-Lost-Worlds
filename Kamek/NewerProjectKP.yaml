@@ -33,6 +33,7 @@ modules:
   - processed/firelaser.yaml
   - processed/spritetex.yaml
   # - processed/gakenoko.yaml
+  - processed/wandDots.yaml
   - processed/boomeranghax.yaml
   - processed/poweruphax.yaml
   - processed/statsMenu.yaml

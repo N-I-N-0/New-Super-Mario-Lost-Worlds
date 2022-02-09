@@ -22,7 +22,7 @@ class WandDot {
 		float x, y;
 		u8 size, initialSize, colourIndex;
 		int timer;
-		bool drawMe, amISetUp, colourMoveRight;
+		bool drawMe, amISetUp, colourMoveRight, visible;
 
 		void setMeUp(float, float, bool, u8, u8);
 		void sizeUpdate();
@@ -33,14 +33,14 @@ WandDot::WandDot() {
 	amISetUp = false;
 }
 
-void WandDot::setMeUp(float pX, float pY, bool pDrawMe, u8 pColourIndex = 0, u8 pSize = 16) {
+void WandDot::setMeUp(float pX, float pY, bool pDrawMe = false, u8 pColourIndex = 0, u8 pSize = 16) {
 	this->x = pX;
 	this->y = pY;
 	this->drawMe = pDrawMe;
 	this->size = pSize;
 	this->initialSize = pSize;
 	this->colourIndex = pColourIndex % 72;
-	amISetUp = true;
+	this->amISetUp = true;
 }
 
 inline void WandDot::sizeUpdate() {
@@ -236,7 +236,7 @@ void LevelDrawer::setMeUp() {
 	
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < wandDotAmount; j++) {
-			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, true, j); 
+			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, false, j); 
 		}
 	}
 	

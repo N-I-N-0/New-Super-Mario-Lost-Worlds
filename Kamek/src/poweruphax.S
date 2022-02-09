@@ -982,8 +982,8 @@ ThrowHammer:
 
 	#No need of the cloud
 
-	cmplwi r3, 13				#If the current powerup is 13, DoWand
-	beq DoWand
+	#cmplwi r3, 13				#If the current powerup is 13, DoWand
+	#beq DoWand
 
 	b ReturnFromThrowHammer		#Otherwise, return
 
