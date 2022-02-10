@@ -169,7 +169,7 @@ inline void WandDot::colourUpdate() {
 	}
 }
 
-#define wandDotAmount 15
+#define wandDotAmount 10
 WandDot lotsOfDots[4][wandDotAmount];
 
 

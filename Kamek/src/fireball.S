@@ -102,7 +102,7 @@
 __ct__16daGoldFireBall_cFv:
 	stwu r1, -0x20(r1)
 	mflr r0
-	li r3, 0x578 #Class size
+	li r3, 0x57C #Class size
 	stw r0, 0x24(r1)
 	stw r31, 0x1C(r1)
 	stw r30, 0x18(r1)

@@ -16,6 +16,7 @@ public:
 	int waitingTime;
 	daEnBlockMain_c* dataBank;
 	daEnBlockMain_c* dataBank2;
+	daEnTripleBlock_c* dataBank3;
 
 	daGoldFireBall_c(); //0x8011A5B0
 
@@ -102,24 +103,37 @@ int daGoldFireBall_c::checkForTriggerableBlock() {
 		if(dataBank2 != (daEnBlockMain_c*)1) {
 			dataBank2 = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_RENGA_BLOCK, dataBank2);
 		}
+		if(dataBank3 != (daEnTripleBlock_c*)1) {
+			dataBank3 = (daEnTripleBlock_c*)fBase_c::search(TripleBlock, dataBank3);
+		}
 
 		if(dataBank == 0) { dataBank = (daEnBlockMain_c*)1; }
 		if(dataBank2 == 0) { dataBank2 = (daEnBlockMain_c*)1; }
+		if(dataBank3 == 0) { dataBank3 = (daEnTripleBlock_c*)1; }
 
-		if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1) {
+		if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1 && dataBank3 == (daEnBlockMain_c*)1) {
 			dataBank = 0;
 			dataBank2 = 0;
+			dataBank3 = 0;
 			break;
 		}
 
         if (dataBank->pos.x == roundedX && dataBank->pos.y == roundedY && dataBank->_68D == 0) {
 			dataBank = 0;
 			dataBank2 = 0;
+			dataBank3 = 0;
             return 1;
         }
         if (dataBank2->pos.x == roundedX && dataBank2->pos.y == roundedY && dataBank2->_68D == 0) {
 			dataBank = 0;
 			dataBank2 = 0;
+			dataBank3 = 0;
+            return 1;
+        }
+		if (dataBank3->pos.x < roundedX+32 && dataBank3->pos.x >= roundedX && dataBank3->pos.y == roundedY && dataBank3->_68D == 0) {
+			dataBank = 0;
+			dataBank2 = 0;
+			dataBank3 = 0;
             return 1;
         }
     }  
@@ -260,15 +274,20 @@ int daGoldFireBall_c::onExecute() {
 			if(dataBank2 != (daEnBlockMain_c*)1) {
 				dataBank2 = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_RENGA_BLOCK, dataBank2);
 			}
+			if(dataBank3 != (daEnTripleBlock_c*)1) {
+				dataBank3 = (daEnTripleBlock_c*) fBase_c::search(TripleBlock, dataBank3);
+			}
 
 			if(dataBank == 0) { dataBank = (daEnBlockMain_c*)1; }
 			if(dataBank2 == 0) { dataBank2 = (daEnBlockMain_c*)1; }
+			if(dataBank3 == 0) { dataBank3 = (daEnTripleBlock_c*)1; }
 
-			if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1) {
+			if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1 && dataBank3 == (daEnTripleBlock_c*)1) {
 				this->radius += 16;
 				this->waitingTime = 5;
 				dataBank = 0;
 				dataBank2 = 0;
+				dataBank3 = 0;
 			}
 
 			if((((dataBank->pos.x-this->pos.x) * (dataBank->pos.x-this->pos.x)) + ((dataBank->pos.y-this->pos.y) * (dataBank->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
@@ -287,7 +306,11 @@ int daGoldFireBall_c::onExecute() {
 					dataBank2->Delete(1);
 				}
 			}
-
+			
+			if((((dataBank3->pos.x-this->pos.x) * (dataBank3->pos.x-this->pos.x)) + ((dataBank3->pos.y-this->pos.y) * (dataBank3->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
+			{
+				dataBank3->_67F = 1;
+			}
 			//OSReport("i = %d; dataBank = %d; dataBank2 = %d\n", i, dataBank, dataBank2);
 			i++;
 		}

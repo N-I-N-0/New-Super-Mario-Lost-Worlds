@@ -1273,6 +1273,10 @@ int dGameDisplay_c::doWaitCheck() {
 				if (wandChargingState[i] < 3.0f) {
 					wandChargingState[i] += 0.02f;
 				}
+				if (player->input.nowPressed & WPAD_ONE) {
+					player->pos.x = lotsOfDots[i][wandDotAmount-1].x;
+					player->pos.y = lotsOfDots[i][wandDotAmount-1].y;
+				}
 			} else {
 				removeWandDots(i);
 			}
