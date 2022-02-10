@@ -33,7 +33,7 @@ hooks:
   - name: GDisplay_cleanClouds
     type: add_func_pointer
     src_addr_pal: 0x80327A40
-    target_func: 'dGameDisplay_c::cleanClouds(void)'
+    target_func: 'dGameDisplay_c::cleanDisplay(void)'
 
   - name: BOMB_PLAYERCOLLISION_replace
     type: add_func_pointer

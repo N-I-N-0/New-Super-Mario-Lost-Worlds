@@ -22,7 +22,7 @@ class WandDot {
 		float x, y;
 		u8 size, initialSize, colourIndex;
 		int timer;
-		bool drawMe, amISetUp, colourMoveRight, visible;
+		bool drawMe, amISetUp;
 
 		void setMeUp(float, float, bool, u8, u8);
 		void sizeUpdate();
@@ -160,32 +160,6 @@ colour rainbowColours[] = {
 	0xFF0040FF,
 	0xFF002AFF,
 	0xFF0015FF
-
-
-/*	0xFF0000FF,
-	0xFF4000FF,
-	0xFF8000FF,
-	0xFFBF00FF,
-	0xFFFF00FF,
-	0xBFFF00FF,
-	0x80FF00FF,
-	0x40FF00FF,
-	0x00FF00FF,
-	0x00FF40FF,
-	0x00FF80FF,
-	0x00FFBFFF,
-	0x00FFFFFF,
-	0x00BFFFFF,
-	0x0080FFFF,
-	0x0040FFFF,
-	0x0000FFFF,
-	0x4000FFFF,
-	0x8000FFFF,
-	0xBF00FFFF,
-	0xFF00FFFF,
-	0xFF00BFFF,
-	0xFF0080FF,
-	0xFF0040FF*/
 };
 
 inline void WandDot::colourUpdate() {
@@ -195,7 +169,7 @@ inline void WandDot::colourUpdate() {
 	}
 }
 
-#define wandDotAmount 10
+#define wandDotAmount 15
 WandDot lotsOfDots[4][wandDotAmount];
 
 
@@ -236,7 +210,7 @@ void LevelDrawer::setMeUp() {
 	
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < wandDotAmount; j++) {
-			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, false, j); 
+			lotsOfDots[i][j].setMeUp(1024+4*j, -432+4*i, false, wandDotAmount-j-1); 
 		}
 	}
 	
@@ -323,18 +297,10 @@ void LevelDrawer::drawXlu() {
 			
 			GXPosition3f32(lotsOfDots[i][j].x, lotsOfDots[i][j].y, 9000.0f);
 			u8 r, g, b, a;
-			if(lotsOfDots[i][j].colourMoveRight) {
-				r = rainbowColours[72-lotsOfDots[i][j].colourIndex].r;
-				g = rainbowColours[72-lotsOfDots[i][j].colourIndex].g;
-				b = rainbowColours[72-lotsOfDots[i][j].colourIndex].b;
-				a = rainbowColours[72-lotsOfDots[i][j].colourIndex].a;
-			} else {
-				r = rainbowColours[lotsOfDots[i][j].colourIndex].r;
-				g = rainbowColours[lotsOfDots[i][j].colourIndex].g;
-				b = rainbowColours[lotsOfDots[i][j].colourIndex].b;
-				a = rainbowColours[lotsOfDots[i][j].colourIndex].a;
-			}
-			
+			r = rainbowColours[lotsOfDots[i][j].colourIndex].r;
+			g = rainbowColours[lotsOfDots[i][j].colourIndex].g;
+			b = rainbowColours[lotsOfDots[i][j].colourIndex].b;
+			a = rainbowColours[lotsOfDots[i][j].colourIndex].a;
 			GXColor4u8(r,g,b,a);
 
 			GXEnd();

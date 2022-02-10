@@ -139,7 +139,7 @@ class dGameDisplay_c : dBase_c {
         int onCreate_orig();
         int onExecute_orig();
         int doWaitCheck();
-        int cleanClouds();
+        int cleanDisplay();
         void doGlobalCoin();
         void refreshPurpleCoins(); //New
 };

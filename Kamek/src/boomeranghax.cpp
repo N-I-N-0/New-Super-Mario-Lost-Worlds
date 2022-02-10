@@ -8,6 +8,7 @@
 int doWait = 0;
 bool imDoneDoingVisibility;
 u8 cloudSpawned[4];
+u8 wandsUsed[4];
 int amIinCloud;
 bool istherelightning = false;
 int justspawnedit = 0;
@@ -1139,7 +1140,7 @@ bool doneWithGreenStars;
 bool doneWithPurpleCoins;
 extern u8 LastLevelPlayed[2];
 extern "C" void *dAcPy_c__ChangePowerupWithAnimation(void * Player, int powerup);
-int dGameDisplay_c::cleanClouds() {
+int dGameDisplay_c::cleanDisplay() {
 	int orig_val = this->onCreate_orig();
 	
 	amIinCloud = 0;
@@ -1152,15 +1153,18 @@ int dGameDisplay_c::cleanClouds() {
 
 
 void wandCurve(Vec* pos, float speed, u8 direction, u32 i) {
-	pos->x += (direction ? -i : i)*speed;
-	pos->y += (-0.01*i*i+1.5*i)*speed;
+	float x = i;
+	pos->x += (direction ? -x : x)*speed;
+	pos->y += -0.01*x*x+1.5*x;
 }
+
+float wandChargingState[4];
 
 //WandDot lotsOfDots[4][wandDotAmount];
 void placeWandDots(dAcPy_c* player, u8 id) {
 	for(int i = 0; i < wandDotAmount; i++) {
 		Vec pos = player->pos;
-		wandCurve(&pos, 1, player->direction, i*15);
+		wandCurve(&pos, wandChargingState[id], player->direction, i*15);
 		lotsOfDots[id][i].x = pos.x;
 		lotsOfDots[id][i].y = pos.y;
 		lotsOfDots[id][i].drawMe = true;
@@ -1173,6 +1177,54 @@ void removeWandDots(u8 id) {
 	}
 }
 
+
+void setPowerupBars(u8 count, nw4r::lyt::Picture* oneActive, nw4r::lyt::Picture* twoActive, nw4r::lyt::Picture* threeActive,
+									nw4r::lyt::Picture* oneInactive, nw4r::lyt::Picture* twoInactive, nw4r::lyt::Picture* threeInactive) {
+	switch(count) {
+		case 0:
+			oneActive->SetVisible(true);
+			twoActive->SetVisible(true);
+			threeActive->SetVisible(true);
+			oneInactive->SetVisible(false);
+			twoInactive->SetVisible(false);
+			threeInactive->SetVisible(false);
+			break;
+		case 1:
+			oneActive->SetVisible(false);
+			twoActive->SetVisible(true);
+			threeActive->SetVisible(true);
+			oneInactive->SetVisible(true);
+			twoInactive->SetVisible(false);
+			threeInactive->SetVisible(false);
+			break;
+		case 2:
+			oneActive->SetVisible(false);
+			twoActive->SetVisible(false);
+			threeActive->SetVisible(true);
+			oneInactive->SetVisible(true);
+			twoInactive->SetVisible(true);
+			threeInactive->SetVisible(false);
+			break;
+		case 3:
+			oneActive->SetVisible(false);
+			twoActive->SetVisible(false);
+			threeActive->SetVisible(false);
+			oneInactive->SetVisible(true);
+			twoInactive->SetVisible(true);
+			threeInactive->SetVisible(true);
+			break;
+		default:								//if count not in (0...3) disable powerup bar
+			oneActive->SetVisible(false);
+			twoActive->SetVisible(false);
+			threeActive->SetVisible(false);
+			oneInactive->SetVisible(false);
+			twoInactive->SetVisible(false);
+			threeInactive->SetVisible(false);
+	}
+}
+
+
+
 int dGameDisplay_c::doWaitCheck() {
 	int orig_val = this->onExecute_orig();
 	if(doWait > 0) {
@@ -1183,7 +1235,7 @@ int dGameDisplay_c::doWaitCheck() {
 
 	dAcPy_c *player = dAcPy_c::findByID(0);
 	int p = CheckExistingPowerup(player);
-	if(player->input.nowPressed & WPAD_B) {
+	if(player->input.nowPressed & WPAD_MINUS) {
 		enableDebugMode = !enableDebugMode;
 	}
 	
@@ -1213,9 +1265,17 @@ int dGameDisplay_c::doWaitCheck() {
 	
 	for(int i=0; i<4; i++) {
 		dAcPy_c *player = dAcPy_c::findByID(i);
-		if (CheckExistingPowerup(player) == 13 && (player->input.heldButtons & WPAD_B) /*&& cloudSpawned[i] < 3*/) {
-			//imDoneDoingVisibility = false;
-			placeWandDots(player, i);
+		if (CheckExistingPowerup(player) == 13) {
+			if(player->input.nowPressed & WPAD_B) {
+				wandChargingState[i] = 1.0f;
+			} else if (player->input.heldButtons & WPAD_B) {
+				placeWandDots(player, i);
+				if (wandChargingState[i] < 3.0f) {
+					wandChargingState[i] += 0.02f;
+				}
+			} else {
+				removeWandDots(i);
+			}
 		}
 	}
 	
@@ -1256,208 +1316,126 @@ int dGameDisplay_c::doWaitCheck() {
 		}
 	}
 	if(!imDoneDoingVisibility) {
-		nw4r::lyt::Picture *P_cloud_00;
-		nw4r::lyt::Picture *P_cloud_01;
-		nw4r::lyt::Picture *P_cloud_02;
-		nw4r::lyt::Picture *P_cloudOff_00;
-		nw4r::lyt::Picture *P_cloudOff_01;
-		nw4r::lyt::Picture *P_cloudOff_02;
-		P_cloud_00 = layout.findPictureByName("P_cloud_00");
-		P_cloud_01 = layout.findPictureByName("P_cloud_01");
-		P_cloud_02 = layout.findPictureByName("P_cloud_02");
-		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_00");
-		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_01");
-		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_02");
+		nw4r::lyt::Picture *oneActive;
+		nw4r::lyt::Picture *twoActive;
+		nw4r::lyt::Picture *threeActive;
+		nw4r::lyt::Picture *oneInactive;
+		nw4r::lyt::Picture *twoInactive;
+		nw4r::lyt::Picture *threeInactive;
+		
+		p = CheckExistingPowerup(dAcPy_c::findByID(0));
+	
+		oneActive = layout.findPictureByName("P_cloud_00");
+		twoActive = layout.findPictureByName("P_cloud_01");
+		threeActive = layout.findPictureByName("P_cloud_02");
+		oneInactive = layout.findPictureByName("P_cloudOff_00");
+		twoInactive = layout.findPictureByName("P_cloudOff_01");
+		threeInactive = layout.findPictureByName("P_cloudOff_02");
 		if(p == 12) {
-			if(cloudSpawned[0] == 0) {
-				P_cloud_00->SetVisible(true);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(false);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[0] == 1) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[0] == 2) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[0] == 3) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(false);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(true);
-			}
-		}
-		else {
-			P_cloud_00->SetVisible(false);
-			P_cloud_01->SetVisible(false);
-			P_cloud_02->SetVisible(false);
-			P_cloudOff_00->SetVisible(false);
-			P_cloudOff_01->SetVisible(false);
-			P_cloudOff_02->SetVisible(false);
-		}
-		
-		P_cloud_00 = layout.findPictureByName("P_cloud_03");
-		P_cloud_01 = layout.findPictureByName("P_cloud_05");
-		P_cloud_02 = layout.findPictureByName("P_cloud_04");
-		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_05");
-		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_04");
-		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_03");
-		if(CheckExistingPowerup(dAcPy_c::findByID(1))) {
-			if(cloudSpawned[1] == 0) {
-				P_cloud_00->SetVisible(true);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(false);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[1] == 1) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[1] == 2) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[1] == 3) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(false);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(true);
-			} 
+			setPowerupBars(cloudSpawned[0], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		} else {
-			P_cloud_00->SetVisible(false);
-			P_cloud_01->SetVisible(false);
-			P_cloud_02->SetVisible(false);
-			P_cloudOff_00->SetVisible(false);
-			P_cloudOff_01->SetVisible(false);
-			P_cloudOff_02->SetVisible(false);
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		}
 		
-		
-		P_cloud_00 = layout.findPictureByName("P_cloud_06");
-		P_cloud_01 = layout.findPictureByName("P_cloud_08");
-		P_cloud_02 = layout.findPictureByName("P_cloud_07");
-		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_08");
-		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_07");
-		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_06");
-		if(CheckExistingPowerup(dAcPy_c::findByID(2))) {
-			if(cloudSpawned[2] == 0) {
-				P_cloud_00->SetVisible(true);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(false);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[2] == 1) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[2] == 2) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[2] == 3) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(false);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(true);
-			} 
+		oneActive = layout.findPictureByName("P_wand1");
+		twoActive = layout.findPictureByName("P_wand2");
+		threeActive = layout.findPictureByName("P_wand3");
+		oneInactive = layout.findPictureByName("P_wandOff1");
+		twoInactive = layout.findPictureByName("P_wandOff2");
+		threeInactive = layout.findPictureByName("P_wandOff3");
+		if(p == 13) {
+			setPowerupBars(wandsUsed[0], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		} else {
-			P_cloud_00->SetVisible(false);
-			P_cloud_01->SetVisible(false);
-			P_cloud_02->SetVisible(false);
-			P_cloudOff_00->SetVisible(false);
-			P_cloudOff_01->SetVisible(false);
-			P_cloudOff_02->SetVisible(false);
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		}
 		
 		
-		P_cloud_00 = layout.findPictureByName("P_cloud_09");
-		P_cloud_01 = layout.findPictureByName("P_cloud_11");
-		P_cloud_02 = layout.findPictureByName("P_cloud_10");
-		P_cloudOff_00 = layout.findPictureByName("P_cloudOff_11");
-		P_cloudOff_01 = layout.findPictureByName("P_cloudOff_10");
-		P_cloudOff_02 = layout.findPictureByName("P_cloudOff_09");
-		if(CheckExistingPowerup(dAcPy_c::findByID(3))) {
-			if(cloudSpawned[3] == 0) {
-				P_cloud_00->SetVisible(true);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(false);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[3] == 1) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(true);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(false);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[3] == 2) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(true);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(false);
-			}
-			if(cloudSpawned[3] == 3) {
-				P_cloud_00->SetVisible(false);
-				P_cloud_01->SetVisible(false);
-				P_cloud_02->SetVisible(false);
-				P_cloudOff_00->SetVisible(true);
-				P_cloudOff_01->SetVisible(true);
-				P_cloudOff_02->SetVisible(true);
-			} 
+		
+		p = CheckExistingPowerup(dAcPy_c::findByID(1));
+			
+		oneActive = layout.findPictureByName("P_cloud_03");
+		twoActive = layout.findPictureByName("P_cloud_05");
+		threeActive = layout.findPictureByName("P_cloud_04");
+		oneInactive = layout.findPictureByName("P_cloudOff_05");
+		twoInactive = layout.findPictureByName("P_cloudOff_04");
+		threeInactive = layout.findPictureByName("P_cloudOff_03");
+		if(p == 12) {
+			setPowerupBars(cloudSpawned[1], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		} else {
-			P_cloud_00->SetVisible(false);
-			P_cloud_01->SetVisible(false);
-			P_cloud_02->SetVisible(false);
-			P_cloudOff_00->SetVisible(false);
-			P_cloudOff_01->SetVisible(false);
-			P_cloudOff_02->SetVisible(false);
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		}
+
+		oneActive = layout.findPictureByName("P_wand11");
+		twoActive = layout.findPictureByName("P_wand21");
+		threeActive = layout.findPictureByName("P_wand31");
+		oneInactive = layout.findPictureByName("P_wandOff11");
+		twoInactive = layout.findPictureByName("P_wandOff21");
+		threeInactive = layout.findPictureByName("P_wandOff31");
+		if(p == 13) {
+			setPowerupBars(wandsUsed[1], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		} else {
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		}
+
+
+		
+		p = CheckExistingPowerup(dAcPy_c::findByID(2));
+		
+		oneActive = layout.findPictureByName("P_cloud_06");
+		twoActive = layout.findPictureByName("P_cloud_08");
+		threeActive = layout.findPictureByName("P_cloud_07");
+		oneInactive = layout.findPictureByName("P_cloudOff_08");
+		twoInactive = layout.findPictureByName("P_cloudOff_07");
+		threeInactive = layout.findPictureByName("P_cloudOff_06");
+		if(p == 12) {
+			setPowerupBars(cloudSpawned[2], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		} else {
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
 		}
 		
+		oneActive = layout.findPictureByName("P_wand12");
+		twoActive = layout.findPictureByName("P_wand22");
+		threeActive = layout.findPictureByName("P_wand32");
+		oneInactive = layout.findPictureByName("P_wandOff12");
+		twoInactive = layout.findPictureByName("P_wandOff22");
+		threeInactive = layout.findPictureByName("P_wandOff32");
+		if(p == 13) {
+			setPowerupBars(wandsUsed[2], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		} else {
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		}
+
 		
+		
+		p = CheckExistingPowerup(dAcPy_c::findByID(3));
+		
+		oneActive = layout.findPictureByName("P_cloud_09");
+		twoActive = layout.findPictureByName("P_cloud_11");
+		threeActive = layout.findPictureByName("P_cloud_10");
+		oneInactive = layout.findPictureByName("P_cloudOff_11");
+		twoInactive = layout.findPictureByName("P_cloudOff_10");
+		threeInactive = layout.findPictureByName("P_cloudOff_09");
+		if(p == 12) {
+			setPowerupBars(cloudSpawned[3], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		} else {
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		}
+		
+		oneActive = layout.findPictureByName("P_wand13");
+		twoActive = layout.findPictureByName("P_wand23");
+		threeActive = layout.findPictureByName("P_wand33");
+		oneInactive = layout.findPictureByName("P_wandOff13");
+		twoInactive = layout.findPictureByName("P_wandOff23");
+		threeInactive = layout.findPictureByName("P_wandOff33");
+		if(p == 13) {
+			setPowerupBars(wandsUsed[3], oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		} else {
+			setPowerupBars(-1, oneActive, twoActive, threeActive, oneInactive, twoInactive, threeInactive);
+		}
+
+
+
+
 		imDoneDoingVisibility = true;
 	}
 
