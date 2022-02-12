@@ -5,13 +5,15 @@
 #include <stage.h>
 #include <profile.h>
 #include "boss.h"
+#include "liq.h"
 
 #define NUMBER_OF_MINIS 3
 
 const char* SidestepperArcNameList [] = 
 {
-	
 	"test_lift",
+	"block_taru",
+	"kanibo",
 	NULL
 };
 
@@ -137,7 +139,7 @@ public:
 	mHeapAllocator_c allocator;
 	m3d::mdl_c bodyModel;
 	nw4r::g3d::ResFile resFile;
-	m3d::anmChr_c chrAnimation;
+	m3d::anmChr_c animationChr;
 
 	u64 eventFlag;
 	u32 delay;
@@ -257,12 +259,10 @@ CREATE_STATE(daSidestepper_c, Outro);
 
 void daSidestepper_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr(name);
-	this->chrAnimation.bind(&this->bodyModel, anmChr, unk);
-	this->bodyModel.bindAnim(&this->chrAnimation, unk2);
-	this->chrAnimation.setUpdateRate(rate);
+	this->animationChr.bind(&this->bodyModel, anmChr, unk);
+	this->bodyModel.bindAnim(&this->animationChr, unk2);
+	this->animationChr.setUpdateRate(rate);
 }
-
-
 
 // Extra collision conditions:
 
@@ -397,7 +397,7 @@ int daSidestepper_c::onCreate() {
 	this->nullRot = (S16Vec){0, 0, 0};
 	this->efScale = (Vec){2.0f, 1.0f, 1.0f};
 
-	target = GetSpecificPlayerActor(0); //target is mario
+	target = GetSpecificPlayerActor(NearestPlayer(this)); //target is mario
 
 
 	this->randomnum = 0;
@@ -424,24 +424,7 @@ int daSidestepper_c::onCreate() {
 	SetupTextures_Boss(&bodyModel, 0);
 
 	nw4r::g3d::ResAnmChr anmChr = resFile.GetResAnmChr("wait");
-	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
-
-
-	//
-	/*
-
-	mdl = this->resFile.GetResMdl("bubble_fog_CS");
-	fogModel.setup(mdl, &allocator, 0x124, 1, 0);
-
-	nw4r::g3d::ResAnmTexSrt anmRes = this->resFile.GetResAnmTexSrt("wait_proj");
-	this->fogSRT.setup(mdl, anmRes, &this->allocator, 0, 1);
-	this->fogSRT.bindEntry(&this->fogModel, anmRes, 0, 0);
-	this->fogModel.bindAnim(&this->fogSRT, 0.0);
-
-	*/
-	//
-
-
+	this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
 
 	allocator.unlink();
 
@@ -467,8 +450,7 @@ int daSidestepper_c::onCreate() {
 	this->scale.y = 0.15;
 	this->scale.z = 0.15;
 
-	//This make it Layer 0
-	//this->pos.z = -1000.0; //before 3300.0
+	this->pos.z = -1000.0;
 	this->pos.y -= 1;
 
 	this->startposx = pos.x;
@@ -527,8 +509,8 @@ int daSidestepper_c::onExecute() {
 	bodyModel._vf1C();
 	fogModel._vf1C();
 
-	if (this->chrAnimation.isAnimationDone()) {
-		this->chrAnimation.setCurrentFrame(0.0);
+	if (this->animationChr.isAnimationDone()) {
+		this->animationChr.setCurrentFrame(0.0);
 	}
 	
 	for (int i = 0; i < NUMBER_OF_MINIS; i++) {
@@ -590,6 +572,7 @@ void daSidestepper_c::beginState_Hit()
 
 void daSidestepper_c::executeState_Hit()
 {
+
 	if (timer > 120)
 	{
 		doStateChange(&StateID_Bury);
@@ -641,6 +624,8 @@ void daSidestepper_c::beginState_Walk()
 {
 	this->timer = 0;
 	this->randomnum += 1;
+
+	target = GetSpecificPlayerActor(NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
@@ -750,20 +735,21 @@ void daSidestepper_c::beginState_Projectiles()
 		round0 = true;
 	}
 
+	target = GetSpecificPlayerActor(NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
 		bindAnimChr_and_setUpdateRate("projectileRotRight", 1, 0.0, 1.0);
 		this->right = true;
 		this->left = false;
-		this->posrock = (Vec){ pos.x + 20.0 , pos.y + 20.0 , 0 };
+		this->posrock = (Vec){ pos.x + 20.0 , pos.y + 20.0 , -1500 };
 	}
 	else if (target->pos.x < pos.x)
 	{
 		bindAnimChr_and_setUpdateRate("projectileRotLeft", 1, 0.0, 1.0);
 		this->left = true;
 		this->right = false;
-		this->posrock = (Vec){ pos.x - 20.0 , pos.y + 20.0 , 0 };
+		this->posrock = (Vec){ pos.x - 20.0 , pos.y + 20.0 , -1500 };
 	}
 }
 
@@ -1194,6 +1180,7 @@ void daSidestepper_c::executeState_Actors()
 			if (timer == 51)
 			{
 				this->barrel = CreateActor(418, 0, this->posbarrel, 0, 0);
+				this->barrel->pos.z = -1000.0;
 
 				if (this->enemy[0] == NULL)
 				{
@@ -1239,7 +1226,7 @@ void daSidestepper_c::beginState_MoveSand()
 void daSidestepper_c::executeState_MoveSand()
 {
 	
-
+	target = GetSpecificPlayerActor(NearestPlayer(this));
 
 	this->timer += 1;
 
@@ -1336,6 +1323,8 @@ void daSidestepper_c::beginState_Run()
 	{
 		this->rndmspeedr = 4;
 	}
+
+	target = GetSpecificPlayerActor(NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
@@ -1513,7 +1502,7 @@ void daSidestepper_c::executeState_Outro()
 	ret = ShrinkBoss(this, &this->pos, 0.4, this->timer);
 
 	if (ret == true) {
-		this->pos.z = 10000.0;
+		this->pos.z = 3000.0; 
 		BossExplode(this, &this->pos);
 		this->dying = 1;
 		this->timer = 0;
