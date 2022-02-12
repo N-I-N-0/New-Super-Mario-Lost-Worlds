@@ -303,10 +303,17 @@ TEX_DryBones3:
 TEX_Sandpillar:
 	lwz r5, 4(r29)
 	cmpwi r5, 1
-	bne returnToSandpillar
+	blt- returnToSandpillar
 
+	bgt- TEX_Icepillar
+	
 	lis r5, Waterpillar@h
 	ori r5, r5, Waterpillar@l
+	b returnFromSandpillar
+
+TEX_Icepillar:
+	lis r5, Icepillar@h
+	ori r5, r5, Icepillar@l
 	b returnFromSandpillar
 
 returnToSandpillar:
@@ -319,45 +326,66 @@ returnToSandpillar:
 .extern returnFromWaterwaveIn1
 .global waterwave_in1
 waterwave_in1:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne waterwave_in1_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- waterwave_in1_return
 	
+	bgt- waterwave_in1_ice
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+	b waterwave_in1_return
+
+waterwave_in1_ice:
 	lis r4, Wm_mr_waterwave_in@h
 	ori r4, r4, Wm_mr_waterwave_in@l
 
 waterwave_in1_return:
-	addi r3, r28, 0x1420                #restored instruction
+	li r5, 0x0              			#restored instruction
 	b returnFromWaterwaveIn1
 
 
 .extern returnFromWaterwaveIn2
 .global waterwave_in2
 waterwave_in2:
-	lwz r3, 4(r30)
-	cmpwi r3, 1
-	bne waterwave_in2_return
+	lwz r5, 4(r30)
+	cmpwi r5, 1
+	blt- waterwave_in2_return
 	
+	bgt- waterwave_in2_ice
+	
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+	b waterwave_in2_return
+	
+waterwave_in2_ice:
 	lis r4, Wm_mr_waterwave_in@h
 	ori r4, r4, Wm_mr_waterwave_in@l
 
 waterwave_in2_return:
-	addi r3, r30, 0x1420                #restored instruction
+	li r5, 0x0      	          		#restored instruction
 	b returnFromWaterwaveIn2
 
 
 .extern returnFromWaterwaveIn3
 .global waterwave_in3
 waterwave_in3:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne waterwave_in3_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- waterwave_in3_return
+	
+	bgt- waterwave_in3_ice
 	
 	lis r4, Wm_mr_waterwave_in@h
 	ori r4, r4, Wm_mr_waterwave_in@l
+	b waterwave_in3_return
+
+waterwave_in3_ice:
+	lis r4, Wm_mr_waterwave_in@h
+	ori r4, r4, Wm_mr_waterwave_in@l
+	
 
 waterwave_in3_return:
-	addi r3, r28, 0x1420                #restored instruction
+	li r5, 0x0                			#restored instruction
 	b returnFromWaterwaveIn3
 
 
@@ -366,45 +394,66 @@ waterwave_in3_return:
 .extern returnFromWaterwaveOut1
 .global waterwave_out1
 waterwave_out1:
-	lwz r3, 4(r30)
-	cmpwi r3, 1
-	bne waterwave_out1_return
+	lwz r5, 4(r30)
+	cmpwi r5, 1
+	blt- waterwave_out1_return
 	
+	bgt- waterwave_out1_ice
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+	b waterwave_out1_return
+
+waterwave_out1_ice:
 	lis r4, Wm_mr_waterwave_out@h
 	ori r4, r4, Wm_mr_waterwave_out@l
 
 waterwave_out1_return:
-	addi r3, r30, 0x12f8                #restored instruction
+	li r5, 0x0                			#restored instruction
 	b returnFromWaterwaveOut1
 
 
 .extern returnFromWaterwaveOut2
 .global waterwave_out2
 waterwave_out2:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne waterwave_out2_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- waterwave_out2_return
 	
+	bgt- waterwave_out2_ice
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+	b waterwave_out2_return
+
+waterwave_out2_ice:
 	lis r4, Wm_mr_waterwave_out@h
 	ori r4, r4, Wm_mr_waterwave_out@l
 
 waterwave_out2_return:
-	addi r3, r28, 0x12f8                #restored instruction
+	li r5, 0x0                			#restored instruction
 	b returnFromWaterwaveOut2
 
 
 .extern returnFromWaterwaveOut3
 .global waterwave_out3
 waterwave_out3:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne waterwave_out3_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- waterwave_out3_return
 	
+	bgt- waterwave_out3_ice
+	
+	lis r4, Wm_mr_waterwave_out@h
+	ori r4, r4, Wm_mr_waterwave_out@l
+	b waterwave_out3_return
+
+waterwave_out3_ice:
 	lis r4, Wm_mr_waterwave_out@h
 	ori r4, r4, Wm_mr_waterwave_out@l
 
 waterwave_out3_return:
-	addi r3, r28, 0x12f8                #restored instruction
+	li r5, 0x0                			#restored instruction
 	b returnFromWaterwaveOut3
 
 
@@ -412,72 +461,108 @@ waterwave_out3_return:
 .extern returnFromWatersplash1
 .global watersplash1
 watersplash1:
-	lwz r5, 4(r30)
-	cmpwi r5, 1
-	bne watersplah1_return
+	lwz r4, 4(r30)
+	cmpwi r4, 1
+	blt- watersplash1_return
+	
+	bgt- watersplah1_ice
 	
 	lis r3, Wm_en_watersplash@h
 	ori r3, r3, Wm_en_watersplash@l
+	b watersplash1_return
 
-watersplah1_return:
-	addi r5, r1, 0x10                   #restored instruction
+watersplah1_ice:
+	lis r3, Wm_en_watersplash@h
+	ori r3, r3, Wm_en_watersplash@l
+	
+watersplash1_return:
+	li r4, 0                   #restored instruction
 	b returnFromWatersplash1
+
 
 .extern returnFromWatersplash2
 .global watersplash2
 watersplash2:
-	lwz r0, 4(r30)
-	cmpwi r0, 1
-	bne watersplah2_return
+	lwz r4, 4(r30)
+	cmpwi r4, 1
+	blt- watersplash2_return
+	
+	bgt- watersplah2_ice
 	
 	lis r3, Wm_en_watersplash@h
 	ori r3, r3, Wm_en_watersplash@l
+	b watersplash2_return
+	
+watersplah2_ice:
+	lis r3, Wm_en_watersplash@h
+	ori r3, r3, Wm_en_watersplash@l
 
-watersplah2_return:
-	lfs f2, 0x0(r31)                   #restored instruction
+watersplash2_return:
+	li r4, 0                   #restored instruction
 	b returnFromWatersplash2
 
 
 .extern returnFromWater021
 .global water021
 water021:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne water021_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- water021_return
+	
+	bgt- water021_ice
 	
 	lis r4, Wm_en_burst_water02@h
 	ori r4, r4, Wm_en_burst_water02@l
-
+	b water021_return
+	
+water021_ice:
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+	
 water021_return:
-	lfs f2, 0xac(r28)                   #restored instruction
+	li r5, 0                   #restored instruction
 	b returnFromWater021
 
 .extern returnFromWater022
 .global water022
 water022:
-	lwz r3, 4(r28)
-	cmpwi r3, 1
-	bne water022_return
+	lwz r5, 4(r28)
+	cmpwi r5, 1
+	blt- water022_return
 	
+	bgt- water022_ice
+	
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+	b water022_return
+	
+water022_ice:
 	lis r4, Wm_en_burst_water02@h
 	ori r4, r4, Wm_en_burst_water02@l
 
 water022_return:
-	lfs f2, 0xac(r28)                   #restored instruction
+	li r5, 0                   #restored instruction
 	b returnFromWater022
 
 .extern returnFromWater023
 .global water023
 water023:
-	lwz r3, 4(r30)
-	cmpwi r3, 1
-	bne water023_return
+	lwz r5, 4(r30)
+	cmpwi r5, 1
+	blt- water023_return
 	
+	bgt- water023_ice
+	
+	lis r4, Wm_en_burst_water02@h
+	ori r4, r4, Wm_en_burst_water02@l
+	b water023_return
+
+water023_ice:
 	lis r4, Wm_en_burst_water02@h
 	ori r4, r4, Wm_en_burst_water02@l
 
 water023_return:
-	addi r3, r30, 0x1548                #restored instruction
+	li r5, 0                   #restored instruction
 	b returnFromWater023
 
 
@@ -485,15 +570,22 @@ water023_return:
 .extern returnFromFloatSplash
 .global floatSplash
 floatSplash:
-	lwz r6, 4(r30)
-	cmpwi r6, 1
-	bne floatSplash_return
+	lwz r4, 4(r28)
+	cmpwi r4, 1
+	blt- floatSplash_return
 	
+	bgt- floatSplash_ice
+	
+	lis r3, Wm_mr_wfloatsplash@h
+	ori r3, r3, Wm_mr_wfloatsplash@l
+	b floatSplash_return
+
+floatSplash_ice:
 	lis r3, Wm_mr_wfloatsplash@h
 	ori r3, r3, Wm_mr_wfloatsplash@l
 
 floatSplash_return:
-	lfs f0, 0x7590(r4)                   #restored instruction
+	li r4, 0                   #restored instruction
 	b returnFromFloatSplash
 
 
@@ -501,8 +593,8 @@ floatSplash_return:
 .global NoEffectWalking
 NoEffectWalking:
 	lwz r6, 4(r30)
-	cmpwi r6, 1
-	beq NoEffectWalking_return
+	cmpwi r6, 0
+	bgt- NoEffectWalking_return
 	stb r0, 0x12e3(r30)                  #restored instruction
 
 NoEffectWalking_return:
@@ -516,6 +608,8 @@ Waterpillar:
 Sandpillar:
 	.string "g3d/sandpillar.brres"
 
+Icepillar:
+	.string "g3d/Icepillar.brres"
 
 Wm_mr_waterwave_in:
 	.string "Wm_mr_waterwave_in"

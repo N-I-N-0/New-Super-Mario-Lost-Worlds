@@ -54,22 +54,22 @@ SECTIONS {
 	returnTo80783CE8 = 0x80783BF8;
 
 	returnFromSandpillar = 0x80801ED8;
-	returnFromWaterwaveIn1 = 0x80803128;
-	returnFromWaterwaveIn2 = 0x808036B0;
-	returnFromWaterwaveIn3 = 0x808032A4;
+	returnFromWaterwaveIn1 = 0x80803138;
+	returnFromWaterwaveIn2 = 0x808036C0;
+	returnFromWaterwaveIn3 = 0x808032B4;
 
-	returnFromWaterwaveOut1 = 0x80803684;
-	returnFromWaterwaveOut2 = 0x80803278;
-	returnFromWaterwaveOut3 = 0x808030FC;
+	returnFromWaterwaveOut1 = 0x80803694;
+	returnFromWaterwaveOut2 = 0x80803288;
+	returnFromWaterwaveOut3 = 0x8080310C;
 
-	returnFromWatersplash1 = 0x80802EB4;
-	returnFromWatersplash2 = 0x80802C98;
+	returnFromWatersplash1 = 0x80802EBC;
+	returnFromWatersplash2 = 0x80802CB8;
 
-	returnFromWater021 = 0x808032D0;
-	returnFromWater022 = 0x80803088;
-	returnFromWater023 = 0x80802EFC;
+	returnFromWater021 = 0x808032E8;
+	returnFromWater022 = 0x808030A0;
+	returnFromWater023 = 0x80802F0C;
 
-	returnFromFloatSplash = 0x80802494;
+	returnFromFloatSplash = 0x808024A4;
 
 	returnFromNoEffectWalking = 0x80801E18;
 

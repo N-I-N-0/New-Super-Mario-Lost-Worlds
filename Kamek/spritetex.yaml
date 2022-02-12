@@ -67,73 +67,73 @@ hooks:
   - name: Waterwave_in1
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80803384
+    src_addr_pal: 0x80803394
     target_func: 'waterwave_in1'
 
   - name: Waterwave_in2
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x8080390c
+    src_addr_pal: 0x8080391c
     target_func: 'waterwave_in2'
 
   - name: Waterwave_in3
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80803500
+    src_addr_pal: 0x80803510
     target_func: 'waterwave_in3'
 
   - name: Waterwave_out1
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x808038e0
+    src_addr_pal: 0x808038f0
     target_func: 'waterwave_out1'
 
   - name: Waterwave_out2
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x808034d4
+    src_addr_pal: 0x808034e4
     target_func: 'waterwave_out2'
 
   - name: Waterwave_out3
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80803358
+    src_addr_pal: 0x80803368
     target_func: 'waterwave_out3'
 
   - name: watersplash1
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80803110
+    src_addr_pal: 0x80803118
     target_func: 'watersplash1'
 
   - name: watersplash2
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80802ef4
+    src_addr_pal: 0x80802f14
     target_func: 'watersplash2'
 
   - name: water021
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x8080352C
+    src_addr_pal: 0x80803544
     target_func: 'water021'
 
   - name: water022
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x808032e4
+    src_addr_pal: 0x808032fc
     target_func: 'water022'
 
   - name: water023
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80803158
+    src_addr_pal: 0x80803168
     target_func: 'water023'
 
   - name: floatSplash
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x808026f0
+    src_addr_pal: 0x80802700
     target_func: 'floatSplash'
 
   - name: NoEffectMovingUp

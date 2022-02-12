@@ -1658,6 +1658,14 @@
     <value nybble="12" title="Ray ID" comment="This determines which Jumbo Ray Respawner will influence the respawn of this Jumbo Ray." idtype="Ray"/>
   </sprite> <!-- #224: Jumbo Ray -->
   
+  <sprite id="229" name="Sand/Water/Ice Pillar" notes="A pillar that pushes the player upwards and can be stood on.">
+    <list nybble="12" title="Color" comment="This determines the model and effects of the pillar.">
+      <entry value="0">Sand</entry>
+      <entry value="1">Water</entry>
+      <entry value="2">Ice</entry>
+    </list>
+  </sprite> <!-- #229: Sand/Water/Ice Pillar -->
+  
   <sprite id="230" name="Bramball" asmhacks="True" noyoshi="True" notes="A long-legged enemy with a ball for a body that will flip itself around as it traverses terrain with proper spacing. Rumor has it that if it is struck from below with a Pipe Cannon, a large amount of coins will appear. Kaching!">
     <dependency notes="For a Bramball to want to move, he must have solid terrain exactly 4 blocks from his legs."/>
     <list nybble="6" title="Style" comment="This determines the color and style of the Bramball.">
@@ -3356,6 +3364,7 @@
     <value bit="41-48" title="Path ID" comment="0 means that this Para Bone won't ever fly as there is no path to follow." />
     <value bit="33-40" title="Start Node" />
     <value bit="29-32" title="Speed" />
+	<checkbox bit="25" title="Immune to Lava" comment="When enabled, the Dry Bones will not 'disappear' when he touches lava."/>
     <list nybble="5-6" title="Color" comment="This determines the color of the Dry Bone.">
       <entry value="0">Normal</entry>
       <entry value="1">Dark</entry>
