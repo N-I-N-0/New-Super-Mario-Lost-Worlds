@@ -12,8 +12,7 @@ extern "C" void destroyBarrel(dStageActor_c*);
 
 const char* MiniSidestepperArcNameList[] =
 {
-
-	"test_lift",
+	"sidestepper",
 	NULL
 };
 
@@ -186,11 +185,11 @@ int daMiniSidestepper_c::onCreate() {
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
 	// Model settings. First string is arc name, second string is brres name inside arc, third string is mdl0 name inside brres.
-	this->resFile.data = getResource("test_lift", "g3d/test_lift.brres");
+	this->resFile.data = getResource("sidestepper", "g3d/sidestepper.brres");
 
-	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("test_lift");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("sidestepper");
 	bodyModel.setup(mdl, &this->allocator, 0x224, 1, 0);
-	SetupTextures_MapObj(&bodyModel, 0);
+	SetupTextures_Boss(&bodyModel, 0);
 
 	nw4r::g3d::ResAnmChr anmChr = resFile.GetResAnmChr("wait");
 	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
