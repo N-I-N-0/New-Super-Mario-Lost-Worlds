@@ -17,8 +17,6 @@ const char* SidestepperArcNameList [] =
 	NULL
 };
 
-extern "C" void destroyBarrel(dStageActor_c*);
-
 
 class daMiniSidestepper_c : public dEn_c {
 public:
@@ -329,7 +327,7 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 
 	blah->doSpriteMovement();
 	blah->doSpriteMovement();
-
+	
 	this->pos.x -= blah->speed.x;
 
 	Vec oneVec = { 1.0f, 1.0f, 1.0f };
@@ -344,7 +342,7 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 	PlaySound(this, SE_EMY_BLOW_PAKKUN_DOWN);
 	
 	SpawnEffect("Wm_mr_kickhit", 0, &blah->pos, &nullRot, &oneVec);
-
+	
 	this->damage += 5;
 
 
@@ -397,7 +395,7 @@ int daSidestepper_c::onCreate() {
 	this->nullRot = (S16Vec){0, 0, 0};
 	this->efScale = (Vec){2.0f, 1.0f, 1.0f};
 
-	target = GetSpecificPlayerActor(NearestPlayer(this)); //target is mario
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this)); //target is mario
 
 
 	this->randomnum = 0;
@@ -431,9 +429,9 @@ int daSidestepper_c::onCreate() {
 	// Physics settings. Use hitbox debug mode to test hitbox, [Press "-" 16 times on star coin menu].
 	ActivePhysics::Info Physics;
 	Physics.xDistToCenter = 0.0;
-	Physics.yDistToCenter = 0.0;
-	Physics.xDistToEdge = 32.0;
-	Physics.yDistToEdge = 53.0;
+	Physics.yDistToCenter = 20.0;
+	Physics.xDistToEdge = 25.0;
+	Physics.yDistToEdge = 25.0;
 	Physics.category1 = 0x3;
 	Physics.category2 = 0x0;
 	Physics.bitfield1 = 0x4F;
@@ -625,7 +623,7 @@ void daSidestepper_c::beginState_Walk()
 	this->timer = 0;
 	this->randomnum += 1;
 
-	target = GetSpecificPlayerActor(NearestPlayer(this));
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
@@ -735,21 +733,21 @@ void daSidestepper_c::beginState_Projectiles()
 		round0 = true;
 	}
 
-	target = GetSpecificPlayerActor(NearestPlayer(this));
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
 		bindAnimChr_and_setUpdateRate("projectileRotRight", 1, 0.0, 1.0);
 		this->right = true;
 		this->left = false;
-		this->posrock = (Vec){ pos.x + 20.0 , pos.y + 20.0 , -1500 };
+		this->posrock = (Vec){ pos.x + 20.0 , pos.y + 20.0 , -1000 };
 	}
 	else if (target->pos.x < pos.x)
 	{
 		bindAnimChr_and_setUpdateRate("projectileRotLeft", 1, 0.0, 1.0);
 		this->left = true;
 		this->right = false;
-		this->posrock = (Vec){ pos.x - 20.0 , pos.y + 20.0 , -1500 };
+		this->posrock = (Vec){ pos.x - 20.0 , pos.y + 20.0 , -1000 };
 	}
 }
 
@@ -1050,7 +1048,7 @@ void daSidestepper_c::executeState_Projectiles()
 
 	if (round0)
 	{
-		if (this->timer > 401)
+		if (this->timer > 400)
 		{
 			this->round0 = false;
 			this->round1 = false;
@@ -1062,7 +1060,7 @@ void daSidestepper_c::executeState_Projectiles()
 	}
 	if (round1)
 	{
-		if (this->timer > 489)
+		if (this->timer > 488)
 		{
 			this->round0 = false;
 			this->round1 = false;
@@ -1226,7 +1224,7 @@ void daSidestepper_c::beginState_MoveSand()
 void daSidestepper_c::executeState_MoveSand()
 {
 	
-	target = GetSpecificPlayerActor(NearestPlayer(this));
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this));
 
 	this->timer += 1;
 
@@ -1324,7 +1322,7 @@ void daSidestepper_c::beginState_Run()
 		this->rndmspeedr = 4;
 	}
 
-	target = GetSpecificPlayerActor(NearestPlayer(this));
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{
