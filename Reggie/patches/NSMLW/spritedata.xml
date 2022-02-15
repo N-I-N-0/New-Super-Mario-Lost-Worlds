@@ -3397,5 +3397,8 @@
 
   <sprite id="553" name="Naked Koopa" asmhacks="True" notes="A Koopa who lost his shell!">
   </sprite> <!-- #553: Naked Koopa -->
+  
+  <sprite id="554" name="Birdo" asmhacks="True" notes="Birdo.">
+  </sprite> <!-- #554: Birdo -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

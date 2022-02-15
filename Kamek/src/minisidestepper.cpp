@@ -554,6 +554,8 @@ void daMiniSidestepper_c::beginState_Outro()
 	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
 
 	pos.z = 5000.0;
+
+	this->removeMyActivePhysics();
 }
 
 void daMiniSidestepper_c::executeState_Outro()

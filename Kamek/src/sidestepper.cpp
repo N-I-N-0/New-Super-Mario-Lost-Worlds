@@ -517,6 +517,17 @@ int daSidestepper_c::onExecute() {
 		}
     }
 	
+	if ((dStageActor_c*)fBase_c::search(BLOCK_TARU))
+	{
+		if (acState.getCurrentState() != &StateID_Actors)
+		{	
+			if (barrel->pos.x < (this->pos.x + 30.0) && barrel->pos.x > (this->pos.x - 30.0))
+			{
+				if (barrel->pos.y < (this->pos.y + 30.0) && barrel->pos.y > (this->pos.y - 30.0))
+					destroyBarrel(barrel);
+			}
+		}
+	}
 
 	return true;
 }

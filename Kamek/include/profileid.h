@@ -576,6 +576,8 @@ enum
 	CloudPropeller = 551,
 	FishingBoo = 552,
 	NakedNokonoko = 553,
+	Kyasarin = 554,
+	KyasarinEgg = 555,
 
 	Num
 };
@@ -1415,6 +1417,8 @@ enum
 	FishingBoo, //819
 	NakedNokonoko, //820
 	CreatorInfo, //821
+	Kyasarin, //822
+	KyasarinEgg, //823
 	
 	Num
 };

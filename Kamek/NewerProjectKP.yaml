@@ -160,3 +160,5 @@ modules:
   - processed/fishinBoo.yaml
   - processed/creatorInfo.yaml
   - processed/worldmapAnimations.yaml
+  - processed/kyasarin.yaml
+  - processed/kyasarinegg.yaml

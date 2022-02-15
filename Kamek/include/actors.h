@@ -832,6 +832,8 @@ enum Actors {
 	FishingBoo, //819
 	NakedNokonoko, //820
 	CreatorInfo, //821
+	Kyasarin, //822
+	KyasarinEgg, //823
 };
 
 struct Actor {
