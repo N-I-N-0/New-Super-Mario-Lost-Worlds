@@ -110,7 +110,7 @@ CREATE_STATE(daKyasarin_c, Spit);
 CREATE_STATE(daKyasarin_c, Die);
 
 void daKyasarin_c::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.translation(pos.x, pos.y + 16.0, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 
 	bodyModel.setDrawMatrix(matrix);
@@ -306,7 +306,7 @@ int daKyasarin_c::onCreate() {
 
 	ActivePhysics::Info HitMeBaby; 
 	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 18.0; 
+	HitMeBaby.yDistToCenter = 34.0; 
 	HitMeBaby.xDistToEdge = 10.0; 
 	HitMeBaby.yDistToEdge = 18.0; 
 	HitMeBaby.category1 = 0x3; 
@@ -405,10 +405,10 @@ void daKyasarin_c::executeState_Spit()
 		switch (directionforround)
 		{
 		case 'l':
-			eggpos = (Vec){pos.x - 12.0, pos.y + 24.0, pos.z + 4};
+			eggpos = (Vec){pos.x - 12.0, pos.y + 40.0, pos.z + 4};
 			break;
 		case 'r':
-			eggpos = (Vec){pos.x + 12.0, pos.y + 24.0, pos.z + 4};
+			eggpos = (Vec){pos.x + 12.0, pos.y + 40.0, pos.z + 4};
 			break;
 		default:
 			break;
