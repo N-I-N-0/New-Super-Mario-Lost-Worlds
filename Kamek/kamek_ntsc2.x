@@ -1,4 +1,7 @@
 SECTIONS {
+	Delete_ICEACTORs__11freezeMgr_cFv = 0x800B8850;
+	daIce_c__breakReq = 0x8011EB00;
+
 	returnToOriginalAnimationCode1 = 0x800F50E0;
 	returnToOriginalAnimationCode2 = 0x800F50BC;
 	returnToOriginalAnimationCode3 = 0x809065E8;

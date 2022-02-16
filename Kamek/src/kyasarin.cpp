@@ -110,7 +110,7 @@ CREATE_STATE(daKyasarin_c, Spit);
 CREATE_STATE(daKyasarin_c, Die);
 
 void daKyasarin_c::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y + 16.0, pos.z);
+	matrix.translation(pos.x, pos.y - 16.0, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 
 	bodyModel.setDrawMatrix(matrix);
@@ -270,7 +270,7 @@ extern "C" void __destroy_arr(void*, void(*)(void), int, int);
 //extern "C" __destroy_arr(struct DoSomethingCool, void(*)(void), int cnt, int bar);
 
 bool daKyasarin_c::CreateIceActors() {
-	struct DoSomethingCool my_struct = { 0, this->pos, {1.7, 2.2, 1.5}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	struct DoSomethingCool my_struct = { 0, (Vec){pos.x, pos.y - 16.0, pos.z}, {1.7, 2.2, 1.5}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	this->frzMgr.Create_ICEACTORs((void*)&my_struct, 1);
 	__destroy_arr((void*)&my_struct, sub_80024C20, 0x3C, 1);
 	animationChr.setUpdateRate(0.0f);
@@ -306,7 +306,7 @@ int daKyasarin_c::onCreate() {
 
 	ActivePhysics::Info HitMeBaby; 
 	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 34.0; 
+	HitMeBaby.yDistToCenter = 2.0; 
 	HitMeBaby.xDistToEdge = 10.0; 
 	HitMeBaby.yDistToEdge = 18.0; 
 	HitMeBaby.category1 = 0x3; 
@@ -405,10 +405,10 @@ void daKyasarin_c::executeState_Spit()
 		switch (directionforround)
 		{
 		case 'l':
-			eggpos = (Vec){pos.x - 12.0, pos.y + 40.0, pos.z + 4};
+			eggpos = (Vec){pos.x - 12.0, pos.y + 8.0, pos.z + 4};
 			break;
 		case 'r':
-			eggpos = (Vec){pos.x + 12.0, pos.y + 40.0, pos.z + 4};
+			eggpos = (Vec){pos.x + 12.0, pos.y + 8.0, pos.z + 4};
 			break;
 		default:
 			break;

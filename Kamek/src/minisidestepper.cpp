@@ -5,6 +5,7 @@
 #include <stage.h>
 #include <profile.h>
 #include "boss.h"
+#include "liq.h"
 
 //Yeah... I know... This is a lazy copy of the sidestepper boss... But it works! -LiQ | 02/06/21 11:13am
 
@@ -169,7 +170,7 @@ int daMiniSidestepper_c::onCreate() {
 	this->nullRot = (S16Vec){ 0, 0, 0 };
 	this->efScale = (Vec){ 1.0f, 0.5f, 1.0f };
 
-	target = GetSpecificPlayerActor(0); //target is mario
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this)); //target is mario
 
 
 	this->randomnum = 0;
@@ -399,6 +400,8 @@ void daMiniSidestepper_c::beginState_Walk()
 {
 	this->timer = 0;
 	this->randomnum += 1;
+
+	target = GetSpecificPlayerActor(LiQ::NearestPlayer(this));
 
 	if (target->pos.x > pos.x)
 	{

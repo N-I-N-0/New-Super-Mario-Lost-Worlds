@@ -7,6 +7,8 @@
 #include "boss.h"
 #include "liq.h"
 
+extern "C" void daIce_c__breakReq(fBase_c* ice, int directionMaybe, int playerID);
+
 #define NUMBER_OF_MINIS 3
 
 const char* SidestepperArcNameList [] = 
@@ -311,9 +313,15 @@ bool daSidestepper_c::collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhy
 }
 bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther) {
 	// When player throws object at sprite
-	
+
 	dActor_c* block = apOther->owner;
 	dEn_c* blah = (dEn_c*)block;
+
+	if (blah->name == ICE_ACTOR)
+	{
+		daIce_c__breakReq(blah, 0, -1);
+		return true;
+	}
 
 	if (blah->direction == 0) { blah->direction = 1; }
 	else { blah->direction = 0; }
@@ -333,6 +341,7 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 	Vec oneVec = { 1.0f, 1.0f, 1.0f };
 	if (acState.getCurrentState() == &StateID_Bury || acState.getCurrentState() == &StateID_BackUp || acState.getCurrentState() == &StateID_Hit)
 	{
+		if (apOther->owner->name != BLOCK_TARU) { return true; }
 		destroyBarrel(blah);
 		return true;
 	}
@@ -793,7 +802,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -808,7 +817,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -848,7 +857,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -863,7 +872,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -878,7 +887,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -893,7 +902,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -937,7 +946,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -952,7 +961,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -992,7 +1001,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -1007,7 +1016,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -1022,7 +1031,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -1037,7 +1046,7 @@ void daSidestepper_c::executeState_Projectiles()
 				S16Vec nullRot = { 0,0,0 };
 				Vec oneVec = { 1.5f, 1.5f, 1.5f };
 				SpawnEffect("Wm_mr_hardhit_glow", 0, &interneffectpos, &nullRot, &oneVec);
-				this->rock = CreateActor(287, 1 << 0, this->posrock, 0, 0);
+				this->rock = CreateActor(EN_KANITAMA, 1 << 0, this->posrock, 0, 0);
 				PlaySound(this, SE_EMY_KANIBO_THROW);
 			}
 
@@ -1126,7 +1135,7 @@ void daSidestepper_c::beginState_Actors()
 {
 	this->timer = 0;
 
-	if ((dStageActor_c*)fBase_c::search(BLOCK_TARU))
+	if (this->barrel = (dStageActor_c*)fBase_c::search(BLOCK_TARU))
 	{
 		destroyBarrel(barrel);
 	}
@@ -1188,28 +1197,26 @@ void daSidestepper_c::executeState_Actors()
 		{
 			if (timer == 51)
 			{
-				this->barrel = CreateActor(418, 0, this->posbarrel, 0, 0);
+				this->barrel = CreateActor(BLOCK_TARU, 0, this->posbarrel, 0, 0);
 				this->barrel->pos.z = -1000.0;
 
 				if (this->enemy[0] == NULL)
 				{
-					this->enemy[0] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[0] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
 					this->enemy[0]->bossFlag = true;
 				}
 				else if (this->enemy[1] == NULL)
 				{
-					this->enemy[1] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[1] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
 					this->enemy[1]->bossFlag = true;	
 				}
 				else if (this->enemy[2] == NULL)
 				{
-					this->enemy[2] = (daMiniSidestepper_c*)CreateActor(780, 0, this->posenemy, 0, 0);
+					this->enemy[2] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
 					this->enemy[2]->bossFlag = true;	
 				}
 			}
-			barrel->pos.y += 2.0;
-			barrel->pos.y += 2.0;
-			barrel->pos.y += 2.0;
+			barrel->pos.y += 6.0;
 		}
 	}
 	if (timer > 73)
@@ -1400,7 +1407,6 @@ void daSidestepper_c::executeState_Run()
 
 	if (this->damage != 10) 
 	{
-		OSReport("Damage value: %x\n", this->damage);
 		if (this->timer > 230)
 		{
 			doStateChange(&StateID_Bury);
