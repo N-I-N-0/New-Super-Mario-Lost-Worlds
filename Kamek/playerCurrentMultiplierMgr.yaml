@@ -18,3 +18,17 @@ hooks:
     branch_type: b
     src_addr_pal: 0x8013140c
     target_func: 'setWaterMultiplier3'
+
+  - name: lilySpeedFix
+    type: patch
+    data: "ec00002a"        #fadds f0, f0, f0 (mulli 2)
+    addr_pal: 0x80ac5a18
+
+  - name: lilySpeedFix2
+    type: patch
+    data: "d01e00e8"        #store 2*current as speed.x
+    addr_pal: 0x80ac5a1c
+
+  - name: lilyDirectionFix
+    type: nop_insn
+    area_pal: 0x80ac5a20    #remove another broken instruction
