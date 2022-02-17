@@ -355,17 +355,15 @@ bool daSidestepper_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActiveP
 	this->damage += 5;
 
 
-	if (this->damage > this->lives)
-	{
-		if (enemy[0] != NULL)
-			enemy[0]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
-		if (enemy[1] != NULL)
-			enemy[1]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
-		if (enemy[2] != NULL)
-			enemy[2]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
+	if (this->damage > this->lives) {	
+		for (int i = 0; i < NUMBER_OF_MINIS; i++) {
+			if(enemy[i] != NULL) {
+				enemy[i]->doStateChange(&daMiniSidestepper_c::StateID_Outro);
+			}
+		}
+		
 		doStateChange(&StateID_Outro);
-	}
-	else { 
+	} else {
 		this->fastwalkafterhit = true;
 		doStateChange(&StateID_Hit); 
 	}
@@ -1183,8 +1181,16 @@ void daSidestepper_c::executeState_Actors()
 		SpawnEffect("Wm_mr_sanddive_smk", 0, &this->barreleffect, &nullRot, &efScale);
 
 		//Create Effect at crabs pos
-		if (this->enemy[1] == NULL || this->enemy[0] == NULL || this->enemy[2] == NULL)
-		{
+		
+		bool anyEnemyNull = false;
+		for (int i = 0; i < NUMBER_OF_MINIS; i++) {
+			if(enemy[i] == NULL) {
+				anyEnemyNull = true;
+				break;
+			}
+		}
+
+		if (anyEnemyNull) {
 			this->enemyeffect = (Vec){ this->posenemy.x, this->BaseLine, 0 };
 			SpawnEffect("Wm_mr_sanddive_out", 0, &this->enemyeffect, &nullRot, &efScale);
 			SpawnEffect("Wm_mr_sanddive_smk", 0, &this->enemyeffect, &nullRot, &efScale);
@@ -1199,22 +1205,15 @@ void daSidestepper_c::executeState_Actors()
 			{
 				this->barrel = CreateActor(BLOCK_TARU, 0, this->posbarrel, 0, 0);
 				this->barrel->pos.z = -1000.0;
+				
+				for (int i = 0; i < NUMBER_OF_MINIS; i++) {
+					if(enemy[i] == NULL) {
+						this->enemy[i] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
+						this->enemy[i]->bossFlag = true;
+						break;
+					}
+				}
 
-				if (this->enemy[0] == NULL)
-				{
-					this->enemy[0] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
-					this->enemy[0]->bossFlag = true;
-				}
-				else if (this->enemy[1] == NULL)
-				{
-					this->enemy[1] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
-					this->enemy[1]->bossFlag = true;	
-				}
-				else if (this->enemy[2] == NULL)
-				{
-					this->enemy[2] = (daMiniSidestepper_c*)CreateActor(MiniSidestepper, 0, this->posenemy, 0, 0);
-					this->enemy[2]->bossFlag = true;	
-				}
 			}
 			barrel->pos.y += 6.0;
 		}
