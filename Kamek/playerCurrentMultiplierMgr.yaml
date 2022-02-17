@@ -1,0 +1,20 @@
+---
+source_files: [../src/playerCurrentMultiplierMgr.cpp, ../src/playerCurrentMultiplierMgr.S]
+hooks:
+  - name: setWaterMultiplier
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80131d14
+    target_func: 'setWaterMultiplier'
+
+  - name: setWaterMultiplier2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80131ee0
+    target_func: 'setWaterMultiplier2'
+
+  - name: setWaterMultiplier3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8013140c
+    target_func: 'setWaterMultiplier3'

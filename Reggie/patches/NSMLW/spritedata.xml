@@ -3403,5 +3403,9 @@
   
   <sprite id="555" name="Birdo Egg" asmhacks="True" notes="A Birdo Egg.">
   </sprite> <!-- #555: Birdo Egg -->
+  
+  <sprite id="556" name="Player River Current Multiplier Manager" asmhacks="True" notes="Modifies the players movement speed when in TAG_WATER.">
+    <value bit="17-48" title="Speed Multiplier:" comment="This re-defines the speed of the player in TAG_WATER."/>
+  </sprite> <!-- #556: Player River Current Multiplier Manager -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

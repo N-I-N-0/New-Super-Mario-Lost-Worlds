@@ -578,6 +578,7 @@ enum
 	NakedNokonoko = 553,
 	Kyasarin = 554,
 	KyasarinEgg = 555,
+	PlCrMgr = 556,
 
 	Num
 };
@@ -1419,6 +1420,7 @@ enum
 	CreatorInfo, //821
 	Kyasarin, //822
 	KyasarinEgg, //823
+	PlCrMgr, //824
 	
 	Num
 };

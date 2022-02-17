@@ -103,7 +103,7 @@ modules:
   - processed/DebugMenu.yaml
   - processed/icefix.yaml
   - processed/yoshi.yaml
-  - processed/UpsideDown.yaml
+  #- processed/UpsideDown.yaml
   - processed/glasPipes.yaml
   - processed/ballon.yaml
   - processed/pinkKoopa.yaml
@@ -162,3 +162,5 @@ modules:
   - processed/worldmapAnimations.yaml
   - processed/kyasarin.yaml
   - processed/kyasarinegg.yaml
+#  - processed/playerPhysics.yaml
+  - processed/playerCurrentMultiplierMgr.yaml

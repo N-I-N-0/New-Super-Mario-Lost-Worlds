@@ -1,4 +1,8 @@
 SECTIONS {
+	returnFromWaterMultiplier = 0x80131D18;
+	returnFromWaterMultiplier2 = 0x80131EE4;
+	returnFromWaterMultiplier3 = 0x80131410;
+
 	Delete_ICEACTORs__11freezeMgr_cFv = 0x800B88A0;
 	daIce_c__breakReq = 0x8011EC40;
 
