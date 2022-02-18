@@ -164,3 +164,4 @@ modules:
   - processed/kyasarinegg.yaml
 #  - processed/playerPhysics.yaml
   - processed/playerCurrentMultiplierMgr.yaml
+  - processed/windColorMgr.yaml

@@ -1,4 +1,6 @@
 SECTIONS {
+	returnFromWindColor = 0x8088C1C0;
+
 	returnFromWaterMultiplier = 0x801320E8;
 	returnFromWaterMultiplier2 = 0x801322B4;
 	returnFromWaterMultiplier3 = 0x801317E0;

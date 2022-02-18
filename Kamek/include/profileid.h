@@ -579,6 +579,7 @@ enum
 	Kyasarin = 554,
 	KyasarinEgg = 555,
 	PlCrMgr = 556,
+	WindColorMgr = 557,
 
 	Num
 };
@@ -1421,6 +1422,7 @@ enum
 	Kyasarin, //822
 	KyasarinEgg, //823
 	PlCrMgr, //824
+	WindColorMgr, // 825,
 	
 	Num
 };

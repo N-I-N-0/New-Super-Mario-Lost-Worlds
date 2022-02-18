@@ -835,6 +835,7 @@ enum Actors {
 	Kyasarin, //822
 	KyasarinEgg, //823
 	PlCrMgr, //824
+	WindColorMgr, // 825
 };
 
 struct Actor {

@@ -3407,5 +3407,11 @@
   <sprite id="556" name="Player River Current Multiplier Manager" asmhacks="True" notes="Modifies the players movement speed when in TAG_WATER.">
     <value bit="17-48" title="Speed Multiplier" comment="This re-defines the speed of the player in TAG_WATER."/>
   </sprite> <!-- #556: Player River Current Multiplier Manager -->
+
+  <sprite id="557" name="Wind Color Manager" asmhacks="True" notes="Modifies the color of the sand storm wind.">
+    <value bit="25-32" title="Red" />
+    <value bit="33-40" title="Green" />
+    <value bit="41-48" title="Blue" />
+  </sprite> <!-- #557: Wind Color Manager -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

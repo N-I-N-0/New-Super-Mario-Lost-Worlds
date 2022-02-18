@@ -13,7 +13,7 @@
 #include "rvl/GXBump.h"
 #include "rvl/GXVert.h"
 #include "rvl/vifuncs.h"
-
+#include "colour.h"
 
 class WandDot {
 	public:
@@ -56,13 +56,6 @@ inline void WandDot::sizeUpdate() {
 	}
 	this->timer++;
 }
-
-struct colour {
-	union {
-		u32 all;
-		struct { u8 r, g, b, a; };
-	};
-};
 
 colour rainbowColours[] = {
 	0xFF0000FF,
