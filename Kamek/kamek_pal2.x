@@ -1,4 +1,8 @@
 SECTIONS {
+	returnFromCheckWarpCannon1 = 0x80102598;
+	returnFromCheckWarpCannon2 = 0x80102578;
+	returnFromDontResetLevelNode = 0x8092764C;
+
 	returnFromWindColor = 0x80887F50;
 
 	returnFromWaterMultiplier = 0x80131D18;
@@ -2439,7 +2443,7 @@ SECTIONS {
 	aI_star_4 = 0x80983320;
 	aI_propeller_model_2 = 0x80983344;
 
-	goToSpecificWorld__Fiii = 0x801027A0;
+	goToSpecificWorld__Fcc = 0x801027A0;
 	AssembleScWorldMapSettings__FUcii = 0x80102B70;
 	DoShitWithWMPlayer__Fi = 0x809075A0;
 

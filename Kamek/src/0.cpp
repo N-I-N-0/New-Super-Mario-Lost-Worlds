@@ -71,7 +71,7 @@ extern char aWorld2;
 //extern int reportCrashAdress;
 
 
-extern int goToSpecificWorld(int world, int supworld, int node);
+extern void goToSpecificWorld(u8 world, u8 subworld);
 
 
 

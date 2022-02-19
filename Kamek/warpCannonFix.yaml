@@ -1,0 +1,15 @@
+---
+
+source_files: [../src/warpCannonFix.S]
+hooks:
+  - name: checkWarpCannon
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80102530
+    target_func: 'checkWarpCannon'
+
+#  - name: dontResetLevelNode
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80927628
+#    target_func: 'dontResetLevelNode'

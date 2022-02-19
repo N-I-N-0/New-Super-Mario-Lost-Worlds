@@ -165,3 +165,4 @@ modules:
 #  - processed/playerPhysics.yaml
   - processed/playerCurrentMultiplierMgr.yaml
   - processed/windColorMgr.yaml
+  - processed/warpCannonFix.yaml
