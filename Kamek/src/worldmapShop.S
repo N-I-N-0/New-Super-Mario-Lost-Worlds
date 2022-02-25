@@ -8,6 +8,8 @@
 .extern LAB_809042ec       #if B pressed
 .extern makeShopShowUp__Fv
 .extern isBPressed__Fv
+.extern makeLevelCreditsShowUp__Fv
+.extern isShakingForCredits__Fv
 
 .global checkIfBIsPressed
 checkIfBIsPressed:
@@ -36,6 +38,10 @@ doBCheckFirst:
 	cmpwi      r3, 0
 	bgt        showShop
 	
+	bl isShakingForCredits__Fv
+	cmpwi      r3, 0
+	bgt        showLevelCredits
+	
 	lwz r31, 0x10(sp)
 	lwz r30, 0x14(sp)
 	lwz r29, 0x18(sp)
@@ -56,6 +62,29 @@ doBCheckFirst:
 
 showShop:
 	bl makeShopShowUp__Fv
+
+	lwz r31, 0x10(sp)
+	lwz r30, 0x14(sp)
+	lwz r29, 0x18(sp)
+	lwz r28, 0x1C(sp)
+	lwz r27, 0x20(sp)
+	lwz r26, 0x24(sp)
+	lwz r25, 0x28(sp)
+	lwz r24, 0x2C(sp)
+	lwz r6, 0x30(sp)
+	lwz r5, 0x34(sp)
+	lwz r3, 0x38(sp)
+	lwz r0, 0x3C(sp)
+	mtlr	r0
+	lwz r0, 0x44(sp)
+	addi	sp, sp, 0x40
+	
+	b LAB_809042ec
+
+
+
+showLevelCredits:
+	bl makeLevelCreditsShowUp__Fv
 
 	lwz r31, 0x10(sp)
 	lwz r30, 0x14(sp)

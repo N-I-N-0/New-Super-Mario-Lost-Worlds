@@ -1423,6 +1423,7 @@ enum
 	KyasarinEgg, //823
 	PlCrMgr, //824
 	WindColorMgr, // 825,
+	WMShop, //826
 	
 	Num
 };

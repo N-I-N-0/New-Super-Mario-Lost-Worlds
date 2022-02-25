@@ -25,7 +25,7 @@
 
 class dWMShop_c : public dActor_c {
 	public:
-		static dWMShop_c *build();
+		static dActor_c* build();
 		static dWMShop_c *instance;
 
 		dWMShop_c();
@@ -139,6 +139,9 @@ class dWMShop_c : public dActor_c {
 };
 
 #endif
+
+const char* WMShopFileList[] = {NULL};
+Profile WMShopProfile(&dWMShop_c::build, ProfileId::WMShop, NULL, ProfileId::WMShop, ProfileId::WMShop, "WMShop", WMShopFileList);
 
 extern int PtrToWM_CS_SEQ_MNG;
 extern "C" bool FUN_801017c0(int, int, int, int, int);
@@ -287,7 +290,7 @@ void dWMShop_c::ShopModel_c::draw() {
 
 dWMShop_c *dWMShop_c::instance = 0;
 
-dWMShop_c *dWMShop_c::build() {
+dActor_c* dWMShop_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(dWMShop_c));
 	dWMShop_c *c = new(buffer) dWMShop_c;
 

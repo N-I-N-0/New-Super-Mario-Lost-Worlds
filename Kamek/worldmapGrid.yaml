@@ -38,3 +38,50 @@ hooks:
     type: patch
     addr_pal: 0x80926c20
     data: '281c0015'                #one more file please
+
+
+
+
+
+
+
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010af98
+#    data: '38600800 38800800 38a00006'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010aed8
+#    data: '38a00040'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010aee8
+#    data: '38c00040'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010ae58
+#    data: '38a00040'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010ae4c
+#    data: '1c1f1000'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010aec8
+#    data: '38000040'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010ae60
+#    data: '38c00040 38e00006'
+
+#  - name: tiletest
+#    type: patch
+#    addr_pal: 0x8010aafc
+#    data: '38a00800 38c00800 38e00006'

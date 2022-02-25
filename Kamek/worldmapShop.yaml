@@ -1,11 +1,6 @@
 ---
 source_files: [../src/worldmapShop.cpp, ../src/worldmapShop.S]
 hooks:
-  - name: BuildWMShop # WM_GRID
-    type: add_func_pointer
-    src_addr_pal: 0x80982f34
-    target_func: 'dWMShop_c::build(void)'
-    
   - name: fixDrawForShop
     type: nop_insn
     area_pal: 0x80926800
