@@ -35,8 +35,8 @@ class dCreatorInfo_c : public dActor_c {
 		int onExecute();
 		int onDraw();
 
-		bool layoutLoaded;
 		m2d::EmbedLayout_c layout;
+		bool layoutLoaded;
 
 		bool visible;
 		
@@ -108,7 +108,7 @@ dActor_c *dCreatorInfo_c::build() {
 	return c;
 }
 
-dCreatorInfo_c::dCreatorInfo_c() : state(this, &StateID_Hidden) {
+dCreatorInfo_c::dCreatorInfo_c() : layout(), state(this, &StateID_Hidden) {
 	layoutLoaded = false;
 	visible = false;
 }
@@ -122,7 +122,7 @@ int dCreatorInfo_c::onCreate() {
 		
 		OSReport("gotFile!\n");
 
-		static const char *brlanNames[18] = {
+		static const char *brlanNames[] = {
 			"BonusCourseSelect_inWindow.brlan",
 			"BonusCourseSelect_inPause.brlan",
 			"BonusCourseSelect_outPause.brlan",
@@ -143,53 +143,25 @@ int dCreatorInfo_c::onCreate() {
 			"BonusCourseSelect_offButton.brlan",
 		};
 
-		static const char *groupNames[36] = {
+		static const char *groupNames[4] = {
 			"A00_Window",
-			"D00_Pause",
-			"D00_Pause",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
-			"E00_arrowL", "E01_arrowR", "E02_arrowCL", "E03_arrowCR",
 			"F00_page",
 			"F00_page",
 			"A00_Window",
-			"C00_BG",
-			"B02_centerButton",
-			"B02_centerButton",
-			"B02_centerButton",
-			"B02_centerButton",
-			"B02_centerButton",
 		};
 
-		static const int groupIDs[36] = {
+		static const int groupIDs[4] = {
 			0,
-			1,
-			2,
-			3, 3, 3, 3,
-			4, 4, 4, 4,
-			5, 5, 5, 5,
-			6, 6, 6, 6,
-			7, 7, 7, 7, 
-			8, 8, 8, 8, 
 			9,
 			10,
 			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
 		};
 
 		layout.build("BonusCourseSelect.brlyt");
 		OSReport("Build layout!\n");
-		//layout.loadAnimations(brlanNames, 18);
+		layout.loadAnimations(brlanNames, 18);
 		OSReport("Loaded Animations!\n");
-		layout.loadGroups(groupNames, groupIDs, 36);
+		layout.loadGroups(groupNames, groupIDs, 4);
 		OSReport("Loaded Groups!\n");
 		layout.disableAllAnimations();
 		OSReport("Disabled all animations!\n");
@@ -198,19 +170,14 @@ int dCreatorInfo_c::onCreate() {
 
 		layoutLoaded = true;
 
-		Samples[0] = layout.findPictureByName("P_LevelSample_00");
-		Samples[1] = layout.findPictureByName("P_LevelSample_01");
-		PFPs[0] = layout.findPictureByName("P_author_00");
-		PFPs[1] = layout.findPictureByName("P_author_01");
+		//Samples[0] = layout.findPictureByName("P_LevelSample_00");
+		//PFPs[0] = layout.findPictureByName("P_author_00");
 
 		OSReport("found something 1\n");
 
-		LevelNames[0] = layout.findTextBoxByName("T_titleMulti_00");
-		LevelNames[1] = layout.findTextBoxByName("T_titleMulti_01");
-		AuthorNames[0] = layout.findTextBoxByName("T_author_00");
-		AuthorNames[1] = layout.findTextBoxByName("T_author_01");
-		AuthorQuotes[0] = layout.findTextBoxByName("T_quote_01");
-		AuthorQuotes[1] = layout.findTextBoxByName("T_quote_00");
+		//LevelNames[0] = layout.findTextBoxByName("T_titleMulti_00");
+		//AuthorNames[0] = layout.findTextBoxByName("T_author_00");
+		//AuthorQuotes[0] = layout.findTextBoxByName("T_quote_00");
 
 		OSReport("found something 2\n");
 
@@ -220,10 +187,12 @@ int dCreatorInfo_c::onCreate() {
 		// 	N_flipbook_00->scale.x *= 1.372693726937269f;
 		// }
 
+		OSReport("layout@0x%X\n", &layout);
+
 		//layout.enableLoopAnim(30);
 		OSReport("enable anim 30\n");
 
-		//layout.enableNonLoopAnim(0); // inWindow
+		layout.enableNonLoopAnim(0); // inWindow
 		OSReport("enable anim 0\n");
 		//layout.enableNonLoopAnim(31); // inButton
 		OSReport("enable anim 31\n");
