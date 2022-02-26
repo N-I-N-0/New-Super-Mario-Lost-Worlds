@@ -290,62 +290,6 @@ void dStockItem_c::setScalesOfSomeThings() {
 		CrapUpPositions(&out, &in);
 
 		nw4r::lyt::Pane *shdRoot = shadow->rootPane;
-		if(i == 0) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= 246;
-		}
-		if(i == 1) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= 164;
-		}
-		if(i == 2) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= 82;
-		}
-		if(i == 3) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= 0;
-		}
-		if(i == 4) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= -82;
-		}
-		if(i == 5) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= -164;
-		}
-		if(i == 6) {
-			out.y = shdRoot->trans.y + 345;
-			out.x -= -246;
-		}
-		if(i == 7) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= 246;
-		}
-		if(i == 8) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= 164;
-		}
-		if(i == 9) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= 82;
-		}
-		if(i == 10) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= 0;
-		}
-		if(i == 11) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= -82;
-		}
-		if(i == 12) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= -164;
-		}
-		if(i == 13) {
-			out.y = shdRoot->trans.y + 235;
-			out.x -= -246;
-		}
 
 		*((float*)(item+0xAC)) = out.x;
 		*((float*)(item+0xB0)) = out.y;

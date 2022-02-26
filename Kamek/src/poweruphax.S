@@ -2205,8 +2205,8 @@ SILayoutGroupParams:
 	blr
 
 # - 0x950 : Button Bases 	#Old: 0x928
-# - 0x9C0 : Icon Panes 		#Old: 0x94C
-# - 0x9F8 : Icon Pictures 	#Old: 0x970
+# - 0x988 : Icon Panes 		#Old: 0x94C
+# - 0x9C0 : Icon Pictures 	#Old: 0x970
 .extern getPanes__Q23m2d13EmbedLayout_cCFPPCcPPQ34nw4r3lyt4Panei
 .extern getPictures__Q23m2d13EmbedLayout_cCFPPCcPPQ34nw4r3lyt7Picturei
 .extern ContinueFromSILayoutExtraStuffs
@@ -2223,14 +2223,14 @@ SILayoutExtraStuffs:
 	addi r3, r30, 0x74
 	lis r4, SILayoutIconPanes@h
 	ori r4, r4, SILayoutIconPanes@l
-	addi r5, r30, 0x9C0
+	addi r5, r30, 0x988
 	li r6, 14
 	bl getPanes__Q23m2d13EmbedLayout_cCFPPCcPPQ34nw4r3lyt4Panei
 
 	addi r3, r30, 0x74
 	lis r4, SILayoutIconPictures@h
 	ori r4, r4, SILayoutIconPictures@l
-	addi r5, r30, 0x9F8
+	addi r5, r30, 0x9C0
 	li r6, 14
 	bl getPictures__Q23m2d13EmbedLayout_cCFPPCcPPQ34nw4r3lyt7Picturei
 
@@ -2255,7 +2255,7 @@ HideItemsByDefault:
 	mtctr r3
 	mr r4, r31
 meNext:
-	lwz r9, 0x9F8(r4)
+	lwz r9, 0x9C0(r4)
 	lbz r5, 0xBB(r9)
 	rlwinm r5, r5, 0,24,30
 	stb r5, 0xBB(r9)
@@ -2287,7 +2287,7 @@ FixStockItemEffectPlayer:
 	lwz r0, 0x8A0(r30)
 	slwi r0, r0, 2
 	add r5, r30, r0
-	lwz r28, 0x9C0(r5)
+	lwz r28, 0x988(r5)
 	blr
 
 .global FixStockItemEffectPlayer2
@@ -2301,7 +2301,7 @@ FixMoreSIEffectRelatedCrap:
 	lwz r0, 0x8D0(r31)
 	slwi r0, r0, 2
 	add r3, r31, r0
-	lwz r29, 0x9C0(r3)
+	lwz r29, 0x988(r3)
 	blr
 
 

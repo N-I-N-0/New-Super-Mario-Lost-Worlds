@@ -53,8 +53,6 @@ StockItemList:
 	.long SI_cloud
 	.long SI_wand
 
-.data
-.align 4
 StockItemListR3:
 	.long SI_Kinoko
 	.long SI_Fireflower
@@ -70,6 +68,22 @@ StockItemListR3:
 	.long SI_frog
 	.long SI_cloud
 	.long SI_wand
+
+ItemNamesList:
+	.long teresa
+	.long aI_kinoko_3							# "I_kinoko"
+	.long aI_fireflower_2						# "I_fireflower"
+	.long aI_iceflower_0						# "I_iceflower"
+	.long aI_star_0								# "I_star"
+	.long aI_propeller_0						# "I_propeller"
+	.long aI_penguin							# "I_penguin"
+	.long aI_hammer_0							# "I_hammer"
+	.long aI_gold_0								# "I_gold"
+	.long aI_spike_0							# "I_spike"
+	.long aI_boomerang_0						# "I_boomerang"
+	.long aI_frog_0								# "I_frog"
+	.long aI_cloud_0							# "I_cloud"
+	.long aI_wand_0								# "I_wand"
 
 SI_hammer:
 	.string "SI_Hammer"
@@ -91,23 +105,6 @@ SI_cloud:
 
 SI_wand:
 	.string "SI_Wand"
-
-
-ItemNamesList:
-	.long teresa
-	.long aI_kinoko_3							# "I_kinoko"
-	.long aI_fireflower_2						# "I_fireflower"
-	.long aI_iceflower_0						# "I_iceflower"
-	.long aI_star_0								# "I_star"
-	.long aI_propeller_0						# "I_propeller"
-	.long aI_penguin							# "I_penguin"
-	.long aI_hammer_0							# "I_hammer"
-	.long aI_gold_0								# "I_gold"
-	.long aI_spike_0							# "I_spike"
-	.long aI_boomerang_0						# "I_boomerang"
-	.long aI_frog_0								# "I_frog"
-	.long aI_cloud_0							# "I_cloud"
-	.long aI_wand_0								# "I_wand"
 
 teresa:
 	.string "teresa"

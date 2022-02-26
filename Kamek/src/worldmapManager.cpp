@@ -179,10 +179,10 @@ int dWMManager_c::onCreate() {
 		dActor_c::create(WMShop, 0, 0, 0);
 	}
 	
-	dActor_c* levelCredits = (dActor_c*)fBase_c::search(CreatorInfo);
+	/*dActor_c* levelCredits = (dActor_c*)fBase_c::search(CreatorInfo);
 	if(!levelCredits) {
 		dActor_c::create(CreatorInfo, 0, 0, 0);
-	}
+	}*/
 
 /*	dActor_c* worldSelect = (dActor_c*)fBase_c::search(WM_NOTE);
 	if(!worldSelect) {
