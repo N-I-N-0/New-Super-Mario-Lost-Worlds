@@ -144,15 +144,14 @@ void dWMParatroopa_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 
 bool dWMParatroopa_c::checkCollision() {
 	dActor_c* player = 0;
-	do {
-		player = (dActor_c*)fBase_c::search(WM_PLAYER, player);
+	while(player = (dActor_c*)fBase_c::search(WM_PLAYER, player)) {
 		float dx = this->pos.x - player->pos.x;
 		float dy = this->pos.y - player->pos.y;
 		float dz = this->pos.z - player->pos.z;
 		if(sqrtf(dx*dx + dy*dy + dz*dz) <= 20) {
 			return true;
 		}
-	} while(player);
+	}
 	return false;
 }
 

@@ -174,10 +174,10 @@ int dWMManager_c::onCreate() {
 	dActor_c::create(AC_ITEM_KEY, 0, &player->pos, 0);		//spawn a paratroopa
 	
 	
-	/*dActor_c* shop = (dActor_c*)fBase_c::search(WMShop);
+	dActor_c* shop = (dActor_c*)fBase_c::search(WMShop);
 	if(!shop) {
 		dActor_c::create(WMShop, 0, 0, 0);
-	}*/
+	}
 	
 	dActor_c* levelCredits = (dActor_c*)fBase_c::search(CreatorInfo);
 	if(!levelCredits) {

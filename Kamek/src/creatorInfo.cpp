@@ -17,8 +17,8 @@
 //          >> probably the problem is that the bool containing the info whether the shop is spawned is true while there is no shop
 //             the code in worldmapGird.cpp then tries to delete the non existend shop and crashes the game ...
 
-#ifndef __CREATOR_INFO_H
-#define __CREATOR_INFO_H
+// #ifndef __CREATOR_INFO_H
+// #define __CREATOR_INFO_H
 
 //#include "koopatlas/core.h"
 #include "texmapcolouriser.h"
@@ -79,7 +79,7 @@ class dCreatorInfo_c : public dActor_c {
 		DECLARE_STATE(HideWait);
 };
 
-#endif
+// #endif
 
 const char* CreatorFileList[] = {NULL};
 Profile CreatorInfoProfile(&dCreatorInfo_c::build, ProfileId::CreatorInfo, NULL, ProfileId::CreatorInfo, ProfileId::CreatorInfo, "CreatorInfo", CreatorFileList);
@@ -108,7 +108,7 @@ dActor_c *dCreatorInfo_c::build() {
 	return c;
 }
 
-dCreatorInfo_c::dCreatorInfo_c() : layout(), state(this, &StateID_Hidden) {
+dCreatorInfo_c::dCreatorInfo_c() : state(this, &StateID_Hidden) {
 	layoutLoaded = false;
 	visible = false;
 }
@@ -122,46 +122,32 @@ int dCreatorInfo_c::onCreate() {
 		
 		OSReport("gotFile!\n");
 
-		static const char *brlanNames[] = {
+		static const char *brlanNames[4] = {
 			"BonusCourseSelect_inWindow.brlan",
-			"BonusCourseSelect_inPause.brlan",
-			"BonusCourseSelect_outPause.brlan",
-			"BonusCourseSelect_inArrow.brlan",
-			"BonusCourseSelect_onArrow.brlan",
-			"BonusCourseSelect_offArrow.brlan",
-			"BonusCourseSelect_loopArrow.brlan",
-			"BonusCourseSelect_hitArrow.brlan",
-			"BonusCourseSelect_outArrow.brlan",
-			"BonusCourseSelect_toBefore.brlan",
-			"BonusCourseSelect_toNext.brlan",
+			//"BonusCourseSelect_toBefore.brlan",
+			//"BonusCourseSelect_toNext.brlan",
 			"BonusCourseSelect_outWindow.brlan",
-			"BonusCourseSelect_loopBG.brlan",
-			"BonusCourseSelect_inButton.brlan",
-			"BonusCourseSelect_onButton.brlan",
-			"BonusCourseSelect_idleButton.brlan",
-			"BonusCourseSelect_hitButton.brlan",
-			"BonusCourseSelect_offButton.brlan",
 		};
 
 		static const char *groupNames[4] = {
 			"A00_Window",
-			"F00_page",
-			"F00_page",
+			//"F00_page",
+			//"F00_page",
 			"A00_Window",
 		};
 
 		static const int groupIDs[4] = {
 			0,
-			9,
-			10,
-			11,
+			//1,
+			//2,
+			3,
 		};
 
-		layout.build("BonusCourseSelect.brlyt");
-		OSReport("Build layout!\n");
-		layout.loadAnimations(brlanNames, 18);
+		
+		OSReport("Build layout: %d\n", layout.build("BonusCourseSelect.brlyt"));
+		layout.loadAnimations(brlanNames, 2);
 		OSReport("Loaded Animations!\n");
-		layout.loadGroups(groupNames, groupIDs, 4);
+		layout.loadGroups(groupNames, groupIDs, 2);
 		OSReport("Loaded Groups!\n");
 		layout.disableAllAnimations();
 		OSReport("Disabled all animations!\n");
