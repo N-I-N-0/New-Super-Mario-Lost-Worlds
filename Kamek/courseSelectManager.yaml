@@ -1,0 +1,25 @@
+---
+source_files: [../src/courseSelectManager.cpp, ../src/courseSelectManager.S]
+hooks:
+  - name: ExpandCSMSize
+    type: patch
+    addr_pal: 0x8092f028
+    data: '38600580' # Orig: 38600570
+
+  - name: SpawnShopAndLevelCredits
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80927078
+    target_func: 'SpawnShopAndLevelCredits'
+
+  - name: CheckForButtonPress
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80914C00
+    target_func: 'CheckForButtonPress'
+
+  - name: CheckForNewCSMBytes
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8092FADC
+    target_func: 'CheckForNewCSMBytes'

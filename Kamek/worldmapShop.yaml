@@ -1,12 +1,6 @@
 ---
-source_files: [../src/worldmapShop.cpp, ../src/worldmapShop.S]
+source_files: [../src/worldmapShop.cpp]
 hooks:
   - name: fixDrawForShop
     type: nop_insn
     area_pal: 0x80926800
-
-  - name: newButtonBPressed
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x80904154
-    target_func: 'checkIfBIsPressed'

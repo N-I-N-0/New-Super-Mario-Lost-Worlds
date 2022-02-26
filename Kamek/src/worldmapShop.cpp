@@ -1,3 +1,5 @@
+#include "courseSelectManager.h";
+
 // TODO:  - 0x80926ba0 LoadFilesForWorldMap: re-add lakitu and items
 //          - Warning: eventually the poweruplist was already changed before in boomeranghax, poweruphax or some stockItemFix file ...
 //                     WorldMap folder list handled in worldmapGrid.S
@@ -17,128 +19,6 @@
 //          >> probably the problem is that the bool containing the info whether the shop is spawned is true while there is no shop
 //             the code in worldmapGird.cpp then tries to delete the non existend shop and crashes the game ...
 
-#ifndef __KOOPATLAS_SHOP_H
-#define __KOOPATLAS_SHOP_H
-
-//#include "koopatlas/core.h"
-#include "texmapcolouriser.h"
-
-class dWMShop_c : public dActor_c {
-	public:
-		static dActor_c* build();
-		static dWMShop_c *instance;
-
-		dWMShop_c();
-
-		int onCreate();
-		int onDelete();
-		int onExecute();
-		int onDraw();
-		void specialDraw1();
-
-		bool layoutLoaded;
-		m2d::EmbedLayout_c layout;
-
-		bool visible;
-		float scaleEase;
-		int timer;
-
-		int selected, lastTopRowChoice;
-		int shopKind;
-
-		int coinsRemaining, timerForCoinCountdown;
-		
-		bool showShop;
-
-		enum Animation {
-			SHOW_ALL = 0,
-			HIDE_ALL = 1,
-			ACTIVATE_BUTTON = 2, // 3, 4, 5, 6, 7
-			DEACTIVATE_BUTTON = 8, // 9, 10, 11, 12, 13
-			COUNT_COIN = 14,
-		};
-
-		enum ItemTypes {
-			MUSHROOM = 0,
-			FIRE_FLOWER,
-			PROPELLER,
-			ICE_FLOWER,
-			PENGUIN,
-			MINI_SHROOM,
-			STARMAN,
-			HAMMER,
-			GOLD_FLOWER,
-			SPIKE_SHROOM,
-			BOOMERANG,
-			FROG,
-			CLOUD,
-			WAND,
-			ONE_UP,
-			ITEM_TYPE_COUNT
-		};
-
-		enum _Constants {
-			ITEM_COUNT = 12,
-		};
-
-		static const ItemTypes Inventory[10][12];
-
-		nw4r::lyt::TextBox
-			*Title, *TitleShadow,
-			*CoinCount, *CoinCountShadow,
-			*BackText, *BuyText;
-
-		nw4r::lyt::Picture
-			*BtnLeft[6], *BtnMid[6], *BtnRight[6];
-
-		nw4r::lyt::Pane
-			*Buttons[6], *Btn1Base, *Btn2Base;
-
-		dTexMapColouriser_c leftCol, midCol, rightCol;
-
-		class ShopModel_c {
-			public:
-				mHeapAllocator_c allocator;
-
-				nw4r::g3d::ResFile res;
-				m3d::mdl_c model;
-				m3d::anmChr_c animation;
-
-				float x, y, scaleFactor, scaleEase;
-				bool isLakitu, playingNotEnough;
-
-				void setupItem(float x, float y, ItemTypes type);
-				void setupLakitu(int id);
-				void execute();
-				void draw();
-				void playAnim(const char *name, float rate, char loop);
-		};
-
-		ShopModel_c *itemModels;
-		ShopModel_c *lakituModel;
-
-		void show(int shopNumber);
-
-		void loadInfo();
-		void loadModels();
-		void deleteModels();
-
-		void buyItem(int item);
-
-		void showSelectCursor();
-
-		dStateWrapper_c<dWMShop_c> state;
-
-		USING_STATES(dWMShop_c);
-		DECLARE_STATE(Hidden);
-		DECLARE_STATE(ShowWait);
-		DECLARE_STATE(ButtonActivateWait);
-		DECLARE_STATE(CoinCountdown);
-		DECLARE_STATE(Wait);
-		DECLARE_STATE(HideWait);
-};
-
-#endif
 
 const char* WMShopFileList[] = {NULL};
 Profile WMShopProfile(&dWMShop_c::build, ProfileId::WMShop, NULL, ProfileId::WMShop, ProfileId::WMShop, "WMShop", WMShopFileList);
@@ -237,7 +117,7 @@ void dWMShop_c::ShopModel_c::setupLakitu(int id) {
 	res.data = getResource("Rosalina", "g3d/rosalina.brres"/*models[id]*/);
 	nw4r::g3d::ResMdl mdlRes = res.GetResMdl("rosalina");
 	model.setup(mdlRes, &allocator, 0x224, 1, 0);
-	SetupTextures_Enemy(&model, 1);
+	SetupTextures_Enemy(&model, 0);
 
 	nw4r::g3d::ResAnmChr anmChr = res.GetResAnmChr("wait");
 	animation.setup(mdlRes, anmChr, &allocator, 0);
@@ -399,6 +279,8 @@ int dWMShop_c::onCreate() {
 			rightCol.applyAlso(BtnRight[i]->material->texMaps);
 		}
 
+		this->base_type = 2; // This is necessary for specialDraw1 to be executed.
+
 		layoutLoaded = true;
 	}
 
@@ -447,12 +329,6 @@ void dWMShop_c::specialDraw1() {
 			itemModels[i].draw();
 		}
 	}
-
-
-//		if (wasOff) { effect.spawn("Wm_ob_greencoinkira", 0, &pos, &rot, &scale); wasOff = false; }
-
-//		if(this->ska.isAnimationDone())
-//			this->ska.setCurrentFrame(0.0);
 }
 
 
@@ -463,18 +339,6 @@ void dWMShop_c::show(int shopNumber) {
 
 void makeShopShowUp() {
 	dWMShop_c::instance->showShop = true;
-}
-
-bool isBPressed() {
-	Remocon* rem = GetActiveRemocon();
-	int nowPressed = Remocon_GetPressed(rem);
-	if(rem->controllerType == 0) {	//Wiimote
-		return nowPressed & WPAD_B;
-	} else {						// == 1 <-> Wiimote + Nunchuck 
-		//OSReport("nowPressed: 0x%x\n", nowPressed);
-		//return false;
-		return nowPressed & 0x2000;
-	}
 }
 
 // Hidden
@@ -492,9 +356,8 @@ void dWMShop_c::executeState_Hidden() {
 			
 			state.setState(&StateID_ShowWait);
 			FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
-			dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-			*(u8*)((int)(csMng) + 0x53C) = 0;					//hide gameScene
-			//*(u8*)((int)(csMng) + 0x545) = 1;			//startedSomeMsgThing = true
+			// dCourseSelectManager_c::instance->layoutLoaded = 0;					//hide gameScene
+			// dCourseSelectManager_c::instance->startedSomeMsgThing = 1;			//startedSomeMsgThing = true
 		//}
 	}
 }
@@ -619,20 +482,15 @@ void dWMShop_c::executeState_HideWait() {
 		scaleEase = -((cos(timer * 3.14 /13.5)-0.9)/timer*10)+1;
 		if (scaleEase < 0.0f)
 			scaleEase = 0.0f;
-	} else {
-		dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
-		*(u8*)((int)(csMng) + 0x53C) = 1;			//unhide gameScene
-		FUN_808fbd10((int)wmDirector);				//unfreeze map
-		
-		//*(u8*)((int)(csMng) + 0x548) = 0;			//doesStockItemSelectWait=false
-		//*(u8*)((int)(csMng) + 0x546) = 1;			//endedSomeMsgThing = true
-		//*(u8*)((int)(csMng) + 0x545) = 0;			//startedSomeMsgThing = false
-		  
 	}
 
-	if (!layout.isAnimOn(HIDE_ALL))
+	if (!layout.isAnimOn(HIDE_ALL) && timer == 0) {
+		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
+		// dCourseSelectManager_c::instance->layoutLoaded = 1;	//unhide gameScene
+		FUN_808fbd10((int)wmDirector);				//unfreeze map
+
 		state.setState(&StateID_Hidden);
+	}
 }
 void dWMShop_c::endState_HideWait() {
 	deleteModels();
@@ -869,8 +727,7 @@ void dWMShop_c::buyItem(int item) {
 	if (appliedItems[(int)ONE_UP] > 0)
 		MapSoundPlayer(SoundRelatedClass, SE_SYS_100COIN_ONE_UP, 1);
 
-	dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-	dCourseSelectGuide_c__loadLives((int)(csMng) + 200);
+	dCourseSelectGuide_c__loadLives((int)(dCourseSelectManager_c::instance) + 200);
 
 
 	state.setState(&StateID_CoinCountdown);

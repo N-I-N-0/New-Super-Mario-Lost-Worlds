@@ -2,6 +2,7 @@
 #define __WORLDSELECTION_H
 
 #include "texmapcolouriser.h"
+#include "courseSelectManager.h"
 
 class dWMSelection_c : public dActor_c {
 	public:
@@ -434,8 +435,8 @@ void dWMSelection_c::executeState_Hidden() {
 			
 			state.setState(&StateID_ShowWait);
 			//FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
-			dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-			*(u8*)((int)(csMng) + 0x53C) = 0;					//hide gameScene
+			dCourseSelectManager_c::instance->layoutLoaded = 0;					//hide gameScene
+			// dCourseSelectManager_c::instance->startedSomeMsgThing = 1;			//startedSomeMsgThing = true
 			//*(u8*)((int)(csMng) + 0x545) = 1;			//startedSomeMsgThing = true
 		//}
 	}
@@ -562,14 +563,13 @@ void dWMSelection_c::executeState_HideWait() {
 		if (scaleEase < 0.0f)
 			scaleEase = 0.0f;
 	} else {
-		dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
 		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
-		*(u8*)((int)(csMng) + 0x53C) = 1;			//unhide gameScene
+		dCourseSelectManager_c::instance->layoutLoaded = 1;	//unhide gameScene
 		FUN_808fbd10((int)wmDirector);				//unfreeze map
 		
-		//*(u8*)((int)(csMng) + 0x548) = 0;			//doesStockItemSelectWait=false
-		//*(u8*)((int)(csMng) + 0x546) = 1;			//endedSomeMsgThing = true
-		//*(u8*)((int)(csMng) + 0x545) = 0;			//startedSomeMsgThing = false
+		// dCourseSelectManager_c::instance->doesStockItemSelectWait = 0;
+		// dCourseSelectManager_c::instance->endedSomeMsgThing = 1;
+		// dCourseSelectManager_c::instance->startedSomeMsgThing = 0;
 		  
 	}
 
@@ -811,8 +811,7 @@ void dWMSelection_c::buyItem(int item) {
 	if (appliedItems[(int)ONE_UP] > 0)
 		MapSoundPlayer(SoundRelatedClass, SE_SYS_100COIN_ONE_UP, 1);
 
-	dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-	dCourseSelectGuide_c__loadLives((int)(csMng) + 200);
+	dCourseSelectGuide_c__loadLives((int)(dCourseSelectManager_c::instance) + 200);
 
 
 	state.setState(&StateID_CoinCountdown);

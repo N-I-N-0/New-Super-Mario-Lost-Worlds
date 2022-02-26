@@ -95,7 +95,7 @@ int dWMParatroopa_c::onExecute() {
 	int currentCommand = dCsSeqMng_c__GetCutName(PtrToWM_CS_SEQ_MNG);
 	
 	if(currentCommand != -1) {
-		OSReport("GetCutName: %d\n", currentCommand);
+		// OSReport("GetCutName: %d\n", currentCommand);
 	}
 	switch(currentCommand) {
 		case 164:
@@ -144,6 +144,7 @@ void dWMParatroopa_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 
 bool dWMParatroopa_c::checkCollision() {
 	dActor_c* player = 0;
+
 	while(player = (dActor_c*)fBase_c::search(WM_PLAYER, player)) {
 		float dx = this->pos.x - player->pos.x;
 		float dy = this->pos.y - player->pos.y;
@@ -152,6 +153,7 @@ bool dWMParatroopa_c::checkCollision() {
 			return true;
 		}
 	}
+
 	return false;
 }
 

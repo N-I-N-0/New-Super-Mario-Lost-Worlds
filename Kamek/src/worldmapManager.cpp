@@ -1,3 +1,5 @@
+#include "courseSelectManager.h"
+
 int getLevelInfoWorldNumber(int world, int subWorld) {
 	/*  for WXa this returns X      (00-07)
 	    for WXb this returns X + 8  (08-15)
@@ -103,7 +105,6 @@ public:
 	int onDraw();
 	
 	u8 previousNodeNum;
-	dActor_c* csMng;
 	SaveBlock* save;
 	
 	m2d::EmbedLayout_c* layout;
@@ -142,8 +143,7 @@ dWMManager_c::dWMManager_c() {
 }
 
 int dWMManager_c::onCreate() {
-	csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-	layout = (m2d::EmbedLayout_c*)((int)(csMng) + 208);
+	layout = (m2d::EmbedLayout_c*)((int)(dCourseSelectManager_c::instance) + 208);
 	
 	save = GetSaveFile()->GetBlock(-1);
 	
@@ -174,10 +174,10 @@ int dWMManager_c::onCreate() {
 	dActor_c::create(AC_ITEM_KEY, 0, &player->pos, 0);		//spawn a paratroopa
 	
 	
-	dActor_c* shop = (dActor_c*)fBase_c::search(WMShop);
+	/*dActor_c* shop = (dActor_c*)fBase_c::search(WMShop);
 	if(!shop) {
 		dActor_c::create(WMShop, 0, 0, 0);
-	}
+	}*/
 	
 	/*dActor_c* levelCredits = (dActor_c*)fBase_c::search(CreatorInfo);
 	if(!levelCredits) {
@@ -211,7 +211,7 @@ int dWMManager_c::onExecute() {
 	
 	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(0x238, 0, 0);
 	
-	u8 CurrentNodeNum = *(u8*)((int)(csMng) + 0x4D7);
+	u8 CurrentNodeNum = *(u8*)((int)(dCourseSelectManager_c::instance) + 0x4D7);
 
 
 

@@ -2595,6 +2595,21 @@ SECTIONS {
 	dRail__getRailByID_static = 0x800D9040;
 	loc_80AA86FC = 0x80AA7FFC;
 
+	instance__22dCourseSelectManager_c = 0x809A1C70;
+	StateID_KeyWait__22dCourseSelectManager_c = 0x809A1D40;
+	sub_80931170__22dCourseSelectManager_cFv = 0x80930EB0;
+	sub_809310F0__22dCourseSelectManager_cFv = 0x80930E30;
+	sub_80931090__22dCourseSelectManager_cFv = 0x80930DD0;
+	sub_80931110__22dCourseSelectManager_cFv = 0x80930E50;
+
+	doneWithSpawnShopAndLevelCredits = 0x80926DBC;
+	doneWithCheckForButtonPress = 0x80914944;
+	doneWithCheckForNewCSMBytes = 0x8092F838;
+
+	continueCheckForNewCSMBytes = 0x8092F820;
+
+	returnCheckForNewCSMBytes = 0x8092F8A8;
+
 	.text : {
 		FILL (0)
 

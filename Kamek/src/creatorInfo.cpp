@@ -1,3 +1,5 @@
+#include "courseSelectManager.h";
+
 // TODO:  - 0x80926ba0 LoadFilesForWorldMap: re-add lakitu and items
 //          - Warning: eventually the poweruplist was already changed before in boomeranghax, poweruphax or some stockItemFix file ...
 //                     WorldMap folder list handled in worldmapGrid.S
@@ -17,69 +19,6 @@
 //          >> probably the problem is that the bool containing the info whether the shop is spawned is true while there is no shop
 //             the code in worldmapGird.cpp then tries to delete the non existend shop and crashes the game ...
 
-// #ifndef __CREATOR_INFO_H
-// #define __CREATOR_INFO_H
-
-//#include "koopatlas/core.h"
-#include "texmapcolouriser.h"
-
-class dCreatorInfo_c : public dActor_c {
-	public:
-		static dActor_c *build();
-		static dCreatorInfo_c *instance;
-
-		dCreatorInfo_c();
-
-		int onCreate();
-		int onDelete();
-		int onExecute();
-		int onDraw();
-
-		m2d::EmbedLayout_c layout;
-		bool layoutLoaded;
-
-		bool visible;
-		
-		bool showLevelCredits;
-		
-		FileHandle fileHandles[5];
-   		//BonusLevelsBinary *bonusLevelsFile;
-
-   		TPLPalette *sampleOne, *sampleTwo;
-   		TPLPalette *pfpOne, *pfpTwo;
-
-		u32 currentStateID;
-
-		u32 currentPage;
-
-		int timer;
-
-		nw4r::lyt::Picture *Samples[2];
-		nw4r::lyt::Picture *PFPs[2];
-		nw4r::lyt::TextBox *LevelNames[2];
-		nw4r::lyt::TextBox *AuthorNames[2];
-		nw4r::lyt::TextBox *AuthorQuotes[2];
-
-		enum Animaiton {
-			HIDE_ALL = 29, //BonusCourseSelect_outWindow
-			SHOW_ALL = 0, //BonusCourseSelect_inWindow
-		};
-
-		void show(int shopNumber);
-
-		void loadInfo();
-
-		dStateWrapper_c<dCreatorInfo_c> state;
-
-		USING_STATES(dCreatorInfo_c);
-		DECLARE_STATE(Hidden);
-		DECLARE_STATE(ShowWait);
-		DECLARE_STATE(ButtonActivateWait);
-		DECLARE_STATE(Wait);
-		DECLARE_STATE(HideWait);
-};
-
-// #endif
 
 const char* CreatorFileList[] = {NULL};
 Profile CreatorInfoProfile(&dCreatorInfo_c::build, ProfileId::CreatorInfo, NULL, ProfileId::CreatorInfo, ProfileId::CreatorInfo, "CreatorInfo", CreatorFileList);
@@ -92,7 +31,6 @@ extern "C" void dCourseSelectGuide_c__loadLives(int);
 
 CREATE_STATE(dCreatorInfo_c, Hidden);
 CREATE_STATE(dCreatorInfo_c, ShowWait);
-CREATE_STATE(dCreatorInfo_c, ButtonActivateWait);
 CREATE_STATE(dCreatorInfo_c, Wait);
 CREATE_STATE(dCreatorInfo_c, HideWait);
 
@@ -122,76 +60,37 @@ int dCreatorInfo_c::onCreate() {
 		
 		OSReport("gotFile!\n");
 
-		static const char *brlanNames[4] = {
+		static const char *brlanNames[] = {
 			"BonusCourseSelect_inWindow.brlan",
-			//"BonusCourseSelect_toBefore.brlan",
-			//"BonusCourseSelect_toNext.brlan",
 			"BonusCourseSelect_outWindow.brlan",
 		};
 
-		static const char *groupNames[4] = {
+		static const char *groupNames[] = {
 			"A00_Window",
-			//"F00_page",
-			//"F00_page",
 			"A00_Window",
 		};
 
-		static const int groupIDs[4] = {
+		static const int groupIDs[] = {
 			0,
-			//1,
-			//2,
-			3,
+			1,
 		};
 
 		
-		OSReport("Build layout: %d\n", layout.build("BonusCourseSelect.brlyt"));
+		layout.build("BonusCourseSelect.brlyt");
 		layout.loadAnimations(brlanNames, 2);
-		OSReport("Loaded Animations!\n");
 		layout.loadGroups(groupNames, groupIDs, 2);
-		OSReport("Loaded Groups!\n");
 		layout.disableAllAnimations();
-		OSReport("Disabled all animations!\n");
-
-		// layout.drawOrder = 140;
 
 		layoutLoaded = true;
 
-		//Samples[0] = layout.findPictureByName("P_LevelSample_00");
-		//PFPs[0] = layout.findPictureByName("P_author_00");
+		Sample = layout.findPictureByName("P_LevelSample_00");
+		LevelName = layout.findTextBoxByName("T_titleMulti_00");
+		AuthorNames = layout.findTextBoxByName("T_author_00");
+		AuthorQuote = layout.findTextBoxByName("T_quote_00");
 
-		OSReport("found something 1\n");
+		WriteBMGToTextBox( layout.findTextBoxByName("T_guideViewC_00"), GetBMG(), 2, 29, 0);
 
-		//LevelNames[0] = layout.findTextBoxByName("T_titleMulti_00");
-		//AuthorNames[0] = layout.findTextBoxByName("T_author_00");
-		//AuthorQuotes[0] = layout.findTextBoxByName("T_quote_00");
-
-		OSReport("found something 2\n");
-
-		//WriteBMGToTextBox( layout.findTextBoxByName("T_guideViewC_00"), GetBMG(), 2, 29, 0);
-
-		// if (IsWideScreen()) {
-		// 	N_flipbook_00->scale.x *= 1.372693726937269f;
-		// }
-
-		OSReport("layout@0x%X\n", &layout);
-
-		//layout.enableLoopAnim(30);
-		OSReport("enable anim 30\n");
-
-		layout.enableNonLoopAnim(0); // inWindow
-		OSReport("enable anim 0\n");
-		//layout.enableNonLoopAnim(31); // inButton
-		OSReport("enable anim 31\n");
-
-
-   		//bonusLevelsFile = (BonusLevelsBinary*)LoadFile(&fileHandles[0], "/NewerRes/BonusLevels.bin");
-		//this->loadLevel(0, false);
-		//this->loadLevel(0, true);
-
-		// MakeScene(currentHeap, 0x24);
-		// LoadSceneLights(this, 1);
-		//LoadMapScene();
-		//GameSetup__LoadScene(0); // "lol, stolen from GAME_SETUP" -Ninji, before 2013 probably :p
+		layout.enableNonLoopAnim(SHOW_ALL);
 
 		OSReport("loaded!\n");
 	}
@@ -201,7 +100,7 @@ int dCreatorInfo_c::onCreate() {
 
 
 int dCreatorInfo_c::onDelete() {
-	for(int i = 0; i < 5; i++)
+	for(int i = 0; i < 3; i++)
 		FreeFile(&fileHandles[i]);
 	return layout.free();
 }
@@ -224,23 +123,12 @@ int dCreatorInfo_c::onDraw() {
 }
 
 
-void dCreatorInfo_c::show(int shopNumber) {
-	//shopKind = shopNumber;
+void dCreatorInfo_c::show() {
 	state.setState(&StateID_ShowWait);
 }
 
 void makeLevelCreditsShowUp() {
 	dCreatorInfo_c::instance->showLevelCredits = true;
-}
-
-bool isShakingForCredits() {
-	Remocon* rem = GetActiveRemocon();
-	if(rem->controllerType == 0) {	//Wiimote
-		OSReport("isShaking: %d\n", rem->isShaking);
-		return rem->isShaking > 0;
-	} else {						// == 1 <-> Wiimote + Nunchuck
-		return rem->isShaking > 0;
-	}
 }
 
 // Hidden
@@ -250,16 +138,12 @@ void dCreatorInfo_c::executeState_Hidden() {
 		showLevelCredits = false;
 		state.setState(&StateID_ShowWait);
 		FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
-		//dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
-		//*(u8*)((int)(csMng) + 0x53C) = 0;					//hide gameScene
 	}
 }
 void dCreatorInfo_c::endState_Hidden() { }
 
 // ShowWait
 void dCreatorInfo_c::beginState_ShowWait() {
-	MapSoundPlayer(SoundRelatedClass, SE_SYS_DIALOGUE_IN, 1);
-
 	layout.disableAllAnimations();
 	layout.enableNonLoopAnim(SHOW_ALL);
 	visible = true;
@@ -267,24 +151,15 @@ void dCreatorInfo_c::beginState_ShowWait() {
 	loadInfo();
 }
 void dCreatorInfo_c::executeState_ShowWait() {
-
-}
-void dCreatorInfo_c::endState_ShowWait() {
-	MapSoundPlayer(SoundRelatedClass, SE_OBJ_CLOUD_BLOCK_TO_JUGEM, 1);
-	timer = 1;
-}
-
-// ButtonActivateWait
-void dCreatorInfo_c::beginState_ButtonActivateWait() { }
-void dCreatorInfo_c::executeState_ButtonActivateWait() {
 	if (!layout.isAnyAnimOn())
 		state.setState(&StateID_Wait);
 }
-void dCreatorInfo_c::endState_ButtonActivateWait() { }
+void dCreatorInfo_c::endState_ShowWait() {
+	timer = 1;
+}
 
 // Wait
 void dCreatorInfo_c::beginState_Wait() {
-	//showSelectCursor();
 }
 void dCreatorInfo_c::executeState_Wait() {
 	int nowPressed = Remocon_GetPressed(GetActiveRemocon());
@@ -298,25 +173,15 @@ void dCreatorInfo_c::endState_Wait() { }
 void dCreatorInfo_c::beginState_HideWait() {
 	MapSoundPlayer(SoundRelatedClass, SE_SYS_DIALOGUE_OUT_AUTO, 1);
 	layout.enableNonLoopAnim(HIDE_ALL);
-	//layout.enableNonLoopAnim(DEACTIVATE_BUTTON+selected);
-
-	timer = 26;
-	MapSoundPlayer(SoundRelatedClass, SE_OBJ_CS_KINOHOUSE_DISAPP, 1);
-
-	HideSelectCursor(SelectCursorPointer, 0);
 }
 void dCreatorInfo_c::executeState_HideWait() {
-	if (timer > 0) {
-		timer--;
-	} else {
-		dActor_c* csMng = (dActor_c*)fBase_c::search(COURSE_SELECT_MANAGER);
+	if (!layout.isAnimOn(HIDE_ALL)) {
 		dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
-		//*(u8*)((int)(csMng) + 0x53C) = 1;			//unhide gameScene
 		FUN_808fbd10((int)wmDirector);				//unfreeze map
-	}
 
-	if (!layout.isAnimOn(HIDE_ALL))
 		state.setState(&StateID_Hidden);
+		OSReport("HideWait change state to Hidden\n");
+	}
 }
 void dCreatorInfo_c::endState_HideWait() {
 	visible = false;
@@ -324,48 +189,48 @@ void dCreatorInfo_c::endState_HideWait() {
 
 
 
-
+extern char CurrentWorld;
+extern void mbstowcs(wchar_t *destination, const char *source, size_t count);
 
 void dCreatorInfo_c::loadInfo() {
-	/*SaveBlock *save = GetSaveFile()->GetBlock(-1);
+	// Get Node Number & Level ID
+	u8 CurrentNodeNum = *(u8*)((int)(dCourseSelectManager_c::instance) + 0x4D7);
+	u8 actualLevel = getActualLevelNum(CurrentNodeNum); // This seems to work half of the time
 
-	//missing color information in original save file!
-	s16 hue        = 138;
-	s8  saturation = 50;
-	s8  lightness  = 30;
-	
-	//leftCol.colourise(save->hudHintH, save->hudHintS, save->hudHintL);
-	//midCol.colourise(save->hudHintH, save->hudHintS, save->hudHintL);
-	//rightCol.colourise(save->hudHintH, save->hudHintS, save->hudHintL);
-	leftCol.colourise(hue, saturation, lightness);
-	midCol.colourise(hue, saturation, lightness);
-	rightCol.colourise(hue, saturation, lightness);
+	OSReport("Gathering information about level %02d-%02d\n", CurrentWorld+1, actualLevel+1);
 
-	// find out the shop name
-	dLevelInfo_c::entry_s *shopNameEntry =
-		dLevelInfo_c::s_info.searchBySlot(shopKind, 98);
+	// Load the level designers' names
+	char creditsFileName[64];
+	sprintf(creditsFileName, "/LevelCredits/%02d-%02da.txt", CurrentWorld+1, actualLevel+1);
 
-	wchar_t shopName[100];
-	// TODO: refactor this a bit
-	const char *sourceName = dLevelInfo_c::s_info.getNameForLevel(shopNameEntry);
-	int charCount = 0;
-	
-	while (*sourceName != 0 && charCount < 99) {
-		shopName[charCount] = *sourceName;
-		sourceName++;
-		charCount++;
+	wchar_t convertedCreditsText1[100];
+	const char* creditsText1 = (const char*)LoadFile(&fileHandles[0], creditsFileName);
+	if(creditsText1) {
+		mbstowcs(convertedCreditsText1, creditsText1, fileHandles[0].length);
+
+		AuthorNames->SetString(convertedCreditsText1);
+		FreeFile(&fileHandles[0]);
 	}
-	shopName[charCount] = 0;
+	
+	
+	// Find the level name
+	dLevelInfo_c::entry_s *levelNameEntry = dLevelInfo_c::s_info.searchBySlot(CurrentWorld+1, actualLevel+1);
 
-	Title->SetString(shopName);
-	TitleShadow->SetString(shopName);
+	if(levelNameEntry) {
+		wchar_t levelNameStr[32];
+		const char *sourceName = dLevelInfo_c::s_info.getNameForLevel(levelNameEntry);
+		mbstowcs(levelNameStr, sourceName, 32);
 
-	// load the coin count
-	int scCount = getUnspentStarCoinCount();
-	WriteNumberToTextBox(&scCount, CoinCount, false);
-	WriteNumberToTextBox(&scCount, CoinCountShadow, false);
+		LevelName->SetString(levelNameStr);
+	}
 
+	// Change the Level Preview Picture
+	if(fileHandles[1].filePtr) // Free the previous one if there was any
+		FreeFile(&fileHandles[1]);
 
-	WriteBMGToTextBox(BackText, GetBMG(), 2, 58, 0);
-	WriteBMGToTextBox(BuyText, GetBMG(), 302, 4, 0);*/
+	char sampleName[64];
+	sprintf(sampleName, "/LevelSamples/%02d-%02d.tpl", CurrentWorld+1, actualLevel+1);
+
+	TPLPalette *sample = (TPLPalette*)LoadFile(&fileHandles[1], sampleName);
+	Sample->material->texMaps[0].ReplaceImage(sample, 0);
 }

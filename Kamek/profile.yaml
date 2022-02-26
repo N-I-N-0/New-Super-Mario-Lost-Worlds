@@ -24,6 +24,7 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x80068f34
     target_func: 'SpriteList_r3'
+    
   - name: SpriteList_r3_nop
     type: nop_insn
     area_pal: 0x80068f38

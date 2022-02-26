@@ -115,6 +115,7 @@ modules:
   - processed/minisidestepper.yaml
   - processed/waterlift.yaml
   - processed/texmapcolouriser.yaml
+  - processed/courseSelectManager.yaml
   - processed/worldmapShop.yaml
   - processed/worldmapWorldSelection.yaml
   - processed/worldmapScripts.yaml
