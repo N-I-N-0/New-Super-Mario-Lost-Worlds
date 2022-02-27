@@ -86,11 +86,15 @@ extern "C" bool FUN_801017c0(int, int, int, int, int);
 extern "C" int dCsSeqMng_c__GetCutName(int);
 
 int dWMParatroopa_c::onExecute() {
-	state.execute();
-	
 	updateModelMatrices();
 	bodyModel._vf1C();
 	wing._vf1C();
+	
+	if(dCourseSelectManager_c::instance->state.getCurrentState() != &dCourseSelectManager_c::StateID_KeyWait) {
+		return true;
+	}
+	
+	state.execute();
 	
 	int currentCommand = dCsSeqMng_c__GetCutName(PtrToWM_CS_SEQ_MNG);
 	
