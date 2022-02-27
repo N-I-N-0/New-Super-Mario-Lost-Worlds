@@ -2,6 +2,7 @@
 .align 4
 
 #include <asm_setup.S>
+#include <asm_profiles.S>
 
 .extern CreateParentedObject__FsPvic
 .extern CheckForButtonPress__Fv
@@ -21,14 +22,14 @@
 SpawnShopAndLevelCredits:
 	stw r3, 0x538(r31) # Restore instruction
 
-	li r3, 826 # WMShop
+	li r3, WMShop
 	mr r4, r29
 	li r5, 0
 	li r6, 0
 	bl CreateParentedObject__FsPvic
 	stw r3, 0x570(r31)
 
-	li r3, 821 # CreatorInfo
+	li r3, CreatorInfo
 	mr r4, r29
 	li r5, 0
 	li r6, 0
