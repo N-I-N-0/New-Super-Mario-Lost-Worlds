@@ -242,6 +242,8 @@ void dHammerSuitRenderer_c::draw() {
 
 // NEW VERSION
 void CrapUpPositions(Vec *out, const Vec *in);
+extern float stockItemPowerupModelScale;
+extern float stockItemPlayerModelScale;
 
 void dStockItem_c::setScalesOfSomeThings() {
 	nw4r::lyt::Pane *ppos = N_forUse_PPos[playerCount];
@@ -264,6 +266,15 @@ void dStockItem_c::setScalesOfSomeThings() {
 				CrapUpPositions(&out, &in);
 
 				u8 *wmp = (u8*)player2d[charID];
+
+				if(!IsWideScreen()) {
+					out.y -= 12;
+					stockItemPlayerModelScale = 3.6f;
+				} else {
+					stockItemPlayerModelScale = 4.1f;
+				}
+
+				
 				*((float*)(wmp+0xAC)) = out.x;
 				*((float*)(wmp+0xB0)) = out.y;
 				*((float*)(wmp+0xB4)) = out.z;
@@ -291,9 +302,19 @@ void dStockItem_c::setScalesOfSomeThings() {
 
 		nw4r::lyt::Pane *shdRoot = shadow->rootPane;
 
+		
+
+		if(!IsWideScreen()) {
+			stockItemPowerupModelScale = 2.6f;
+			out.y += 8;
+		} else {
+			stockItemPowerupModelScale = 3.2f;
+		}
+
 		*((float*)(item+0xAC)) = out.x;
 		*((float*)(item+0xB0)) = out.y;
 		*((float*)(item+0xB4)) = out.z;
+
 		*((float*)(item+0x1F4)) = P_buttonBase[i]->scale.x;
 		*((float*)(item+0x1F8)) = P_buttonBase[i]->scale.y;
 		*((float*)(item+0x1FC)) = 1.0f;

@@ -1620,3 +1620,6 @@ hooks:
     data: '38A00008'
 
 
+#  - name: dontSetWrongScale!
+#    type: nop_insn
+#    area_pal: [0x80926fdc]

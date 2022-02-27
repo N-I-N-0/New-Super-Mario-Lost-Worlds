@@ -1,4 +1,7 @@
 SECTIONS {
+	stockItemPowerupModelScale = 0x8093C36C;
+	stockItemPlayerModelScale = 0x8093BE24;
+
 	returnFromCheckWarpCannon1 = 0x80102408;
 	returnFromCheckWarpCannon2 = 0x801023E8;
 	returnFromDontResetLevelNode = 0x8092737C;

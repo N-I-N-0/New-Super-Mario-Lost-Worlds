@@ -82,8 +82,6 @@ void dWMShop_c::ShopModel_c::setupItem(float x, float y, ItemTypes type) {
 	this->x = x;
 	this->y = y;
 	
-	scaleFactor = 2.3f;
-
 	int id = (int)type;
 	isLakitu = false;
 
@@ -139,13 +137,10 @@ void dWMShop_c::ShopModel_c::execute() {
 	model._vf1C();
 
 	if(this->animation.isAnimationDone()) {
-		OSReport("Animaiton Complete");
 		if (this->isLakitu) {
-			OSReport("Setting animation to idle");
 			playAnim("wait", 1.0f, 0);
 			this->animation.setCurrentFrame(0.0);
 			if (playingNotEnough) {
-				OSReport("Detected Not Enough animation as being over\n");
 				playingNotEnough = false;
 			}
 		}
@@ -158,6 +153,10 @@ void dWMShop_c::ShopModel_c::draw() {
 	model.setDrawMatrix(mtx);
 
 	float s = scaleFactor * scaleEase;
+
+	/*if(!IsWideScreen()) {
+		s *= 0.8f;
+	}*/
 
 	Vec scale = {s, s, s};
 	model.setScale(&scale);
@@ -267,8 +266,7 @@ int dWMShop_c::onCreate() {
 
 		Btn1Base = layout.findPaneByName("Btn1_Base");
 		Btn2Base = layout.findPaneByName("Btn2_Base");
-		OSReport("Found btn 1,2: %p, %p\n", Btn1Base, Btn2Base);
-
+		
 		leftCol.setTexMap(BtnLeft[0]->material->texMaps);
 		midCol.setTexMap(BtnMid[0]->material->texMaps);
 		rightCol.setTexMap(BtnRight[0]->material->texMaps);
@@ -295,10 +293,7 @@ int dWMShop_c::onDelete() {
 
 
 int dWMShop_c::onExecute() {
-	//OSReport("Shop state: %s\n", this->state.getCurrentState()->getName());
 	state.execute();
-
-	//OSReport("isFrozen: %s\n\n", isFrozen ? "true" : "false");
 
 	if (visible) {
 		lakituModel->execute();
@@ -344,21 +339,10 @@ void makeShopShowUp() {
 // Hidden
 void dWMShop_c::beginState_Hidden() { }
 void dWMShop_c::executeState_Hidden() {
-	/*int nowPressed = Remocon_GetPressed(GetActiveRemocon());
-
-	OSReport("PtrToWM_CS_SEQ_MNG+0x394: %x\n\n", PtrToWM_CS_SEQ_MNG + 0x394);
-	OSReport("PtrToWM_CS_SEQ_MNG+0x394: %p\n\n", (u8*)(PtrToWM_CS_SEQ_MNG + 0x394));*/
-
 	if (showShop) {
-		//dActor_c* wmDirector = (dActor_c*)fBase_c::search(WM_DIRECTOR);
 		showShop = false;
-		//if(*(u8*)((int)(wmDirector) + 0x1A8) == 0) {			//if map is not frozen
-			
-			state.setState(&StateID_ShowWait);
-			FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
-			// dCourseSelectManager_c::instance->layoutLoaded = 0;					//hide gameScene
-			// dCourseSelectManager_c::instance->startedSomeMsgThing = 1;			//startedSomeMsgThing = true
-		//}
+		state.setState(&StateID_ShowWait);
+		FUN_801017c0(PtrToWM_CS_SEQ_MNG, 0x35, 0, 0, 0x80);
 	}
 }
 void dWMShop_c::endState_Hidden() { }
@@ -376,15 +360,10 @@ void dWMShop_c::beginState_ShowWait() {
 	loadModels();
 }
 void dWMShop_c::executeState_ShowWait() {
-	OSReport("1");
 	if (!layout.isAnimOn(SHOW_ALL)) {
-	OSReport("2");
 		selected = 0;
-	OSReport("3");
 		layout.enableNonLoopAnim(ACTIVATE_BUTTON);
-	OSReport("4");
 		state.setState(&StateID_ButtonActivateWait);
-	OSReport("5");
 	}
 }
 void dWMShop_c::endState_ShowWait() {
@@ -598,20 +577,18 @@ void dWMShop_c::loadModels() {
 
 	itemModels = new ShopModel_c[ITEM_COUNT];
 	
-	OSReport("new ShopModel_c\n");
-	
 	for (int i = 0; i < ITEM_COUNT; i++) {
-		OSReport("for\n");		
 		float effectiveX = itemPos[i][0];
 		float effectiveY = itemPos[i][1];
 		if (!IsWideScreen()) {
 			effectiveX = (0.731f * (effectiveX + 416.0f)) - 296.0f;
 			effectiveY *= 0.7711f;
 			effectiveY += 50.0f;
-			itemModels[i].scaleFactor = 1.6f;
+			itemModels[i].scaleFactor = 1.75f;
+		} else {
+			itemModels[i].scaleFactor = 2.3f;	
 		}
 		itemModels[i].setupItem(effectiveX, effectiveY, Inventory[shopKind][i]);
-		OSReport("setupItem\n");
 	}
 }
 void dWMShop_c::deleteModels() {
@@ -742,7 +719,6 @@ void dWMShop_c::beginState_CoinCountdown() {
 void dWMShop_c::endState_CoinCountdown() { }
 
 void dWMShop_c::executeState_CoinCountdown() {
-	/* removed for testing
 	timerForCoinCountdown--;
 	if (timerForCoinCountdown <= 0) {
 
@@ -770,7 +746,9 @@ void dWMShop_c::executeState_CoinCountdown() {
 			efPos.x -= (CoinCount->size.x / div);
 			efPos.y -= (CoinCount->size.y / 2.0f);
 		} else {
-			float div = 5.8f;
+			float div = 1.0f;
+			if (scCount < 1000)
+				div = 5.8f;
 			if (scCount < 100)
 				div = 8.2f;
 			if (scCount < 10)
@@ -790,7 +768,7 @@ void dWMShop_c::executeState_CoinCountdown() {
 			MapSoundPlayer(SoundRelatedClass, SE_SYS_STAR_COIN_PAY, 1);
 			beginState_CoinCountdown();
 		}
-	}*/state.setState(&StateID_Wait);
+	}
 }
 
 
