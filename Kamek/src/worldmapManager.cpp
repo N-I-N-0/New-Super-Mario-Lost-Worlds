@@ -159,12 +159,7 @@ int dWMManager_c::onCreate() {
 
 	const char *worldNameText = dLevelInfo_c::s_info.getNameForLevel(level);
 	wchar_t convertedWorldName[32];
-	for (int i = 0; i < 32; i++) {
-		convertedWorldName[i] = worldNameText[i];
-		if (convertedWorldName[i] == 0)
-			break;
-	}
-	convertedWorldName[31] = 0;
+	mbstowcs(convertedWorldName, worldNameText, 32);
 
 	worldName->SetString(convertedWorldName);
 	shopText->SetString(L"Shop " L"\x0B\x0123");
@@ -227,6 +222,10 @@ int dWMManager_c::onExecute() {
 		wchar_t levelString[4];
 		wchar_t worldString[4];
 		uint worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+
+		cSelect->SetString(L"    ");
+		cSelectPic->SetString(L"    ");
+		worldNum->SetString(L"    ");
 
 		if(CurrentNodeNum != 255) {
 			if(CurrentNodeNum == 38) {

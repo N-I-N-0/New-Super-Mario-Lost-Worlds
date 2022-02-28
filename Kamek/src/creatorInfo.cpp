@@ -92,6 +92,11 @@ int dCreatorInfo_c::onCreate() {
 
 		layout.enableNonLoopAnim(SHOW_ALL);
 
+		if(IsWideScreen()) {
+			nw4r::lyt::Pane* back = layout.findPaneByName("N_something_00");
+			back->trans.x -= 75;
+		}
+
 		OSReport("loaded!\n");
 	}
 
@@ -189,32 +194,52 @@ void dCreatorInfo_c::endState_HideWait() {
 
 
 
-extern char CurrentWorld;
 extern void mbstowcs(wchar_t *destination, const char *source, size_t count);
 
 void dCreatorInfo_c::loadInfo() {
 	// Get Node Number & Level ID
+	uint worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
 	u8 CurrentNodeNum = *(u8*)((int)(dCourseSelectManager_c::instance) + 0x4D7);
-	u8 actualLevel = getActualLevelNum(CurrentNodeNum); // This seems to work half of the time
+	u8 actualLevel = getActualLevelNum(CurrentNodeNum);
 
-	OSReport("Gathering information about level %02d-%02d\n", CurrentWorld+1, actualLevel+1);
+	OSReport("Gathering information about level %02d-%02d\n", worldNumber+1, actualLevel+1);
+
+
+	char creditsFileName[64];
+	wchar_t convertedCreditsText1[100];
+	wchar_t convertedCreditsText2[100];
 
 	// Load the level designers' names
-	char creditsFileName[64];
-	sprintf(creditsFileName, "/LevelCredits/%02d-%02da.txt", CurrentWorld+1, actualLevel+1);
-
-	wchar_t convertedCreditsText1[100];
+	sprintf(creditsFileName, "/LevelCredits/%02d-%02da.txt", worldNumber+1, actualLevel+1);
 	const char* creditsText1 = (const char*)LoadFile(&fileHandles[0], creditsFileName);
 	if(creditsText1) {
 		mbstowcs(convertedCreditsText1, creditsText1, fileHandles[0].length);
 
 		AuthorNames->SetString(convertedCreditsText1);
 		FreeFile(&fileHandles[0]);
+	} else {
+		const wchar_t* noCreditsFile = L"You should\nnot see this\nhere!\nPlease\nreport on\nDiscord!";
+		AuthorNames->SetString(noCreditsFile);
+	}
+	
+	// Load the some comment for the level
+	sprintf(creditsFileName, "/LevelCredits/%02d-%02db.txt", worldNumber+1, actualLevel+1);
+	const char* creditsText2 = (const char*)LoadFile(&fileHandles[0], creditsFileName);
+	if(creditsText2) {
+		mbstowcs(convertedCreditsText2, creditsText2, fileHandles[0].length);
+
+		AuthorQuote->SetString(convertedCreditsText2);
+		FreeFile(&fileHandles[0]);
+	} else {
+		const wchar_t* noCreditsFile = L"";
+		AuthorQuote->SetString(noCreditsFile, 0);
 	}
 	
 	
+	
+	
 	// Find the level name
-	dLevelInfo_c::entry_s *levelNameEntry = dLevelInfo_c::s_info.searchBySlot(CurrentWorld+1, actualLevel+1);
+	dLevelInfo_c::entry_s *levelNameEntry = dLevelInfo_c::s_info.searchBySlot(worldNumber+1, actualLevel+1);
 
 	if(levelNameEntry) {
 		wchar_t levelNameStr[32];
@@ -229,8 +254,15 @@ void dCreatorInfo_c::loadInfo() {
 		FreeFile(&fileHandles[1]);
 
 	char sampleName[64];
-	sprintf(sampleName, "/LevelSamples/%02d-%02d.tpl", CurrentWorld+1, actualLevel+1);
+	sprintf(sampleName, "/LevelSamples/%02d-%02d.tpl", worldNumber+1, actualLevel+1);
 
 	TPLPalette *sample = (TPLPalette*)LoadFile(&fileHandles[1], sampleName);
-	Sample->material->texMaps[0].ReplaceImage(sample, 0);
+	if(sample) {
+		Sample->material->texMaps[0].ReplaceImage(sample, 0);
+	} else {
+		TPLPalette *error = (TPLPalette*)LoadFile(&fileHandles[1], "/LevelSamples/error.tpl");
+		if(error) {
+			Sample->material->texMaps[0].ReplaceImage(error, 0);
+		}
+	}
 }
