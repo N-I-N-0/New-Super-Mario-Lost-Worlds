@@ -628,7 +628,79 @@ Wm_mr_wfloatsplash:
 
 
 .align 4
+.extern FUN_800b34d0
+.extern returnFromToadBalloon_TextColor
+.extern toadColorAddress
+.global ToadBalloon_TextColorSetter
+ToadBalloon_TextColorSetter:
+	#save
+    stwu sp, -0x80 (sp)
+    mflr r0
+    stw r0, 0x4(sp)
+    stmw r2, 0x8 (sp)
 
+	lwz r4, 0x4(r30)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	
+	mulli r4, r4, 0x8
+		
+	lis r0, balloonColors@h
+	ori r0, r0, balloonColors@l
+	
+	add r5, r4, r0
+	addi r7, r5, 4
+	li r0, 0x1
+	lwz r5, 0x0(r5)
+	lwz r7, 0x0(r7)
+	
+	lis r6, toadColorAddress@h
+	ori r6, r6, toadColorAddress@l
+
+	stw r5, 0x0(r6)
+	stw r7, 0x4(r6)
+	stb r0, -0x1(r6)
+	
+	#restore
+    lmw r2, 0x8 (sp)
+    lwz r0, 0x4(sp)
+    mtlr r0
+    addi sp, sp, 0x80
+
+	bl	FUN_800b34d0
+	
+	b	returnFromToadBalloon_TextColor
+
+
+.align 4
+.global balloonColors
+balloonColors:
+.long 0xFF0A0AFF #blue
+.long 0x3C78FFFF
+.long 0xFF010101 #black
+.long 0x3C010101
+.long 0xFF000000 #brown
+.long 0xFF000000
+.long 0xFF000000 #pink
+.long 0xFF000000
+.long 0xFF000000 #green
+.long 0xFF000000
+.long 0xFF000000 #grey
+.long 0xFF000000
+.long 0xFF000000 #red
+.long 0xFF000000
+.long 0xFF000000 #dark grey
+.long 0xFF000000
+.long 0xFF000000 #light green
+.long 0xFF000000
+.long 0xFF000000 #light blue
+.long 0xFF000000
+.long 0xFF000000 #purple
+.long 0xFF000000
+.long 0xFF000000 #another pink
+.long 0xFF000000
+
+.align 4
 
 .global TEX_Bush
 TEX_Bush:
