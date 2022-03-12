@@ -4,4 +4,14 @@ hooks:
   - name: Layer0Fix
     type: patch
     addr_pal: 0x8042C1F8
-    data: '45BC0000'
+    data: '45CCB000'
+
+  - name: PoisonLayer0Fix
+    type: patch
+    addr_pal: 0x807b4f80
+    data: '4bffffe0'
+
+  - name: LavaLayer0Fix
+    type: patch
+    addr_pal: 0x807b4f3c
+    data: '48000024'
