@@ -167,3 +167,4 @@ modules:
   - processed/playerCurrentMultiplierMgr.yaml
   - processed/windColorMgr.yaml
   - processed/warpCannonFix.yaml
+  - processed/layer0fix.yaml

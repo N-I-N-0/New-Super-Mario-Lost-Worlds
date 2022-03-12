@@ -1,0 +1,7 @@
+---
+source_files: []
+hooks:
+  - name: Layer0Fix
+    type: patch
+    addr_pal: 0x8042C1F8
+    data: '45BC0000'

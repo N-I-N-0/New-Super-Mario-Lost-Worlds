@@ -1,4 +1,8 @@
 SECTIONS {
+	returnFromToadBalloon_TextColor = 0x80A0E530;
+	FUN_800b34d0 = 0x800B34D0;
+	toadColorAddress = 0x80429930;
+
 	stockItemPowerupModelScale = 0x8093C37C;
 	stockItemPlayerModelScale = 0x8093BE34;
 
