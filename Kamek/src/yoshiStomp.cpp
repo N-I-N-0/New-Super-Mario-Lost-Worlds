@@ -283,6 +283,7 @@ void daPlBase_c::newHipAttackStage4() {
 	// OSReport("hipAttackStage4 %08X\n", this->which_player);																			//Debugging
 	daYoshi2_c *CuteYoshi = (daYoshi2_c*)dAcPy_c::findByID(this->which_player)->getYoshi();															//Get the current yoshi
 	// OSReport("meh %08X\n", CuteYoshi->settings);																						//Debugging
+	if(!CuteYoshi) return;
 	if(CuteYoshi->settings != 0) {																										//If its settings aren't null (so the yoshi exists):
 		u32 color = getNybbleValue(CuteYoshi->settings, 12, 12);
 		if((color == 2 || color == 3) && getNybbleValue(CuteYoshi->settings, 5, 5) && !CuteYoshi->doneGP) {								//-If this yoshi is yellow or green, has a shell in his mouth and the groundpounding check isn't triggered:
