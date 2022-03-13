@@ -195,6 +195,7 @@ void daPlBase_c::endState_ShellConnect() {
 extern "C" dStageActor_c *Actor_SearchByID(u32 actorID);
 void setPlayerStateBlueShell(dAcPy_c* player) {			//setPlayerStateBlueShell__FP7dAcPy_c
 	dStageActor_c* carrying = Actor_SearchByID(*(u32*)((u32)(player)+0x2A78)); //Actor_SearchByID(player->idWeAreCarrying)
+	if(!carrying) return;
 	//OSReport("ID: %d, Pointer: %p, Name: %d\n", player->idWeAreCarrying, carrying, carrying->name);
 	if (carrying->name == 54 || carrying->name == 55) {	//if Koopa or Parakoopa Shell
 		blueShells[player->settings % 4] = carrying->id;
@@ -215,6 +216,9 @@ void setPlayerStateBlueShell(dAcPy_c* player) {			//setPlayerStateBlueShell__FP7
 			}
 		}
 		nokonokoN->speed.y = 3;
+		
+		dPlayerModelHandler_c *pmh = (dPlayerModelHandler_c*)(((u32)player) + 0x2A60);
+        pmh->mdlClass->startAnimation(hipsr, 1.0f, 0.0f, 0.0f);
 	}
 }
 
