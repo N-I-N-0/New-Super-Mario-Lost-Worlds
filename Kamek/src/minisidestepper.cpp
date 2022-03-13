@@ -223,7 +223,7 @@ int daMiniSidestepper_c::onCreate() {
 	Physics.category1 = 0x3;
 	Physics.category2 = 0x0;
 	Physics.bitfield1 = 0x4F;
-	Physics.bitfield2 = 0xFFFFFFFF;
+	Physics.bitfield2 = 0xFFBAFFFE;
 	Physics.unkShort1C = 0;
 	Physics.callback = &dEn_c::collisionCallback;
 

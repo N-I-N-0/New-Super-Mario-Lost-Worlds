@@ -225,7 +225,7 @@ public:
 	bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther);				
 	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);			
 	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);		
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);		
+	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);		
 	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);					
 	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 	
@@ -374,10 +374,10 @@ bool daSidestepper_c::collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, 
 	// When collides with fireball
     return true;
 }
-bool daSidestepper_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther) {
+/*bool daSidestepper_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther) {
 	// When collides with ice ball
     return true;
-}
+}*/
 bool daSidestepper_c::collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther) {
 	// When collides with hammer projectile
     return true;
@@ -442,7 +442,7 @@ int daSidestepper_c::onCreate() {
 	Physics.category1 = 0x3;
 	Physics.category2 = 0x0;
 	Physics.bitfield1 = 0x4F;
-	Physics.bitfield2 = 0xFFFFFFFF;
+	Physics.bitfield2 = 0xFFBAFFFE;
 	Physics.unkShort1C = 0;
 	Physics.callback = &dEn_c::collisionCallback;
 
@@ -490,9 +490,9 @@ int daSidestepper_c::onDelete() {
 int daSidestepper_c::onDraw() {
 	bodyModel.scheduleForDrawing();
 	//
-	fogModel.scheduleForDrawing();
+	//fogModel.scheduleForDrawing();
 	//fogModel._vf1C();
-	this->fogSRT.process();
+	//this->fogSRT.process();
 	//
 	return true;
 }
@@ -512,7 +512,7 @@ int daSidestepper_c::onExecute() {
 	acState.execute();
 	updateModelMatrices();
 	bodyModel._vf1C();
-	fogModel._vf1C();
+	//fogModel._vf1C();
 
 	if (this->animationChr.isAnimationDone()) {
 		this->animationChr.setCurrentFrame(0.0);
