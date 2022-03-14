@@ -22,8 +22,8 @@ checkWarpCannon:
 	ori		r3, r3, destinationWorld@l
 	lbz		r3, 0x0(r3)
 
-	lis		r4, destinationLevel@h
-	ori		r4, r4, destinationLevel@l
+	lis		r4, destinationSubWorld@h
+	ori		r4, r4, destinationSubWorld@l
 	lbz		r4, 0x0(r4)
 	
 	bl		goToSpecificWorld__Fcc
@@ -48,7 +48,7 @@ noWarp:
 destinationWorld: .byte 0
 
 .global destinationSubWorld
-destinationLevel: .byte 0
+destinationSubWorld: .byte 0
 
 .global shootIntoWorldNext
 shootIntoWorldNext: .byte 0
