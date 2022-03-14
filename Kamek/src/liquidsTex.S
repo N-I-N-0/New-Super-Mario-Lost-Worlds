@@ -11,7 +11,7 @@ CheckRanOnce:
     stw r0, 0x4(sp)
     stmw r2, 0x8 (sp)
 	
-	addis r6, r3, 0x2 #adding 0x20000 so we can access the stuff at the end of this gigantic class by substracting from the value later
+	addis r6, r3, 0x2 #adding 0x20000 so we can access the stuff at the end of this gigantic class by substracting from the value next
 	lbz r4, -0x5AFD(r6)
 	
 	cmpwi r4, 0
@@ -33,7 +33,7 @@ CheckRanOnce:
 	b continueBGpolyCreate
 
 notRanOnceYet:
-    li r4, 1			#no it ran once so set it to true
+    li r4, 1			#now it ran once so set it to true
 	stb r4, -0x5AFD(r6)
 	
 	lmw r2, 0x8 (sp)
