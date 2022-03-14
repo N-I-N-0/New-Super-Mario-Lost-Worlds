@@ -9,7 +9,7 @@ public:
 	dCourse_c::railNode_s* nextNode;
 	int currentNodeNum;
 	int steps;
-	float speed;
+	int speed;
 
 	bool loop;
 	u8 waitForPlayer;
@@ -63,11 +63,9 @@ void dEnPath_c::beginState_Init() {
 	OSReport("Begin Init\n");
 
 	this->waitForPlayer = this->settings >> 28 & 0b11;                       //Bit 19-20
-	speed = (float)(this->settings >> 16 & 0b1111);						    //Bit 29-32
+	speed = this->settings >> 16 & 0b1111;						    //Bit 29-32
 	currentNodeNum = this->settings >> 8 & 0b11111111;						//Bit 33-40
-	pathID = this->settings >> 0 & 0b11111111;                        	//Bit 41-48
-	
-	speed /= 6;
+	pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
 
 	if (speed == 0) {
 		OSReport("WARNING: SPEED ZERO NOT POSSIBLE!\n");

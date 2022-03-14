@@ -1,10 +1,27 @@
 #include <common.h>
 #include <game.h>
 #include <profile.h>
-#include <stage.h>
 #include "baddy.h"
 
 const char* LaunchStarFileList[] = { "launchStar", 0 };
+
+void initStarArraysMidway() {
+	for (int i = 0; i < 32; i++) {
+		for (int j = 0; j < 5; j++) {
+			launchStarChipCollectedAfterFlag[i][j] = false;
+		}
+		OSReport("Inner Array: %p\n", launchStarChipCollectedBeforeFlag[i]);
+	}
+}
+void initStarArrays() {
+	for (int i = 0; i < 32; i++) {
+		for (int j = 0; j < 5; j++) {
+			launchStarChipCollectedBeforeFlag[i][j] = false;
+			launchStarChipCollectedAfterFlag[i][j] = false;
+		}
+		OSReport("Inner Array: %p\n", launchStarChipCollectedBeforeFlag[i]);
+	}
+}
 
 class daEnLaunchStar_c : public dEn_c {
 public:
@@ -19,20 +36,34 @@ public:
 	m3d::mdl_c bodyModel;
 
 	m3d::anmChr_c chrAnimation;
-	
+	 
+
+	bool isSuperLaunchStar;
 	bool active;
 	bool isActivatedByEvent;
 
 	int id;
+	int starRotation;
+	int distance;
 
-	bool afterCheckpoint;
+	int destinationWorld;
+	int destinationSubWorld;
+	
+	int speed;
 
-	int speedx;
-	int speedy;
+	float timePlayer[4];
 
-	int timerActivation;
+	int collected;
 
-	dAcPy_c* actorsCurrentlyShooting[4];
+	/*int id;
+	int collected;
+	bool active;
+
+	int destinationX;
+	int destinationY;
+	int multiplicator;*/
+
+	dStageActor_c* actorsCurrentlyShooting[4];
 
 	static dActor_c* build();
 
@@ -53,6 +84,8 @@ public:
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
+
+	int type;
 };
 
 const SpriteData LaunchStarSpriteData = { ProfileId::LaunchStar, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
@@ -78,7 +111,7 @@ void daEnLaunchStar_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apO
 			if (this->actorsCurrentlyShooting[i] == 0)
 			{
 				OSReport("Yes\n");
-				this->actorsCurrentlyShooting[i] = (dAcPy_c*)apOther->owner;
+				this->actorsCurrentlyShooting[i] = apOther->owner;
 				playerStatus[apOther->owner->which_player] = 1;
 
 				//OSReport("getsMoved: %d\n", this->actorsCurrentlyShooting[i]->getsMoved);
@@ -103,6 +136,7 @@ bool daEnLaunchStar_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics*
 bool daEnLaunchStar_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
+
 bool daEnLaunchStar_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
@@ -110,6 +144,7 @@ bool daEnLaunchStar_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, 
 	return false;
 }
 bool daEnLaunchStar_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
+
 	return false;
 }
 bool daEnLaunchStar_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -118,9 +153,11 @@ bool daEnLaunchStar_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysic
 bool daEnLaunchStar_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
+
 bool daEnLaunchStar_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
+
 
 dActor_c* daEnLaunchStar_c::build() 
 {
@@ -129,6 +166,7 @@ dActor_c* daEnLaunchStar_c::build()
 
 	return c;
 }
+
 
 extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 
@@ -142,17 +180,16 @@ void daEnLaunchStar_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, 
 
 int daEnLaunchStar_c::onCreate() 
 {
-	OSReport("Starting daEnLaunchStar_c::onCreate()\n");
-	
+	this->deleteForever = true;
+
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
-	nw4r::g3d::ResMdl mdl;
-
 	this->resFile.data = getResource("launchStar", "g3d/launchStar.brres");
-	mdl = this->resFile.GetResMdl("LaunchStar");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("LaunchStar");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Player(&bodyModel, 0);
+
 
 	this->resFileAnim.data = getResource("launchStar", "g3d/launchStarAnim.brres");
 	nw4r::g3d::ResAnmChr anmChr = this->resFileAnim.GetResAnmChr("idle");
@@ -187,31 +224,108 @@ int daEnLaunchStar_c::onCreate()
 	this->rot.y = 0;
 	this->rot.z = 0;
 
-	this->pos.z = -4000;
+	this->pos.z = 4000;
 
-	this->bindAnimChr_and_setUpdateRate("idle", 1, 0.0, 1.0);
-		
-	this->active = this->settings >> 30 & 1;								
-	this->isActivatedByEvent = this->settings >> 29 & 1;					
+	daEnLaunchStar_c::bindAnimChr_and_setUpdateRate("idle", 1, 0.0, 1.0);
 
-	this->id = this->settings >> 24 & 0b11111;						
 
-	this->speedx = this->settings >> 18 & 0b111111;							
-	this->speedy = this->settings >> 12 & 0b111111;
+	this->isSuperLaunchStar = this->settings >> 31 & 1;						//Bit 17 (0=false, 1=true)
+	this->active = this->settings >> 30 & 1;								//Bit 18 (0=false, 1=true)
+	this->isActivatedByEvent = this->settings >> 29 & 1;					//Bit 19 (0=false, 1=true)
 
-	this->afterCheckpoint = this->settings >> 3 & 1;
+	this->id = this->settings >> 24 & 0b11111;								//Bit 20-24 (2^5=32 possible launchstars)
+
+	this->starRotation = this->settings >> 16 & 0xFF;						//Bit 25-32 (2^8=256 values)
+	
+	this->distance = this->settings >> 12 & 0xF;							//Bit 33-36 (2^4=16 values)
+
+	if (this->isSuperLaunchStar) {
+		this->destinationWorld = this->settings >> 8 & 0xF;					//Bit 37-40 (2^4=16 main worlds)
+		this->destinationSubWorld = this->settings >> 4 & 0xF;				//Bit 41-44 (2^4=16 sub worlds)
+	}
+	else {
+		this->speed = this->settings >> 4 & 0xFF;							//Bit 37-44 (2^8=256 different speed values)
+	}
+
+	this->speed *= 2;
+
+	this->collected = 0;
 
 	OSReport("ID: %d\n", this->id);
 
 	OSReport("Eight Launch One: %d\n", GameMgrP->eight.checkpointEntranceID);
+	
+	
 
-	timerActivation = 0;
 
-	checkStarChipReset(afterCheckpoint);
+	/*this->id = this->settings >> 3 & 0b111111;
+	this->collected = 0;
+	this->multiplicator = 1;
+
+	this->destinationX = this->settings >> 9 & 0b111111;
+	this->destinationY = this->settings >> 15 & 0b111111;
+	this->multiplicator += this->settings >> 21 & 0b11;
+	this->active = this->settings >> 1 & 0b1;
+
+	OSReport("Settings: %x\n", this->settings);
+	OSReport("Active: %d\n", this->active);
+	OSReport("ID: %d\n", this->id);
+	OSReport("Destination x: %d\n", this->destinationX);
+	OSReport("Destination y: %d\n", this->destinationY);
+	OSReport("Multi: %d\n", this->multiplicator);
+
+	this->destinationX *= this->multiplicator;
+	this->destinationY *= this->multiplicator;
+
+	OSReport("Destination x: %d\n", this->destinationX);
+	OSReport("Destination y: %d\n", this->destinationY);
+	
+	/*OSReport("\n");
+	OSReport("1: %d\n", this->settings >> 0 & 0b1);
+	OSReport("2: %d\n", this->settings >> 1 & 0b1);
+	OSReport("3: %d\n", this->settings >> 2 & 0b1);
+	OSReport("4: %d\n", this->settings >> 3 & 0b1);
+	OSReport("5: %d\n", this->settings >> 4 & 0b1);
+	OSReport("6: %d\n", this->settings >> 5 & 0b1);
+	OSReport("7: %d\n", this->settings >> 6 & 0b1);
+	OSReport("8: %d\n", this->settings >> 7 & 0b1);
+	OSReport("9: %d\n", this->settings >> 8 & 0b1);
+	OSReport("10: %d\n", this->settings >> 9 & 0b1);
+	OSReport("11: %d\n", this->settings >> 10 & 0b1);
+	OSReport("12: %d\n", this->settings >> 11 & 0b1);
+	OSReport("13: %d\n", this->settings >> 12 & 0b1);
+	OSReport("14: %d\n", this->settings >> 13 & 0b1);
+	OSReport("15: %d\n", this->settings >> 14 & 0b1);
+	OSReport("16: %d\n", this->settings >> 15 & 0b1);
+	OSReport("1: %d\n", this->settings >> 16 & 0b1);
+	OSReport("2: %d\n", this->settings >> 17 & 0b1);
+	OSReport("3: %d\n", this->settings >> 18 & 0b1);
+	OSReport("4: %d\n", this->settings >> 19 & 0b1);
+	OSReport("5: %d\n", this->settings >> 20 & 0b1);
+	OSReport("6: %d\n", this->settings >> 21 & 0b1);
+	OSReport("7: %d\n", this->settings >> 22 & 0b1);
+	OSReport("8: %d\n", this->settings >> 23 & 0b1);
+	OSReport("9: %d\n", this->settings >> 24 & 0b1);
+	OSReport("10: %d\n", this->settings >> 25 & 0b1);
+	OSReport("11: %d\n", this->settings >> 26 & 0b1);
+	OSReport("12: %d\n", this->settings >> 27 & 0b1);
+	OSReport("13: %d\n", this->settings >> 28 & 0b1);
+	OSReport("14: %d\n", this->settings >> 29 & 0b1);
+	OSReport("15: %d\n", this->settings >> 30 & 0b1);
+	OSReport("16: %d\n", this->settings >> 31 & 0b1);
+	OSReport("\n");
+
+	OSReport("0-3: %d\n", this->settings >> 0 & 0b1111);
+	OSReport("4-7: %d\n", this->settings >> 4 & 0b1111);*/
+
+	//allLaunchStars[id] = this;
+
+	//OSReport("%d\n", GetActivePlayerCount());
 
 	this->onExecute();
 	return true;
 }
+
 
 int daEnLaunchStar_c::onDelete() 
 {
@@ -224,6 +338,7 @@ int daEnLaunchStar_c::onDraw()
 	return true;
 }
 
+
 void daEnLaunchStar_c::updateModelMatrices() 
 {
 	matrix.translation(pos.x, pos.y, pos.z);
@@ -234,75 +349,95 @@ void daEnLaunchStar_c::updateModelMatrices()
 	bodyModel.calcWorld(false);
 }
 
-int daEnLaunchStar_c::onExecute()
+int daEnLaunchStar_c::onExecute() 
 {
-	bodyModel._vf1C();
-	updateModelMatrices();
-	chrAnimation.setUpdateRate(1.0f);
-	if (this->chrAnimation.isAnimationDone())
-	{
-		this->chrAnimation.setCurrentFrame(0.0);
-	}
-	
-	OSReport("CheckpointActivated: %d\n", chekpointActivated);
+	if (this->active){
+		for (int i = 0; i < 4; i++){
+			if (this->actorsCurrentlyShooting[i] != 0){
+				//OSReport("getsMoved 3: %d\n", this->actorsCurrentlyShooting[i]->getsMoved);
 
-	if (this->active)
-	{
-		if (timerActivation == 60 && this->actorsCurrentlyShooting[0] != 0)
-		{
-			dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
-
-			for (int i = 0; i < GetActivePlayerCount(); i++)
-			{
-				if (player != this->actorsCurrentlyShooting[0] && player != this->actorsCurrentlyShooting[1] && player != this->actorsCurrentlyShooting[2] && player != this->actorsCurrentlyShooting[3])
+				if ((this->actorsCurrentlyShooting[i]->collMgr.outputMaybe & (0x15 << 0)) || (this->actorsCurrentlyShooting[i]->collMgr.outputMaybe & (0x15 << 1)) || this->actorsCurrentlyShooting[i]->collMgr.isOnTopOfTile()) {     //if hit a wall
+					this->actorsCurrentlyShooting[i]->speed.x = 0;
+					this->actorsCurrentlyShooting[i]->speed.y = 0;
+					this->actorsCurrentlyShooting[i]->rot.x = 0;
+					playerStatus[this->actorsCurrentlyShooting[i]->which_player] = 0;
+					this->actorsCurrentlyShooting[i] = 0;
+					this->timePlayer[i] = 0;
+				}
+				else
 				{
-					player->pos.x = this->actorsCurrentlyShooting[0]->pos.x;
-					player->pos.y = this->actorsCurrentlyShooting[0]->pos.y;
-					player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
+					if (this->starRotation <= 180)
+					{
+						//OSReport("X: %f\n", this->pos.x + (this->speed * this->t[i] * cos(((this->starRotation * 2) * M_PI) / 180)));
+						//OSReport("Y: %f\n", this->pos.y + (this->speed * this->t[i] * sin(((this->starRotation * 2) * M_PI)) - (this->t[i] * this->t[i])));
+						this->actorsCurrentlyShooting[i]->pos.x = this->pos.x + (this->speed * (this->timePlayer[i]/16) * cos(((this->starRotation * 2) * M_PI) / 180));
+						//this->cannonBalls[i]->pos.x = this->pos.x;
+						//this->cannonBalls[i]->pos.y = this->pos.y;
+						//this->cannonBalls[i]->pos.y = this->pos.y + (this->cannonBalls[i]->pos.x * tan(((this->starRotation * 2) * M_PI) / 180)) - (2 / (2 * (this->speed * this->speed) * (cos(((this->starRotation * 2) * M_PI) / 180) * cos(((this->starRotation * 2) * M_PI) / 180))) * (this->cannonBalls[i]->pos.x * this->cannonBalls[i]->pos.x));
+
+						this->actorsCurrentlyShooting[i]->pos.y = (this->pos.y + (this->speed * (this->timePlayer[i] / 16) * sin(((this->starRotation * 2) * M_PI) / 180) - ((this->timePlayer[i] / 16) * (this->timePlayer[i] / 16)))) - (this->actorsCurrentlyShooting[i]->speed.y + this->actorsCurrentlyShooting[i]->y_speed_inc);
+						this->timePlayer[i] += 4;
+					}
+					else
+					{
+						//this->cannonBalls[i]->pos.x = this->pos.x - (this->speed * this->t[i] * cos(((this->starRotation * 2) * M_PI) / 180));
+						//this->actorsCurrentlyShooting[i]->pos.x = this->pos.x;
+						//this->cannonBalls[i]->pos.y = this->pos.y;
+						//this->actorsCurrentlyShooting[i]->pos.y = this->pos.y + (this->speed * this->timePlayer[i] * sin(((this->starRotation * 2) * M_PI) / 180) - (this->timePlayer[i] * this->timePlayer[i]));
+						//this->timePlayer[i] += 1;
+
+						this->actorsCurrentlyShooting[i]->pos.x = -(this->pos.x + (this->speed * (this->timePlayer[i] / 8) * cos(((this->starRotation * 2) * M_PI) / 180)));
+						this->actorsCurrentlyShooting[i]->pos.y = (this->pos.y + (this->speed * (this->timePlayer[i] / 8) * sin(((this->starRotation * 2) * M_PI) / 180) - ((this->timePlayer[i] / 8) * (this->timePlayer[i] / 8)))) - (this->actorsCurrentlyShooting[i]->speed.y + this->actorsCurrentlyShooting[i]->y_speed_inc);
+						this->timePlayer[i] += 4;
+					}
+
+					/*daPlBase_c* player = (daPlBase_c*)this->actorsCurrentlyShooting[i];
+					player->setFlag(0x7f);
+					player->setFlag(0x11);
+					player->setFlag(0xbd);
+					player->setFlag(0x88);
+					//player->setFlag(0x8e);
+					//player->setFlag(0x7a);
+					daPlBase_c::setPipeCannonCollisionCategory(player);
+					*/
+					//OSReport("%f | %f\n", this->cannonBalls[i]->pos.x, this->cannonBalls[i]->pos.y);
 				}
 
-				player->pipeCannonShot(0, speedx, speedy);
 
-				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
-			}
 
-			for (int i = 0; i < 4; i++)
-			{
-				this->actorsCurrentlyShooting[i] = 0;
-			}
+				/*this->cannonBalls[i]->pos.x = this->cannonBalls[i]->last_pos.x + this->destinationX / 100 - this->cannonBalls[i]->speed.x; //(this->cannonBalls[i]->speed.x + this->cannonBalls[i]->x_speed_inc);
+				this->cannonBalls[i]->pos.y = this->cannonBalls[i]->last_pos.y + this->destinationY / 100 - this->cannonBalls[i]->speed.y; //(this->cannonBalls[i]->speed.y + this->cannonBalls[i]->y_speed_inc);
 
-			this->timerActivation = 0;
-		}
-		else if (timerActivation < 60 && this->actorsCurrentlyShooting[0] != 0)
-		{
-			timerActivation += 1;
+				this->cannonBalls[i]->rot.x += 0x300;
 
-			dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
+				this->cannonBallsDone[i] += 1;
 
-			for (int i = 0; player != 0; i++)
-			{
-				player->pos.x = this->pos.x;
-				player->pos.y = this->pos.y;
-				player->pos.z = this->pos.z;
-
-				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
+				if (this->cannonBallsDone[i] >= 100) {
+					this->cannonBalls[i]->rot.x -= 768 * 100;
+					this->cannonBalls[i] = 0;
+					this->cannonBallsDone[i] = 0;
+					playerInWork[this->cannonBalls[i]->which_player] = false;
+				}*/
 			}
 		}
-
-		OSReport("Timer: %d\n", timerActivation);
 
 		this->scale = (Vec){ 0.2, 0.2, 0.2 };
-		this->rot.y += 0x200;
-		this->rot.x -= 0x300;
-		this->rot.z += 0x400;
-		
+		this->rot.y += 0.2;
+		this->rot.x -= 0.3;
+		this->rot.z += 0.4;
+		bodyModel._vf1C();
+		updateModelMatrices();
+
+		/*if (this->chrAnimation.isAnimationDone()) {
+			this->chrAnimation.setCurrentFrame(0.0);
+		}*/
 		return true;
 	}
 	else
 	{
 		this->scale = (Vec){ 0, 0, 0 };
 
-		OSReport("-------------------------------------------------------------------------------\n");
+		OSReport("Collected %d\n", this->collected);
 		OSReport("Eight Launch two: %d\n", GameMgrP->eight.checkpointEntranceID);
 		OSReport("Collected After 1: %d\n", launchStarChipCollectedAfterFlag[this->id][0]);
 		OSReport("Collected After 2: %d\n", launchStarChipCollectedAfterFlag[this->id][1]);
@@ -315,12 +450,10 @@ int daEnLaunchStar_c::onExecute()
 		OSReport("Collected Before 3: %d\n", launchStarChipCollectedBeforeFlag[this->id][2]);
 		OSReport("Collected Before 4: %d\n", launchStarChipCollectedBeforeFlag[this->id][3]);
 		OSReport("Collected Before 5: %d\n", launchStarChipCollectedBeforeFlag[this->id][4]);
-		OSReport("-------------------------------------------------------------------------------\n");
 
-		for (int i = 0; i < 5; i++)
-		{
-			if (launchStarChipCollectedAfterFlag[this->id][i] != true && launchStarChipCollectedBeforeFlag[this->id][i] != true)
-			{
+
+		for (int i = 0; i < 5; i++) {
+			if (launchStarChipCollectedAfterFlag[this->id][i] != true && launchStarChipCollectedBeforeFlag[this->id][i] != true) {
 				return true;
 			}
 		}

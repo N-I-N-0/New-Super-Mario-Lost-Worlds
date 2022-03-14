@@ -580,9 +580,6 @@ enum
 	KyasarinEgg = 555,
 	PlCrMgr = 556,
 	WindColorMgr = 557,
-	SuperLaunchStar = 558,
-	PullStar = 559,
-	PullStarManager = 560,
 
 	Num
 };
@@ -1425,11 +1422,8 @@ enum
 	Kyasarin, //822
 	KyasarinEgg, //823
 	PlCrMgr, //824
-	WindColorMgr, // 825
+	WindColorMgr, // 825,
 	WMShop, //826
-	SuperLaunchStar, //827
-	PullStar, //828
-	PullStarManager, //829
 	
 	Num
 };

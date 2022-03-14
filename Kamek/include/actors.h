@@ -837,9 +837,6 @@ enum Actors {
 	PlCrMgr, //824
 	WindColorMgr, // 825
 	WMShop, //826
-	SuperLaunchStar, //827
-	PullStar, //828
-	PullStarManager, //829
 };
 
 struct Actor {
