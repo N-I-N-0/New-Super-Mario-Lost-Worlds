@@ -70,6 +70,32 @@ SelectDifferentLiquidsSet2:
 	lwzx r5, r5, r3
 	addi r3, r6, 0x4
 	b returnFromSelectDifferentLiquidsSet2
+
+
+.extern liquidSubTypes #array in .cpp
+.extern dWaterManager_c__add
+.extern returnFromSaveLiquiSubTypesInNewArray
+.global SaveLiquiSubTypesInNewArray
+SaveLiquiSubTypesInNewArray:
+	bl dWaterManager_c__add			#index i is returned
+	lis r4, liquidSubTypes@h		#array
+	ori r4, r4, liquidSubTypes@l
+	lbz r6, 0x355(r27)				#get subType
+	stwx r6, r4, r3					#store it in liquidSubTypes[i]
+	b returnFromSaveLiquiSubTypesInNewArray
+
+
+.global SaveLiquidSubTypeWhenColliding
+SaveLiquidSubTypeWhenColliding:
+	lis r4, liquidSubTypes@h		#array
+	ori r4, r4, liquidSubTypes@l
+	lbzx r4, r5, r4					#r5 contains index
+
+	lis r5, nextSplashSubType@h
+	ori r5, r5, nextSplashSubType@l
+	stb r4, 0x0(r5)					#store next splash sub type
+	
+	blr
 	
 
 .extern obj_waterfull, obj_waterhalf, obj_magma, obj_poisonwater, obj_quicksand, obj_envfog
@@ -93,24 +119,26 @@ PTR_ARRAY_8031b7d0:
 	.long obj_envfog
 	.long obj_envfog
 
-
+.extern obj_magmawave
 .global PTR_ARRAY_8031b988
 PTR_ARRAY_8031b988:
-	.long obj_waterfull
 	.long obj_waterhalf
 	.long obj_magma
 	.long obj_poisonwater
+	.long obj_magmawave
 	.long obj_quicksand
 
-	.long black_waterfull
 	.long black_waterhalf
 	.long blue_magma
 	.long shroob_slimewater
+	.long blue_magmawave
 	.long snow_sand
 
 liquidSetting:
 	.byte 0x00
 
+nextSplashSubType:
+	.byte 0x00
 
 black_waterfull:
 	.string "g3d/black_waterfull.brres"
@@ -120,6 +148,9 @@ black_waterhalf:
 
 blue_magma:
 	.string "g3d/blue_magma.brres"
+
+blue_magmawave:
+	.string "g3d/blue_magmawave.brres"
 
 shroob_slimewater:
 	.string "g3d/shroob_slimewater.brres"

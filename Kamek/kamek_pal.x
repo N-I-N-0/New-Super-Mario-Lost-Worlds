@@ -3,6 +3,8 @@ SECTIONS {
 	continueBGpolyCreate = 0x807b4d14;
 	returnFromSelectDifferentLiquidsSet = 0x800eb1ac;
 	returnFromSelectDifferentLiquidsSet2 = 0x800ebe84;
+	dWaterManager_c__add = 0x800eb6d0;
+	returnFromSaveLiquiSubTypesInNewArray = 0x807b502c;
 
 	obj_waterfull = 0x8031b740;
 	obj_waterhalf = 0x8031b758;
@@ -10,6 +12,7 @@ SECTIONS {
 	obj_poisonwater = 0x8031b784;
 	obj_quicksand = 0x8031b7a0;
 	obj_envfog = 0x8031b7b8;
+	obj_magmawave = 0x8031b958;
 
 
 	returnFromToadBalloon_TextColor = 0x80a0ec10;

@@ -1,5 +1,5 @@
 ---
-source_files: [../src/liquidsTex.S]
+source_files: [../src/liquidsTex.cpp, ../src/liquidsTex.S]
 hooks:
   - name: CheckRanOnce
     type: branch_insn
@@ -18,6 +18,26 @@ hooks:
     src_addr_pal: 0x800ebe80
     branch_type: b
     target_func: 'SelectDifferentLiquidsSet2'
+
+  - name: SaveLiquidSubTypeWhenColliding
+    type: branch_insn
+    src_addr_pal: 0x800eb7ac
+    branch_type: b
+    target_func: 'SaveLiquidSubTypeWhenColliding'
+
+  - name: SaveLiquiSubTypesInNewArray
+    type: branch_insn
+    src_addr_pal: 0x807b5028
+    branch_type: b
+    target_func: 'SaveLiquiSubTypesInNewArray'
+
+  - name: ClearSubTypesArray
+    type: branch_insn
+    src_addr_pal: 0x800eb6cc
+    branch_type: b
+    target_func: 'ClearSubTypesArray(void)'
+
+
 
   - name: Increase_daBGpolygon_c
     type: patch
