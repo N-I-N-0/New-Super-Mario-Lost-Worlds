@@ -28,6 +28,8 @@ public:
 
 	bool collected;
 
+	bool afterCheckpoint;
+
 	daEnLaunchStar_c* star;
 
 
@@ -113,12 +115,22 @@ extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 
 int daEnStarChip_c::onCreate() {
 	this->deleteForever = true;
-
+	
+	bool pullIs = this->settings >> 8 & 0b1;
+	
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
 	this->resFile.data = getResource("starChip", "g3d/starChip.brres");
-	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("StarChip");
+	nw4r::g3d::ResMdl mdl;
+	if(!pullIs)
+	{
+		mdl = this->resFile.GetResMdl("StarChip");
+	}
+	else
+	{
+		mdl = this->resFile.GetResMdl("StarChipPull");
+	}
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Player(&bodyModel, 0);
 
@@ -152,6 +164,9 @@ int daEnStarChip_c::onCreate() {
 	this->pos.z = 4000;
 
 	this->star_chip_id = this->settings >> 29 & 0b111;
+
+	this->afterCheckpoint = this->settings >> 28 & 1;
+
 	this->id = this->settings >> 0 & 0b111111;
 
 	OSReport("Star Chip ID: %d\n", this->id);
@@ -180,29 +195,17 @@ int daEnStarChip_c::onCreate() {
 
 	OSReport("StarCHIP ID: %d\n", this->star_chip_id);
 
-	this->collected = false;
-
-	OSReport("Eight Star Chip One: %d\n", GameMgrP->eight.checkpointEntranceID);
-
-	if (GameMgrP->eight.checkpointEntranceID != 255) {
-		if (launchStarChipCollectedBeforeFlag[this->id][this->star_chip_id]) {
-			this->type8fastJump = true;
-		}
+	
+	if (launchStarChipCollectedBeforeFlag[this->id][this->star_chip_id] == true || launchStarChipCollectedAfterFlag[this->id][this->star_chip_id] == true)
+	{
+		collected = true;
+	}
+	else
+	{
+		collected = false;
 	}
 
-	if (this->star_chip_id == 0) {
-		if (GameMgrP->eight.checkpointEntranceID != 255) {
-			for (int j = 0; j < 5; j++) {
-				launchStarChipCollectedAfterFlag[this->id][j] = false;
-			}
-		}
-		else {
-			for (int j = 0; j < 5; j++) {
-				launchStarChipCollectedBeforeFlag[this->id][j] = false;
-				launchStarChipCollectedAfterFlag[this->id][j] = false;
-			}
-		}
-	}
+	checkStarChipReset(afterCheckpoint);
 
 	this->onExecute();
 	return true;
@@ -231,9 +234,9 @@ void daEnStarChip_c::updateModelMatrices() {
 int daEnStarChip_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
+
 	if (this->star == 0) {
 		star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, 0);
-
 		while (star != 0)
 		{
 			if (star->id == this->id)
@@ -270,12 +273,7 @@ int daEnStarChip_c::onExecute() {
 			this->scale.z -= 0.1;
 		}
 		if (this->type8timer == 11) {
-			if (this->star != 0) {
-				this->star->collected += 1;
-			}
-
-			OSReport("Eight Star Chip Two: %d\n", GameMgrP->eight.checkpointEntranceID);
-			if (GameMgrP->eight.checkpointEntranceID == 255) {
+			if (!chekpointActivated) {
 				launchStarChipCollectedBeforeFlag[this->id][this->star_chip_id] = true;
 			}
 			else {

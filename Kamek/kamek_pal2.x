@@ -1,4 +1,20 @@
 SECTIONS {
+	returnFromSaveLiquidSettings = 0x807B4D44;
+	continueBGpolyCreate = 0x807B4D24;
+	returnFromSelectDifferentLiquidsSet = 0x800EB1AC;
+	returnFromSelectDifferentLiquidsSet2 = 0x800EBE84;
+	dWaterManager_c__add = 0x800EB6D0;
+	returnFromSaveLiquiSubTypesInNewArray = 0x807B503C;
+
+	obj_waterfull = 0x8031B740;
+	obj_waterhalf = 0x8031B758;
+	obj_magma = 0x8031B770;
+	obj_poisonwater = 0x8031B784;
+	obj_quicksand = 0x8031B7A0;
+	obj_envfog = 0x8031B7B8;
+	obj_magmawave = 0x8031B958;
+
+
 	returnFromToadBalloon_TextColor = 0x80A0EC30;
 	FUN_800b34d0 = 0x800B34D0;
 	toadColorAddress = 0x80429EF0;

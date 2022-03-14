@@ -4,9 +4,19 @@
 #include <stage.h>
 #include "baddy.h"
 
-const char* LaunchStarFileList[] = { "launchStar", 0 };
+const char* SuperLaunchStarFileList[] = { "launchStar", 0 };
 
-class daEnLaunchStar_c : public dEn_c {
+extern char CurrentLevel, CurrentWorld;
+extern "C" void ExitStageReal(int scene, int sceneParams, int powerupStoreType, int wipe);
+
+extern "C" u8 CurrentWorldNumForWorldMap;
+extern "C" u8 CurrentWorldNumForWorldMapSub;
+
+extern bool shootIntoWorldNext;
+extern u8 destinationWorld;
+extern u8 destinationSubWorld;
+
+class daEnSuperLaunchStar_c : public dEn_c {
 public:
 	int onCreate();
 	int onExecute();
@@ -19,16 +29,16 @@ public:
 	m3d::mdl_c bodyModel;
 
 	m3d::anmChr_c chrAnimation;
-	
+
 	bool active;
 	bool isActivatedByEvent;
 
 	int id;
 
-	bool afterCheckpoint;
+	int superDestinationWorld;
+	int superDestinationSubWorld;
 
-	int speedx;
-	int speedy;
+	bool afterCheckpoint;
 
 	int timerActivation;
 
@@ -55,18 +65,16 @@ public:
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
 };
 
-const SpriteData LaunchStarSpriteData = { ProfileId::LaunchStar, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile LaunchStarProfile(&daEnLaunchStar_c::build, SpriteId::LaunchStar, &LaunchStarSpriteData, ProfileId::LaunchStar, ProfileId::LaunchStar, "LaunchStar", LaunchStarFileList);
+const SpriteData SuperLaunchStarSpriteData = { ProfileId::SuperLaunchStar, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile SuperLaunchStarProfile(&daEnSuperLaunchStar_c::build, SpriteId::SuperLaunchStar, &SuperLaunchStarSpriteData, ProfileId::SuperLaunchStar, ProfileId::SuperLaunchStar, "SuperLaunchStar", SuperLaunchStarFileList);
 
 u8 hijackMusicWithSongName(const char* songName, int themeID, bool hasFast, int channelCount, int trackCount, int* wantRealStreamID);
 
-void daEnLaunchStar_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	OSReport("Collided LaunchStar\n");
+void daEnSuperLaunchStar_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	OSReport("Collided SuperLaunchStar\n");
 	if (this->active)
 	{
-		OSReport("Is Active Launch Star\n");
-
-		//OSReport("getsMoved: %d\n", apOther->owner->getsMoved)
+		OSReport("Is Active Super Launch Star\n");
 
 		if (playerStatus[apOther->owner->which_player] != 0)
 		{
@@ -80,59 +88,57 @@ void daEnLaunchStar_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apO
 				OSReport("Yes\n");
 				this->actorsCurrentlyShooting[i] = (dAcPy_c*)apOther->owner;
 				playerStatus[apOther->owner->which_player] = 1;
-
-				//OSReport("getsMoved: %d\n", this->actorsCurrentlyShooting[i]->getsMoved);
-
 				return;
 			}
 		}
 	}
 }
-void daEnLaunchStar_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+void daEnSuperLaunchStar_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	//this->playerCollision(apThis, apOther);
 }
-bool daEnLaunchStar_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
+
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-bool daEnLaunchStar_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
+bool daEnSuperLaunchStar_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
 
-dActor_c* daEnLaunchStar_c::build() 
+dActor_c* daEnSuperLaunchStar_c::build() 
 {
-	void* buffer = AllocFromGameHeap1(sizeof(daEnLaunchStar_c));
-	daEnLaunchStar_c* c = new(buffer) daEnLaunchStar_c;
+	void* buffer = AllocFromGameHeap1(sizeof(daEnSuperLaunchStar_c));
+	daEnSuperLaunchStar_c* c = new(buffer) daEnSuperLaunchStar_c;
 
 	return c;
 }
 
 extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 
-void daEnLaunchStar_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) 
+void daEnSuperLaunchStar_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) 
 {
 	nw4r::g3d::ResAnmChr anmChr = this->resFileAnim.GetResAnmChr(name);
 	this->chrAnimation.bind(&this->bodyModel, anmChr, unk);
@@ -140,15 +146,15 @@ void daEnLaunchStar_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, 
 	this->chrAnimation.setUpdateRate(rate);
 }
 
-int daEnLaunchStar_c::onCreate() 
+int daEnSuperLaunchStar_c::onCreate() 
 {
-	OSReport("Starting daEnLaunchStar_c::onCreate()\n");
+	OSReport("Starting daEnSuperLaunchStar_c::onCreate()\n");
 	
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
 	nw4r::g3d::ResMdl mdl;
-
+	
 	this->resFile.data = getResource("launchStar", "g3d/launchStar.brres");
 	mdl = this->resFile.GetResMdl("LaunchStar");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
@@ -188,16 +194,16 @@ int daEnLaunchStar_c::onCreate()
 	this->rot.z = 0;
 
 	this->pos.z = -4000;
-
+	
 	this->bindAnimChr_and_setUpdateRate("idle", 1, 0.0, 1.0);
-		
-	this->active = this->settings >> 30 & 1;								
-	this->isActivatedByEvent = this->settings >> 29 & 1;					
 
-	this->id = this->settings >> 24 & 0b11111;						
+	this->active = this->settings >> 30 & 1;						
+	this->isActivatedByEvent = this->settings >> 29 & 1;				
 
-	this->speedx = this->settings >> 18 & 0b111111;							
-	this->speedy = this->settings >> 12 & 0b111111;
+	this->id = this->settings >> 24 & 0b11111;
+	
+	this->superDestinationWorld = this->settings >> 8 & 0xF;			
+	this->superDestinationSubWorld = this->settings >> 4 & 0xF;
 
 	this->afterCheckpoint = this->settings >> 3 & 1;
 
@@ -213,18 +219,18 @@ int daEnLaunchStar_c::onCreate()
 	return true;
 }
 
-int daEnLaunchStar_c::onDelete() 
+int daEnSuperLaunchStar_c::onDelete() 
 {
 	return true;
 }
 
-int daEnLaunchStar_c::onDraw() 
+int daEnSuperLaunchStar_c::onDraw() 
 {
 	bodyModel.scheduleForDrawing();
 	return true;
 }
 
-void daEnLaunchStar_c::updateModelMatrices() 
+void daEnSuperLaunchStar_c::updateModelMatrices() 
 {
 	matrix.translation(pos.x, pos.y, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
@@ -234,7 +240,7 @@ void daEnLaunchStar_c::updateModelMatrices()
 	bodyModel.calcWorld(false);
 }
 
-int daEnLaunchStar_c::onExecute()
+int daEnSuperLaunchStar_c::onExecute()
 {
 	bodyModel._vf1C();
 	updateModelMatrices();
@@ -244,13 +250,14 @@ int daEnLaunchStar_c::onExecute()
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 	
-	OSReport("CheckpointActivated: %d\n", chekpointActivated);
-
 	if (this->active)
 	{
+		dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
+		Remocon* pIn = RemoconMng->controllers[0];
+		dPlayerInput_c* pInput = &player->input;
+		
 		if (timerActivation == 60 && this->actorsCurrentlyShooting[0] != 0)
 		{
-			dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
 
 			for (int i = 0; i < GetActivePlayerCount(); i++)
 			{
@@ -261,7 +268,11 @@ int daEnLaunchStar_c::onExecute()
 					player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
 				}
 
-				player->pipeCannonShot(0, speedx, speedy);
+				shootIntoWorldNext = true;
+				destinationWorld = this->superDestinationWorld;
+				destinationSubWorld = this->superDestinationSubWorld;
+				
+				player->cannonShot(1,1,1);
 
 				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
 			}
@@ -290,12 +301,6 @@ int daEnLaunchStar_c::onExecute()
 		}
 
 		OSReport("Timer: %d\n", timerActivation);
-
-		this->scale = (Vec){ 0.2, 0.2, 0.2 };
-		this->rot.y += 0x200;
-		this->rot.x -= 0x300;
-		this->rot.z += 0x400;
-		
 		return true;
 	}
 	else
@@ -303,7 +308,7 @@ int daEnLaunchStar_c::onExecute()
 		this->scale = (Vec){ 0, 0, 0 };
 
 		OSReport("-------------------------------------------------------------------------------\n");
-		OSReport("Eight Launch two: %d\n", GameMgrP->eight.checkpointEntranceID);
+		OSReport("Eight Super Launch two: %d\n", GameMgrP->eight.checkpointEntranceID);
 		OSReport("Collected After 1: %d\n", launchStarChipCollectedAfterFlag[this->id][0]);
 		OSReport("Collected After 2: %d\n", launchStarChipCollectedAfterFlag[this->id][1]);
 		OSReport("Collected After 3: %d\n", launchStarChipCollectedAfterFlag[this->id][2]);
