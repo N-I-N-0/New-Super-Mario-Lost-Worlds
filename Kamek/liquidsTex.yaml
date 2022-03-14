@@ -1,0 +1,25 @@
+---
+source_files: [../src/liquidsTex.S]
+hooks:
+  - name: CheckRanOnce
+    type: branch_insn
+    src_addr_pal: 0x807b4d10
+    branch_type: b
+    target_func: 'CheckRanOnce'
+
+  - name: SelectDifferentLiquidsSet
+    type: branch_insn
+    src_addr_pal: 0x800eb1a8
+    branch_type: b
+    target_func: 'SelectDifferentLiquidsSet'
+
+  - name: SelectDifferentLiquidsSet2
+    type: branch_insn
+    src_addr_pal: 0x800ebe80
+    branch_type: b
+    target_func: 'SelectDifferentLiquidsSet2'
+
+  - name: Increase_daBGpolygon_c
+    type: patch
+    addr_pal: 0x807b40b8
+    data: '3863a504' #Orig: 3863a500 -> increase by 4 byte for new ranOnce!

@@ -7,7 +7,7 @@ modules:
   # - processed/corseClear.yaml
   - processed/apDebug.yaml
   - processed/hardMode.yaml
-  # - processed/layoutDebug.yaml
+ # - processed/layoutDebug.yaml
   - processed/codeDebug.yaml
   - processed/creditsMgr.yaml
   # - processed/endingMgr.yaml
@@ -168,3 +168,4 @@ modules:
   - processed/windColorMgr.yaml
   - processed/warpCannonFix.yaml
   - processed/layer0fix.yaml
+  - processed/liquidsTex.yaml
