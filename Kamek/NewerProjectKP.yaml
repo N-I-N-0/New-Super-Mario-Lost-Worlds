@@ -2,6 +2,7 @@ output_dir: "NewerASM"
 code_address: 0x808D9000
 modules:
   - processed/profile.yaml
+  - processed/midwayFlag.yaml
   - processed/0.yaml
   - processed/prolog.yaml
   # - processed/corseClear.yaml
@@ -26,7 +27,7 @@ modules:
   - soundPlayer.yaml
   # - processed/bowserKey.yaml
   - processed/stagefixes.yaml
-  - processed/lavawaves.yaml
+#  - processed/lavawaves.yaml
   - processed/clouds.yaml
   - processed/levelspecial.yaml
   - processed/mrsun.yaml

@@ -1,0 +1,26 @@
+---
+source_files: [../src/midwayFlag.cpp]
+hooks:
+  - name: SetMidwayBoolTrue
+    type: branch_insn
+    src_addr_pal: 0x807e2e90
+    branch_type: b
+    target_func: 'SetMidwayBoolTrue(void)'
+
+  - name: SetMidwayBoolTrueSeaFlag
+    type: branch_insn
+    src_addr_pal: 0x807e3160
+    branch_type: b
+    target_func: 'SetMidwayBoolTrue(void)'
+
+  - name: SetMidwayBoolTrue
+    type: branch_insn
+    src_addr_pal: 0x8008ef28
+    branch_type: b
+    target_func: 'SetMidwayBoolTrue2(bool)'
+
+  - name: SetMidwayBoolFalse
+    type: branch_insn
+    src_addr_pal: 0x8008edfc
+    branch_type: b
+    target_func: 'SetMidwayBoolFalse(void)'
