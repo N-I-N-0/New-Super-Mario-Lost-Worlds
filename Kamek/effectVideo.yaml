@@ -1,7 +1,7 @@
 ---
 # Replaces LIFT_TORIDE_ROLL
 
-source_files: [../src/effectvideo.cpp, ../src/effectvideo.S]
+source_files: [../src/effects.cpp, ../src/effectvideo.cpp, ../src/effectvideo.S]
 hooks:
   - name: EffectVideoAdd
     type: add_func_pointer

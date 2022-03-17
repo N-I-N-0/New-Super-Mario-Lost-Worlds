@@ -1,4 +1,4 @@
-#include "effects.h"
+//#include "effects.h"
 
 const char* effects_name_list [] = {
 	"Wm_mr_2dlandsmoke",		// 0000
