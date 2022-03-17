@@ -5,6 +5,8 @@ SECTIONS {
 	returnFromSelectDifferentLiquidsSet2 = 0x800ebe84;
 	dWaterManager_c__add = 0x800eb6d0;
 	returnFromSaveLiquiSubTypesInNewArray = 0x807b502c;
+	returnFromUseDifferentSplashEffects = 0x80092128;
+	returnFromSelectDifferentLavaDeco = 0x800ebeb4;
 
 	obj_waterfull = 0x8031b740;
 	obj_waterhalf = 0x8031b758;
@@ -13,7 +15,16 @@ SECTIONS {
 	obj_quicksand = 0x8031b7a0;
 	obj_envfog = 0x8031b7b8;
 	obj_magmawave = 0x8031b958;
-
+	obj_magmadeco = 0x8031bb18;
+	
+	aWm_en_waterwav = 0x80311830;
+	aWm_en_cmnwat_0 = 0x80311844;
+	aWm_en_waterspl = 0x80311854;
+	aWm_en_firevani = 0x80311868;
+	aWm_en_cmnmag_1 = 0x8031187c;
+	aWm_en_magmaw_0 = 0x80311890;
+	aWm_en_poisonin = 0x803118a0;
+	aWm_en_poisonwa = 0x803118b4;
 
 	returnFromToadBalloon_TextColor = 0x80a0ec10;
 	FUN_800b34d0 = 0x800b34d0;
@@ -1934,6 +1945,7 @@ SECTIONS {
 	_Z6memsetPvij = 0x800046B4;
 	sprintf__FPcPCce = 0x802E1ACC;
 	snprintf__FPcUlPCce = 0x802E19D8;
+	memcmp__FPCvPCvUl = 0x802DF388;
 	memcmp__FPCvPCvUi = 0x802DF388;
 	_Z6strcatPKcS0_ = 0x802E1D2C;
 

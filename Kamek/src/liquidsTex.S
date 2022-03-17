@@ -54,6 +54,10 @@ SelectDifferentLiquidsSet:
 	mulli r3, r3, 28
 	add r3, r3, r28
 	lwzx r5, r5, r3
+
+	li r3, 0					#set nybble 3-4 to 0 to make sure it won't cause unexpected problems later
+	stb r3, -0x7B(r29)			#maybe set event mask again using nybble 1-2 as well?
+
 	addi r3, r6, 0x4
 	b returnFromSelectDifferentLiquidsSet
 
@@ -70,6 +74,20 @@ SelectDifferentLiquidsSet2:
 	lwzx r5, r5, r3
 	addi r3, r6, 0x4
 	b returnFromSelectDifferentLiquidsSet2
+
+
+.extern returnFromSelectDifferentLavaDeco
+.global SelectDifferentLavaDeco
+SelectDifferentLavaDeco:
+	lis r5, PTR_ARRAY_8031bb30@h
+	ori r5, r5, PTR_ARRAY_8031bb30@l
+	
+	lbz r3, -0x1BF(r24)			#load nybble 3-4 from daBGpolygon_c
+	mulli r3, r3, 20
+	add r3, r3, r26
+	lwzx r5, r5, r3
+	b returnFromSelectDifferentLavaDeco
+
 
 
 .extern liquidSubTypes #array in .cpp
@@ -96,7 +114,25 @@ SaveLiquidSubTypeWhenColliding:
 	stb r4, 0x0(r5)					#store next splash sub type
 	
 	blr
+
+
+.extern returnFromUseDifferentSplashEffects
+.global UseDifferentSplashEffects
+UseDifferentSplashEffects:
+	lis r4, PTR_aWm_en_waterwav_803118c8@h			#new array
+	ori r4, r4, PTR_aWm_en_waterwav_803118c8@l
+
+	lis r5, nextSplashSubType@h						#load last used sub type
+	ori r5, r5, nextSplashSubType@l
+	lbz r5, 0x0(r5)
+	mulli r5, r5, 32
 	
+	add r4, r4, r5									#select sub type entry address
+	
+	lwzx r4, r4, r0									#grab effect name
+	b returnFromUseDifferentSplashEffects
+	
+
 
 .extern obj_waterfull, obj_waterhalf, obj_magma, obj_poisonwater, obj_quicksand, obj_envfog
 .data
@@ -111,13 +147,29 @@ PTR_ARRAY_8031b7d0:
 	.long obj_envfog
 	.long obj_envfog
 
-	.long black_waterfull
+	.long obj_waterfull		#dummy
 	.long black_waterhalf
 	.long blue_magma
-	.long shroob_slimewater
+	.long obj_slimewater
 	.long snow_sand
 	.long obj_envfog
 	.long obj_envfog
+
+	.long obj_waterfull		#dummy
+	.long swamp_waterhalf
+	.long gold_magma
+	.long pink_poisonwater
+	.long red_sand
+	.long obj_envfog		#dummy
+	.long obj_envfog		#dummy
+
+	.long obj_waterfull		#dummy
+	.long obj_waterhalf		#dummy
+	.long obj_magma			#dummy
+	.long obj_poisonwater	#dummy
+	.long obj_mudsand
+	.long obj_envfog		#dummy
+	.long obj_envfog		#dummy
 
 .extern obj_magmawave
 .global PTR_ARRAY_8031b988
@@ -130,9 +182,66 @@ PTR_ARRAY_8031b988:
 
 	.long black_waterhalf
 	.long blue_magma
-	.long shroob_slimewater
+	.long obj_slimewater
 	.long blue_magmawave
 	.long snow_sand
+
+	.long swamp_waterhalf
+	.long gold_magma
+	.long pink_poisonwater
+	.long obj_magmawave			#dummy
+	.long red_sand
+
+	.long obj_waterhalf			#dummy
+	.long obj_magma				#dummy
+	.long obj_poisonwater		#dummy
+	.long obj_magmawave			#dummy
+	.long obj_mudsand
+
+.extern aWm_en_waterwav, aWm_en_cmnwat_0, aWm_en_waterspl, aWm_en_firevani, aWm_en_cmnmag_1, aWm_en_magmaw_0, aWm_en_poisonin, aWm_en_poisonwa
+.global PTR_aWm_en_waterwav_803118c8
+PTR_aWm_en_waterwav_803118c8:
+	.long aWm_en_waterwav
+	.long aWm_en_cmnwat_0
+	.long aWm_en_waterspl
+	.long aWm_en_firevani
+	.long aWm_en_cmnmag_1
+	.long aWm_en_magmaw_0
+	.long aWm_en_poisonin
+	.long aWm_en_poisonwa
+	
+	.long aWm_en_poisonin
+	.long aWm_en_poisonwa
+	.long aWm_en_poisonin
+	.long aWm_en_poisonwa
+	.long aWm_en_poisonin
+	.long aWm_en_poisonwa
+	.long aWm_en_poisonin
+	.long aWm_en_poisonwa
+
+
+.extern obj_magmadeco
+.global PTR_ARRAY_8031bb30
+PTR_ARRAY_8031bb30:
+	.long obj_magmadeco
+	.long obj_magmadeco
+	.long obj_poisondeco
+	.long obj_magmadeco
+	.long obj_magmadeco
+	
+	.long blue_magmadeco
+	.long blue_magmadeco
+	.long obj_slimedeco
+	.long blue_magmadeco
+	.long blue_magmadeco
+	
+	.long gold_magmadeco
+	.long gold_magmadeco
+	.long obj_poisondeco
+	.long gold_magmadeco
+	.long gold_magmadeco
+
+
 
 liquidSetting:
 	.byte 0x00
@@ -140,23 +249,47 @@ liquidSetting:
 nextSplashSubType:
 	.byte 0x00
 
-black_waterfull:
-	.string "g3d/black_waterfull.brres"
-
 black_waterhalf:
 	.string "g3d/black_waterhalf.brres"
+
+swamp_waterhalf:
+	.string "g3d/swamp_waterhalf.brres"
 
 blue_magma:
 	.string "g3d/blue_magma.brres"
 
+blue_magmadeco:
+	.string "g3d/blue_magmadeco.brres"
+
+gold_magma:
+	.string "g3d/gold_magma.brres"
+
+gold_magmadeco:
+	.string "g3d/gold_magmadeco.brres"
+
 blue_magmawave:
 	.string "g3d/blue_magmawave.brres"
 
-shroob_slimewater:
-	.string "g3d/shroob_slimewater.brres"
+obj_slimewater:
+	.string "g3d/obj_slimewater.brres"
+
+obj_slimedeco:
+	.string "g3d/obj_slimedeco.brres"
+
+pink_poisonwater:
+	.string "g3d/pink_poisonwater.brres"
+
+obj_poisondeco:
+	.string "g3d/obj_poisondeco.brres"
 
 snow_sand:
 	.string "g3d/obj_snowsand.brres"
+
+red_sand:
+	.string "g3d/obj_redsand.brres"
+
+obj_mudsand:
+	.string "g3d/obj_mudsand.brres"
 
 
 

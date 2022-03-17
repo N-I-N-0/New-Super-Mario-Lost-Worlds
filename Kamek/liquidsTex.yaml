@@ -19,6 +19,12 @@ hooks:
     branch_type: b
     target_func: 'SelectDifferentLiquidsSet2'
 
+  - name: SelectDifferentLavaDeco
+    type: branch_insn
+    src_addr_pal: 0x800ebeb0
+    branch_type: b
+    target_func: 'SelectDifferentLavaDeco'
+
   - name: SaveLiquidSubTypeWhenColliding
     type: branch_insn
     src_addr_pal: 0x800eb7ac
@@ -37,9 +43,23 @@ hooks:
     branch_type: b
     target_func: 'ClearSubTypesArray(void)'
 
+  - name: UseDifferentSplashEffects
+    type: branch_insn
+    src_addr_pal: 0x80092124
+    branch_type: b
+    target_func: 'UseDifferentSplashEffects'
+
 
 
   - name: Increase_daBGpolygon_c
     type: patch
     addr_pal: 0x807b40b8
     data: '3863a504' #Orig: 3863a500 -> increase by 4 byte for new ranOnce!
+    
+  - name: NoHardcodedLava1
+    type: nop_insn
+    area_pal: 0x800ECAC0
+
+  - name: NoHardcodedLava2
+    type: nop_insn
+    area_pal: [0x800ECAD0, 0x800ECB04]
