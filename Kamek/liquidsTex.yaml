@@ -63,3 +63,10 @@ hooks:
   - name: NoHardcodedLava2
     type: nop_insn
     area_pal: [0x800ECAD0, 0x800ECB04]
+    
+    
+  - name: LavaParticlesColor
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80888CD4
+    target_func: 'LavaParticlesColor'

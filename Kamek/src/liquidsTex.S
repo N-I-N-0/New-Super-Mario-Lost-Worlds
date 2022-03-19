@@ -131,7 +131,105 @@ UseDifferentSplashEffects:
 	
 	lwzx r4, r4, r0									#grab effect name
 	b returnFromUseDifferentSplashEffects
-	
+
+
+.extern doneWithLavaParticlesColor
+.global LavaParticlesColor
+LavaParticlesColor:
+    lwz r4, 4(r17)
+    rlwinm r4, r4, 24, 28, 31 # (this->settings >> 8) & 0xF
+    cmpwi r4, 1
+    beq doGreenLavaParticles # We can add as many colors as we want
+	cmpwi r4, 2
+	beq doBlueLavaParticles
+	cmpwi r4, 3
+	beq doPinkLavaParticles
+	cmpwi r4, 4
+	beq doWhiteLavaParticles
+	cmpwi r4, 5
+	beq doBlackLavaParticles
+
+
+    # doOrangeLavaParticles:
+    li r4, 0xFF # R
+    li r5, 0xFF # G
+    li r6, 0x00 # B
+
+    li r7, 0xFF # R
+    li r8, 0x00 # G
+    li r9, 0x00 # B
+
+    b setLavaParticlesColor
+
+doGreenLavaParticles:
+    li r4, 0xAF # R
+    li r5, 0xD3 # G
+    li r6, 0x5F # B
+
+    li r7, 0x18 # R
+    li r8, 0x35 # G
+    li r9, 0x0D # B
+
+	b setLavaParticlesColor
+
+doBlueLavaParticles:
+    li r4, 0x00 # R
+    li r5, 0x00 # G
+    li r6, 0xFF # B
+
+    li r7, 0x00 # R
+    li r8, 0x0B # G
+    li r9, 0xFF # B
+
+	b setLavaParticlesColor
+
+doPinkLavaParticles:
+    li r4, 0xFF # R
+    li r5, 0x00 # G
+    li r6, 0xFF # B
+
+    li r7, 0xFF # R
+    li r8, 0x14 # G
+    li r9, 0x93 # B
+
+	b setLavaParticlesColor
+
+doWhiteLavaParticles:
+    li r4, 0xFF # R
+    li r5, 0xFF # G
+    li r6, 0xFF # B
+
+    li r7, 0xF5 # R
+    li r8, 0xF5 # G
+    li r9, 0xF5 # B
+
+	b setLavaParticlesColor
+
+doBlackLavaParticles:
+    li r4, 0x00 # R
+    li r5, 0x00 # G
+    li r6, 0x00 # B
+
+    li r7, 0x1F # R
+    li r8, 0x1F # G
+    li r9, 0x1F # B
+
+	b setLavaParticlesColor
+
+setLavaParticlesColor:
+    stb r4, 0x574(r17)
+    stb r5, 0x575(r17)
+    stb r6, 0x576(r17)
+
+    stb r7, 0x578(r17)
+    stb r8, 0x579(r17)
+    stb r9, 0x57A(r17)
+
+    li r4, 0xFF
+    stb r4, 0x57B(r17) # Restore instruction
+
+    b doneWithLavaParticlesColor
+
 
 
 .extern obj_waterfull, obj_waterhalf, obj_magma, obj_poisonwater, obj_quicksand, obj_envfog

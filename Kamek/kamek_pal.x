@@ -7,6 +7,7 @@ SECTIONS {
 	returnFromSaveLiquiSubTypesInNewArray = 0x807b502c;
 	returnFromUseDifferentSplashEffects = 0x80092128;
 	returnFromSelectDifferentLavaDeco = 0x800ebeb4;
+	doneWithLavaParticlesColor = 0x80888CD8;
 
 	obj_waterfull = 0x8031b740;
 	obj_waterhalf = 0x8031b758;

@@ -2416,6 +2416,22 @@
     </list>
   </sprite> <!-- #357: Yoshi Fruit -->
 
+  <sprite id="358" name="Effect - Rising (Lava) Particle" notes="An effects controller that creates small particles that rise from the bottom of the screen. The density of the effect is increased for every instance of the sprite placed in the zone. It can be used alongside other effects.">
+    <list nybble="12" title="Particle Frequency" comment="This determines the frequency of the particle effect.">
+      <entry value="0">Very Frequent</entry>
+      <entry value="1">Frequent</entry>
+      <entry value="2">Sparse</entry>
+    </list>
+    <list nybble="10" title="Particle Color" comment="This determines the color of the particle effect.">
+      <entry value="0">Red</entry>
+      <entry value="1">Green</entry>
+      <entry value="2">Blue</entry>
+      <entry value="3">Pink</entry>
+      <entry value="4">White</entry>
+      <entry value="5">Black</entry>
+    </list>
+  </sprite> <!-- #358: Effect - Rising (Lava) Particle -->
+
   <!-- Test is 90 continues to function (at all? / correctly?) if Falling Objects is set to something other than Snow. -->
   <!-- Test if 374 is required for 90 to generate pushback (90 Only). Test if 90 is required for 374 to generate sandstorm graphics (374 Only). -->
   <!-- Clean up 90 after finishing research on these questions -->
