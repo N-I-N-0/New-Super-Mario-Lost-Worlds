@@ -141,11 +141,39 @@ SaveGlobalPoisonSubType:
 .global LoadGlobalSubType
 LoadGlobalSubType:
 	lbz r30, 0xBE7(r3)				#get subType
-	lis r29, nextSplashSubType@h						#load last used sub type
+	lis r29, nextSplashSubType@h	#load last used sub type
 	ori r29, r29, nextSplashSubType@l
 	stb r30, 0x0(r29)
 	lbz r3, 0x2c(r3)
 	b returnFromLoadGlobalSubType
+
+.extern returnFromPlayerUsePoisonSplashSubType
+.global PlayerUsePoisonSplashSubType
+PlayerUsePoisonSplashSubType:
+	lis r6, nextSplashSubType@h						#load last used sub type
+	ori r6, r6, nextSplashSubType@l
+	lbz r6, 0x0(r6)
+	mulli r6, r6, 4
+
+	lis r4, PlayerPoisonWaves@h						#load last used sub type
+	ori r4, r4, PlayerPoisonWaves@l
+	lwzx r4, r4, r6
+
+	b returnFromPlayerUsePoisonSplashSubType
+
+.extern returnFromPlayerUseLavaSplashSubType
+.global PlayerUseLavaSplashSubType
+PlayerUseLavaSplashSubType:
+	lis r6, nextSplashSubType@h						#load last used sub type
+	ori r6, r6, nextSplashSubType@l
+	lbz r6, 0x0(r6)
+	mulli r6, r6, 4
+
+	lis r4, PlayerLavaWaves@h						#load last used sub type
+	ori r4, r4, PlayerLavaWaves@l
+	lwzx r4, r4, r6
+
+	b returnFromPlayerUseLavaSplashSubType
 
 
 .extern returnFromUseDifferentSplashEffects
@@ -373,7 +401,20 @@ PTR_ARRAY_8031bb30:
 	.long gold_magmadeco
 	.long gold_magmadeco
 
+PlayerPoisonWaves:
+	.long aWm_en_poisonwa
+	.long aWm_en_magmaw_0
+	.long aWm_en_poisonwa
 
+PlayerLavaWaves:
+	.long aWm_en_poisonwa
+	.long aWm_en_magmaw_0
+	.long aWm_en_poisonwa
+
+PlayerWaterWaves:
+	.long aWm_en_poisonwa
+	.long aWm_en_magmaw_0
+	.long aWm_en_poisonwa
 
 liquidSetting:
 	.byte 0x00

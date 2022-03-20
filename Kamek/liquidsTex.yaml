@@ -61,6 +61,18 @@ hooks:
     branch_type: b
     target_func: 'LoadGlobalSubType'
 
+  - name: PlayerUsePoisonSplashSubType
+    type: branch_insn
+    src_addr_pal: 0x8013dcb0
+    branch_type: b
+    target_func: 'PlayerUsePoisonSplashSubType'
+
+  - name: PlayerUseLavaSplashSubType
+    type: branch_insn
+    src_addr_pal: 0x8013e1f4
+    branch_type: b
+    target_func: 'PlayerUseLavaSplashSubType'
+
   - name: getLiquidSubType
     type: branch_insn
     src_addr_pal: 0x80075270
