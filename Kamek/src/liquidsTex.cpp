@@ -7,12 +7,9 @@ u8 getLiquidSubType(float x, float y, u8 layer, float* unk) { //getLiquidSubType
 	for (int i = 0; i < 80; i++) {
 		WaterData* data = &dWaterManager_c::instance->data[i];
 		if(data->isInUse) {
-			OSReport("Liquid %d width: %f\n", i, data->width);
 			if ((data->x <= x) && (x <= data->x + data->width)) {
 				if ((y <= data->y) && (data->y - data->height <= y)) {
 					nextSplashSubType = liquidSubTypes[i];
-					OSReport("Found liquid: %d\n", i);
-					CDPrintCurrentAddress();
 					goto foundLiquidSubType;
 				}
 			}

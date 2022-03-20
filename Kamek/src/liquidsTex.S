@@ -177,10 +177,8 @@ PlayerUseLavaSplashSubType:
 
 
 .extern returnFromUseDifferentSplashEffects
-.extern getLiquidSubType__FP7Point3d
 .global UseDifferentSplashEffects
 UseDifferentSplashEffects:
-
 	lis r4, PTR_aWm_en_waterwav_803118c8@h			#new array
 	ori r4, r4, PTR_aWm_en_waterwav_803118c8@l
 
@@ -193,6 +191,22 @@ UseDifferentSplashEffects:
 	
 	lwzx r4, r4, r0									#grab effect name
 	b returnFromUseDifferentSplashEffects
+
+.extern returnFromUseDifferentSplashEffects2
+.global UseDifferentSplashEffects2
+UseDifferentSplashEffects2:
+	lis r3, PTR_aWm_en_waterwav_803118c8@h			#new array
+	ori r3, r3, PTR_aWm_en_waterwav_803118c8@l
+
+	lis r7, nextSplashSubType@h						#load last used sub type
+	ori r7, r7, nextSplashSubType@l
+	lbz r7, 0x0(r7)
+	mulli r7, r7, 32
+	
+	add r3, r3, r7									#select sub type entry address
+	
+	lwzx r3, r3, r0									#grab effect name
+	b returnFromUseDifferentSplashEffects2
 
 
 .extern doneWithLavaParticlesColor
@@ -370,12 +384,21 @@ PTR_aWm_en_waterwav_803118c8:
 	.long aWm_en_poisonin
 	.long aWm_en_poisonwa
 	
-	.long aWm_en_poisonin
-	.long aWm_en_poisonwa
-	.long aWm_en_poisonin
-	.long aWm_en_poisonwa
-	.long aWm_en_poisonin
-	.long aWm_en_poisonwa
+	.long aWm_en_waterwav
+	.long aWm_en_cmnwat_0
+	.long aWm_en_waterspl
+	.long aWm_en_firevani
+	.long Wm_en_cmnmagmawaveblue
+	.long Wm_en_magmawaveblue
+	.long Wm_en_poisoninbig01green
+	.long Wm_en_poisonwavegreen
+
+	.long aWm_en_waterwav
+	.long aWm_en_cmnwat_0
+	.long aWm_en_waterspl
+	.long aWm_en_firevani
+	.long Wm_en_cmnmagmawavegold
+	.long Wm_en_magmawavegold
 	.long aWm_en_poisonin
 	.long aWm_en_poisonwa
 
@@ -403,18 +426,18 @@ PTR_ARRAY_8031bb30:
 
 PlayerPoisonWaves:
 	.long aWm_en_poisonwa
-	.long aWm_en_magmaw_0
+	.long Wm_en_poisonwavegreen
 	.long aWm_en_poisonwa
 
 PlayerLavaWaves:
-	.long aWm_en_poisonwa
 	.long aWm_en_magmaw_0
-	.long aWm_en_poisonwa
+	.long Wm_en_magmawaveblue
+	.long Wm_en_magmawavegold
 
-PlayerWaterWaves:
-	.long aWm_en_poisonwa
-	.long aWm_en_magmaw_0
-	.long aWm_en_poisonwa
+#PlayerWaterWaves:
+#	.long aWm_en_poisonwa
+#	.long aWm_en_magmaw_0
+#	.long aWm_en_poisonwa
 
 liquidSetting:
 	.byte 0x00
@@ -461,5 +484,21 @@ red_sand:
 obj_mudsand:
 	.string "g3d/obj_mudsand.brres"
 
+Wm_en_poisonwavegreen:
+	.string "Wm_en_poisonwavegreen"
 
+Wm_en_poisoninbig01green:
+	.string "Wm_en_poisoninbig01green"
+
+Wm_en_magmawaveblue:
+	.string "Wm_en_magmawaveblue"
+
+Wm_en_magmawavegold:
+	.string "Wm_en_magmawavegold"
+
+Wm_en_cmnmagmawaveblue:
+	.string "Wm_en_cmnmagmawaveblue"
+
+Wm_en_cmnmagmawavegold:
+	.string "Wm_en_cmnmagmawavegold"
 

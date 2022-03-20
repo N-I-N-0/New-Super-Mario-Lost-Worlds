@@ -15,6 +15,7 @@ SECTIONS {
 	returnFromLoadGlobalSubType = 0x80075524;
 	returnFromPlayerUsePoisonSplashSubType = 0x8013dcb4;
 	returnFromPlayerUseLavaSplashSubType = 0x8013e1f8;
+	returnFromUseDifferentSplashEffects2 = 0x800920f0;
 
 	obj_waterfull = 0x8031b740;
 	obj_waterhalf = 0x8031b758;

@@ -37,6 +37,12 @@ hooks:
     branch_type: b
     target_func: 'UseDifferentSplashEffects'
 
+  - name: UseDifferentSplashEffects2 #poison uses another effect spawning function?
+    type: branch_insn
+    src_addr_pal: 0x800920ec
+    branch_type: b
+    target_func: 'UseDifferentSplashEffects2'
+
   - name: SaveGlobalWaterSubType
     type: branch_insn
     src_addr_pal: 0x807b5950
