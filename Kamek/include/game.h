@@ -2853,16 +2853,26 @@ public:
 
 
 
-struct dWaterInfo_s {
-	float x, y, z, width, height;
-	int isInUse;
-	u8 type, layer;
+struct WaterData {
+    float x;
+    float y;
+    float z;
+    float width;
+    float height;
+    u32 isInUse;
+    u8 type; /*		0 = water
+					1 = lava
+					2 = poison
+					3 = round bubble
+					4 = tall bubble
+					5 = wide bubble */
+    u8 layer;
+    u16 pad;
 };
 
 class dWaterManager_c {
-	private:
-		dWaterInfo_s blocks[80];
 	public:
+		WaterData data[80];
 		float current;
 
 		static dWaterManager_c *instance;
@@ -2871,7 +2881,7 @@ class dWaterManager_c {
 		~dWaterManager_c() { instance = 0; }
 
 		void setup();
-		int addBlock(dWaterInfo_s *block);
+		int addBlock(WaterData *block);
 
 	private: // ?
 		int isPointWithinSpecifiedBlock(VEC2 *pos, int blockID);
@@ -2947,7 +2957,6 @@ public:
 
 	TileRenderer::List *getTileRendererList(int index);
 };
-
 
 class dPlayerModelBase_c {
 	// dunno what's public and what's private here
@@ -4496,8 +4505,8 @@ class dAcPy_c : public daPlBase_c {
 		void getCurrentSizeID(); // 801466C0
 		void sub_80146710(); // 80146710
 		void setVisibleArea(); // 80146810
-		void assignTempusFloatStruct(); // 80146880
-		void returnValue1068(); // 801468B0
+		void setModeGravity(); // 80146880
+		float* getGravityData(); // 801468B0
 		u32 setPowerup_orig(u32 powerup_id); // 801468F0
 		u32 patch_thing(u32 powerup_id); // Over setPowerup
 		u32 _vf3FC(); // 80146A10

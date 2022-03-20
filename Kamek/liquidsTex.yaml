@@ -25,23 +25,11 @@ hooks:
     branch_type: b
     target_func: 'SelectDifferentLavaDeco'
 
-  - name: SaveLiquidSubTypeWhenColliding
-    type: branch_insn
-    src_addr_pal: 0x800eb7ac
-    branch_type: b
-    target_func: 'SaveLiquidSubTypeWhenColliding'
-
   - name: SaveLiquiSubTypesInNewArray
     type: branch_insn
     src_addr_pal: 0x807b5028
     branch_type: b
     target_func: 'SaveLiquiSubTypesInNewArray'
-
-  - name: ClearSubTypesArray
-    type: branch_insn
-    src_addr_pal: 0x800eb6cc
-    branch_type: b
-    target_func: 'ClearSubTypesArray(void)'
 
   - name: UseDifferentSplashEffects
     type: branch_insn
@@ -49,7 +37,42 @@ hooks:
     branch_type: b
     target_func: 'UseDifferentSplashEffects'
 
+  - name: SaveGlobalWaterSubType
+    type: branch_insn
+    src_addr_pal: 0x807b5950
+    branch_type: b
+    target_func: 'SaveGlobalWaterSubType'
 
+  - name: SaveGlobalLavaSubType
+    type: branch_insn
+    src_addr_pal: 0x807b59f8
+    branch_type: b
+    target_func: 'SaveGlobalLavaSubType'
+
+  - name: SaveGlobalPoisonSubType
+    type: branch_insn
+    src_addr_pal: 0x807b5a8c
+    branch_type: b
+    target_func: 'SaveGlobalPoisonSubType'
+
+  - name: LoadGlobalSubType
+    type: branch_insn
+    src_addr_pal: 0x80075390
+    branch_type: b
+    target_func: 'LoadGlobalSubType'
+
+  - name: getLiquidSubType
+    type: branch_insn
+    src_addr_pal: 0x80075270
+    branch_type: b
+    target_func: 'getLiquidSubType(float, float, unsigned char, float *)'
+
+
+
+  - name: Increase_dBgGm_c
+    type: patch
+    addr_pal: 0x80154810
+    data: '38630be8' #Orig: 38630be4 -> increase by 4 byte for new liquidSubType!
 
   - name: Increase_daBGpolygon_c
     type: patch

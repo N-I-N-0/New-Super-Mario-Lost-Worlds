@@ -2,6 +2,8 @@
 
 
 .text
+.extern nextSplashSubType
+
 .extern continueBGpolyCreate
 .global CheckRanOnce
 CheckRanOnce:
@@ -55,8 +57,8 @@ SelectDifferentLiquidsSet:
 	add r3, r3, r28
 	lwzx r5, r5, r3
 
-	li r3, 0					#set nybble 3-4 to 0 to make sure it won't cause unexpected problems later
-	stb r3, -0x7B(r29)			#maybe set event mask again using nybble 1-2 as well?
+	#li r3, 0					#set nybble 3-4 to 0 to make sure it won't cause unexpected problems later
+	#stb r3, -0x7B(r29)			#maybe set event mask again using nybble 1-2 as well?
 
 	addi r3, r6, 0x4
 	b returnFromSelectDifferentLiquidsSet
@@ -99,26 +101,58 @@ SaveLiquiSubTypesInNewArray:
 	lis r4, liquidSubTypes@h		#array
 	ori r4, r4, liquidSubTypes@l
 	lbz r6, 0x355(r27)				#get subType
-	stwx r6, r4, r3					#store it in liquidSubTypes[i]
+	stbx r6, r4, r3					#store it in liquidSubTypes[i]
 	b returnFromSaveLiquiSubTypesInNewArray
 
 
-.global SaveLiquidSubTypeWhenColliding
-SaveLiquidSubTypeWhenColliding:
-	lis r4, liquidSubTypes@h		#array
-	ori r4, r4, liquidSubTypes@l
-	lbzx r4, r5, r4					#r5 contains index
+.extern continueOriginalCheckWater
+.global checkWater
+checkWater:
+	stwu sp, -0x80(sp)
+	b continueOriginalCheckWater
 
-	lis r5, nextSplashSubType@h
-	ori r5, r5, nextSplashSubType@l
-	stb r4, 0x0(r5)					#store next splash sub type
-	
-	blr
+.extern returnFromSaveGlobalWaterSubType
+.global SaveGlobalWaterSubType
+SaveGlobalWaterSubType:
+	lbz r5, 0x355(r30)				#get subType
+	stb r5, 0xBE7(r3)				#save subType in expanded dBgGm_c
+	mr r3, r30
+	b returnFromSaveGlobalWaterSubType
+
+.extern returnFromSaveGlobalLavaSubType
+.global SaveGlobalLavaSubType
+SaveGlobalLavaSubType:
+	stb r6, 0x2c(r5)
+	lbz r3, 0x355(r30)				#get subType
+	stb r3, 0xBE7(r5)				#save subType in expanded dBgGm_c
+	mr r3, r30
+	b returnFromSaveGlobalLavaSubType
+
+.extern returnFromSaveGlobalPoisonSubType
+.global SaveGlobalPoisonSubType
+SaveGlobalPoisonSubType:
+	stb r0, 0x2c(r4)
+	lbz r3, 0x355(r31)				#get subType
+	stb r3, 0xBE7(r4)				#save subType in expanded dBgGm_c
+	mr r3, r31
+	b returnFromSaveGlobalPoisonSubType
+
+.extern returnFromLoadGlobalSubType
+.global LoadGlobalSubType
+LoadGlobalSubType:
+	lbz r30, 0xBE7(r3)				#get subType
+	lis r29, nextSplashSubType@h						#load last used sub type
+	ori r29, r29, nextSplashSubType@l
+	stb r30, 0x0(r29)
+	lbz r3, 0x2c(r3)
+	b returnFromLoadGlobalSubType
 
 
 .extern returnFromUseDifferentSplashEffects
+.extern getLiquidSubType__FP7Point3d
 .global UseDifferentSplashEffects
 UseDifferentSplashEffects:
+
 	lis r4, PTR_aWm_en_waterwav_803118c8@h			#new array
 	ori r4, r4, PTR_aWm_en_waterwav_803118c8@l
 
@@ -342,9 +376,6 @@ PTR_ARRAY_8031bb30:
 
 
 liquidSetting:
-	.byte 0x00
-
-nextSplashSubType:
 	.byte 0x00
 
 black_waterhalf:
