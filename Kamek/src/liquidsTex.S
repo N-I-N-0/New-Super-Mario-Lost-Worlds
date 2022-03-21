@@ -175,6 +175,46 @@ PlayerUseLavaSplashSubType:
 
 	b returnFromPlayerUseLavaSplashSubType
 
+.extern returnFromIceUseLavaSplashSubType
+.global IceUseLavaSplashSubType
+IceUseLavaSplashSubType:
+	lis r6, nextSplashSubType@h						#load last used sub type
+	ori r6, r6, nextSplashSubType@l
+	lbz r6, 0x0(r6)
+	mulli r6, r6, 4
+
+	lis r4, PlayerLavaWaves@h						#load last used sub type
+	ori r4, r4, PlayerLavaWaves@l
+	lwzx r3, r4, r6
+
+	b returnFromIceUseLavaSplashSubType
+
+.extern returnFromPodobooUseLavaSplashSetting
+.global PodobooUseLavaSplashSetting
+PodobooUseLavaSplashSetting:
+	lbz r6, 0x5(r30)								#get second setting byte
+	mulli r6, r6, 4
+
+	lis r4, PlayerLavaWaves@h						#load last used sub type
+	ori r4, r4, PlayerLavaWaves@l
+	lwzx r3, r4, r6
+
+	b returnFromPodobooUseLavaSplashSetting
+
+.extern returnFromIceUsePoisonSplashSubType
+.global IceUsePoisonSplashSubType
+IceUsePoisonSplashSubType:
+	lis r7, nextSplashSubType@h						#load last used sub type
+	ori r7, r7, nextSplashSubType@l
+	lbz r7, 0x0(r7)
+	mulli r7, r7, 4
+
+	lis r4, IcePoisonSplashes@h						#load last used sub type
+	ori r4, r4, IcePoisonSplashes@l
+	lwzx r4, r4, r7
+
+	b returnFromIceUsePoisonSplashSubType
+
 
 .extern returnFromUseDifferentSplashEffects
 .global UseDifferentSplashEffects
@@ -429,7 +469,7 @@ PlayerPoisonWaves:
 	.long Wm_en_poisonwavegreen
 	.long aWm_en_poisonwa
 
-PlayerLavaWaves:
+PlayerLavaWaves:				#also used for ice and Podoboo!
 	.long aWm_en_magmaw_0
 	.long Wm_en_magmawaveblue
 	.long Wm_en_magmawavegold
@@ -438,6 +478,12 @@ PlayerLavaWaves:
 #	.long aWm_en_poisonwa
 #	.long aWm_en_magmaw_0
 #	.long aWm_en_poisonwa
+
+IcePoisonSplashes:
+	.long Wm_ob_icepoison
+	.long Wm_ob_icegreenpoison
+	.long Wm_ob_icepoison
+	
 
 liquidSetting:
 	.byte 0x00
@@ -502,3 +548,8 @@ Wm_en_cmnmagmawaveblue:
 Wm_en_cmnmagmawavegold:
 	.string "Wm_en_cmnmagmawavegold"
 
+Wm_ob_icepoison:
+	.string "Wm_ob_icepoison"
+
+Wm_ob_icegreenpoison:
+	.string "Wm_ob_icegreenpoison"

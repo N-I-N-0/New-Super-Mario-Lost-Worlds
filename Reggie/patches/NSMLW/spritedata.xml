@@ -507,6 +507,11 @@
       <entry value="8">White</entry>
       <entry value="9">Pink</entry>
     </list>
+    <list nybble="7-8" title="Splash Color" comment="This determines the color of the lava splash.">
+      <entry value="0">Original</entry>
+      <entry value="1">Blue</entry>
+      <entry value="2">Gold</entry>
+    </list>
     <value nybble="12" title="Delay Between Jumps" comment="This determines the delay between each of the Podoboo's jumps." comment2="Each value is approximately 1 game second. Podoboos first load in the air at the top of their jump, so a Podoboo with a large delay value may not even interact with the player as they run by."/>
     <checkbox bit="42" title="Unknown Flag 11 (4)" comment="An unknown flag for Nybble 11." advanced="True" advancedcomment="Used in Retail: 08-06 A1"/>
     <checkbox bit="43" title="Unknown Flag 11 (2)" comment="An unknown flag for Nybble 11." advanced="True" advancedcomment="Used in Retail: 08-06 A1"/>

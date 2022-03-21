@@ -79,6 +79,24 @@ hooks:
     branch_type: b
     target_func: 'PlayerUseLavaSplashSubType'
 
+  - name: IceUseLavaSplashSubType
+    type: branch_insn
+    src_addr_pal: 0x8011f5f8
+    branch_type: b
+    target_func: 'IceUseLavaSplashSubType'
+
+  - name: PodobooUseLavaSplashSetting
+    type: branch_insn
+    src_addr_pal: 0x809d19bc
+    branch_type: b
+    target_func: 'PodobooUseLavaSplashSetting'
+
+  - name: IceUsePoisonSplashSubType
+    type: branch_insn
+    src_addr_pal: 0x80122104
+    branch_type: b
+    target_func: 'IceUsePoisonSplashSubType'
+
   - name: getLiquidSubType
     type: branch_insn
     src_addr_pal: 0x80075270
