@@ -195,8 +195,8 @@ PodobooUseLavaSplashSetting:
 	lbz r6, 0x5(r30)								#get second setting byte
 	mulli r6, r6, 4
 
-	lis r4, PlayerLavaWaves@h						#load last used sub type
-	ori r4, r4, PlayerLavaWaves@l
+	lis r4, PodobooWaves@h						#load last used sub type
+	ori r4, r4, PodobooWaves@l
 	lwzx r3, r4, r6
 
 	b returnFromPodobooUseLavaSplashSetting
@@ -469,10 +469,17 @@ PlayerPoisonWaves:
 	.long Wm_en_poisonwavegreen
 	.long aWm_en_poisonwa
 
-PlayerLavaWaves:				#also used for ice and Podoboo!
+PlayerLavaWaves:				#also used for frozen enemies!
 	.long aWm_en_magmaw_0
 	.long Wm_en_magmawaveblue
 	.long Wm_en_magmawavegold
+
+PodobooWaves:
+	.long aWm_en_magmaw_0
+	.long Wm_en_magmawaveblue
+	.long Wm_en_magmawavegold
+	.long aWm_en_poisonwa
+	.long Wm_en_poisonwavegreen
 
 #PlayerWaterWaves:
 #	.long aWm_en_poisonwa
