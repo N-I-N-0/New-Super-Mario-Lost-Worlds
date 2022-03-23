@@ -21,7 +21,6 @@ public:
 	bool toggelEvent;
 	u8 rectID;
 
-	void tryToTrigger(u8 player);
 	bool isPlayerInLocation(dAc_Py_c* player);
 
 	int onCreate();
@@ -92,7 +91,11 @@ int playerLocationEvent_c::onExecute() {
 	for (int i = 0; i < 4; i++) {
 		if (dAc_Py_c *player = (dAc_Py_c*)dAcPy_c::findByID(i)) {
 			if(this->isPlayerInLocation(player)) {
-				this->tryToTrigger(i);
+				dFlagMgr_c::instance->set(eventNums[i], 0, true, false, false);
+			} else {
+				if(this->toggelEvent) {
+					dFlagMgr_c::instance->set(eventNums[i], 0, false, false, false);
+				}
 			}
 		}
 	}
@@ -100,11 +103,3 @@ int playerLocationEvent_c::onExecute() {
 	return true;
 }
 
-
-void playerLocationEvent_c::tryToTrigger(u8 player) {
-	if(this->toggelEvent) {
-		dFlagMgr_c::instance->set(eventNums[player], 0, !dFlagMgr_c::instance->active(eventNums[player]), false, false);
-	} else {
-		dFlagMgr_c::instance->set(eventNums[player], 0, true, false, false);
-	}
-}
