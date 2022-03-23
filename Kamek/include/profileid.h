@@ -583,6 +583,7 @@ enum
 	SuperLaunchStar = 558,
 	PullStar = 559,
 	PullStarManager = 560,
+	PlayerLocationEvent = 561,
 
 	Num
 };
@@ -1430,6 +1431,7 @@ enum
 	SuperLaunchStar, //827
 	PullStar, //828
 	PullStarManager, //829
+	PlayerLocationEvent, //830
 	
 	Num
 };

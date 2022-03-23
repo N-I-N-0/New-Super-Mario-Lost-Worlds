@@ -19,6 +19,7 @@ SECTIONS {
 	returnFromIceUseLavaSplashSubType = 0x8011F9CC;
 	returnFromIceUsePoisonSplashSubType = 0x801224D8;
 	returnFromPodobooUseLavaSplashSetting = 0x809D6EC0;
+	FUN_8008fba0__FiPQ23mEf3es2PcUiP7Point3dUiPf = 0x8008FCE0;
 
 	obj_waterfull = 0x80327C68;
 	obj_waterhalf = 0x80327C80;
@@ -1418,6 +1419,9 @@ SECTIONS {
 	addToList__13ActivePhysicsFv = 0x8008C470;
 	initWithStruct__13ActivePhysicsFP8dActor_cPCQ213ActivePhysics4Info = 0x8008C520;
 	bottom__13ActivePhysicsFv = 0x8008C630;
+	top__13ActivePhysicsFv = 0x8008C610;
+	left__13ActivePhysicsFv = 0x8008C690;
+	right__13ActivePhysicsFv = 0x8008C670;
 
 	globalListHead__13ActivePhysics = 0x80436B00;
 

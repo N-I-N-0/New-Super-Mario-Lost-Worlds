@@ -3458,5 +3458,14 @@
   
   <sprite id="560" name="Pull Star Manager" asmhacks="True" notes="The Manager for the Pull Star Controls. | Should be placed at the start of a level/zone or atleast before the first pull star to prefend possible issues.">
   </sprite> <!-- #560: Pull Star Manager -->
+  
+  <sprite id="561" name="Player Location Event" asmhacks="True" notes="A sprite triggering different events depending on which player is in a location.">
+    <value bit="17-22" title="Player 1" comment="Event triggered if player 1 is in location." />
+    <value bit="23-28" title="Player 2" comment="Event triggered if player 2 is in location." />
+    <value bit="29-34" title="Player 3" comment="Event triggered if player 3 is in location." />
+    <value bit="35-40" title="Player 4" comment="Event triggered if player 4 is in location." />
+    <dualbox bit="41" title1="Activate" title2="Toggle" comment="This determines whether the target event gets deactivated if it's already activated." />
+    <value bit="42-48" title="Location ID" idtype="Location" />
+  </sprite> <!-- #561: Player Location Event -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

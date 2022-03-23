@@ -840,6 +840,7 @@ enum Actors {
 	SuperLaunchStar, //827
 	PullStar, //828
 	PullStarManager, //829
+	PlayerLocationEvent, //830
 };
 
 struct Actor {

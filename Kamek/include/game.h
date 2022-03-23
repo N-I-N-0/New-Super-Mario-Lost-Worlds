@@ -1516,7 +1516,7 @@ public:
 	u8 chainlinkMode;
 	u8 layer;
 	u8 someFlagByte;
-	u8 isLinkedIntoList;
+	bool isLinkedIntoList;
 
 	void clear();
 	void addToList();
