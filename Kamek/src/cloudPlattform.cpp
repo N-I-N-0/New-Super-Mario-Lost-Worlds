@@ -253,7 +253,7 @@ void daEnCloudPlattform_c::playerCollision(ActivePhysics* apThis, ActivePhysics*
 
 	OSReport("PLLLAYERUP %d\n", CheckExistingPowerup(player));
 
-	if (this->active == true && CheckExistingPowerup(player) != 13 && CheckExistingPowerup(player) != 3)
+	if (this->active == true && CheckExistingPowerup(player) != 12 && CheckExistingPowerup(player) != 3)
 	{
 		this->active = false;
 	}
@@ -263,7 +263,7 @@ void daEnCloudPlattform_c::playerCollision(ActivePhysics* apThis, ActivePhysics*
 void daEnCloudPlattform_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	daPlBase_c* player = (daPlBase_c*)apOther->owner;
 
-	if (this->active == true && CheckExistingPowerup(player) != 13 && CheckExistingPowerup(player) != 3)
+	if (this->active == true && CheckExistingPowerup(player) != 12 && CheckExistingPowerup(player) != 3)
 	{
 		this->active = false;
 	}

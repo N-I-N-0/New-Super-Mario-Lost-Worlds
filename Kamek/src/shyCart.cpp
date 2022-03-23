@@ -17,20 +17,30 @@ public:
 	nw4r::g3d::ResFile resFile;
 	m3d::mdl_c bodyModel;
 
-	dPlayer* passenger;
-	bool done;
-	int timerDone;
-
 	int alreadyOnTop;
-
 	bool isOnTopOfTile;
 	u32 cmgr_returnValue;
 
-	int driveSpeed;
-	bool moveable;
-	
-	//int last_speed_y;
-	//int last_speed_x;
+	u8 moveSpeed;
+
+	u8 lastRailType;
+
+	bool ready;
+	bool readyTwo;
+
+	dStageActor_c* passengers[4];
+
+	bool jumping;
+	bool slowing;
+	bool speeding;
+
+	float rotDestination;
+
+
+	RideableActorCollider sotCollider;
+
+
+	void rampCalc(u8 railType);
 
 	static dActor_c* build();
 
@@ -69,9 +79,13 @@ bool daEnShyCart_c::calculateTileCollisions() {
 	/*Returns true if hit a wall*/
 	/****************************/
 
-	HandleYSpeed();    
+
+	this->x_speed_inc = 0.0f;                        //no X speed incrementation
+
+
+	HandleYSpeed();
 	HandleXSpeed();                                      //consider the X speed
-	                                  //consider the Y speed
+														 //consider the Y speed
 	doSpriteMovement();                                  //execute the speed movements
 
 	cmgr_returnValue = collMgr.isOnTopOfTile();          //check if the sprite is on top of a tile
@@ -94,13 +108,9 @@ bool daEnShyCart_c::calculateTileCollisions() {
 			alreadyOnTop = 1;                            //now it's already on the to^p
 		}
 
-		if (cmgr_returnValue == 0)                       //just read ?
-			isOnTopOfTile = true;
-
 		speed.y = 0.0f;                                  //no Y speed anymore cuz it's on the ground
-		max_speed.x = (direction == 1) ? -1.5f : 1.5f;   //maximum X speed re-setting
+		max_speed.x = (direction == 1) ? -16.0f : 16.0f;   //maximum X speed re-setting
 		this->x_speed_inc = 0.0f;                        //no X speed incrementation
-		this->speed.x = (direction == 1) ? -1.5f : 1.5f; //X speed re-setting
 	}
 	else {                                               //if the sprite in in mid-air
 		alreadyOnTop = 0;                                //it's no loner on the top of a tile
@@ -108,12 +118,17 @@ bool daEnShyCart_c::calculateTileCollisions() {
 
 	collMgr.calculateAdjacentCollision(0);               //literally calculate the adjacent collision
 
-	if (collMgr.outputMaybe & (0x15 << direction)) {     //if hit a wall
-		if (collMgr.isOnTopOfTile()) {                   //if on the top of a tile
-			isOnTopOfTile = true;
-		}
+	if (collMgr.outputMaybe & (0x15 << direction)) {     //if hit a wall 
+		isOnTopOfTile = collMgr.isOnTopOfTile();
+		if(isOnTopOfTile)
+			jumping = false;
 		return true;                                     //returns true duh
 	}
+
+	isOnTopOfTile = collMgr.isOnTopOfTile();
+	if (isOnTopOfTile)
+		jumping = false;
+
 	return false;                                        //if didn't hit a wall
 }
 
@@ -121,24 +136,18 @@ bool daEnShyCart_c::calculateTileCollisions() {
 
 
 void daEnShyCart_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	/*//OSReport("Collided\n");
-	//OSReport("Which_Player: %d\n", apOther->owner->which_player);
-	if (this->passenger == (dPlayer*)apOther->owner || playerInWork[apOther->owner->which_player] || this->done)
+	if (!ready && !readyTwo)
 	{
-		return;
-	}*/
-	if (this->passenger == 0 && playerStatus[apOther->owner->which_player] == 0)
-	{
-		OSReport("Yes\n");
-		this->passenger = (dPlayer*)apOther->owner;
-		playerStatus[apOther->owner->which_player] = 2;
-		//playerInWork[apOther->owner->which_player] = true;
-		//playerRiding[apOther->owner->which_player] = true;
-		return;
+		for (int i = 0; i < GetActivePlayerCount(); i++)
+		{
+			passengers[i] = (dStageActor_c*)GetPlayerOrYoshi(i);
+		}
+
+		ready = true;
 	}
 }
 void daEnShyCart_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	//this->playerCollision(apThis, apOther);
+	this->playerCollision(apThis, apOther);
 }
 bool daEnShyCart_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
@@ -192,19 +201,23 @@ int daEnShyCart_c::onCreate() {
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
-	this->resFile.data = getResource("shyCart", "g3d/shyCart.brres");
-	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("ShyCart");
+	OSReport("Model\n");
+
+	this->resFile.data = getResource("shyCart", "g3d/minecart.brres");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("TruckWagon");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	SetupTextures_Player(&bodyModel, 0);
+	//SetupTextures_Player(&bodyModel, 0);
 
 	allocator.unlink();
+
+	OSReport("Model Done\n");
 
 	ActivePhysics::Info HitMeBaby;
 
 	HitMeBaby.xDistToCenter = 0.0;
-	HitMeBaby.yDistToCenter = 0.0;
-	HitMeBaby.xDistToEdge = 8.0;
-	HitMeBaby.yDistToEdge = 10.0;
+	HitMeBaby.yDistToCenter = 12.0;
+	HitMeBaby.xDistToEdge = 32.0;
+	HitMeBaby.yDistToEdge = 12.0;
 
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
@@ -217,28 +230,31 @@ int daEnShyCart_c::onCreate() {
 	this->aPhysics.addToList();
 
 	// Stuff I do understand
-	this->scale = (Vec){ 20.0, 20.0, 20.0 };
+	this->scale = (Vec){ 0.75, 0.65, 0.2 };
 
 	this->rot.x = 0; // X is vertical axis
-	this->rot.y = 0xD800; // Y is horizontal axis
+	this->rot.y = 0x4000; // Y is horizontal axis
 	this->rot.z = 0; // Z is ... an axis >.>
 
-	this->rot.y *= -1;
+
+	this->moveSpeed = this->settings >> 24 & 0xFF;
 
 
-	this->driveSpeed = this->settings >> 25 & 0b11111111;
-	this->moveable = true;
-
-
-	this->max_speed.x = 10;
-	this->speed.x = 0.0;             //set the current X speed depending of the spawning direction
-	this->x_speed_inc = -0.6;                   //set the X speed increment depending of the spawning direction
+	this->max_speed.x = 16;
+	this->speed.x = 0;             //set the current X speed depending of the spawning direction
+	this->x_speed_inc = 0;                   //set the X speed increment depending of the spawning direction
 
 	this->max_speed.y = -4;                                               //set the maximum Y speed
 	this->speed.y = 0.0;                                                  //set the current Y speed
-	this->y_speed_inc = -0.5;
+	this->y_speed_inc = -0.2;
 
+	sotCollider.init(this, -16.0f, -16.0f, 16.0f, 16.0f);
 
+	// What is this for. I dunno
+	//sotCollider._47 = 0xA;
+	//sotCollider.flags = 0x80180 | 0xC00;
+
+	sotCollider.addToList();
 
 	// These fucking rects do something for the tile rect
 	spriteSomeRectX = 28.0f;
@@ -254,26 +270,7 @@ int daEnShyCart_c::onCreate() {
 	collMgr.calculateBelowCollisionWithSmokeEffect();                  //dude, the description of this line IS in the line, so what are you reading ?
 
 	cmgr_returnValue = collMgr.isOnTopOfTile();                        //get if the sprite is in top of a tile (GOD DAMMIT IT IS WROTE)
-
-	if (collMgr.isOnTopOfTile())                                       //just... read !
-		isOnTopOfTile = false;
-	else
-		isOnTopOfTile = true;
-
-	//this->last_speed_x = passenger->speed.x;
-	//this->last_speed_y = passenger->speed.y;
-
-	this->done = false;
-	this->timerDone = 0;
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (playerCart[i] == 0)
-		{
-			playerCart[i] = this;
-			break;
-		}
-	}
+	isOnTopOfTile = collMgr.isOnTopOfTile();
 
 	this->onExecute();
 	return true;
@@ -300,162 +297,449 @@ void daEnShyCart_c::updateModelMatrices() {
 }
 
 int daEnShyCart_c::onExecute() {
+	this->x_speed_inc = 0.0f;                        //no X speed incrementation
+
 	bodyModel._vf1C();
 	updateModelMatrices();
+	bool ret = calculateTileCollisions();
 
-	if (this->passenger != 0)
+	if (ready)
 	{
-		if (!this->done)
+		if (slowing)
 		{
+			OSReport("slow slow\n");
+			this->speed.x *= 1.5;
+		}
+		else if (speeding)
+		{
+			OSReport("speed speed\n");
+			this->speed.x /= 1.5;
+		}
 
-			this->passenger->pos = this->pos;
-			this->passenger->last_pos = this->pos;
+		u8 railType = 0;
+		u32 tileBehave1;
+		u32 tileBehave2;
 
+		daPlBase_c* player = (daPlBase_c*)FindActorByType(PLAYER, 0);
+		
+		if(player->input.areWeShaking())
+		{
+			ready = false;
+			readyTwo = true;
+		}
 
-			//this->speed.x += this->x_speed_inc;
-			//this->speed.y += this->y_speed_inc;
-
-
-			/*if (this->last_speed_x < 0 && passenger->speed.x > 0)
+		if (isOnTopOfTile)
+		{
+			for (int i = 0; i <= 10; i++)
 			{
-				this->speed.x = 5;
-			}
-			else if (this->last_speed_x > 0 && passenger->speed.x < 0)
-			{
-				this->speed.x = -5;
-			}
+				tileBehave1 = collMgr.getTileBehaviour1At(this->pos.x, this->pos.y - i, 0);
+				tileBehave2 = collMgr.getTileBehaviour2At(this->pos.x, this->pos.y - i, 0);
 
+				railType = tileBehave2 >> 24 & 0xF;
 
-			if (this->last_speed_y < 0 && passenger->speed.y > 0)
-			{
-				this->speed.y = 3;
-			}
-			else if (this->last_speed_y > 0 && passenger->speed.y < 0)
-			{
+				OSReport("i: %d, tileBehave1: %x, tileBehave2: %x, railType: %d, speed x: %f, speed y: %f, moveSpeed: %d\n", i, tileBehave1, tileBehave2, railType, this->speed.x, this->speed.y, this->moveSpeed);
 
-			}*/
-
-
-			/*this->speed.x = this->passenger->speed.x * 2;
-			if (this->passenger->speed.y > 0)
-			{
-				this->speed.y = this->passenger->speed.y * 2;
-			}
-			else
-			{
-				this->speed.y = -4;
-			}
-
-
-			if (this->speed.x < 0)
-			{
-				this->max_speed.x = -10;
-			}
-			else
-			{
-				this->max_speed.x = 10;
-			}
-
-			if (this->speed.x < 0)
-			{
-				this->x_speed_inc = 0.6;
-			}
-			else {
-				this->x_speed_inc = -0.6;
-			}
-
-			this->max_speed.y = -4;
-			this->y_speed_inc = -0.5;*/
-
-			/*if (this->speed.y >= -4)
-			{
-				this->speed.y -= 0.05;
-			}*/
-
-
-			Remocon* pIn = RemoconMng->controllers[this->passenger->which_player];
-
-			//OSReport("Drivespeed: %d\n", this->driveSpeed);
-			//OSReport("Held Buttons: %d\n", pIn->heldButtons);
-			if (this->moveable)
-			{
-				if (pIn->heldButtons & WPAD_LEFT)
+				if (tileBehave1 != 0 || tileBehave2 != 0)
 				{
-					//OSReport("Left Pressed\n");
-					this->speed.x = (this->driveSpeed / 2) * 1;
+					OSReport("i: %d\n", i);
+					break;
+				}
+			}
+
+			if (railType == 1) //straight rail
+			{
+				rotDestination = 0;
+
+				OSReport("Is Rail\n");
+				if (this->speed.x < moveSpeed)
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += ((float)moveSpeed) / 100;
 				}
 				else
 				{
-					this->speed.x = this->driveSpeed;
+					OSReport("is slowing down\n");
+					this->speed.x -= ((float)moveSpeed) / 200;
+				}
+			}
+			else if (railType == 2)  //11,25° slope up
+			{
+				rotDestination = -(0x800);
+
+				OSReport("Is Rail 11,25° slope up\n");
+				if (this->speed.x < (((float)moveSpeed) / 1.25))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) / 1.25) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) * 1.25) / 200;
+				}
+			}
+			else if (railType == 3)  //22,5° slope up
+			{
+				rotDestination = -(0x1000);
+
+				OSReport("Is Rail 22,5° slope up\n");
+				if (this->speed.x < (((float)moveSpeed) / 1.5))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) / 1.5) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) * 1.5) / 200;
+				}
+			}
+			else if (railType == 4)  //45° slope up
+			{
+				rotDestination = -(0x2000);
+
+				OSReport("Is Rail 45° slope up\n");
+				if (this->speed.x < (((float)moveSpeed) / 2))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) / 2) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) * 2) / 200;
+				}
+			}
+			else if (railType == 5)  //11,25° slope down
+			{
+				rotDestination = 0x800;
+
+				OSReport("Is Rail 11,25° slope down\n");
+				if (this->speed.x < (((float)moveSpeed) * 1.25))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) * 1.25) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) / 1.25) / 200;
+				}
+			}
+			else if (railType == 6)  //22,5° slope down
+			{
+				rotDestination = 0x1000;
+
+				OSReport("Is Rail 22,5° slope down\n");
+				if (this->speed.x < (((float)moveSpeed) * 1.5))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) * 1.5) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) / 1.5) / 200;
+				}
+			}
+			else if (railType == 7)  //45° slope down
+			{
+				rotDestination = 0x2000;
+
+				OSReport("Is Rail 45° slope down\n");
+				if (this->speed.x < (((float)moveSpeed) * 2))
+				{
+					OSReport("is accelerating\n");
+					this->speed.x += (((float)moveSpeed) * 2) / 100;
+				}
+				else
+				{
+					OSReport("is slowing down\n");
+					this->speed.x -= (((float)moveSpeed) / 2) / 200;
 				}
 			}
 			else
 			{
-				/*if (this->speed.x > 0)
+				rotDestination = 0;
+
+				OSReport("Is not Rail\n");
+				if (this->speed.x > 0)
 				{
-					this->speed.x -= 0.05;
+					OSReport("Is not stoped yet\n");
+					this->speed.x -= ((float)moveSpeed) / 150;
 				}
-				else
+			}
+
+			OSReport("Is on top of tile: %d\n", isOnTopOfTile);
+
+			for (int i = 0; i < GetActivePlayerCount(); i++)
+			{
+				Remocon* pIn = RemoconMng->controllers[i];
+
+				if (!(pIn->nowPressed & WPAD_TWO))
 				{
-					this->speed.x = 0;
-				}*/
-				this->speed.x = 0;
+					break;
+				}
+				else if (i == GetActivePlayerCount() - 1)
+				{
+					this->speed.y += 4;
+					jumping = true;
+				}
 			}
-
-			if (Remocon_GetPressed(pIn) & WPAD_TWO && this->collMgr.isOnTopOfTile())
-			{
-				this->speed.y += 9;
-			}
-
-			//OSReport("Is Shaking: %d\n", pIn->isShaking);
-
-			if (pIn->isShaking >= 1)
-			{
-				this->done = true;
-			}
-
-			//if (this->done) {
-			//	i
-			//}
-			//else {
-				passenger->speed.x = this->speed.x;
-
-				this->passenger->pos = this->pos;
-				this->passenger->last_pos = this->pos;
-			//}
-
-			bool ret = calculateTileCollisions();
-
-			//this->last_speed_x = this->passenger->speed.x;
-			//this->last_speed_y = this->passenger->speed.y;
 		}
-	}
-	else
-	{
-		this->speed.x = 0;
-		this->speed.y = -2;
-		bool ret = calculateTileCollisions();
-	}
 
-	if (this->done && this->passenger != 0)
-	{
-		this->passenger->speed.x = this->speed.x * 3;
-		this->passenger->speed.y += 9;
-		playerStatus[this->passenger->which_player] = 0;
-		this->passenger = 0;
-	}
+		if (!jumping)
+			this->rampCalc(railType);
 
-	if (this->done)
-	{
-		this->timerDone += 1;
-		//OSReport("Timer: %d\n", timerDone);
-		if (this->timerDone == 100)
+
+		if (isOnTopOfTile)
 		{
-			this->timerDone = 0;
-			this->done = false;
+			for (int i = 0; i < GetActivePlayerCount(); i++)
+			{
+				Remocon* pIn = RemoconMng->controllers[i];
+
+				OSReport("slow slow test i: %d\n", i);
+
+				if (!(pIn->heldButtons & WPAD_LEFT))
+				{
+					slowing = false;
+					OSReport("not slowing down\n");
+					break;
+				}
+				else if (i == GetActivePlayerCount() - 1)
+				{
+					OSReport("slowing down\n");
+					slowing = true;
+				}
+			}
+
+			for (int i = 0; i < GetActivePlayerCount(); i++)
+			{
+				Remocon* pIn = RemoconMng->controllers[i];
+
+				OSReport("slow slow test i: %d\n", i);
+
+				if (!(pIn->heldButtons & WPAD_RIGHT))
+				{
+					speeding = false;
+					OSReport("not speedingup down\n");
+					break;
+				}
+				else if (i == GetActivePlayerCount() - 1)
+				{
+					OSReport("speedingup down\n");
+					speeding = true;
+				}
+			}
 		}
-		//OSReport("Timer: %d\n", timerDone);
+
+		if (slowing)
+		{
+			OSReport("speeeeeeeed\n");
+			this->speed.x /= 1.5;
+		}
+		else if (speeding)
+		{
+			OSReport("speed speed\n");
+			this->speed.x *= 1.5;
+		}
+
+		OSReport("speed x: %f, speed y: %f\n", this->speed.x, this->speed.y);
+
+
+		if (this->rot.x != rotDestination)
+		{
+			if (this->rot.x < rotDestination)
+			{
+				rot.x += (0x80) * moveSpeed;
+				if (this->rot.x > rotDestination)
+				{
+					this->rot.x = rotDestination;
+				}
+			}
+			else
+			{
+				rot.x += (0x80) * -moveSpeed;
+				if (this->rot.x > rotDestination)
+				{
+					this->rot.x = rotDestination;
+				}
+			}
+		}
+
+		lastRailType = railType;
+
+		for (int i = 0; i < GetActivePlayerCount(); i++)
+		{
+			passengers[i]->pos.x = this->pos.x - ((((float)i) - 1.5) * 16);
+			passengers[i]->pos.y = this->pos.y;
+		}
+
+		this->pos.z = passengers[0]->pos.z;
 	}
 
 	return true;
+}
+
+void daEnShyCart_c::rampCalc(u8 railType) 
+{
+	float lastXSpeed = this->speed.x;
+
+	if (lastRailType == 0 || lastRailType == 1 || railType == 4)
+	{
+		return;
+	}
+
+	if (railType == 0) //Not
+	{
+		if (lastRailType == 2) //11,25 up
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = (this->speed.x / 8) * 1.8;
+		}
+		else if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+		else if (lastRailType == 5) //11,25 down
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = -((this->speed.x / 8) * 1.8);
+		}
+		else if (lastRailType == 6) //22,5 down
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = -((this->speed.x / 4) * 1.8);
+		}
+		else if (lastRailType == 7) //45 down
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = -((this->speed.x / 2) * 1.8);
+		}
+	}
+	else if (railType == 1) //Straight
+	{
+		if (lastRailType == 2) //11,25 up
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = (this->speed.x / 8) * 1.8;
+		}
+		else if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+	}
+	else if (railType == 2) //11,25 up
+	{
+		if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+	}
+	else if (railType == 3) //22,5 up
+	{
+		if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+	}
+	else if (railType == 4) //45 up
+	{
+		// Nothing cause it would bump anyways
+	}
+	else if (railType == 5) //11,25 down
+	{
+		if (lastRailType == 2) //11,25 up
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = (this->speed.x / 8) * 1.8;
+		}
+		else if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+	}
+	else if (railType == 6) //22,5 down
+	{
+		if (lastRailType == 2) //11,25 up
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = (this->speed.x / 8) * 1.8;
+		}
+		else if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+		else if (lastRailType == 5) //11,25 down
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = -((this->speed.x / 8) * 1.8);
+		}
+	}
+	else if (railType == 7) //45 down
+	{
+		if (lastRailType == 2) //11,25 up
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = (this->speed.x / 8) * 1.8;
+		}
+		else if (lastRailType == 3) //22,5 up
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = (this->speed.x / 4) * 1.8;
+		}
+		else if (lastRailType == 4) //45 up
+		{
+			this->speed.x = (this->speed.x / 2) * 1.4;
+			this->speed.y = (this->speed.x / 2) * 1.8;
+		}
+		else if (lastRailType == 5) //11,25 down
+		{
+			this->speed.x = ((this->speed.x / 8) * 7) * 1.4;
+			this->speed.y = -((this->speed.x / 8) * 1.8);
+		}
+		else if (lastRailType == 6) //22,5 down
+		{
+			this->speed.x = ((this->speed.x / 4) * 3) * 1.4;
+			this->speed.y = -((this->speed.x / 4) * 1.8);
+		}
+	}
+
+	/*if (lastXSpeed != speed.x)
+	{
+		OSReport("Changed\n");
+		this->speed.x * 4;
+		this->speed.y * 4;
+	}*/
 }

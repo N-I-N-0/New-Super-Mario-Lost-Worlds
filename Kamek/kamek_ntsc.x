@@ -1,4 +1,43 @@
 SECTIONS {
+	returnFromSaveLiquidSettings = 0x807B4D34;
+	continueBGpolyCreate = 0x807B4D14;
+	returnFromSelectDifferentLiquidsSet = 0x800EB09C;
+	returnFromSelectDifferentLiquidsSet2 = 0x800EBD74;
+	dWaterManager_c__add = 0x800EB5C0;
+	returnFromSaveLiquiSubTypesInNewArray = 0x807B502C;
+	returnFromUseDifferentSplashEffects = 0x80092128;
+	returnFromSelectDifferentLavaDeco = 0x800EBDA4;
+	doneWithLavaParticlesColor = 0x80888CD8;
+	continueOriginalCheckWater = 0x80075274;
+	returnFromSaveGlobalWaterSubType = 0x807B5954;
+	returnFromSaveGlobalLavaSubType = 0x807B59FC;
+	returnFromSaveGlobalPoisonSubType = 0x807B5A90;
+	returnFromLoadGlobalSubType = 0x80075524;
+	returnFromPlayerUsePoisonSplashSubType = 0x8013DB74;
+	returnFromPlayerUseLavaSplashSubType = 0x8013E0B8;
+	returnFromUseDifferentSplashEffects2 = 0x800920F0;
+	returnFromIceUseLavaSplashSubType = 0x8011F4BC;
+	returnFromIceUsePoisonSplashSubType = 0x80121FC8;
+	returnFromPodobooUseLavaSplashSetting = 0x809D19E0;
+
+	obj_waterfull = 0x8031B428;
+	obj_waterhalf = 0x8031B440;
+	obj_magma = 0x8031B458;
+	obj_poisonwater = 0x8031B46C;
+	obj_quicksand = 0x8031B488;
+	obj_envfog = 0x8031B4A0;
+	obj_magmawave = 0x8031B640;
+	obj_magmadeco = 0x8031B800;
+
+	aWm_en_waterwav = 0x80311530;
+	aWm_en_cmnwat_0 = 0x80311544;
+	aWm_en_waterspl = 0x80311554;
+	aWm_en_firevani = 0x80311568;
+	aWm_en_cmnmag_1 = 0x8031157C;
+	aWm_en_magmaw_0 = 0x80311590;
+	aWm_en_poisonin = 0x803115A0;
+	aWm_en_poisonwa = 0x803115B4;
+
 	returnFromToadBalloon_TextColor = 0x80A0EC30;
 	FUN_800b34d0 = 0x800B34D0;
 	toadColorAddress = 0x80429C10;
@@ -1918,6 +1957,7 @@ SECTIONS {
 	_Z6memsetPvij = 0x800046B4;
 	sprintf__FPcPCce = 0x802E17DC;
 	snprintf__FPcUlPCce = 0x802E16E8;
+	memcmp__FPCvPCvUl = 0x802DF098;
 	memcmp__FPCvPCvUi = 0x802DF098;
 	_Z6strcatPKcS0_ = 0x802E1A3C;
 

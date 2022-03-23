@@ -2915,28 +2915,16 @@
   </sprite> <!-- #494: Actor Multi-Spawner -->
   
   <sprite id="495" name="Launch Star" asmhacks="True" notes="A launch star ported from SMG.">
-    <dualbox bit="17" title1="Launch Star" title2="Super Launch Star" comment="This determines whether the player will be shooted within the zone or out of the level to the world map." />
-    <checkbox bit="18" title="Active" comment="When enabled, the Launch Star will be activated from the start." />
-    <dualbox bit="19" title1="Star Pieces" title2="Event" comment="This determines whether the Launch Star gets activated by collecting Star Pieces with the same ID or by an event with the ID." />
-    
-    <dependency notes="You need 5 star chips with the same id if you check Star Pieces.">
-      <suggested sprite="485"/>
-      <suggested sprite="485"/>
-      <suggested sprite="485"/>
-      <suggested sprite="485"/>
-      <suggested sprite="485"/>
-    </dependency>
-    
-    <value bit="20-24" title="Launch Star ID" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="19" requiredval="0" />
-    <value bit="20-24" title="Triggering Event ID" comment="You have to trigger the event with this ID to activate this Launch Star." requiredbit="19" requiredval="1" />
+    <checkbox bit="18" title="Active" comment="When enabled, the Launch Star will be activated from the start."/>
+    <dualbox bit="19" title1="Star Pieces" title2="Event" comment="This determines whether the Star gets activated by collecting Star Pieces with the same ID or by an event with the ID."  requiredbit="18" requiredval="0"/>
+	
+    <value bit="20-24" title="Launch Star ID" comment="You may have to add 5 Star Pieces with the same ID to activate this Launch Star. | IDs of the 3 star-sprites should not overlap" requiredbit="19" requiredval="0"/>
+    <value bit="20-24" title="Triggering Event ID" comment="You have to trigger the event with this ID to activate this Launch Star." requiredbit="19" requiredval="1"/>
 
-    <value bit="25-32" title="Star Rotation" comment="The rotation of the star" />
-    <value bit="33-36" title="Rotation Speed" comment="the speed of the rotation" />
-
-    <value bit="37-40" title="Destination World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="17" requiredval="1" />
-    <value bit="41-44" title="Destination Sub World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star." requiredbit="17" requiredval="1" />
-    
-    <value bit="37-44" title="Speed" comment="The speed." requiredbit="17" requiredval="0"/>
+    <value bit="25-30" title="Speed Shoot X" comment="The rotation of the star"/>
+    <value bit="31-36" title="Speed Shoot Y" comment="the speed of the rotation"/>
+	
+	<checkbox bit="45" title="After Checkpoint" comment="When in Level" requiredbit="47-48" requiredval="0-1"/>
   </sprite> <!-- #495: Launch Star -->
 
   <sprite id="496" name="Leaf Pile" asmhacks="True" notes="A leaf pile ported from MKW.">
@@ -3145,7 +3133,7 @@
   </sprite> <!-- #517: Shroob Ufo -->
   
   <sprite id="518" name="Star Chip" asmhacks="True" notes="A collacteable fragment of a launch star">
-    <value bit="43-48" title="Launch Star ID" comment="The id of the launch Star which should activate when collected enough."/>
+    <value bit="43-48" title="Star ID" comment="The id of the Star which should activate when collected enough."/>
     <value bit="17-19" title="Star Chip ID" comment="The id of the launch Star which should activate when collected enough."/>
   </sprite> <!-- #518: Star Chip -->
   
@@ -3436,5 +3424,39 @@
     <value bit="33-40" title="Green" />
     <value bit="41-48" title="Blue" />
   </sprite> <!-- #557: Wind Color Manager -->
+  
+  <sprite id="558" name="Super Launch Star" asmhacks="True" notes="A launch star ported from SMG shooting you out of the level.">
+    <checkbox bit="18" title="Active" comment="When enabled, the Launch Star will be activated from the start."/>
+    <dualbox bit="19" title1="Star Pieces" title2="Event" comment="This determines whether the Star gets activated by collecting Star Pieces with the same ID or by an event with the ID." requiredbit="18" requiredval="0" />
+	
+    <value bit="20-24" title="Super Launch Star ID" comment="You may have to add 5 Star Pieces with the same ID to activate this Super Launch Star. | IDs of the 3 star-sprites should not overlap" requiredbit="19" requiredval="0" />
+    <value bit="20-24" title="Triggering Event ID" comment="You have to trigger the event with this ID to activate this Super Launch Star." requiredbit="19" requiredval="1" />
+
+    <value bit="37-40" title="Destination World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star."/>
+    <value bit="41-44" title="Destination Sub World" comment="You have to add 5 Star Pieces with the same ID to activate this Launch Star."/>
+	
+	<checkbox bit="45" title="After Checkpoint" comment="When in Level"/>
+  </sprite> <!-- #558: Super Launch Star -->
+  
+  
+  <sprite id="559" name="Pull Star" asmhacks="True" notes="A pull star ported from SMG.">
+    <checkbox bit="18" title="Active" comment="When enabled, the Launch Star will be activated from the start."/>
+    <dualbox bit="19" title1="Star Pieces" title2="Event" comment="This determines whether the Star gets activated by collecting Star Pieces with the same ID or by an event with the ID."  requiredbit="18" requiredval="0" />
+	
+	<dependency notes="You need the Pull Star Manager">
+      <suggested sprite="560"/>
+    </dependency>
+	
+	<value bit="20-24" title="Pull Star ID" comment="You have may to add 5 Star Pieces with the same ID to activate this Pull Star. | IDs of the 3 star-sprites should not overlap" requiredbit="19" requiredval="0"/>
+    <value bit="20-24" title="Triggering Event ID" comment="You have to trigger the event with this ID to activate this Pull Star." requiredbit="19" requiredval="1" />
+	
+	<value bit="25-30" title="Pull-Radius" comment="1 = 0.1, 2 = 0.2 etc"/>
+	<value bit="31-36" title="Pull-Speed" comment="the speed of attraction"/>
+	
+	<checkbox bit="45" title="After Checkpoint" comment="When in Level"/>
+  </sprite> <!-- #559: Pull Star -->
+  
+  <sprite id="560" name="Pull Star Manager" asmhacks="True" notes="The Manager for the Pull Star Controls. | Should be placed at the start of a level/zone or atleast before the first pull star to prefend possible issues.">
+  </sprite> <!-- #560: Pull Star Manager -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

@@ -170,3 +170,6 @@ modules:
   - processed/warpCannonFix.yaml
   - processed/layer0fix.yaml
   - processed/liquidsTex.yaml
+  - processed/baddy.yaml
+  - processed/superLaunchStar.yaml
+  - processed/pullStar.yaml
