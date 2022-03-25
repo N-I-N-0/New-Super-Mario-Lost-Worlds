@@ -20,6 +20,7 @@ SECTIONS {
 	returnFromIceUsePoisonSplashSubType = 0x801224D8;
 	returnFromPodobooUseLavaSplashSetting = 0x809D6E40;
 	FUN_8008fba0__FiPQ23mEf3es2PcUiP7Point3dUiPf = 0x8008FCE0;
+	FUN_8008fb60__FiPcUiP7Point3dP6S16VecP7Point3d = 0x8008FCA0;
 
 	obj_waterfull = 0x80326028;
 	obj_waterhalf = 0x80326040;

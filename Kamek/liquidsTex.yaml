@@ -103,7 +103,47 @@ hooks:
     branch_type: b
     target_func: 'getLiquidSubType(float, float, unsigned char, float *)'
 
+###
+  - name: getSandSubType1
+    type: branch_insn
+    src_addr_pal: 0x8004d3f4
+    branch_type: bl
+    target_func: 'getSandSubType1(unsigned int, unsigned int, char *, unsigned int, unsigned int, unsigned int, float *)'
+###
 
+###
+  - name: getSandSubType2
+    type: branch_insn
+    src_addr_pal: 0x8004d430
+    branch_type: bl
+    target_func: 'getSandSubType2(unsigned int, unsigned int, char *, unsigned int, unsigned int, unsigned int, float *)'
+###
+
+###
+  - name: SaveIndexForArrayInstead1
+    type: patch
+    addr_pal: 0x8004d4b8
+    data: '1c030001' #Orig: 5460103a -> don't multiply index with 4
+
+  - name: SaveIndexForArrayInstead2
+    type: patch
+    addr_pal: 0x8004d4d4
+    data: '7c040378' #Orig: 7c83002e -> don't load string address with index but save the index
+
+  - name: getSandSubType3
+    type: branch_insn
+    src_addr_pal: 0x8004d4f0
+    branch_type: bl
+    target_func: 'getSandSubType3(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)'
+###
+
+###
+  - name: getSandSubType4
+    type: branch_insn
+    src_addr_pal: 0x8004d57c
+    branch_type: bl
+    target_func: 'getSandSubType4(unsigned int, char *, unsigned int, unsigned int, unsigned int, unsigned int)'
+###
 
   - name: Increase_dBgGm_c
     type: patch
