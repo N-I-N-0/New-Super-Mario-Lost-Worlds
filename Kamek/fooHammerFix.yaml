@@ -1,0 +1,6 @@
+source_files: [../src/fooHammerFix.S]
+hooks:
+  - name: HammerFoo
+    type: add_func_pointer
+    src_addr_pal: 0x80AFCB60
+    target_func: 'HammerFoo'

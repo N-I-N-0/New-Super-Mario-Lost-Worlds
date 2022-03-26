@@ -1,4 +1,6 @@
 SECTIONS {
+	callFooDeath = 0x80A6B410;
+
 	returnFromSaveLiquidSettings = 0x807b4d34;
 	continueBGpolyCreate = 0x807b4d14;
 	returnFromSelectDifferentLiquidsSet = 0x800eb1ac;
