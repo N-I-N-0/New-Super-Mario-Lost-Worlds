@@ -2,7 +2,6 @@
 #include <game.h>
 #include <profile.h>
 #include <actors.h>
-#include "baddy.h"
 
 const char* StarChipFileList[] = { "starChip", 0 };
 
@@ -273,7 +272,7 @@ int daEnStarChip_c::onExecute() {
 			this->scale.z -= 0.1;
 		}
 		if (this->type8timer == 11) {
-			if (!chekpointActivated) {
+			if (!midwayFlagActivated) {
 				launchStarChipCollectedBeforeFlag[this->id][this->star_chip_id] = true;
 			}
 			else {

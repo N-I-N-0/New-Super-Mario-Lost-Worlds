@@ -41,6 +41,12 @@ float floor(float x);
 
 float pow(float x, float y);
 }
+
+float tan(float x) { return sin(x) / cos(x); }
+double tan(double x) { return sin((float)x) / cos((float)x); }
+float tanAngle(float x) { return sin(x * M_PI / 180) / cos(x * M_PI / 180); }
+double tanAngle(double x) { return sin((float)(x * M_PI / 180)) / cos((float)(x * M_PI / 180)); }
+
 enum Direction {
 	RIGHT = 0,
 	LEFT = 1,

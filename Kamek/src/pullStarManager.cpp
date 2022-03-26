@@ -2,7 +2,6 @@
 #include <game.h>
 #include <profile.h>
 #include <stage.h>
-#include "baddy.h"
 
 const char* PullStarManagerFileList[] = { "launchStar", 0 };
 

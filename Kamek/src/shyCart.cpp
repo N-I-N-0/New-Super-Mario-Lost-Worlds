@@ -1,10 +1,8 @@
 #include <common.h>
 #include <game.h>
 #include <profile.h>
-#include "baddy.h"
 
 const char* ShyCartFileList[] = { "shyCart", 0 };
-
 
 class daEnShyCart_c : public dEn_c {
 public:
@@ -63,6 +61,8 @@ public:
 	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
 };
+
+daEnShyCart_c* playerCart[4] = {0, 0, 0, 0};
 
 const SpriteData ShyCartSpriteData = { ProfileId::ShyCart, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 Profile ShyCartProfile(&daEnShyCart_c::build, SpriteId::ShyCart, &ShyCartSpriteData, ProfileId::ShyCart, ProfileId::ShyCart, "ShyCart", ShyCartFileList);

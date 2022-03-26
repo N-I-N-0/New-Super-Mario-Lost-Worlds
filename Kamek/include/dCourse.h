@@ -264,5 +264,7 @@ class dCourseFull_c {
 		static char levelFilename[10];
 };
 
+extern "C" dCourse_c::rail_s* GetRail(int id);
+
 #endif
 

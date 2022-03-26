@@ -2,7 +2,48 @@
 #include <game.h>
 #include <profile.h>
 #include <stage.h>
-#include "baddy.h"
+
+u8 playerStatus[4] = { 0,0,0,0 };
+
+bool launchStarChipCollectedBeforeFlag[32][5];
+bool launchStarChipCollectedAfterFlag[32][5];
+bool alreadyChecked;
+
+bool checkStarChipReset(bool afterCheckpoint)
+{
+	if (!alreadyChecked)
+	{
+		if (afterCheckpoint)
+		{
+			for (int i = 0; i < 32; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					launchStarChipCollectedAfterFlag[i][j] = false;
+				}
+			}
+
+			alreadyChecked = true;
+			return true;
+		}
+		else
+		{
+			for (int i = 0; i < 32; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					launchStarChipCollectedBeforeFlag[i][j] = false;
+					launchStarChipCollectedAfterFlag[i][j] = false;
+				}
+			}
+
+			alreadyChecked = true;
+			return false;
+		}
+	}
+
+	return false;
+}
 
 const char* LaunchStarFileList[] = { "launchStar", 0 };
 
@@ -244,7 +285,7 @@ int daEnLaunchStar_c::onExecute()
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 	
-	OSReport("CheckpointActivated: %d\n", chekpointActivated);
+	OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
 
 	if (this->active)
 	{

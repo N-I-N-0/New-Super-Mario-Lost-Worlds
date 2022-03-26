@@ -2,7 +2,11 @@
 #include <game.h>
 #include <profile.h>
 #include <stage.h>
-#include "baddy.h"
+
+Vec pullAngle[4] = { 0,0,0,0 };
+Vec lastPos[4] = { 0,0,0,0 };
+bool dragged[4] = { false,false,false,false };
+
 
 const char* PullStarFileList[] = { "launchStar", 0 };
 
@@ -217,7 +221,7 @@ int daEnPullStar_c::onExecute()
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 
-	OSReport("CheckpointActivated: %d\n", chekpointActivated);
+	OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
 
 	if (this->active)
 	{
