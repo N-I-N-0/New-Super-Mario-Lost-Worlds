@@ -13,16 +13,8 @@
 .extern ExitStage__Fiiii
 .extern DoSceneChange__FUsUiUi
 
-.set HW_VISOLID 0xCD000024
-.set redColor 0x54FF4C01
-
 .global TitleScreenExec
 TitleScreenExec:
-	lis r4, redColor@h
-	ori r4, r4, redColor@l
-	lis r3, HW_VISOLID@ha
-	stw r4, HW_VISOLID@l(r3)
-	
 	li r3, 3
 	li r4, 0
 	li r5, 0  
