@@ -173,5 +173,4 @@ modules:
   - processed/superLaunchStar.yaml
   - processed/pullStar.yaml
   - processed/playerLocationEvent.yaml
-  - processed/fooHammerFix.yaml
   - processed/codehandler.yaml

@@ -3705,6 +3705,12 @@ doFireFlowerMdl0:
 	lis r4, FireflowerModelName@h
 	ori r4, r4, FireflowerModelName@l
 	blr
+
+.extern callFooDeath
+.global HammerFoo
+HammerFoo:
+	b callFooDeath
+
 .data
 FireflowerFileName: .string "g3d/I_fireflower.brres"
 FireflowerModelName: .string "I_fireflower"

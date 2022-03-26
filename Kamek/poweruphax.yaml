@@ -742,6 +742,11 @@ hooks:
     src_addr_pal: 0x80B0AE20
     target_func: 'BooHammer(dEn_c *, ActivePhysics *, ActivePhysics *)'
 
+  - name: HammerFoo
+    type: add_func_pointer
+    src_addr_pal: 0x80AFCB60
+    target_func: 'HammerFoo'
+
   - name: HammerAmp
     type: patch
     addr_pal: 0x80ACE17C
