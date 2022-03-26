@@ -4,8 +4,8 @@
 #include <sfx.h>
 #include <stage.h>
 #include <profile.h>
+#include <nsmlw.h>
 #include "boss.h"
-#include "liq.h"
 
 //Yeah... I know... This is a lazy copy of the sidestepper boss... But it works! -LiQ | 02/06/21 11:13am
 

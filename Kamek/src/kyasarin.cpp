@@ -1,5 +1,5 @@
 #include <game.h>
-#include "liq.h"
+#include <nsmlw.h>
 
 const char* KyasarinANL [] = { "kyasarin", NULL };
 

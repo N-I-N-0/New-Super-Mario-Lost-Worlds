@@ -1,5 +1,5 @@
-#ifndef __LIQ_H
-#define __LIQ_H
+#ifndef __NSMLW_H
+#define __NSMLW_H
 
 #include <common.h>
 #include <game.h>

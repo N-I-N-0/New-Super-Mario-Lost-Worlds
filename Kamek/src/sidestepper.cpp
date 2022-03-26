@@ -4,8 +4,8 @@
 #include <sfx.h>
 #include <stage.h>
 #include <profile.h>
+#include <nsmlw.h>
 #include "boss.h"
-#include "liq.h"
 
 extern "C" void daIce_c__breakReq(fBase_c* ice, int directionMaybe, int playerID);
 
