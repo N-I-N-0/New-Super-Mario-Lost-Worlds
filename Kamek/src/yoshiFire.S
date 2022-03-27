@@ -43,13 +43,13 @@ addMoreFireBalls_ate_koopa: #80e3fd50 (NTSC)
     #########################
     cmpwi r0, 1
     beq addMoreFireBalls_end		# if pink, return
-    cmpwi r0, 3
+    cmpwi r0, 9
     beq addMoreFireBalls_end		# if purple, return
     cmpwi r0, 2
     beq addMoreFireBalls_shell		# if yellow, return
-    cmpwi r0, 4
+    cmpwi r0, 3
     beq addMoreFireBalls_shell		# if green, return
-    cmpwi r0, 9
+    cmpwi r0, 4
     beq addMoreFireBalls_shell		# if blue, return
 	cmpwi r0, 7
 	beq addMoreFireBalls_shell		# if brown, return

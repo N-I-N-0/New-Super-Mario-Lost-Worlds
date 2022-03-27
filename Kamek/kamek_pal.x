@@ -1,6 +1,10 @@
 SECTIONS {
 	callFooDeath = 0x80A6B410;
 
+	yoshiEatCheck = 0x8014f6d0;
+	yoshiSetEatAction = 0x8014ef50;
+	yoshiFinalizeEat = 0x8014f340;
+
 	returnFromSaveLiquidSettings = 0x807b4d34;
 	continueBGpolyCreate = 0x807b4d14;
 	returnFromSelectDifferentLiquidsSet = 0x800eb1ac;
