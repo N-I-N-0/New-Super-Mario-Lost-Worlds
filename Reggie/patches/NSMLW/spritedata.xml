@@ -2488,7 +2488,14 @@
       <entry value="3">Extra Large</entry>
     </list>
   </sprite> <!-- #387: Bush -->
-  
+
+  <sprite id="388" name="Barrel" notes="A grabbable barrel that is affected by gravity. It can be picked up and thrown by shaking the controller next to it. If it is thrown and it hits the ground, it will begin to roll until it hits an enemy or a wall. It can also hurt other players.">
+    <list nybble="8" title="Style">
+      <entry value="0">Normal</entry>
+      <entry value="1">DK</entry>
+    </list>
+  </sprite> <!-- #388: Barrel -->
+
   <sprite id="391" name="Lighting - Glow Block" asmhacks="True" notes="A grabbable glowing block that is affected by gravity. It can be picked up and thrown by shaking the controller next to it. If it is thrown and it hits the ground, it will bounce slightly. Its effect is severely dimished as anything other than a weapon of destruction if not using Full Darkness lighting.">
     <list nybble="6" title="Color" advanced="True" comment="A recolor for the Glow Block." advancedcomment="More effects can be added for your hack.">
       <entry value="0">Yellow</entry>
