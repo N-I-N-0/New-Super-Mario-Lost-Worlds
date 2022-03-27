@@ -139,14 +139,18 @@ hooks:
   - name: NoEffectMovingUp
     type: nop_insn
     area_pal: 0x8004a54c
-    
+
   - name: NoEffectWalking
     type: branch_insn
     branch_type: b
     src_addr_pal: 0x80802074
     target_func: 'NoEffectWalking'
 
-
+  - name: TEX_BlockTaru
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x807c19c4
+    target_func: 'TEX_BlockTaru'
 
   - name: TEX_ToadBalloon
     type: branch_insn

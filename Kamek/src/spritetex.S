@@ -921,6 +921,7 @@ TEX_SnakeBlock:
 	andi. r5, r5, 0b111111
 	b GetTexFilenameForR5
 
+
 .global TEX_Podoboo
 TEX_Podoboo:
 	lwz r5, 4(r31)
@@ -965,6 +966,8 @@ TEX_Gabon_Spike:
 	andis. r4, r4, 0xFFF0
 	blr
 
+.global TEX_BlockTaru
+TEX_BlockTaru:
 .global TEX_Switch
 TEX_Switch:
 	lwz r5, 4(r29)
