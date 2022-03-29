@@ -3474,5 +3474,8 @@
     <dualbox bit="41" title1="Activate" title2="Toggle" comment="This determines whether the target event gets deactivated if it's already activated." />
     <value bit="42-48" title="Location ID" idtype="Location" />
   </sprite> <!-- #561: Player Location Event -->
+
+  <sprite id="562" name="Frogoon" asmhacks="True" notes="A Frogoon!">
+  </sprite> <!-- #562: Frogoon -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

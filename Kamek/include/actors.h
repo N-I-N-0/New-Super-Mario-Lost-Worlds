@@ -841,6 +841,7 @@ enum Actors {
 	PullStar, //828
 	PullStarManager, //829
 	PlayerLocationEvent, //830
+	Frogoon, //831
 };
 
 struct Actor {

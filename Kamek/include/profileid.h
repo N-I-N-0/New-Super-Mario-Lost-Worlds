@@ -584,6 +584,7 @@ enum
 	PullStar = 559,
 	PullStarManager = 560,
 	PlayerLocationEvent = 561,
+	Frogoon = 562,
 
 	Num
 };
@@ -1432,6 +1433,7 @@ enum
 	PullStar, //828
 	PullStarManager, //829
 	PlayerLocationEvent, //830
+	Frogoon, //831
 	
 	Num
 };

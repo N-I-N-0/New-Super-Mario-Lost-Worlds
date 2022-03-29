@@ -174,3 +174,4 @@ modules:
   - processed/pullStar.yaml
   - processed/playerLocationEvent.yaml
   - processed/codehandler.yaml
+  - processed/frogoon.yaml
