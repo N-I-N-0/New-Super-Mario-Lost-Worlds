@@ -1,0 +1,43 @@
+---
+source_files: [../src/mawRay.S]
+hooks:
+  - name: TEX_Urchin
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80ab99dc
+    target_func: 'TEX_Urchin'
+
+  - name: Urchin_FireballNone
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80ab949c
+    target_func: 'Urchin_FireballNone'
+
+  - name: Urchin_IceballNone
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80ab9564
+    target_func: 'Urchin_IceballNone'
+
+  - name: Urchin_StarNone
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80ab93b4
+    target_func: 'Urchin_StarNone'
+
+  - name: Urchin_dontTurn
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80ab90b8
+    target_func: 'Urchin_dontTurn'
+
+  - name: Urchin_MawRayNoHammer
+    type: add_func_pointer
+    src_addr_pal: 0x80b0cf40
+    target_func: 'Urchin_MawRayNoHammer'
+
+#  - name: rotationMawRayLR
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80aba4e4
+#    target_func: 'rotationMawRayLR(dEn_c *)'

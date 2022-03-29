@@ -788,16 +788,7 @@ IgaPukuSoundChange:
 	blr
 
 
-# The below was added by Nin0
-
-#.global TEX_Poisonwater
-#TEX_Poisonwater:
-
-
-
 # The below was added by Tempus
-
-
 .global TEX_Goomba
 TEX_Goomba:
 .global TEX_BuzzyShell

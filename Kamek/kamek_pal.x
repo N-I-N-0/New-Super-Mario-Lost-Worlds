@@ -1,4 +1,13 @@
 SECTIONS {
+	returnToBigUrchinFireballReal = 0x80ab94d0;
+	continueForNormalUrchinFireball = 0x80ab94a0;
+	returnToBigUrchinIceballReal = 0x80ab9570;
+	continueForNormalUrchinIceball = 0x80ab9568;
+	returnForMawRayStar = 0x80ab93e0;
+	continueForNormalUrchinStar = 0x80ab93b8;
+	continueUrchinTurn = 0x80ab90bc;
+	continueUrchinNoTurn = 0x80ab90c0;
+
 	callFooDeath = 0x80A6B410;
 
 	yoshiEatCheck = 0x8014f6d0;

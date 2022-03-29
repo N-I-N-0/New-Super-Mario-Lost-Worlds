@@ -175,3 +175,4 @@ modules:
   - processed/playerLocationEvent.yaml
   - processed/codehandler.yaml
   - processed/frogoon.yaml
+  - processed/mawRay.yaml
