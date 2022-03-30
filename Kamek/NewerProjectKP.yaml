@@ -6,6 +6,7 @@ modules:
   - processed/0.yaml
   - processed/prolog.yaml
   # - processed/corseClear.yaml
+  - processed/wandDots.yaml
   - processed/apDebug.yaml
   - processed/hardMode.yaml
  # - processed/layoutDebug.yaml
@@ -34,7 +35,6 @@ modules:
   - processed/firelaser.yaml
   - processed/spritetex.yaml
   # - processed/gakenoko.yaml
-  - processed/wandDots.yaml
   - processed/boomeranghax.yaml
   - processed/poweruphax.yaml
   - processed/statsMenu.yaml

@@ -184,6 +184,7 @@ class LevelDrawer : public m3d::proc_c {
 
 static LevelDrawer levelDrawerInstance;
 
+int APDebugDraw();
 int LevelDraw() {
 	levelDrawerInstance.drawMe();
 	

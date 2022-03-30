@@ -126,10 +126,12 @@ void APDebugDrawer::drawXlu() {
 //					ap->owner->scale.x, ap->owner->scale.y);
 
 		u32 uptr = (u32)ap;
-		u8 r = (uptr>>16)&0xFF;
-		u8 g = (uptr>>8)&0xFF;
-		u8 b = uptr&0xFF;
-		u8 a = 0xFF;
+		u8 r, g, b, a, colorIndex;
+		colorIndex = uptr % 72;
+		r = rainbowColours[colorIndex].r;
+		g = rainbowColours[colorIndex].g;
+		b = rainbowColours[colorIndex].b;
+		a = rainbowColours[colorIndex].a;
 
 		GXBegin(GX_LINES, GX_VTXFMT0, 10);
 
@@ -198,10 +200,13 @@ void APDebugDrawer::drawXlu() {
 
 	while (p) {
 		u32 uptr = (u32)p;
-		u8 r = (uptr>>16)&0xFF;
-		u8 g = (uptr>>8)&0xFF;
-		u8 b = uptr&0xFF;
-		u8 a = 0xFF;
+		u8 r, g, b, a, colorIndex;
+		colorIndex = uptr % 72;
+		r = rainbowColours[colorIndex].r;
+		g = rainbowColours[colorIndex].g;
+		b = rainbowColours[colorIndex].b;
+		a = rainbowColours[colorIndex].a;
+
 
 		GXBegin(GX_LINES, GX_VTXFMT0, 10);
 
@@ -254,10 +259,13 @@ void APDebugDrawer::drawXlu() {
 	BasicCollider *bc = BasicCollider::globalListHead;
 	while (bc) {
 		u32 uptr = (u32)bc;
-		u8 r = (uptr>>16)&0xFF;
-		u8 g = (uptr>>8)&0xFF;
-		u8 b = uptr&0xFF;
-		u8 a = 0xFF;
+		u8 r, g, b, a, colorIndex;
+		colorIndex = uptr % 72;
+		r = rainbowColours[colorIndex].r;
+		g = rainbowColours[colorIndex].g;
+		b = rainbowColours[colorIndex].b;
+		a = rainbowColours[colorIndex].a;
+
 
 		switch (bc->type) {
 			case 0: case 2:
@@ -282,10 +290,13 @@ void APDebugDrawer::drawXlu() {
 			continue;
 
 		u32 uptr = (u32)fb;
-		u8 r = u8((uptr>>16)&0xFF)+0x20;
-		u8 g = u8((uptr>>8)&0xFF)-0x30;
-		u8 b = u8(uptr&0xFF)+0x80;
-		u8 a = 0xFF;
+		u8 r, g, b, a, colorIndex;
+		colorIndex = uptr % 72;
+		r = rainbowColours[colorIndex].r;
+		g = rainbowColours[colorIndex].g;
+		b = rainbowColours[colorIndex].b;
+		a = rainbowColours[colorIndex].a;
+
 
 		dStageActor_c *ac = (dStageActor_c*)fb;
 
