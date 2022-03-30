@@ -139,18 +139,20 @@ bool daEnParaTenten_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhys
 
 void daEnParaTenten_c::_vf148() {
 	dEn_c::_vf148();
+	this->Delete(1);
 }
 
 void daEnParaTenten_c::_vf14C() {
 	dEn_c::_vf14C();
+	this->Delete(1);
 }
 
 //this does weird shit, but it creates the iceblock around it
 bool daEnParaTenten_c::CreateIceActors() {
-	struct DoSomethingCool my_struct = { 0, this->pos, {1.5, 2.0, 1.8}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	struct DoSomethingCool my_struct = { 0, (Vec){pos.x, pos.y - 12, pos.z}, {1.7, 1.4, 2.0}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	this->frzMgr.Create_ICEACTORs((void*)&my_struct, 1);
 	__destroy_arr((void*)&my_struct, sub_80024C20, 0x3C, 1);
-	//this->chrAnimation.setCurrentFrame(0.0);
+	this->chrAnimation.setCurrentFrame(0.0);
 	this->chrAnimation.setUpdateRate(0.0);
 	//this->frozen = true;
 	return true;
