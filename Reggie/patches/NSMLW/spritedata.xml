@@ -1041,14 +1041,6 @@
     
   </sprite> <!-- #166: Snake Block (Ice) -->
 
-
-  <sprite id="168" name="Thundercloud" asmhacks="True" notes="This creates an unhappy Thundercloud that is similar to a Lakitu's cloud. It will slingshot around the top of the stage and occasionally shoot down Thunder. This Thunder will turn non-tiny Marios into Mini-Mario, and kill Mini-Marios outright. The Thunder will not reach beneath solid terrain.">
-    <dualbox bit="48" title1="Chases Player" title2="Stationary" comment="This determines if the Thundercloud will chase the player, or if it will remain in a single position."/>
-    <value bit="26-32" title="Triggering Event ID (Die)" comment="When the Triggering Event is activated, the Thundercloud will die." requiredbit="48" requiredval="0"/> <!-- Appears if Chases Player is set -->
-    <value bit="26-32" title="Triggering Event ID (Thunder)" comment="If a Triggering Event is set, the Thundercloud will only shoot thunder while this Event is activated. If a Triggering Event is not set, it will shoot thunder for 3 seconds on, 1 second off (?)." requiredbit="48"/> <!-- Appears if Stationary is set -->
-    <checkbox bit="20" title="Does Not Respawn" comment="When enabled, the Thundercloud will not respawn on its own after being killed by the player. Otherwise the Thundercloud will continue to respawn once loaded until the Triggering Event is activated." requiredbit="48" requiredval="0"/>
-  </sprite> <!-- #168: Thundercloud -->
-
   <!-- Double check Moving Direction, value 0 with ASM. - Grop says Value 0 should be Right and the list should repeat. Why is 0 'Does Not Move'? -->
   <sprite id="169" name="Magic Platform" asmhacks="True" notes="Magic Platforms are created by assigning tileset data on Layer 1 to an invisible block as a new texture, and moving that texture around. While it functions best as a moving platform, the Magic Platform does not have to move in order to perform its function. It can also simply create terrain chunks with a different type of collision than normal.">
     <dependency notes="It should be noted that the Magic Platform can only create rectangular shapes. It cannot have slopes, and it cannot have 'unused space' within the location. All tiles will turn into solid blocks."/>
@@ -3488,5 +3480,12 @@
 
   <sprite id="562" name="Frogoon" asmhacks="True" notes="A Frogoon!">
   </sprite> <!-- #562: Frogoon -->
+  
+  <sprite id="563" name="Thundercloud" asmhacks="True" notes="This creates an unhappy Thundercloud that is similar to a Lakitu's cloud. It will slingshot around the top of the stage and occasionally shoot down Thunder. This Thunder will turn non-tiny Marios into Mini-Mario, and kill Mini-Marios outright. The Thunder will not reach beneath solid terrain.">
+    <dualbox bit="48" title1="Chases Player" title2="Stationary" comment="This determines if the Thundercloud will chase the player, or if it will remain in a single position."/>
+    <value bit="26-32" title="Triggering Event ID (Die)" comment="When the Triggering Event is activated, the Thundercloud will die." requiredbit="48" requiredval="0"/> <!-- Appears if Chases Player is set -->
+    <value bit="26-32" title="Triggering Event ID (Thunder)" comment="If a Triggering Event is set, the Thundercloud will only shoot thunder while this Event is activated. If a Triggering Event is not set, it will shoot thunder for 3 seconds on, 1 second off (?)." requiredbit="48"/> <!-- Appears if Stationary is set -->
+    <checkbox bit="20" title="Does Not Respawn" comment="When enabled, the Thundercloud will not respawn on its own after being killed by the player. Otherwise the Thundercloud will continue to respawn once loaded until the Triggering Event is activated." requiredbit="48" requiredval="0"/>
+  </sprite> <!-- #563: Thundercloud -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

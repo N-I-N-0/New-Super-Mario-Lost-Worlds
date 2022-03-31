@@ -2160,7 +2160,6 @@ ImageClasses = {
     153: SpriteImage_NewerQSwitchUnused,
     157: SpriteImage_BigPumpkin,
     167: SpriteImage_ShyGuyGiant,
-    168: SpriteImage_Thundercloud,
     183: SpriteImage_Meteor,
     188: SpriteImage_MidwayFlag,
     191: SpriteImage_TileEventNewer,
@@ -2209,5 +2208,6 @@ ImageClasses = {
     495: SpriteImage_LaunchStar,
     518: SpriteImage_StarChip,
     524: SpriteImage_CloudPlattform,
-    525: SpriteImage_GoombaTower
+    525: SpriteImage_GoombaTower,
+    563: SpriteImage_Thundercloud,
 }

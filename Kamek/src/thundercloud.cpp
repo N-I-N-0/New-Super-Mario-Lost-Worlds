@@ -4,12 +4,13 @@
 
 #include "boss.h"
 
-const char* TLCarcNameList [] = {
+const char* ThunderCloudFileList [] = {
 	"tcloud",
 	NULL	
 };
 
 class dThunderCloud : public dEn_c {
+public:
 	int onCreate();
 	int onDelete();
 	int onExecute();
@@ -38,7 +39,7 @@ class dThunderCloud : public dEn_c {
 
 	void dieFall_Begin();
 	void dieFall_Execute();
-	static dThunderCloud *build();
+	static dActor_c* build();
 
 	void updateModelMatrices();
 
@@ -72,7 +73,10 @@ class dThunderCloud : public dEn_c {
 	DECLARE_STATE(Wait);
 };
 
-dThunderCloud *dThunderCloud::build() {
+const SpriteData ThunderCloudSpriteData = { ProfileId::ThunderCloud, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile ThunderCloudProfile(&dThunderCloud::build, SpriteId::ThunderCloud, &ThunderCloudSpriteData, ProfileId::ThunderCloud, ProfileId::ThunderCloud, "Thunder Cloud", ThunderCloudFileList);
+
+dActor_c* dThunderCloud::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(dThunderCloud));
 	return new(buffer) dThunderCloud;
 }

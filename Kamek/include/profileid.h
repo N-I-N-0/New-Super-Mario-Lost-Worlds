@@ -585,6 +585,7 @@ enum
 	PullStarManager = 560,
 	PlayerLocationEvent = 561,
 	Frogoon = 562,
+	ThunderCloud = 563,
 
 	Num
 };
@@ -1434,6 +1435,7 @@ enum
 	PullStarManager, //829
 	PlayerLocationEvent, //830
 	Frogoon, //831
+	ThunderCloud, //832
 	
 	Num
 };
