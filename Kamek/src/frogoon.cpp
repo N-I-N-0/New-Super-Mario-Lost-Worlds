@@ -50,39 +50,24 @@ class daFrogoon_c : public dEn_c {
 
 	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 	void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 
-	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
+	/*bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
+	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther);
-
-	void powBlockActivated(bool isNotMPGP);
+	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);*/
+	
 
 	void _vf148();
 	void _vf14C();
 	bool CreateIceActors();
-	void addScoreWhenHit(void *other);
-	//void bouncePlayerWhenJumpedOn(void *player);
 
-	void spawnHitEffectAtPosition(Vec2 pos);
-	void doSomethingWithHardHitAndSoftHitEffects(Vec pos);
-	void playEnemyDownSound2();
-	void playHpdpSound1(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-	void playEnemyDownSound1();
-	void playEnemyDownComboSound(void *player); // AcPy_c/daPlBase_c?
-	void playHpdpSound2(); // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-	void _vf260(void *other); // AcPy/PlBase? plays the SE_EMY_FUMU_%d sounds based on some value
-	void _vf264(dStageActor_c *other); // if other is player or yoshi, do Wm_en_hit and a few other things
-	void _vf268(void *other); // AcPy/PlBase? plays the SE_EMY_DOWN_SPIN_%d sounds based on some value
-	void _vf278(void *other); // AcPy/PlBase? plays the SE_EMY_YOSHI_FUMU_%d sounds based on some value
 
 	USING_STATES(daFrogoon_c);
 	DECLARE_STATE(RealWalk);
@@ -107,17 +92,9 @@ extern "C" bool SpawnEffect(const char*, int, Vec*, S16Vec*, Vec*);
 
 //FIXME make this dEn_c->used...
 extern "C" char usedForDeterminingStatePress_or_playerCollision(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther, int unk1);
-extern "C" int SomeStrangeModification(dStageActor_c* actor);
-extern "C" void DoStuffAndMarkDead(dStageActor_c *actor, Vec vector, float unk);
 extern "C" int SmoothRotation(short* rot, u16 amt, int unk2);
 
-// Collision related
-extern "C" void BigHanaPlayer(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
-extern "C" void BigHanaYoshi(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
-extern "C" bool BigHanaWeirdGP(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
-extern "C" bool BigHanaGroundPound(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
-extern "C" bool BigHanaFireball(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
-extern "C" bool BigHanaIceball(dEn_c* t, ActivePhysics *apThis, ActivePhysics *apOther);
+
 
 extern "C" void dAcPy_vf3F8(void* player, dEn_c* monster, int t);
 
@@ -137,11 +114,11 @@ void daFrogoon_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther)
 
 	if(hitType == 1) {	// regular jump
 		apOther->someFlagByte |= 2;
-		this->Delete(1);
+		doStateChange(&StateID_Die);
 	}
 	else if(hitType == 3) {	// spinning jump or whatever?
 		apOther->someFlagByte |= 2;
-		this->Delete(1);
+		doStateChange(&StateID_Die);
 	}
 	else if(hitType == 0) {
 		//EN_LandbarrelPlayerCollision(this, apThis, apOther);
@@ -149,65 +126,95 @@ void daFrogoon_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther)
 	} else {
 		DamagePlayer(this, apThis, apOther);
 	}
-}			
-void daFrogoon_c::_vf278(void *other) {
-	PlaySound(this, SE_EMY_HANACHAN_STOMP);
 }
 
 void daFrogoon_c::yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 	this->playerCollision(apThis, apOther);
 }
-bool daFrogoon_c::collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther) {
+
+void daFrogoon_c::spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	u16 name = ((dEn_c*)apOther->owner)->name;
+
+	if (name == EN_COIN || name == EN_EATCOIN || name == AC_BLOCK_COIN || name == EN_COIN_JUGEM || name == EN_COIN_ANGLE
+		|| name == EN_COIN_JUMP || name == EN_COIN_FLOOR || name == EN_COIN_VOLT || name == EN_COIN_WIND 
+		|| name == EN_BLUE_COIN || name == EN_COIN_WATER || name == EN_REDCOIN || name == EN_GREENCOIN
+		|| name == EN_JUMPDAI || name == EN_ITEM) {
+			return;
+	}
+
+	/*if (acState.getCurrentState() == &StateID_RealWalk) {
+		if(collMgr.isOnTopOfTile()) {
+			pos.x = ((pos.x - ((dEn_c*)apOther->owner)->pos.x) > 0) ? pos.x + 1.5 : pos.x - 1.5;
+			doStateChange(&StateID_RealTurn);
+		} else {
+			if (name == Frogoon) {
+				daFrogoon_c* other = (daFrogoon_c*)apOther->owner;
+				other->doStateChange(&StateID_RealWalk);
+			}
+		}
+	}*/
+	
+	if (acState.getCurrentState() == &StateID_RealWalk) {
+		if(collMgr.isOnTopOfTile()) {
+			float distance = ((pos.x - ((dEn_c*)apOther->owner)->pos.x));
+			float moveSideways = (abs(distance) < 22) ? 22-abs(distance) : 1.5;
+			pos.x = (distance > 0) ? pos.x + moveSideways : pos.x - moveSideways;
+			doStateChange(&StateID_RealTurn);
+		}
+	}
+}
+
+/*bool daFrogoon_c::collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther) {
+	dEn_c::collisionCatD_Drill(apThis, apOther);
+	doStateChange(&StateID_Die);
 	return true; //BigHanaWeirdGP(this, apThis, apOther);
 }
 bool daFrogoon_c::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
+	dEn_c::collisionCat7_GroundPound(apThis, apOther);
+	doStateChange(&StateID_Die);
 	return true;//BigHanaGroundPound(this, apThis, apOther);
 }
 bool daFrogoon_c::collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther) {
+	dEn_c::collisionCat7_GroundPoundYoshi(apThis, apOther);
+	doStateChange(&StateID_Die);
 	return true;//BigHanaGroundPound(this, apThis, apOther);
 }
 
 bool daFrogoon_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther) {
-	apOther->owner->kill();
+	dEn_c::collisionCat9_RollingObject(apThis, apOther);
+	doStateChange(&StateID_Die);
 	return true;
 }
 bool daFrogoon_c::collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther){
+	dEn_c::collisionCatA_PenguinMario(apThis, apOther);
 	dAcPy_vf3F8(apOther->owner, this, 3);
 	this->counter_504[apOther->owner->which_player] = 0xA;
 	return true;
 }
-bool daFrogoon_c::collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther){
-	return true;
-}
-bool daFrogoon_c::collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther){
-	return true;
-}
 bool daFrogoon_c::collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther) {
+	dEn_c::collisionCat13_Hammer(apThis, apOther);
+	doStateChange(&StateID_Die);
 	return true;
 }
 bool daFrogoon_c::collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther){
-	/*int hitType = usedForDeterminingStatePress_or_playerCollision(this, apThis, apOther, 0);
-	if (hitType == 1 || hitType == 3) {
-		PlaySound(this, SE_EMY_CMN_STEP);
-		bouncePlayerWhenJumpedOn(apOther->owner);
-	} else {
-		dAcPy_vf3F8(apOther->owner, this, 3);
-	}
-
-	this->counter_504[apOther->owner->which_player] = 0xA;
-	return true;*/
-	return false;
+	dEn_c::collisionCat3_StarPower(apThis, apOther);
+	doStateChange(&StateID_Die);
+	return true;
 }
 
 bool daFrogoon_c::collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther){
-	return BigHanaFireball(this, apThis, apOther);
+	dEn_c::collisionCat14_YoshiFire(apThis, apOther);
+	doStateChange(&StateID_Die);
+	return true;
 }
 bool daFrogoon_c::collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther) {
-	return BigHanaFireball(this, apThis, apOther);
+	dEn_c::collisionCat1_Fireball_E_Explosion(apThis, apOther);
+	doStateChange(&StateID_Die);
+	return true;
 }
-bool daFrogoon_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther) {
+/*bool daFrogoon_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther) {
 	return BigHanaIceball(this, apThis, apOther);
-}
+}*/
 
 // These handle the ice crap
 void daFrogoon_c::_vf148() {
@@ -229,19 +236,6 @@ bool daFrogoon_c::CreateIceActors() {
 	return true;
 }
 
-void daFrogoon_c::addScoreWhenHit(void *other) { }
-
-void daFrogoon_c::spawnHitEffectAtPosition(Vec2 pos) { }
-void daFrogoon_c::doSomethingWithHardHitAndSoftHitEffects(Vec pos) { }
-void daFrogoon_c::playEnemyDownSound2() { }
-void daFrogoon_c::playHpdpSound1() { } // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-void daFrogoon_c::playEnemyDownSound1() { }
-void daFrogoon_c::playEnemyDownComboSound(void *player) { } // AcPy_c/daPlBase_c?
-void daFrogoon_c::playHpdpSound2() { } // plays PLAYER_SE_EMY/GROUP_BOOT/SE_EMY_DOWN_HPDP_S or _H
-void daFrogoon_c::_vf260(void *other) { } // AcPy/PlBase? plays the SE_EMY_FUMU_%d sounds based on some value
-void daFrogoon_c::_vf264(dStageActor_c *other) { } // if other is player or yoshi, do Wm_en_hit and a few other things
-void daFrogoon_c::_vf268(void *other) { } // AcPy/PlBase? plays the SE_EMY_DOWN_SPIN_%d sounds based on some value
-void daFrogoon_c::powBlockActivated(bool isNotMPGP) {}
 
 bool daFrogoon_c::calculateTileCollisions() {
 	// Returns true if sprite should turn, false if not.
@@ -360,14 +354,14 @@ int daFrogoon_c::onCreate() {
 	this->XSpeed = 1.0;
 	anmSpeed = 1.0;
 
-	static const lineSensor_s below(-5<<12, 5<<12, 0<<12);
+	static const lineSensor_s below(-4<<12, 4<<12, 0<<12);
 	static const lineSensor_s adjacent(10<<12, 9<<12, 10<<12);
 	collMgr.init(this, &below, 0, &adjacent);
 
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
-	HitMeBaby.bitfield1 = 0x1;
-	HitMeBaby.bitfield2 = 0x820A4;
+	HitMeBaby.bitfield1 = 0x6f;
+	HitMeBaby.bitfield2 = 0xffbafffe;
 	HitMeBaby.unkShort1C = 0x0;
 	HitMeBaby.callback = &dEn_c::collisionCallback;
 
@@ -401,6 +395,12 @@ int daFrogoon_c::onExecute() {
 
 	acState.execute();
 	updateModelMatrices();
+
+	if(!collMgr.isOnTopOfTile()) {
+		if (acState.getCurrentState() != &StateID_RealWalk) {
+			doStateChange(&StateID_RealWalk);
+		}
+	}
 
 	return true;
 }
@@ -462,7 +462,7 @@ void daFrogoon_c::executeState_RealWalk() {
 		return;
 	}
 
-	if(this->chrAnimation.isAnimationDone()) {
+	if(this->chrAnimation.isAnimationDone() && collMgr.isOnTopOfTile()) {
 		doStateChange(&StateID_JumpEnd);
 	}
 }
@@ -478,6 +478,8 @@ void daFrogoon_c::beginState_JumpEnd() {
 }
 void daFrogoon_c::executeState_JumpEnd() {
 	bodyModel._vf1C();
+	//calculateTileCollisions();
+	
 	if(this->chrAnimation.isAnimationDone()) {
 		doStateChange(&StateID_JumpDelay);
 	}
@@ -495,6 +497,7 @@ void daFrogoon_c::beginState_JumpDelay() {
 }
 void daFrogoon_c::executeState_JumpDelay() {
 	bodyModel._vf1C();
+	//calculateTileCollisions();
 	if(this->chrAnimation.isAnimationDone()) {
 		if(GenerateRandomNumber(5) == 0 || maxWaitTimer >= 3) {
 			doStateChange(&StateID_RealWalk);
@@ -546,6 +549,10 @@ void daFrogoon_c::beginState_Die() {
 	this->Baseline = this->pos.y;
 	this->rot.y = 0;
 	this->rot.x = 0;
+	
+	nw4r::snd::SoundHandle handle;
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_EMY_DOWN, 1);
+	StageE4::instance->spawnCoinJump(pos, 0, 1, 0);
 }
 void daFrogoon_c::executeState_Die() { 
 	bodyModel._vf1C();
@@ -559,6 +566,8 @@ void daFrogoon_c::executeState_Die() {
 	// this->pos.x += 0.5; 
 	this->pos.y = Baseline + (-0.2 * dying * dying) + 20.0;
 	
+	this->scale.y = 1.0 - (timer / 450.0);
+	
 	this->dying += 0.5;
 		
 	if (this->timer > 450) {
@@ -569,6 +578,5 @@ void daFrogoon_c::executeState_Die() {
 	// dEn_c::dieFall_Execute();
 
 }
-void daFrogoon_c::endState_Die() {
-}
+void daFrogoon_c::endState_Die() {}
 
