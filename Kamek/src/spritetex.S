@@ -657,9 +657,8 @@ ToadBalloon_TextColorSetter:
 	lis r6, toadColorAddress@h
 	ori r6, r6, toadColorAddress@l
 
-	stw r5, 0x0(r6)
-	stw r7, 0x4(r6)
-	stb r0, -0x1(r6)
+	stw r5, 0x4(r6)
+	stw r7, 0x14(r6)
 	
 	#restore
     lmw r2, 0x8 (sp)
@@ -675,30 +674,30 @@ ToadBalloon_TextColorSetter:
 .align 4
 .global balloonColors
 balloonColors:
-.long 0xFF0A0AFF #blue
-.long 0x3C78FFFF
-.long 0xFF010101 #black
-.long 0x3C010101
-.long 0xFF000000 #brown
-.long 0xFF000000
-.long 0xFF000000 #pink
-.long 0xFF000000
-.long 0xFF000000 #green
-.long 0xFF000000
-.long 0xFF000000 #grey
-.long 0xFF000000
-.long 0xFF000000 #red
-.long 0xFF000000
-.long 0xFF000000 #dark grey
-.long 0xFF000000
-.long 0xFF000000 #light green
-.long 0xFF000000
-.long 0xFF000000 #light blue
-.long 0xFF000000
-.long 0xFF000000 #purple
-.long 0xFF000000
-.long 0xFF000000 #another pink
-.long 0xFF000000
+.long 0x3C78FFFF #blue
+.long 0xC8F0FFFF
+.long 0x000000FF #black
+.long 0x101010FF
+.long 0x774C21FF #brown
+.long 0x774C21FF
+.long 0xFF00FFFF #pink
+.long 0xF621E8FF
+.long 0x11DD11FF #green
+.long 0x0E7B3DFF
+.long 0xAAAAAAFF #grey
+.long 0xDDDDDDFF
+.long 0xFF0000FF #red
+.long 0xFF9999FF
+.long 0x101010FF #dark grey
+.long 0x404040FF
+.long 0x00FF00FF #light green
+.long 0x21F62FFF
+.long 0x0010FFFF #light blue
+.long 0x38FFFFFF
+.long 0x880088FF #purple
+.long 0x7A2CC8FF
+.long 0xFF00FFFF #another pink
+.long 0xFE3E87FF
 
 .align 4
 

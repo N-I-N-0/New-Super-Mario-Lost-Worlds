@@ -1098,7 +1098,29 @@
     </list>
     <value nybble="6" title="Z-Order" comment="This will adjust the Z-Order of the Meteors in relation to other objects." comment2="A higher value will place this sprite further towards the background."/>
   </sprite> <!-- #183: Meteor -->
-  
+
+  <sprite id="185" name="Ambush - Toad Balloon" noyoshi="True" notes="Collecting 8 of these spawns a Toad House Chest. Any additional Toad Balloons are treated as the 8th Balloon. Requires an Ambush Level Controller for the balloons to spawn and function.">
+    <dependency notes="The [454] Ambush Controller will allow the Toad Balloons to spawn. When 8 Toad Balloons have been collected, (most) enemies will be killed, and any [203] Item Chests set to spawn from Ambush Controllers will spawn.">
+      <required sprite="454"/>
+      <required sprite="203"/>
+    </dependency>
+	<list nybble="6" title="Color" comment="Changes the color of the ballon and the text color when collecting." >
+      <entry value="0">Blue</entry>
+      <entry value="1">Black</entry>
+      <entry value="2">Brown</entry>
+      <entry value="3">Pink</entry>
+      <entry value="4">Green</entry>
+      <entry value="5">Grey</entry>
+      <entry value="6">Red</entry>
+      <entry value="7">Dark Grey</entry>
+      <entry value="8">Light Green</entry>
+      <entry value="9">Light Blue</entry>
+      <entry value="10">Purple</entry>
+      <entry value="11">Pink (another one)</entry>
+    </list>
+    <checkbox bit="40" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Toad Balloon placing it further behind other sprites."/>
+  </sprite> <!-- #185: Ambush - Toad Balloon -->
+
   <sprite id="188" name="Midway Flag" asmhacks="True" notes="A flag that when touched by the player will mark their progress in the level and respawn them at this location when re-entering the level." advancednotes="Only one Midway Flag works properly per level. Let's say there are five Checkpoints in a Zone. If Mario were to activate Checkpoint A through C in that order, and then die, he would respawn at Checkpoint C's Entrance, and all five Checkpoints would be activated.">
     <list nybble="5-6" title="Logo" comment="NewerSMBW changes the logo placed on the Midway Flag for each sub-world.">
       <entry value="0">Newer Logo</entry>
@@ -1416,9 +1438,9 @@
     </list>
     <list nybble="12" title="Block Contains" comment="This determines what item the block contains." comment2="This block will release as many items as there are players." requiredbit="44">
       <entry value="0">Spike</entry>
-      <entry value="1">Bob-Omb</entry>
+      <entry value="1">Wand</entry>
       <entry value="2">Frog</entry>
-      <entry value="3">Thunder</entry>
+      <entry value="3">Gold Flower</entry>
       <entry value="4">Cloud</entry>
     </list>
     <checkbox bit="32" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-order of the ?-Block placing it further behind other sprites." comment2="This will place the ?-Block behind even Chainlink Fence and Layer 1 terrain."/>
@@ -2873,7 +2895,7 @@
     <checkbox bit="48" title="Low Gravity" comment="When enabled, the Topman will fall much more slowly."/>
   </sprite> <!-- #490: Topman -->
 
-  <sprite id="491" name="Super Topman" asmhacks="True" notes="Large Topman boss used by NewerSMBW. It can be beaten by luring it into [491] Electric Lines.">
+  <sprite id="491" name="Super Topman" asmhacks="True" notes="Large Topman boss used by NewerSMBW. It can be beaten by luring it into [492] Electric Lines.">
     <dependency notes="Kamek and his controller should be included in the Area.">
       <suggested sprite="492"/> <!-- Electric Line -->
       <required sprite="427"/> <!-- Kamek -->
@@ -2957,10 +2979,9 @@
       <entry value="15">Cloud Flower</entry>
       <entry value="16">Rosalina's Wand</entry>
       <entry value="17">Yoshi Egg</entry>
-      <entry value="17">Coin</entry>
-      <entry value="17">Coin</entry>
-      <entry value="18">Poison Shroom</entry>
-      <!--<entry value="19">Dark Star</entry>-->
+      <entry value="18">Coin</entry>
+      <entry value="19">Poison Shroom</entry>
+      <!--<entry value="20">Dark Star</entry>-->
     </list>
     <dualbox bit="17" title1="Spawn Mode" title2="Normal" comment="High Jump" />
     <checkbox bit="18" title="Respawn" comment="When enabled, the leaf pile will reappear after some time." />

@@ -164,9 +164,13 @@ hooks:
     src_addr_pal: 0x80a0ec0c
     target_func: 'ToadBalloon_TextColorSetter'
 
-  - name: removeToadBalloonTextColorSetter
+  - name: removeToadBalloonTextColorSetterTop
     type: nop_insn
-    area_pal: [0x800155bc, 0x800155dc]
+    area_pal: [0x800155cc, 0x800155d8]
+
+  - name: removeToadBalloonTextColorSetterBottom
+    type: nop_insn
+    area_pal: [0x80015614, 0x80015620]
 
 # The below was added by Tempus
   - name: TEX_Goomba

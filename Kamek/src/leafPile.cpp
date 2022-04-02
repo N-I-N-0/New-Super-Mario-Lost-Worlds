@@ -2,7 +2,7 @@
 #include <game.h>
 #include <profile.h>
 
-const char* LeafPileFileList[] = {"leafPile", 0};
+const char* LeafPileFileList[] = {"leafPile", "PoisonMushroom", 0};
 
 class daEnLeafPile_c : public dEn_c {
 public:
@@ -235,7 +235,8 @@ int daEnLeafPile_c::onDelete() {
 
 	Actors content = EN_ITEM;
 	u32 set;
-	switch(this->settings & 0b1111) {
+	Vec spawnPos = pos;
+	switch(this->settings & 0xFF) {
 		case 0:
 			return true;
 		case 1:
@@ -286,6 +287,15 @@ int daEnLeafPile_c::onDelete() {
 			set = 0x0B000012;
 			break;
 		case 17:
+			content = AC_YOSHI_EGG;
+			//set = 0x008003cc04060000;
+			break;
+		case 18:
+			content = EN_COIN_JUMP;
+			//set = 0x008003cc04060000;
+			break;
+		case 19:
+			spawnPos.y += 10;
 			content = PoisonShroom;
 			//set = 0x008003cc04060000;
 			break;
@@ -297,7 +307,7 @@ int daEnLeafPile_c::onDelete() {
 	}
 
     //u32 set = 0x008003cc04060000;
-	CreateActor(content, set, &pos, 0, this->currentLayerID);
+	CreateActor(content, set, &spawnPos, 0, this->currentLayerID);
 	return true;
 }
 /*Flags:
