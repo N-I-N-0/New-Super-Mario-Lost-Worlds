@@ -983,7 +983,7 @@
     <value bit="10-16" title="Target Event ID" comment="When the Red Coin Ring is touched, the Target Event will be activated." idtype="Target Event"/>
     <dualbox bit="20" title1="Timed Event" title2="Permanent Event" comment="This determines if the Target Event is activated temporarily or permanently." comment2="Timed events will pause the music and replace it with ticking. It is recommended for normal Red Coin Ring use that the event be timed."/>
     <value bit="45-48" title="Red Coin ID" comment="When set, the corresponding Red Coin set will have an Item Reward. Value 0 is also a valid ID." idtype="Red Coin"/>
-    <list bit="43-44" title="Item Reward" comment="This determines which power-up will appear after collecting 8 coins from the Red Coin ID set above. If a player already has that power-up, it will drop a 1-Up.">
+    <list bit="41-44" title="Item Reward" comment="This determines which power-up will appear after collecting 8 coins from the Red Coin ID set above. If a player already has that power-up, it will drop a 1-Up.">
       <entry value="0">Fire Flower</entry>
       <entry value="1">Propeller Shroom</entry>
       <entry value="2">Penguin Suit</entry>
@@ -1785,7 +1785,19 @@
       <entry value="3">6 Blocks</entry>
     </list>
   </sprite> <!-- 231: Wiggling Mushroom Platform -->
-  
+
+  <sprite id="234" name="Effect - Cloud Area" notes="This adds decorative patchs of cloud cover with different properties. Most modes required a Location ID, but some do not.">
+    <list nybble="11" title="Cloud Type" comment="This determines which type of cloud will be spawned. See the extra comment for details." comment2="Normal: A light patch of clouds spawns in the Location ID. It is denser than [446].&lt;br&gt;Dense: A dense patch of clouds spawns in the Location ID.&lt;br&gt;Death Clouds: - A dense patch of purple clouds that will instantly kill the player spawns in the Location ID. They can be cleared away with spin jumps.&lt;br&gt;Drifting Death Clouds: A dense patch of purple clouds that spawns around a specific Location ID, that proceeds to drifts to the right across the entire stage. It cannot be cleared away with a spin jump like other Death Clouds, and it will generate a rumbling sound effect when the player is close to it. (A Location ID may not actually be required.)&lt;br&gt;Falling Clouds: Clouds fall in the background across the entire stage." advancedcomment="1, 3: Used by Foo and cannot be placed.&lt;br&gt;6, 9-15: No clouds spawn.">
+      <entry value="7">Normal</entry>
+      <entry value="0">Dense</entry>
+      <entry value="4">Death Clouds</entry>
+      <entry value="5">Drifting Death Clouds</entry>
+      <entry value="8">Falling Clouds</entry>
+    </list>
+    <value nybble="12" title="Location ID" comment="This determines the location in which the cloud effect will appear." requiredbit="41" requiredval="0"/> <!-- Disappears if Falling Clouds or 9+ are selected for Cloud Type -->
+    <checkbox bit="40" title="Airship Clouds" comment="Airship clouds only work for cloud types 0, 4 and 7, and they will span the entire zone regardless of the location's width (they will be at the location's height though)."/>
+  </sprite> <!-- #234: Effect - Cloud Area -->
+
   <sprite id="241" name="Trap Block" notes="">
     <list nybble="6" title="Block Tile" >
       <entry value="0">Invisible</entry>
