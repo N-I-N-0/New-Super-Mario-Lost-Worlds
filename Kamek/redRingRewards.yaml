@@ -1,0 +1,18 @@
+---
+source_files: [../src/redRingRewards.S]
+hooks:
+  - name: ChangeRedRingArray
+    type: branch_insn
+    src_addr_pal: 0x80a94278
+    branch_type: b
+    target_func: 'ChangeRedRingArray'
+
+  - name: RedCoinLoadNewSettingsAnd0xF
+    type: patch
+    addr_pal: 0x80a94038
+    data: '5400e73e' #Orig: 5400e7be -> & 0xF instead of & 0x3
+
+  - name: RedRingRespectNewPowerups
+    type: patch
+    addr_pal: 0x80A942EC
+    data: '2800000B'

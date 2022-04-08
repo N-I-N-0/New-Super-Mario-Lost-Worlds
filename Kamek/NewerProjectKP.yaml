@@ -176,3 +176,4 @@ modules:
   - processed/codehandler.yaml
   - processed/frogoon.yaml
   - processed/mawRay.yaml
+  - processed/redRingRewards.yaml

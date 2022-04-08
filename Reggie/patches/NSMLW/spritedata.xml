@@ -976,6 +976,33 @@
     <value bit="1-8" title="Triggering Event ID" comment="This switch will not be visible if a Triggering Event is defined unless that event is activated." advanced="True" advancedcomment="Using a Triggering ID with Multi-Use functionality is somewhat glitchy and not recommended." requiredbit="40" idtype="Triggering Event"/> <!-- Appears if Multi-Use is set, but only if Advanced fields are enabled -->
   </sprite> <!-- #153: (Unused) "?" Switch (Orange) -->
 
+  <sprite id="156" name="Red Coin Ring" notes="A glowing red ring that is intended to be used to spawn sets of 8 red coins, and to control the item that the player will receive after collection them.">
+    <dependency notes="The suggested use is to have 8 [144] Red Coins placed with the same Red Coin ID and Event ID as a matching Red Coin Ring. It is not recommended to use more than 1 Red Coin Ring within a single Zone, nor is it recommended to use either object for a purpose outside of the default, within a normal style level.">
+      <suggested sprite="144"/> <!-- Obviously it's suggested to utilize Red Coins -->
+    </dependency>
+    <value bit="10-16" title="Target Event ID" comment="When the Red Coin Ring is touched, the Target Event will be activated." idtype="Target Event"/>
+    <dualbox bit="20" title1="Timed Event" title2="Permanent Event" comment="This determines if the Target Event is activated temporarily or permanently." comment2="Timed events will pause the music and replace it with ticking. It is recommended for normal Red Coin Ring use that the event be timed."/>
+    <value bit="45-48" title="Red Coin ID" comment="When set, the corresponding Red Coin set will have an Item Reward. Value 0 is also a valid ID." idtype="Red Coin"/>
+    <list bit="43-44" title="Item Reward" comment="This determines which power-up will appear after collecting 8 coins from the Red Coin ID set above. If a player already has that power-up, it will drop a 1-Up.">
+      <entry value="0">Fire Flower</entry>
+      <entry value="1">Propeller Shroom</entry>
+      <entry value="2">Penguin Suit</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Mini Mushroom</entry>
+      <entry value="5">Power Star</entry>
+      <entry value="6">1UP Mushroom</entry>
+      <entry value="7">Hammer Suit</entry>
+      <entry value="8">Gold Flower</entry>
+      <entry value="9">Spike Mushroom</entry>
+      <entry value="10">Boomerang Flower</entry>
+      <entry value="11">Frog Suit</entry>
+      <entry value="12">Cloud Flower</entry>
+      <entry value="13">Rosalina's Wand</entry>
+    </list>
+    <checkbox bit="48" title="Shift Horizontally" comment="When this checkbox is ticked, the ring is moved half a block to the right. Note that this setting overlaps with the Red Coin ID." />
+    <checkbox bit="40" title="Unknown Flag 10 (1)" advanced="True" advancedcomment="ASM shows Nybble 10 might affect something. No visible or functional change. Likely Z-Order related, or at least intended to be."/>
+  </sprite> <!-- #156: Red Coin Ring -->
+
   <sprite id="157" name="Big Pumpkin" asmhacks="True" notes="No matter what is inside, the pumpkin can easily be broken with a ground pound. It can even be broken by small Mario.">
     <list nybble="12" title="Block Contains" comment="This determines if anything appears from inside the block when it is destroyed.">
       <entry value="0">Empty</entry>

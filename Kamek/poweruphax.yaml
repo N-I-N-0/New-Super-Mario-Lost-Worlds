@@ -1287,11 +1287,6 @@ hooks:
   #  addr_pal: 0x8019C290
   #  data: '4E800020'
 
-  - name: RedRingRespectsHammerSuit
-    type: patch
-    addr_pal: 0x80A942EC
-    data: '28000005'
-
 
 
 # STOCK ITEM BULLSHIT

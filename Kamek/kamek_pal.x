@@ -1,4 +1,6 @@
 SECTIONS {
+	returnFromChangeRedRingArray = 0x80a9427c;
+
 	returnToBigUrchinFireballReal = 0x80ab94d0;
 	continueForNormalUrchinFireball = 0x80ab94a0;
 	returnToBigUrchinIceballReal = 0x80ab9570;
