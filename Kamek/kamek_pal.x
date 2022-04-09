@@ -1,4 +1,6 @@
 SECTIONS {
+	returnFromEggAddNewPowerups = 0x80911790;
+
 	returnFromChangeRedRingArray = 0x80a9427c;
 
 	returnToBigUrchinFireballReal = 0x80ab94d0;

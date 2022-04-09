@@ -1,5 +1,5 @@
 ---
-source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S, ../src/yoshiCourage.S, ../src/yoshiCourage.cpp, ../src/yoshiStomp.cpp, ../src/yoshiStomp.S]
+source_files: [../src/yoshiFire.S, ../src/yoshiFly.cpp, ../src/yoshiFly.S, ../src/yoshiCourage.S, ../src/yoshiCourage.cpp, ../src/yoshiStomp.cpp, ../src/yoshiStomp.S, ../src/yoshiPowerupFix.S]
 
 hooks:
   # daYoshi_c
@@ -113,4 +113,10 @@ hooks:
     target_func: 'haveStarAnimationMyCuteYoshi'
 
 
+#############################
 
+  - name: eggAddNewPowerups
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80911740
+    target_func: 'EggAddNewPowerups'
