@@ -115,7 +115,7 @@ extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 int daEnStarChip_c::onCreate() {
 	this->deleteForever = true;
 	
-	bool pullIs = this->settings >> 8 & 0b1;
+	bool pullIs = this->settings >> 0 & 0b1;
 	
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
@@ -162,11 +162,11 @@ int daEnStarChip_c::onCreate() {
 
 	this->pos.z = 4000;
 
-	this->star_chip_id = this->settings >> 29 & 0b111;
+	this->star_chip_id = this->settings >> 9 & 0b111;
 
 	this->afterCheckpoint = this->settings >> 28 & 1;
 
-	this->id = this->settings >> 0 & 0b111111;
+	this->id = this->settings >> 1 & 0b11111111;
 
 	OSReport("Star Chip ID: %d\n", this->id);
 
