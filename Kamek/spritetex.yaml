@@ -172,6 +172,24 @@ hooks:
     type: nop_insn
     area_pal: [0x80015614, 0x80015620]
 
+  - name: TEX_Pakkun
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8002f120
+    target_func: 'TEX_Pakkun'
+
+  - name: TEX_PakkunPipeFire
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800284c4
+    target_func: 'TEX_PakkunPipeFire'
+
+  - name: TEX_PakkunPipe
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8002cd84
+    target_func: 'TEX_PakkunPipe'
+
 # The below was added by Tempus
   - name: TEX_Goomba
     type: branch_insn

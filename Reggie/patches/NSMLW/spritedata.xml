@@ -657,7 +657,153 @@
       <entry value="1">Same Momentum</entry>
     </list>
   </sprite> <!-- #63: Spiked Ball / Snowball -->
-  
+
+  <sprite id="65" name="Pipe Piranha Plant - Up" notes="A standard Piranha Plant that will appear from a pipe when placed adjacent to one.">
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #65: Pipe Piranha Plant - Up -->
+
+  <sprite id="66" name="Pipe Piranha Plant - Down" notes="A standard Piranha Plant that will appear from a pipe when placed adjacent to one.">
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #66: Pipe Piranha Plant - Down -->
+
+  <sprite id="67" name="Pipe Piranha Plant - Right" notes="A standard Piranha Plant that will appear from a pipe when placed adjacent to one. When placing this Piranha Plant underwater, it must be placed one block away from the pipe's edge.">
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #67: Pipe Piranha Plant - Right -->
+
+  <sprite id="68" name="Pipe Piranha Plant - Left" notes="A standard Piranha Plant that will appear from a pipe when placed adjacent to one. When placing this Piranha Plant underwater, it must be placed one block away from the pipe's edge.">
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #68: Pipe Piranha Plant - Left -->
+
+  <sprite id="69" name="Pipe Fire Piranha Plant - Up" notes="A Piranha Plant able to shoot fireballs that will appear from a pipe when placed adjacent to one.">
+    <list nybble="12" title="Fireball Ammo" comment="This determines how many fireballs the Piranha Plant will shoot before retreating back into the pipe.">
+      <entry value="0">1 Fireball</entry>
+      <entry value="1">2 Fireballs</entry>
+      <entry value="2">3 Fireballs</entry>
+      <entry value="3">6 Fireballs</entry>
+    </list>
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #69: Pipe Fire Piranha Plant - Up -->
+
+  <sprite id="70" name="Pipe Fire Piranha Plant - Down" notes="A Piranha Plant able to shoot fireballs that will appear from a pipe when placed adjacent to one.">
+    <list nybble="12" title="Fireball Ammo" comment="This determines how many fireballs the Piranha Plant will shoot before retreating back into the pipe.">
+      <entry value="0">1 Fireball</entry>
+      <entry value="1">2 Fireballs</entry>
+      <entry value="2">3 Fireballs</entry>
+      <entry value="3">6 Fireballs</entry>
+    </list>
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #70: Pipe Fire Piranha Plant - Down -->
+
+  <sprite id="71" name="Pipe Fire Piranha Plant - Right" notes="A Piranha Plant able to shoot fireballs that will appear from a pipe when placed adjacent to one. When placing this Piranha Plant underwater, it must be placed one block away from the pipe's edge.">
+    <list nybble="12" title="Fireball Ammo" comment="This determines how many fireballs the Piranha Plant will shoot before retreating back into the pipe.">
+      <entry value="0">1 Fireball</entry>
+      <entry value="1">2 Fireballs</entry>
+      <entry value="2">3 Fireballs</entry>
+      <entry value="3">6 Fireballs</entry>
+    </list>
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #71: Pipe Fire Piranha Plant - Right -->
+
+  <sprite id="72" name="Pipe Fire Piranha Plant - Left" notes="A Piranha Plant able to shoot fireballs that will appear from a pipe when placed adjacent to one. When placing this Piranha Plant underwater, it must be placed one block away from the pipe's edge.">
+    <list nybble="12" title="Fireball Ammo" comment="This determines how many fireballs the Piranha Plant will shoot before retreating back into the pipe.">
+      <entry value="0">1 Fireball</entry>
+      <entry value="1">2 Fireballs</entry>
+      <entry value="2">3 Fireballs</entry>
+      <entry value="3">6 Fireballs</entry>
+    </list>
+     <checkbox bit="32" title="Immune to Fireballs" comment="When enabled, the Piranha Plant cannot be damaged by Fireballs. Iceballs will still freeze it."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #72: Pipe Fire Piranha Plant - Left -->
+
+  <sprite id="73" name="Piranha Plant" notes="The standard Piranha Plant.">
+    <checkbox bit="48" title="Upside-Down" comment="When enabled, the Piranha Plant will hang from the ceiling."/>
+    <checkbox bit="44" title="Unknown Flag 11 (1)" advanced="True" advancedcomment="Used in Retail: 5-04 A1"/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #73: Piranha Plant -->
+
+  <sprite id="74" name="Big Piranha Plant" notes="A large version of the standard Piranha Plant. It takes 3 fireballs to kill.">
+    <checkbox bit="48" title="Upside-Down" comment="When enabled, the Piranha Plant will hang from the ceiling."/>
+    <checkbox bit="44" title="Unknown Flag 11 (1)" advanced="True" advancedcomment="Used in Retail: 5-04 A1"/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #74: Big Piranha Plant -->
+
+  <sprite id="75" name="Fire Piranha Plant" notes="The Piranha Plant that shoots fireballs.">
+    <checkbox bit="48" title="Upside-Down" comment="When enabled, the Piranha Plant will hang from the ceiling."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #75: Fire Piranha Plant -->
+
+  <sprite id="76" name="Big Fire Piranha Plant" notes="A large version of the Piranha Plant that shoots fireballs. It takes 3 fireballs to kill.">
+    <checkbox bit="48" title="Upside-Down" comment="When enabled, the Piranha Plant will hang from the ceiling."/>
+     <list nybble="5-6" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Bony</entry>
+      <entry value="2">Prickly</entry>
+      <entry value="3">Spiny</entry>
+    </list>
+  </sprite> <!-- #76: Big Fire Piranha Plant -->
+
   <sprite id="78" name="Bouncy Cloud" asmhacks="True" noyoshi="True" notes="A cloud platform with a happy face that the player can bounce on to jump really high. NewerSMBW adds more style options including Mushrooms and Checkered Block.">
     <list nybble="6" title="Style" comment="This determines the color and style of the Bouncy Cloud." comment2="If you want the Angry Cloud to hurt players, you have to add an invisible tileset piece to do that for you. Sorry.">
       <entry value="0">Normal</entry>
