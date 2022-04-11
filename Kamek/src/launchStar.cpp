@@ -5,8 +5,6 @@
 
 u8 playerStatus[4] = { 0,0,0,0 };
 
-bool launchStarChipCollectedBeforeFlag[32][5];
-bool launchStarChipCollectedAfterFlag[32][5];
 bool alreadyChecked;
 
 bool checkStarChipReset(bool afterCheckpoint)
@@ -209,6 +207,8 @@ int daEnLaunchStar_c::onCreate()
 	HitMeBaby.xDistToEdge = 15.0;
 	HitMeBaby.yDistToEdge = 15.0;
 
+	//TODO Change bitfield data for colissions and co
+
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
 	HitMeBaby.bitfield1 = 0x4F;
@@ -248,7 +248,7 @@ int daEnLaunchStar_c::onCreate()
 
 	timerActivation = 0;
 
-	checkStarChipReset(afterCheckpoint);
+	//checkStarChipReset(afterCheckpoint);
 
 	this->onExecute();
 	return true;
@@ -256,6 +256,11 @@ int daEnLaunchStar_c::onCreate()
 
 int daEnLaunchStar_c::onDelete() 
 {
+	/*for(int i = 0; i < 5; i++)
+	{
+		alreadyCheckedCollected[this->id][i] = false;
+	}*/
+	
 	return true;
 }
 
@@ -285,24 +290,38 @@ int daEnLaunchStar_c::onExecute()
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 	
-	OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
+	//if ((this->actorsCurrentlyShooting[i]->collMgr.outputMaybe & (0x15 << 0)) || (this->actorsCurrentlyShooting[i]->collMgr.outputMaybe & (0x15 << 1)) || this->actorsCurrentlyShooting[i]->collMgr.isOnTopOfTile())      //if hit a wall
+	//{
+		//maybe change only now playerSttus back
+	//}
+	
+	//OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
 
 	if (this->active)
 	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (launchStarChipCollectedAfterFlag[this->id][i] != true && launchStarChipCollectedBeforeFlag[this->id][i] != true)
+			{
+				this->active = false;
+				this->onExecute();
+				return true;
+			}
+		}
+		
 		if (timerActivation == 60 && this->actorsCurrentlyShooting[0] != 0)
 		{
 			dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
 
 			for (int i = 0; i < GetActivePlayerCount(); i++)
 			{
-				if (player != this->actorsCurrentlyShooting[0] && player != this->actorsCurrentlyShooting[1] && player != this->actorsCurrentlyShooting[2] && player != this->actorsCurrentlyShooting[3])
-				{
-					player->pos.x = this->actorsCurrentlyShooting[0]->pos.x;
-					player->pos.y = this->actorsCurrentlyShooting[0]->pos.y;
-					player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
-				}
+				player->pos.x = this->actorsCurrentlyShooting[0]->pos.x;
+				player->pos.y = this->actorsCurrentlyShooting[0]->pos.y;
+				player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
+				
+				playerStatus[i] = 1;
 
-				player->pipeCannonShot(0, speedx, speedy);
+				player->pipeCannonShot(0, speedy, speedx);
 
 				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
 			}
@@ -310,6 +329,7 @@ int daEnLaunchStar_c::onExecute()
 			for (int i = 0; i < 4; i++)
 			{
 				this->actorsCurrentlyShooting[i] = 0;
+				playerStatus[i] = 0;
 			}
 
 			this->timerActivation = 0;
@@ -325,12 +345,14 @@ int daEnLaunchStar_c::onExecute()
 				player->pos.x = this->pos.x;
 				player->pos.y = this->pos.y;
 				player->pos.z = this->pos.z;
+				
+				playerStatus[i] = 1;
 
 				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
 			}
 		}
 
-		OSReport("Timer: %d\n", timerActivation);
+		//OSReport("Timer: %d\n", timerActivation);
 
 		this->scale = (Vec){ 0.2, 0.2, 0.2 };
 		this->rot.y += 0x200;
@@ -343,7 +365,7 @@ int daEnLaunchStar_c::onExecute()
 	{
 		this->scale = (Vec){ 0, 0, 0 };
 
-		OSReport("-------------------------------------------------------------------------------\n");
+		/*OSReport("-------------------------------------------------------------------------------\n");
 		OSReport("Eight Launch two: %d\n", GameMgrP->eight.checkpointEntranceID);
 		OSReport("Collected After 1: %d\n", launchStarChipCollectedAfterFlag[this->id][0]);
 		OSReport("Collected After 2: %d\n", launchStarChipCollectedAfterFlag[this->id][1]);
@@ -356,7 +378,7 @@ int daEnLaunchStar_c::onExecute()
 		OSReport("Collected Before 3: %d\n", launchStarChipCollectedBeforeFlag[this->id][2]);
 		OSReport("Collected Before 4: %d\n", launchStarChipCollectedBeforeFlag[this->id][3]);
 		OSReport("Collected Before 5: %d\n", launchStarChipCollectedBeforeFlag[this->id][4]);
-		OSReport("-------------------------------------------------------------------------------\n");
+		OSReport("-------------------------------------------------------------------------------\n");*/
 
 		for (int i = 0; i < 5; i++)
 		{

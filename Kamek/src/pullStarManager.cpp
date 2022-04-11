@@ -210,12 +210,12 @@ int daEnPullStarManager_c::onExecute()
 					}
 				}
 
-				OSReport("searching for next Launch star Sprite\n");
+				OSReport("searching for next Pull star Sprite\n");
 
 				closestSearch = (daEnPullStar_c*)FindActorByType(PullStar, (Actor*)closestSearch);
 				currentDirection = -1;
 
-				OSReport("Found Launch star sprite\n");
+				OSReport("Found Pull star sprite\n");
 			}
 			
 			for(int c = 0; c < 8; c++)

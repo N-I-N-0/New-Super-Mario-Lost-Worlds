@@ -173,6 +173,8 @@ int daEnSuperLaunchStar_c::onCreate()
 	HitMeBaby.xDistToEdge = 15.0;
 	HitMeBaby.yDistToEdge = 15.0;
 
+	//TODO Change bitfield data for colissions and co
+
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
 	HitMeBaby.bitfield1 = 0x4F;
@@ -212,7 +214,7 @@ int daEnSuperLaunchStar_c::onCreate()
 
 	timerActivation = 0;
 
-	checkStarChipReset(afterCheckpoint);
+	//checkStarChipReset(afterCheckpoint);
 
 	this->onExecute();
 	return true;
@@ -220,6 +222,11 @@ int daEnSuperLaunchStar_c::onCreate()
 
 int daEnSuperLaunchStar_c::onDelete() 
 {
+	/*for(int i = 0; i < 5; i++)
+	{
+		alreadyCheckedCollected[this->id][i] = false;
+	}*/
+	
 	return true;
 }
 
@@ -251,6 +258,16 @@ int daEnSuperLaunchStar_c::onExecute()
 	
 	if (this->active)
 	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (launchStarChipCollectedAfterFlag[this->id][i] != true && launchStarChipCollectedBeforeFlag[this->id][i] != true)
+			{
+				this->active = false;
+				this->onExecute();
+				return true;
+			}
+		}
+		
 		dAcPy_c* player = (dAcPy_c*)FindActorByType(PLAYER, 0);
 		Remocon* pIn = RemoconMng->controllers[0];
 		dPlayerInput_c* pInput = &player->input;
@@ -260,16 +277,15 @@ int daEnSuperLaunchStar_c::onExecute()
 
 			for (int i = 0; i < GetActivePlayerCount(); i++)
 			{
-				if (player != this->actorsCurrentlyShooting[0] && player != this->actorsCurrentlyShooting[1] && player != this->actorsCurrentlyShooting[2] && player != this->actorsCurrentlyShooting[3])
-				{
-					player->pos.x = this->actorsCurrentlyShooting[0]->pos.x;
-					player->pos.y = this->actorsCurrentlyShooting[0]->pos.y;
-					player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
-				}
-
+				player->pos.x = this->actorsCurrentlyShooting[0]->pos.x;
+				player->pos.y = this->actorsCurrentlyShooting[0]->pos.y;
+				player->pos.z = this->actorsCurrentlyShooting[0]->pos.z;
+			
 				shootIntoWorldNext = true;
 				destinationWorld = this->superDestinationWorld;
 				destinationSubWorld = this->superDestinationSubWorld;
+				
+				playerStatus[i] = 1;
 				
 				player->cannonShot(1,1,1);
 
@@ -279,6 +295,7 @@ int daEnSuperLaunchStar_c::onExecute()
 			for (int i = 0; i < 4; i++)
 			{
 				this->actorsCurrentlyShooting[i] = 0;
+				playerStatus[i] = 0;
 			}
 
 			this->timerActivation = 0;
@@ -294,19 +311,21 @@ int daEnSuperLaunchStar_c::onExecute()
 				player->pos.x = this->pos.x;
 				player->pos.y = this->pos.y;
 				player->pos.z = this->pos.z;
+				
+				playerStatus[i] = 1;
 
 				player = (dAcPy_c*)FindActorByType(PLAYER, (Actor*)player);
 			}
 		}
 
-		OSReport("Timer: %d\n", timerActivation);
+		//OSReport("Timer: %d\n", timerActivation);
 		return true;
 	}
 	else
 	{
 		this->scale = (Vec){ 0, 0, 0 };
 
-		OSReport("-------------------------------------------------------------------------------\n");
+		/*OSReport("-------------------------------------------------------------------------------\n");
 		OSReport("Eight Super Launch two: %d\n", GameMgrP->eight.checkpointEntranceID);
 		OSReport("Collected After 1: %d\n", launchStarChipCollectedAfterFlag[this->id][0]);
 		OSReport("Collected After 2: %d\n", launchStarChipCollectedAfterFlag[this->id][1]);
@@ -319,7 +338,7 @@ int daEnSuperLaunchStar_c::onExecute()
 		OSReport("Collected Before 3: %d\n", launchStarChipCollectedBeforeFlag[this->id][2]);
 		OSReport("Collected Before 4: %d\n", launchStarChipCollectedBeforeFlag[this->id][3]);
 		OSReport("Collected Before 5: %d\n", launchStarChipCollectedBeforeFlag[this->id][4]);
-		OSReport("-------------------------------------------------------------------------------\n");
+		OSReport("-------------------------------------------------------------------------------\n");*/
 
 		for (int i = 0; i < 5; i++)
 		{

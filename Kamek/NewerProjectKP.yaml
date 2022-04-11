@@ -16,6 +16,8 @@ modules:
   - processed/chestnut.yaml
   - processed/flipblock.yaml
   - processed/launchStar.yaml
+  - processed/superLaunchStar.yaml
+  - processed/pullStar.yaml
   - processed/leafPile.yaml
   # - processed/fileselect.yaml
   - processed/magicplatform.yaml
@@ -170,8 +172,6 @@ modules:
   - processed/warpCannonFix.yaml
   - processed/layer0fix.yaml
   - processed/liquidsTex.yaml
-  - processed/superLaunchStar.yaml
-  - processed/pullStar.yaml
   - processed/playerLocationEvent.yaml
   - processed/codehandler.yaml
   - processed/frogoon.yaml

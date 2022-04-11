@@ -41,7 +41,7 @@ public:
 	void updateModelMatrices();
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
-
+	
 	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
@@ -85,6 +85,7 @@ bool daEnPullStar_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, Ac
 	return false;
 }
 bool daEnPullStar_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
+
 	return false;
 }
 bool daEnPullStar_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -147,6 +148,8 @@ int daEnPullStar_c::onCreate()
 	HitMeBaby.xDistToEdge = 15.0;
 	HitMeBaby.yDistToEdge = 15.0;
 
+//TODO Change bitfield data for colissions and co
+
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
 	HitMeBaby.bitfield1 = 0x4F;
@@ -184,7 +187,7 @@ int daEnPullStar_c::onCreate()
 
 	OSReport("Eight Launch One: %d\n", GameMgrP->eight.checkpointEntranceID);
 
-	checkStarChipReset(afterCheckpoint);
+	//checkStarChipReset(afterCheckpoint);
 
 	this->onExecute();
 	return true;
@@ -192,6 +195,11 @@ int daEnPullStar_c::onCreate()
 
 int daEnPullStar_c::onDelete() 
 {
+	/*for(int i = 0; i < 5; i++)
+	{
+		alreadyCheckedCollected[this->id][i] = false;
+	}*/
+	
 	return true;
 }
 
@@ -221,18 +229,28 @@ int daEnPullStar_c::onExecute()
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 
-	OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
+	//OSReport("CheckpointActivated: %d\n", midwayFlagActivated);
 
 	if (this->active)
 	{
 		this->scale = (Vec){ 0.13f,0.13f,0.13f };
+		
+		for (int i = 0; i < 5; i++)
+		{
+			if (launchStarChipCollectedAfterFlag[this->id][i] != true && launchStarChipCollectedBeforeFlag[this->id][i] != true)
+			{
+				this->active = false;
+				this->onExecute();
+			}
+		}
+		
 		return true;
 	}
 	else
 	{
 		this->scale = (Vec){ 0, 0, 0 };
 
-		OSReport("-------------------------------------------------------------------------------\n");
+		/*OSReport("-------------------------------------------------------------------------------\n");
 		OSReport("Eight Pull two: %d\n", GameMgrP->eight.checkpointEntranceID);
 		OSReport("Collected After 1: %d\n", launchStarChipCollectedAfterFlag[this->id][0]);
 		OSReport("Collected After 2: %d\n", launchStarChipCollectedAfterFlag[this->id][1]);
@@ -245,7 +263,7 @@ int daEnPullStar_c::onExecute()
 		OSReport("Collected Before 3: %d\n", launchStarChipCollectedBeforeFlag[this->id][2]);
 		OSReport("Collected Before 4: %d\n", launchStarChipCollectedBeforeFlag[this->id][3]);
 		OSReport("Collected Before 5: %d\n", launchStarChipCollectedBeforeFlag[this->id][4]);
-		OSReport("-------------------------------------------------------------------------------\n");
+		OSReport("-------------------------------------------------------------------------------\n");*/
 
 		for (int i = 0; i < 5; i++)
 		{

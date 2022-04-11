@@ -5,6 +5,20 @@
 
 const char* StarChipFileList[] = { "starChip", 0 };
 
+bool alreadyCheckedCollected[32][5];
+
+void resetAfterMid()
+{
+	OSReport("resetAfterMid\n");
+	
+	for (int i = 0; i < 32; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			launchStarChipCollectedAfterFlag[i][j] = false;
+		}
+	}
+}
 
 class daEnStarChip_c : public dEn_c {
 public:
@@ -29,7 +43,8 @@ public:
 
 	bool afterCheckpoint;
 
-	daEnLaunchStar_c* star;
+	//daEnLaunchStar_c* star;
+	//daEnPullStar_c* pullStar;
 
 
 	static dActor_c* build();
@@ -37,7 +52,7 @@ public:
 	void updateModelMatrices();
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
-
+	
 	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
@@ -65,11 +80,9 @@ void daEnStarChip_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOthe
 	playerCollision(apThis, apOther);
 }
 bool daEnStarChip_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->type8fastJump = true;
 	return false;
 }
 bool daEnStarChip_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->type8fastJump = true;
 	return false;
 }
 bool daEnStarChip_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -78,12 +91,10 @@ bool daEnStarChip_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* a
 bool daEnStarChip_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-
 bool daEnStarChip_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
 bool daEnStarChip_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
-
 	return false;
 }
 bool daEnStarChip_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -96,7 +107,6 @@ bool daEnStarChip_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics*
 bool daEnStarChip_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
-
 bool daEnStarChip_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
 }
@@ -143,6 +153,8 @@ int daEnStarChip_c::onCreate() {
 	HitMeBaby.xDistToEdge = 7.5;
 	HitMeBaby.yDistToEdge = 7.5;
 
+	//TODO Change bitfield data for colissions and co
+
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
 	HitMeBaby.bitfield1 = 0x6F;
@@ -170,16 +182,32 @@ int daEnStarChip_c::onCreate() {
 
 	OSReport("Star Chip ID: %d\n", this->id);
 
-	star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, 0);
-
-	while (star != 0)
+	/*if(pullIs)
 	{
-		if (star->id == this->id)
+		pullStar = (daEnPullStar_c*)FindActorByType(PullStar, 0);
+		
+		while (pullStar != 0)
 		{
-			break;
+			if (pullStar->id == this->id)
+			{
+				break;
+			}
+			pullStar = (daEnPullStar_c*)FindActorByType(PullStar, (Actor*)star);
 		}
-		star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, (Actor*)star);
 	}
+	else
+	{	
+		star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, 0);
+
+		while (star != 0)
+		{
+			if (star->id == this->id)
+			{
+				break;
+			}
+			star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, (Actor*)star);
+		}
+	}*/
 
 	/*for (int i = 0; i < 5; i++)
 	{
@@ -194,6 +222,15 @@ int daEnStarChip_c::onCreate() {
 
 	OSReport("StarCHIP ID: %d\n", this->star_chip_id);
 
+	if(!alreadyCheckedCollected[this->id][this->star_chip_id])
+	{
+		if(midwayFlagActivated)
+		{
+			launchStarChipCollectedAfterFlag[this->id][this->star_chip_id] = 0;
+		}
+		
+		alreadyCheckedCollected[this->id][this->star_chip_id] = true;
+	}
 	
 	if (launchStarChipCollectedBeforeFlag[this->id][this->star_chip_id] == true || launchStarChipCollectedAfterFlag[this->id][this->star_chip_id] == true)
 	{
@@ -204,7 +241,7 @@ int daEnStarChip_c::onCreate() {
 		collected = false;
 	}
 
-	checkStarChipReset(afterCheckpoint);
+	//checkStarChipReset(afterCheckpoint);
 
 	this->onExecute();
 	return true;
@@ -212,6 +249,10 @@ int daEnStarChip_c::onCreate() {
 
 
 int daEnStarChip_c::onDelete() {
+	OSReport("OnDelete\n");
+	
+	//alreadyCheckedCollected[this->id][this->star_chip_id] = false;
+	
 	return true;
 }
 
@@ -234,7 +275,7 @@ int daEnStarChip_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
-	if (this->star == 0) {
+	/*if (this->star == 0) {
 		star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, 0);
 		while (star != 0)
 		{
@@ -244,7 +285,7 @@ int daEnStarChip_c::onExecute() {
 			}
 			star = (daEnLaunchStar_c*)FindActorByType(LaunchStar, (Actor*)star);
 		}
-	}
+	}*/
 
 	if (!this->type8fastJump) {
 		this->rot.y += 0x300;

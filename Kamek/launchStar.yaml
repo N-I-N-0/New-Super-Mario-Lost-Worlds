@@ -1,3 +1,20 @@
 ---
-source_files: [../src/launchStar.cpp, ../src/starChip.cpp]
-hooks: []
+source_files: [../src/starChip.cpp, ../src/launchStar.cpp]
+hooks:
+  - name: resetAfterMidTimeUp
+    type: branch_insn
+    src_addr_pal: 0x8077c4b0
+    branch_type: b
+    target_func: 'resetAfterMid(void)'
+    
+#  - name: resetAfterMidContinue
+#    type: branch_insn
+#    src_addr_pal: 0x80778aa0
+#    branch_type: b
+#    target_func: 'resetAfterMid(void)'
+#    
+#  - name: resetAfterMidContinueBlack
+#    type: branch_insn
+#    src_addr_pal: 0x80778b20
+#    branch_type: b
+#    target_func: 'resetAfterMid(void)'
