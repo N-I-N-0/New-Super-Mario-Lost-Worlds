@@ -141,6 +141,10 @@ void daBoomerangHax_c::dieFall_End() {
 // Collision Functions
 ////////////////////////
 
+bool dEn_c::spikeballCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	return this->collisionCat13_Hammer(apThis, apOther);
+}
+
 
 	void daBoomerangHax_c::spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 		if(this->variation == 0) {
@@ -164,7 +168,7 @@ void daBoomerangHax_c::dieFall_End() {
 			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);
 		}
 		if(this->variation == 1) {
-			u16 name = ((dEn_c*)apOther->owner)->name;                                                                           //get the name of the actor the spikeball collided with
+			/*u16 name = ((dEn_c*)apOther->owner)->name;                                                                           //get the name of the actor the spikeball collided with
 
 			if (name == EN_COIN || name == EN_EATCOIN || name == AC_BLOCK_COIN || name == EN_COIN_JUGEM || name == EN_COIN_ANGLE //list of actors ignored by the spikeball
 				|| name == EN_COIN_JUMP || name == EN_COIN_FLOOR || name == EN_COIN_VOLT || name == EN_COIN_WIND
@@ -174,7 +178,8 @@ void daBoomerangHax_c::dieFall_End() {
 
 
 			dEn_c::spriteCollision(apThis, apOther);                                                                             //do as if it hit a sprite
-			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);                                                    //do as if it was touched by a hammer
+			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);   */                                                 //do as if it was touched by a hammer
+			((dEn_c*)apOther->owner)->spikeballCollision(apThis, apOther);                                                 //do as if it was touched by a hammer
 		}
 		if(this->variation == 3) {
 			if(!this->isCoinSpawned) {

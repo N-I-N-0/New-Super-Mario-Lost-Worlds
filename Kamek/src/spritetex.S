@@ -706,19 +706,6 @@ TEX_Bush:
 	srwi r5, r27, 28
 	b GetTexFilenameForR5
 
-
-.global TEX_Pakkun
-TEX_Pakkun:
-	lbz r5, 4(r29)
-	b GetTexFilenameForR5
-
-.global TEX_PakkunPipe
-TEX_PakkunPipe:
-.global TEX_PakkunPipeFire
-TEX_PakkunPipeFire:
-	lbz r5, 4(r3)
-	b GetTexFilenameForR5
-
 .global TEX_TobiPuku
 TEX_TobiPuku:
 	lwz r5, 4(r28)

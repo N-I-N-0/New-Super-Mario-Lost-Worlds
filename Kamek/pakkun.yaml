@@ -1,0 +1,47 @@
+---
+source_files: [../src/pakkun.S]
+hooks:
+  - name: TEX_Pakkun
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8002f120
+    target_func: 'TEX_Pakkun'
+
+  - name: TEX_PakkunPipeFire
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800284c4
+    target_func: 'TEX_PakkunPipeFire'
+
+  - name: TEX_PakkunPipe
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8002cd84
+    target_func: 'TEX_PakkunPipe'
+
+  - name: Pakkun_FireballNone
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8002fa70
+    target_func: 'Pakkun_Fireball'
+
+  - name: Pakkun_FireballNone2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8002d49c
+    target_func: 'Pakkun_Fireball2'
+
+  - name: Pakkun_HammerNone #in poweruphax.cpp
+    type: add_func_pointer
+    src_addr_pal: 0x803048c4
+    target_func: 'PakkunHammer(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+  - name: Pakkun_HammerNone #in poweruphax.cpp
+    type: add_func_pointer
+    src_addr_pal: 0x80af2ec8
+    target_func: 'PakkunHammer(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+  - name: Pakkun_HammerNone #in poweruphax.cpp
+    type: add_func_pointer
+    src_addr_pal: 0x80af32d0
+    target_func: 'PakkunHammer(dEn_c *, ActivePhysics *, ActivePhysics *)'

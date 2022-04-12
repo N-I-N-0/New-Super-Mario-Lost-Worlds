@@ -90,7 +90,7 @@ class daMegaGoomba_c : public dEn_c {
 	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 	void addScoreWhenHit(void *other);
 	bool _vf120(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool _vf110(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionSpikeball(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool _vf108(ActivePhysics *apThis, ActivePhysics *apOther);
 
 	void powBlockActivated(bool isNotMPGP);
@@ -335,7 +335,7 @@ void daMegaGoomba_c::addScoreWhenHit(void *other) {}
 bool daMegaGoomba_c::_vf120(ActivePhysics *apThis, ActivePhysics *apOther) {
 	return true; // Replicate existing broken behaviour
 }
-bool daMegaGoomba_c::_vf110(ActivePhysics *apThis, ActivePhysics *apOther) {
+bool daMegaGoomba_c::collisionSpikeball(ActivePhysics *apThis, ActivePhysics *apOther) {
 	return true; // Replicate existing broken behaviour
 }
 bool daMegaGoomba_c::_vf108(ActivePhysics *apThis, ActivePhysics *apOther) {

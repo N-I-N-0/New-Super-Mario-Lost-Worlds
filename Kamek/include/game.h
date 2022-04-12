@@ -2574,6 +2574,8 @@ public:
 
 	void doStateChange(dStateBase_c *state); // might return bool, dunno
 
+	bool spikeballCollision(ActivePhysics* apThis, ActivePhysics* apOther);
+
 	// Now here's where the fun starts.
 	
 	virtual bool preSpriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
@@ -2591,7 +2593,7 @@ public:
 	virtual bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
 	virtual bool _vf108(ActivePhysics *apThis, ActivePhysics *apOther);
 	virtual bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
-	virtual bool _vf110(ActivePhysics *apThis, ActivePhysics *apOther);
+	virtual bool collisionSpikeball(ActivePhysics *apThis, ActivePhysics *apOther);
 	virtual bool collisionCat8_FencePunch(ActivePhysics *apThis, ActivePhysics *apOther);
 	virtual bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
 	virtual bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);

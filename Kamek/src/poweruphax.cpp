@@ -21,6 +21,12 @@ void UrchinHammer(dEn_c *urchin, ActivePhysics *apThis, ActivePhysics *apOther) 
 	return;
 }
 
+void PakkunHammer(dEn_c *pakkun, ActivePhysics *apThis, ActivePhysics *apOther) {
+	if (pakkun->settings >> 24 != 1) { //if not bony do normal hammer
+		pakkun->dEn_c::collisionCat13_Hammer(apThis, apOther);
+	}
+}
+
 
 #include "poweruphax.h"
 

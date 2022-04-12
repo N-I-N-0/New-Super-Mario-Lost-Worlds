@@ -1,6 +1,11 @@
 SECTIONS {
-	returnFromEggAddNewPowerups = 0x80911790;
+	continuePakkunNormal = 0x8002fa74;
+	continuePakkunBony = 0x8002fb74;
+	dEn_c__fireballInvalid = 0x80097e50;
+	continuePakkunNormal2 = 0x8002d4a0;
+	continuePakkunBony2 = 0x8002d5bc;
 
+	returnFromEggAddNewPowerups = 0x80911790;
 	returnFromChangeRedRingArray = 0x80a9427c;
 
 	returnToBigUrchinFireballReal = 0x80ab94d0;
@@ -1196,7 +1201,7 @@ SECTIONS {
 	collisionCat5_Mario__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FB50;
 	_vf108__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FE40;
 	collisionCatD_Drill__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFD0;
-	_vf110__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFC0;
+	collisionSpikeball__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFC0;
 	collisionCat8_FencePunch__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FCE0;
 	collisionCat7_GroundPound__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0150;
 	collisionCat7_GroundPoundYoshi__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A02D0;

@@ -94,3 +94,9 @@ hooks:
     branch_type: b
     src_addr_pal: 0x80131A7C
     target_func: 'FrogSwimHip3b'
+
+  - name: addOurOwnSpikeballCallback
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80152520
+    target_func: 'dEn_c::spikeballCollision(ActivePhysics *, ActivePhysics *)'
