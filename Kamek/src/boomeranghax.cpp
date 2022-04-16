@@ -102,7 +102,8 @@ public:
 	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
-
+	bool customCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	
 	USING_STATES(daBoomerangHax_c);
 	DECLARE_STATE(Boomerang_Thrown);
 	DECLARE_STATE(Boomerang_GotBack);
@@ -141,14 +142,49 @@ void daBoomerangHax_c::dieFall_End() {
 // Collision Functions
 ////////////////////////
 
+bool dEn_c::customCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	if((apThis->info.bitfield2 & 0x80000) != 0) {								//if sprite can be hit by hammer -> sprites that need another behaviour get entirely different functions, just doing some basic filtering for enemies
+		switch (((daBoomerangHax_c*)apOther->owner)->variation) {
+			case 0:
+				return this->boomerangCollision(apThis, apOther);
+			case 1:
+				return this->spikeballCollision(apThis, apOther);
+			case 3:
+				return this->frogCollision(apThis, apOther);
+			default:
+				OSReport("customCollision failed due to wrong custom projectile settings!\n");
+		}
+	}
+	return false;
+}
 bool dEn_c::spikeballCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	return this->collisionCat13_Hammer(apThis, apOther);
+}
+bool dEn_c::frogCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	((daBoomerangHax_c*)apOther->owner)->doIhaveCoin = true;
+	this->Delete(1);
+	return true;
+}
+bool dEn_c::boomerangCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 	return this->collisionCat13_Hammer(apThis, apOther);
 }
 
 
+bool customCollisionCoin(dEn_c* coin, ActivePhysics *apThis, ActivePhysics *apOther) {
+	if (((daBoomerangHax_c*)apOther->owner)->variation == 3) {
+		return coin->frogCollision(apThis, apOther);
+	}
+	return false;
+}
+
+
+bool daBoomerangHax_c::customCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	return false; //don't collide with myself
+}
+
 	void daBoomerangHax_c::spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 		if(this->variation == 0) {
-			u16 name = ((dEn_c*)apOther->owner)->name;
+			/*u16 name = ((dEn_c*)apOther->owner)->name;
 	
 			if (name == EN_COIN || name == EN_EATCOIN || name == AC_BLOCK_COIN || name == EN_COIN_JUGEM || name == EN_COIN_ANGLE
 				|| name == EN_COIN_JUMP || name == EN_COIN_FLOOR || name == EN_COIN_VOLT || name == EN_COIN_WIND
@@ -165,7 +201,11 @@ bool dEn_c::spikeballCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 			}
 	
 			dEn_c::spriteCollision(apThis, apOther);
-			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);
+			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);*/
+			if (((dEn_c*)apOther->owner)->customCollision(apOther, apThis)) {
+				dAcPy_c *player = dAcPy_c::findByID((this->settings >> 4) & 0xF);
+				this->addScoreWhenHit(player);
+			}
 		}
 		if(this->variation == 1) {
 			/*u16 name = ((dEn_c*)apOther->owner)->name;                                                                           //get the name of the actor the spikeball collided with
@@ -179,11 +219,14 @@ bool dEn_c::spikeballCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 
 			dEn_c::spriteCollision(apThis, apOther);                                                                             //do as if it hit a sprite
 			((dEn_c*)apOther->owner)->collisionCat13_Hammer(apThis, apOther);   */                                                 //do as if it was touched by a hammer
-			((dEn_c*)apOther->owner)->spikeballCollision(apThis, apOther);                                                 //do as if it was touched by a hammer
+			if (((dEn_c*)apOther->owner)->customCollision(apOther, apThis)) {
+				dAcPy_c *player = dAcPy_c::findByID((this->settings >> 4) & 0xF);
+				this->addScoreWhenHit(player);
+			}
 		}
 		if(this->variation == 3) {
 			if(!this->isCoinSpawned) {
-				u16 name = ((dEn_c*)apOther->owner)->name;
+				/*u16 name = ((dEn_c*)apOther->owner)->name;
 			
 				if (   name == EN_COIN			|| name == EN_EATCOIN		|| name == AC_BLOCK_COIN	|| name == EN_COIN_JUGEM		|| name == EN_COIN_ANGLE
 					|| name == EN_COIN_JUMP		|| name == EN_COIN_FLOOR	|| name == EN_COIN_VOLT		|| name == EN_COIN_WIND			|| name == EN_UNIRA
@@ -194,37 +237,18 @@ bool dEn_c::spikeballCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 					|| name == EN_IGAPUKU		|| name == EN_BAKUBAKU		|| name == EN_IBARAMUSHI	|| name == EN_BIG_TOGETEKKYU
 					|| name == WM_PUKU			|| name == EN_RAIL_POLY_ICE) //this list will probably be updated in the future if I find other sprites that unfortunatly don't have to die
 					{ return; }
-			
-				this->doIhaveCoin = true;
-				((dEn_c*)apOther->owner)->Delete(1);
+				*/
+				if (((dEn_c*)apOther->owner)->customCollision(apOther, apThis)) {
+					dAcPy_c *player = dAcPy_c::findByID((this->settings >> 4) & 0xF);
+					this->addScoreWhenHit(player);
+				}
 			}
 		}
 		if(this->variation == 4) {
 			u16 ownername = ((dEn_c*)apOther->owner)->name;
-			u32 ownersets = ((dEn_c*)apOther->owner)->settings;
-			u8 ownerdir = ((dEn_c*)apOther->owner)->direction;
-			float ownerspeed = getNybbleValue(ownersets, 9, 10) * 0.1f;
-			// OSReport("ownername = %d\n", ownername);
-			// OSReport("ownersets = %d\n", ownersets);
-			// OSReport("ownerdir = %d\n", ownerdir);
-			// OSReport("ownerspeed1 = %d\n", ownerspeed1);
-			// OSReport("ownerspeed = %f\n", ownerspeed);
-			if(ownername == BIGHANA_MGR) { //SMG2 Object
-				if(((ownersets >> 28) & 0xF) == 0) { //Windmill
-					if(ownerdir == 0) { //Faces right
-						this->pos.x += ownerspeed;
-					}
-					if(ownerdir == 1) { //Faces left
-						this->pos.x -= ownerspeed;
-					}
-				}
-			}
-
-			//Added by LiQ for CloudPropeller
-			else if (ownername == CloudPropeller) { return; }
-
-			else
-			{
+			if (ownername == CloudPropeller) { //Added by LiQ for CloudPropeller
+				return;
+			} else {
 				this->Delete(1);
 			}
 		}

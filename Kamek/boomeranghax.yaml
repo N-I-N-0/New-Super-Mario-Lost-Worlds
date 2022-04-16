@@ -95,8 +95,78 @@ hooks:
     src_addr_pal: 0x80131A7C
     target_func: 'FrogSwimHip3b'
 
-  - name: addOurOwnSpikeballCallback
+  - name: addOurOwnCollisionCallback
     type: branch_insn
     branch_type: b
-    src_addr_pal: 0x80152520
-    target_func: 'dEn_c::spikeballCollision(ActivePhysics *, ActivePhysics *)'
+    src_addr_pal: 0x8009ffc0
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset1
+    type: add_func_pointer
+    src_addr_pal: 0x80b09780
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset2
+    type: add_func_pointer
+    src_addr_pal: 0x80b028f8
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset3
+    type: add_func_pointer
+    src_addr_pal: 0x80b028f8
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset4
+    type: add_func_pointer
+    src_addr_pal: 0x80ae8338
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset5
+    type: add_func_pointer
+    src_addr_pal: 0x80ade720
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset6
+    type: add_func_pointer
+    src_addr_pal: 0x80ad9958
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset7
+    type: add_func_pointer
+    src_addr_pal: 0x80ad96a8
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset8
+    type: add_func_pointer
+    src_addr_pal: 0x80ad8a30
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset9
+    type: add_func_pointer
+    src_addr_pal: 0x80ad7bb8
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset10
+    type: add_func_pointer
+    src_addr_pal: 0x8096f3e8
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset11
+    type: add_func_pointer
+    src_addr_pal: 0x80965990
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset12
+    type: add_func_pointer
+    src_addr_pal: 0x80963010
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset13
+    type: add_func_pointer
+    src_addr_pal: 0x80957da0
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'
+
+  - name: customCollisionVtableReset14
+    type: add_func_pointer
+    src_addr_pal: 0x80957690
+    target_func: 'dEn_c::customCollision(ActivePhysics *, ActivePhysics *)'

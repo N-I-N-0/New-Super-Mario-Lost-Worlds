@@ -1202,7 +1202,7 @@ SECTIONS {
 	collisionCat5_Mario__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FB50;
 	_vf108__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FE40;
 	collisionCatD_Drill__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFD0;
-	collisionSpikeball__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFC0;
+	/* collisionCustom__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFC0; */
 	collisionCat8_FencePunch__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FCE0;
 	collisionCat7_GroundPound__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0150;
 	collisionCat7_GroundPoundYoshi__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A02D0;
