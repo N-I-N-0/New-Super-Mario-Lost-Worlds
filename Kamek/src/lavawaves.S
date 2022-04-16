@@ -27,6 +27,11 @@ LavaWavesBitCheck:
 	andi. r5, r5, 1
 	lis r28, LavaWavesEnabled@ha
 	stb r5, LavaWavesEnabled@l(r28)
+	
+	lbz r5, 0x355(r3)				#get subType
+	lis r28, LavaWavesSubType@ha
+	stb r5, LavaWavesSubType@l(r28)
+
 	li r28, 0xFF # og instruction
 	blr
 
@@ -43,8 +48,8 @@ Back1:
 
 # Check 2
 AreLavaWavesEnabled2:
-	lis r0, LavaWavesEnabled@ha
-	lbz r0, LavaWavesEnabled@l(r0)
+	lis r5, LavaWavesEnabled@ha
+	lbz r0, LavaWavesEnabled@l(r5)
 	cmpwi r0, 1
 	beq Back2
 	b returnFromLavaCheck2False
@@ -84,3 +89,5 @@ Back5:
 .data
 .align 4
 LavaWavesEnabled: .byte 0
+.global LavaWavesSubType
+LavaWavesSubType: .byte 0

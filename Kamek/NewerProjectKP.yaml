@@ -30,7 +30,7 @@ modules:
   - soundPlayer.yaml
   # - processed/bowserKey.yaml
   - processed/stagefixes.yaml
-#  - processed/lavawaves.yaml
+  - processed/lavawaves.yaml
   - processed/clouds.yaml
   - processed/levelspecial.yaml
   - processed/mrsun.yaml

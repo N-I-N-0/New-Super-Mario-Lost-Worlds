@@ -103,6 +103,12 @@ hooks:
     branch_type: b
     target_func: 'getLiquidSubType(float, float, unsigned char, float *)'
 
+  - name: GetLavaWavesSubType
+    type: branch_insn
+    src_addr_pal: 0x80075354
+    branch_type: b
+    target_func: 'GetLavaWavesSubType'
+
 ###
   - name: getSandSubType1
     type: branch_insn

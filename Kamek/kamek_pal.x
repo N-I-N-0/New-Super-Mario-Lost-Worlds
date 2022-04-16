@@ -23,6 +23,7 @@ SECTIONS {
 	yoshiSetEatAction = 0x8014ef50;
 	yoshiFinalizeEat = 0x8014f340;
 
+	returnFromGetLavaWavesSubType = 0x80075524;
 	returnFromSaveLiquidSettings = 0x807b4d34;
 	continueBGpolyCreate = 0x807b4d14;
 	returnFromSelectDifferentLiquidsSet = 0x800eb1ac;

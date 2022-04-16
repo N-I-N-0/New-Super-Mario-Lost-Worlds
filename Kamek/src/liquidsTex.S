@@ -128,6 +128,19 @@ SaveGlobalLavaSubType:
 	mr r3, r30
 	b returnFromSaveGlobalLavaSubType
 
+.extern returnFromGetLavaWavesSubType
+.extern LavaWavesSubType
+.global GetLavaWavesSubType
+GetLavaWavesSubType:
+	lis r3, LavaWavesSubType@ha		#load last used sub type
+	lbz r3, LavaWavesSubType@l(r3)
+	
+	lis r31, nextSplashSubType@ha	#store last used sub type
+	stb r3, nextSplashSubType@l(r31)
+
+	li r3, 0x3						#original instruction
+	b returnFromGetLavaWavesSubType
+
 .extern returnFromSaveGlobalPoisonSubType
 .global SaveGlobalPoisonSubType
 SaveGlobalPoisonSubType:
@@ -403,7 +416,7 @@ PTR_ARRAY_8031b988:
 	.long swamp_waterhalf
 	.long gold_magma
 	.long pink_poisonwater
-	.long obj_magmawave			#dummy
+	.long gold_magmawave
 	.long red_sand
 
 	.long obj_waterhalf			#dummy
@@ -515,6 +528,9 @@ gold_magmadeco:
 
 blue_magmawave:
 	.string "g3d/blue_magmawave.brres"
+
+gold_magmawave:
+	.string "g3d/gold_magmawave.brres"
 
 obj_slimewater:
 	.string "g3d/obj_slimewater.brres"
