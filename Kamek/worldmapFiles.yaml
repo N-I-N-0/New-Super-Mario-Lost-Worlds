@@ -1,0 +1,8 @@
+---
+source_files: [../src/worldmapFiles.cpp]
+hooks:
+  - name: GetOurFileListsInstead
+    type: branch_insn
+    src_addr_pal: 0x80926940
+    branch_type: b
+    target_func: 'getFileListForWorld(void)'

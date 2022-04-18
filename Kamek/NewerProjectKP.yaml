@@ -2,6 +2,7 @@ output_dir: "NewerASM"
 code_address: 0x808D9000
 modules:
   - processed/profile.yaml
+  - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
   - processed/prolog.yaml
@@ -178,3 +179,4 @@ modules:
   - processed/mawRay.yaml
   - processed/pakkun.yaml
   - processed/redRingRewards.yaml
+  - processed/worldmapAirships.yaml

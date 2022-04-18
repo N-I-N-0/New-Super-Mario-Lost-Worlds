@@ -1436,6 +1436,7 @@ enum
 	PlayerLocationEvent, //830
 	Frogoon, //831
 	ThunderCloud, //832
+	WMAirships, //833
 	
 	Num
 };

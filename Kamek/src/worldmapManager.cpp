@@ -105,12 +105,13 @@ public:
 	int onDraw();
 	
 	u8 previousNodeNum;
+	u8 shakeFrame;
 	SaveBlock* save;
 	
 	m2d::EmbedLayout_c* layout;
 	
 	nw4r::lyt::TextBox
-		*worldName, *shopText, *worldNum, *cSelect, *cSelectPic;
+		*worldName, *shopText, *creatorText, *worldNum, *cSelect, *cSelectPic;
 	
 	mEf::es2 effects[7];
 	
@@ -149,6 +150,7 @@ int dWMManager_c::onCreate() {
 	
 	worldName = layout->findTextBoxByName("T_world_name");
 	shopText = layout->findTextBoxByName("T_guideViewL_00");
+	creatorText = layout->findTextBoxByName("T_guideViewLS_01");
 	worldNum = layout->findTextBoxByName("T_worldNum_00");
 	cSelect = layout->findTextBoxByName("T_cSelect_00");
 	cSelectPic = layout->findTextBoxByName("T_cSelect_pic");
@@ -163,6 +165,7 @@ int dWMManager_c::onCreate() {
 
 	worldName->SetString(convertedWorldName);
 	shopText->SetString(L"Shop " L"\x0B\x0123");
+	creatorText->SetString(L"\x0B\x0143 Creator");
 	
 	dActor_c* player = (dActor_c*)fBase_c::search(WM_PLAYER);
 	OSReport("Player: %p\n", player);
@@ -184,6 +187,23 @@ int dWMManager_c::onCreate() {
 		dActor_c::create(WM_NOTE, 0, 0, 0);
 	}*/
 	
+	Vec airshipPos = player->pos;
+	airshipPos.x += 20;
+	dActor_c::create(WMAirships, 0, &airshipPos, 0);
+	airshipPos.y += 200;
+	dActor_c::create(WMAirships, 1, &airshipPos, 0);
+	airshipPos.y -= 400;
+	dActor_c::create(WMAirships, 2, &airshipPos, 0);
+	
+	airshipPos.x += 200;
+	dActor_c::create(WMAirships, 3, &airshipPos, 0);
+	airshipPos.y += 400;
+	dActor_c::create(WMAirships, 4, &airshipPos, 0);
+	airshipPos.y -= 200;
+	dActor_c::create(WMAirships, 5, &airshipPos, 0);
+	
+	airshipPos.x += 200;
+	dActor_c::create(WMAirships, 6, &airshipPos, 0);
 	
 	return true;
 }
@@ -203,6 +223,8 @@ int dWMManager_c::onExecute() {
 	} else {
 		shopText->SetString(L"Shop " L"\x0B\x012B");
 	}
+	
+	WriteBMGToTextBox(creatorText, GetBMG(), 7, 2, 0);
 	
 	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(0x238, 0, 0);
 	

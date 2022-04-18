@@ -843,6 +843,7 @@ enum Actors {
 	PlayerLocationEvent, //830
 	Frogoon, //831
 	ThunderCloud, //832
+	WMAirships, //833
 };
 
 struct Actor {
