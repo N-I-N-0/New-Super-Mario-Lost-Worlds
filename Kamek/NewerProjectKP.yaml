@@ -12,6 +12,7 @@ modules:
   - processed/hardMode.yaml
  # - processed/layoutDebug.yaml
   - processed/codeDebug.yaml
+  - processed/exceptionHandler.yaml
   - processed/creditsMgr.yaml
   # - processed/endingMgr.yaml
   - processed/chestnut.yaml

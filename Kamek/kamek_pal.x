@@ -1,4 +1,6 @@
 SECTIONS {
+	sException__Q24nw4r2dbFv = 0x803DA860;
+
 	continuePakkunNormal = 0x8002fa74;
 	continuePakkunBony = 0x8002fb74;
 	dEn_c__fireballInvalid = 0x80097e50;
