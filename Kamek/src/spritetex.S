@@ -701,6 +701,11 @@ balloonColors:
 
 .align 4
 
+.global TEX_YoshiFruit
+TEX_YoshiFruit:
+	lbz r5, 7(r29)
+	b GetTexFilenameForR5
+
 .global TEX_Bush
 TEX_Bush:
 	srwi r5, r27, 28

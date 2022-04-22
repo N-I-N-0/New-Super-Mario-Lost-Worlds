@@ -172,6 +172,42 @@ hooks:
     type: nop_insn
     area_pal: [0x80015614, 0x80015620]
 
+  - name: TEX_YoshiFruit_dontLoadNotNeededArc
+    type: patch
+    data: '00000000'
+    addr_pal: 0x8031a490
+
+  - name: TEX_YoshiFruit_alwaysUseSameMdlName
+    type: patch
+    data: '38000000'
+    addr_pal: 0x809fedd8
+
+  - name: TEX_YoshiFruit_alwaysUseSameArcName
+    type: patch
+    data: '80830000'
+    addr_pal: 0x809fedb8
+
+  - name: TEX_YoshiFruit_alwaysUseSameAnimationName
+    type: patch
+    data: '80840000'
+    addr_pal: 0x809fee20
+
+  - name: TEX_YoshiFruit_getOtherBehaviorFromOtherNybble1
+    type: patch
+    data: '540007fe'
+    addr_pal: 0x809feb18
+
+  - name: TEX_YoshiFruit_getOtherBehaviorFromOtherNybble2
+    type: patch
+    data: '88030004'
+    addr_pal: 0x809feb0c
+
+  - name: TEX_YoshiFruit
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809fedc0
+    target_func: 'TEX_YoshiFruit'
+
 # The below was added by Tempus
   - name: TEX_Goomba
     type: branch_insn
