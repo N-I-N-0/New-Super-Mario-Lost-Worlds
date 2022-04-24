@@ -51,44 +51,44 @@ ChangeSmallScore1UPColor2:
 
 .global SmallScore100Color
 SmallScore100Color:
+	.long 0x46FA46FF	#Baby Luigi
 	.long 0x46FA46FF	#Luigi
-	.long 0xFAFF50FF	#Wario
-	.long 0x46C8E6FF	#Blue Toad
-	.long 0xFAFF50FF	#Yellow Toad
+	.long 0xFFB43BFF	#Daisy
+	.long 0xFF52F3FF	#Peach
 	.long 0xFAFFFFFF
 
 #1000
 
 .global SmallScore1000Color1
 SmallScore1000Color1:
+	.long 0x32FA32FF	#Baby Luigi
 	.long 0x32FA32FF	#Luigi
-	.long 0xFFFF00FF	#Wario
-	.long 0x00B9DCFF	#Blue Toad
-	.long 0xFFFF00FF	#Yellow Toad
+	.long 0xFF9500FF	#Daisy
+	.long 0xFF4AFFFF	#Peach
 	.long 0xFFFFFFFF
 
 .global SmallScore1000Color2
 SmallScore1000Color2:
-	.long 0xFFFF00FF	#Luigi
-	.long 0xFFFFB4FF	#Wario
-	.long 0xD2FFFAFF	#Blue Toad
-	.long 0xFFFFB4FF	#Yellow Toad
+	.long 0xD5FF7AFF	#Baby Luigi
+	.long 0xD5FF7AFF	#Luigi
+	.long 0xFFCF6EFF	#Daisy
+	.long 0xFAC3F2FF	#Peach
 	.long 0xFFFFFFFF
 
 #1UP
 
 .global SmallScore1UPColor1
 SmallScore1UPColor1:
+	.long 0xD2FF00FF	#Baby Luigi
 	.long 0xD2FF00FF	#Luigi
-	.long 0xFFFF64FF	#Wario
-	.long 0xD0F0FFFF	#Blue Toad
-	.long 0xFFFF64FF	#Yellow Toad
+	.long 0xFFB700FF	#Daisy
+	.long 0xFF70FFFF	#Peach
 	.long 0xFFFFFFFF
 
 .global SmallScore1UPColor2
 SmallScore1UPColor2:
+	.long 0x197D0AFF	#Baby Luigi
 	.long 0x197D0AFF	#Luigi
-	.long 0xFFBE00FF	#Wario
-	.long 0x1E2DF0FF	#Blue Toad
-	.long 0xFFBE00FF	#Yellow Toad
+	.long 0xFFB03BFF	#Daisy
+	.long 0x8F1D8FFF	#Peach
 	.long 0xFFBEFFFF
