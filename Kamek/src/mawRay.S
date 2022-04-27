@@ -102,3 +102,14 @@ Urchin_MawRayNoHammer:
 	b		collisionCat13_Hammer__5dEn_cFP13ActivePhysicsP13ActivePhysics
 noHammerBecauseMawRay:
 	b		UrchinHammer__FP5dEn_cP13ActivePhysicsP13ActivePhysics
+
+
+.extern continueUrchinOnCreate
+.extern setCustomState__12daEnUnizoo_cFv
+.global daEnUnizoo_c__setCustomState
+daEnUnizoo_c__setCustomState:
+	mr r3, r28
+	bl setCustomState__12daEnUnizoo_cFv
+	
+	addi r11, sp, 0x30
+	b continueUrchinOnCreate

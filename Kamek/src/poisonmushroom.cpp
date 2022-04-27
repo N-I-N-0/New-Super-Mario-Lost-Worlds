@@ -86,6 +86,14 @@ Profile PoisonShroomProfile(&daPoisonShroom_c::build, SpriteId::PoisonShroom, &P
 ////////////////////////
 
 	void daPoisonShroom_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+		S16Vec nullRot = {0,0,0};
+		Vec oneVec = {1.0f, 1.0f, 1.0f};
+		SpawnEffect("Wm_en_obakedoor_sm", 0, &this->pos, &nullRot, &oneVec);
+				
+		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
+		this->kill();
+		this->Delete(this->deleteForever);
+
 		this->_vf220(apOther->owner);
 		doStateChange(&StateID_Die);
 	}
@@ -95,11 +103,27 @@ Profile PoisonShroomProfile(&daPoisonShroom_c::build, SpriteId::PoisonShroom, &P
 	}
 
 	bool daPoisonShroom_c::collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther) {
+		S16Vec nullRot = {0,0,0};
+		Vec oneVec = {1.0f, 1.0f, 1.0f};
+		SpawnEffect("Wm_en_obakedoor_sm", 0, &this->pos, &nullRot, &oneVec);
+				
+		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
+		this->kill();
+		this->Delete(this->deleteForever);
+
 		doStateChange(&StateID_Die);
 		return true;
 	}
 
 	bool daPoisonShroom_c::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
+		S16Vec nullRot = {0,0,0};
+		Vec oneVec = {1.0f, 1.0f, 1.0f};
+		SpawnEffect("Wm_en_obakedoor_sm", 0, &this->pos, &nullRot, &oneVec);
+				
+		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
+		this->kill();
+		this->Delete(this->deleteForever);
+		
 		this->_vf220(apOther->owner);
 		doStateChange(&StateID_Die);
 		return true;
@@ -362,12 +386,6 @@ void daPoisonShroom_c::updateModelMatrices() {
 		this->removeMyActivePhysics();
 	}
 	void daPoisonShroom_c::executeState_Die() {
-		S16Vec nullRot = {0,0,0};
-		Vec oneVec = {1.0f, 1.0f, 1.0f};
-		SpawnEffect("Wm_en_obakedoor_sm", 0, &this->pos, &nullRot, &oneVec);
-				
-		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
-		this->kill();
-		this->Delete(this->deleteForever);
+		
 	}
 	void daPoisonShroom_c::endState_Die() { }

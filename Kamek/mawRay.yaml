@@ -1,5 +1,5 @@
 ---
-source_files: [../src/mawRay.S]
+source_files: [../src/mawRay.S, ../src/mawRay.cpp]
 hooks:
   - name: TEX_Urchin
     type: branch_insn
@@ -41,3 +41,9 @@ hooks:
 #    branch_type: b
 #    src_addr_pal: 0x80aba4e4
 #    target_func: 'rotationMawRayLR(dEn_c *)'
+
+  - name: setCustomState
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80ab8f44
+    target_func: 'daEnUnizoo_c__setCustomState'

@@ -18,6 +18,8 @@ SECTIONS {
 	continueForNormalUrchinStar = 0x80ab93b8;
 	continueUrchinTurn = 0x80ab90bc;
 	continueUrchinNoTurn = 0x80ab90c0;
+	continueUrchinOnCreate = 0x80ab8f48;
+	StateID_Wait__12daEnUnizoo_c = 0x80b1bdd8;
 
 	callFooDeath = 0x80A6B410;
 
