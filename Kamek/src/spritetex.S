@@ -1698,45 +1698,23 @@ GoingLeft:
 
 .global TEX_BlackFlakes
 TEX_BlackFlakes:
-
 	mflr r9
 
-	lwz r6, 4(r23)
-	srwi r6, r6, 24
-	andi. r6, r6, 0xF
+	lbz r6, 7(r23)
+	srwi r6, r6, 1
+	andi. r6, r6, 1
 
 	cmpwi r6, 0
-	beql FlakeySnow
+	bne TEX_BlackFlakes_no_alpha_random
+	
+	li r3, 0xD0
+	bl GenerateRandomNumber
+	mr r0, r3
 
-	cmpwi r6, 1
-	beql FlakeyLeavesRed
-
-	cmpwi r6, 2
-	beql FlakeyLeavesScarlet
-
-	cmpwi r6, 3
-	beql FlakeyLeavesBrown
-
-	cmpwi r6, 4
-	beql FlakeyLeavesGold
-
-	cmpwi r6, 5
-	beql FlakeyLeavesChestnut
-
-	cmpwi r6, 6
-	beql FlakeySakura
-
-	cmpwi r6, 7
-	beql FlakeyStardustWhite
-
-	cmpwi r6, 8
-	beql FlakeyStardustGold
-
-	cmpwi r6, 9
-	beql FlakeyStardustPurple
-
-	cmpwi r6, 10
-	beql FlakeyStardustMauve
+TEX_BlackFlakes_no_alpha_random:
+	lbz r5, 4(r23)
+	lbz r4, 5(r23)
+	lbz r3, 6(r23)
 
 	stb r5, 0x5B4(r23)
 	stb r5, 0x5B8(r23)
@@ -1753,82 +1731,7 @@ TEX_BlackFlakes:
 	mtlr r9
 	blr
 
-FlakeySnow:
-	li r5, 0xFF
-	li r4, 0xFF
-	li r3, 0xFF
-	li r0, 0xA0
-	blr
 
-FlakeyLeavesRed:
-	li r5, 0xCC
-	li r4, 0x0
-	li r3, 0x0
-	li r0, 0xFF
-	blr
-
-FlakeyLeavesScarlet:
-	li r5, 0x66
-	li r4, 0x0
-	li r3, 0x0
-	li r0, 0xFF
-	blr
-
-FlakeyLeavesBrown:
-	li r5, 0x99
-	li r4, 0x66
-	li r3, 0x0
-	li r0, 0xFF
-	blr
-
-FlakeyLeavesGold:
-	li r5, 0xFF
-	li r4, 0x80
-	li r3, 0x0
-	li r0, 0xFF
-	blr
-
-FlakeyLeavesChestnut:
-	li r5, 0x66
-	li r4, 0x33
-	li r3, 0x0
-	li r0, 0xFF
-	blr
-
-FlakeySakura:
-	li r5, 0xFF
-	li r4, 0x99
-	li r3, 0xCC
-	li r0, 0xFF
-	blr
-	
-FlakeyStardustWhite:
-	li r5, 0xFF
-	li r4, 0xFF
-	li r3, 0xD0
-	bl GenerateRandomNumber
-	mr r0, r3
-	li r3, 0xFF
-	blr
-	
-FlakeyStardustGold:
-	li r5, 0xFF
-	li r4, 0x80
-	li r3, 0xD0
-	bl GenerateRandomNumber
-	mr r0, r3
-	li r3, 0x0
-	blr
-	
-FlakeyStardustPurple:
-	li r5, 0x66
-	li r4, 0x00
-	li r3, 0xD0
-	bl GenerateRandomNumber
-	mr r0, r3
-	li r3, 0x99
-	blr
-	
 FlakeyStardustMauve:
 	li r5, 0xCC
 	li r4, 0x99
@@ -1842,62 +1745,19 @@ FlakeyStardustMauve:
 	
 .global TEX_Flakes
 TEX_Flakes:
-	stwu sp, -0x20(sp)
-	mflr r0
-	stw r0, 0x24(sp)
-	stw r3, 0x1C(sp)
-	stw r5, 0x18(sp)
-	stw r6, 0x14(sp)
-	stw r7, 0x10(sp)
-	stw r8, 0xC(sp)
-	stw r9, 0x8(sp)
+	stwu sp, -0x10(sp)
+	stw r5, 0x8(sp)
 
-	lwz r5, 4(r30)
-	srwi r5, r5, 24
-	andi. r5, r5, 0xF
+	lbz r5, 7(r30)
+	andi. r5, r5, 0xF0
+	srwi r5, r5, 2
 
-	cmpwi r5, 5
-	blel LeafString
+	lis r4, TEX_FlakeArcs@h
+	ori r4, r4, TEX_FlakeArcs@l
+	lwzx r4, r4, r5
 
-	cmpwi r5, 0
-	beql SnowString
-
-	cmpwi r5, 6
-	beql PetalString
-
-	cmpwi r5, 7
-	bgel StardustString
-
-	lwz r0, 0x24(sp)
-	lwz r3, 0x1C(sp)
-	lwz r5, 0x18(sp)
-	lwz r6, 0x14(sp)
-	lwz r7, 0x10(sp)
-	lwz r8, 0xC(sp)
-	lwz r9, 0x8(sp)
-	mtlr r0
-	addi sp, sp, 0x20
-	blr
-
-
-SnowString:
-	lis r4, stringsnow@h
-	ori r4, r4, stringsnow@l
-	blr
-
-LeafString:
-	lis r4, stringleaf@h
-	ori r4, r4, stringleaf@l
-	blr
-
-PetalString:
-	lis r4, stringpetal@h
-	ori r4, r4, stringpetal@l
-	blr
-
-StardustString:
-	lis r4, stringstardust@h
-	ori r4, r4, stringstardust@l
+	lwz r5, 0x8(sp)
+	addi sp, sp, 0x10
 	blr
 
 
@@ -2124,6 +1984,7 @@ TEX_FlakeArcs:
 	.long stringleaf
 	.long stringpetal
 	.long stringstardust
+	.long stringlibrary
 	.long 0
 
 stringsnow:
@@ -2140,6 +2001,10 @@ stringpetal:
 
 stringstardust:
 	.string "env_stardust"
+.align 4
+
+stringlibrary:
+	.string "env_library"
 .align 4
 
 

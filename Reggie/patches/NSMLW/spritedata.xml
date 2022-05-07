@@ -544,7 +544,19 @@
       <suggested sprite="389"/>
     </dependency>
   </sprite> <!-- #49: Fake Star Coin -->
-  
+
+  <sprite id="53" name="Effect - Quicksand" notes="This will draw the animated quicksand effect over a specific Location ID. The actual quicksand sinking effect is only obtained through a specific tileset object. See Dependency Notes for examples. The quicksand animation is always placed behind Layer 1 objects.">
+    <dependency notes="Pa1_sabaku (Desert): Object 24&lt;br&gt;&lt;br&gt;Pa_sabaku_chika (Desert Cave): Object 26&lt;br&gt;&lt;br&gt;Pa1_toride_sabaku (Desert Tower): Object 107"/>
+    <checkbox bit="37" title="Flat Top" comment="When enabled, this removes the animated crest effect on the top portion of the quicksand. This will cause a 'square' look." comment2="This should be used when the quicksand connects with a ceiling or other Layer 1 terrain."/>
+    <value nybble="11-12" title="Location ID" comment="This determines the Location where the quicksand animation will be created." idtype="Location"/>
+	<list bit="9-16" title="Color">
+      <entry value="0">Normal</entry>
+      <entry value="1">Snow</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Mud</entry>
+    </list>
+  </sprite> <!-- #53: Effect - Quicksand -->
+
   <sprite id="57" name="Koopa Troopa" asmhacks="True" sizehacks="True" notes="Your standard Koopa Troopa. Place it in the level and it will walk towards Mario when it loads. It can either be set to walk off ledges, or turn around at ledges.">
     <dualbox bit="48" title1="Walks Off Ledges" title2="Turns Around At Ledges" comment="This determines if the Koopa Troopa will mindlessly walk off of ledges or if it will turn around when it reaches a ledge." comment2="This also changes the color of the Koopa Troopa."/>
     <list nybble="6" title="Color" comment="This determines the color of the Koopa Troopa." requiredbit="48" requiredval="0">
@@ -2849,19 +2861,17 @@
       <suggested sprite="90"/>
     </dependency>
     <dualbox bit="48" title1="Falling Objects" title2="Sandstorm" comment="This determines the functionality of the sprite."/>
-    <list nybble="6" title="Falling Object Type" comment="This determines the particle effect used as stage decoration." requiredbit="48" requiredval="0">
+    <list nybble="11" title="Falling Object Type" comment="This determines the particle effect used as stage decoration." requiredbit="48" requiredval="0">
       <entry value="0">Snow</entry>
-      <entry value="1">Maple Leaves - Red</entry>
-      <entry value="2">Maple Leaves - Scarlet</entry>
-      <entry value="3">Maple Leaves - Brown</entry>
-      <entry value="4">Maple Leaves - Gold</entry>
-      <entry value="5">Maple Leaves - Chestnut</entry>
-      <entry value="6">Sakura Petals</entry>
-      <entry value="7">Stardust - White</entry>
-      <entry value="8">Stardust - Gold</entry>
-      <entry value="9">Stardust - Purple</entry>
-      <entry value="10">Stardust - Mauve</entry>
+      <entry value="1">Maple Leaves</entry>
+      <entry value="2">Sakura Petals</entry>
+      <entry value="3">Stardust</entry>
+      <entry value="4">Pentagon</entry>
     </list> <!-- Appears only if Falling Objects is set -->
+    <value nybble="5-6" title="Red" requiredbit="48" requiredval="0"/>
+    <value nybble="7-8" title="Green" requiredbit="48" requiredval="0"/>
+    <value nybble="9-10" title="Blue" requiredbit="48" requiredval="0"/>
+	<checkbox bit="47" title="No Random Alpha" requiredbit="48" requiredval="0"/>
   </sprite> <!-- #374: Effect - Falling Objects and Wind -->
 
   <sprite id="383" name="Boss Controller - Kamek" notes="This controls the various boss fight mechanics for the Kamek fight in World 8-Tower, such as the boss movement, and level completion. &lt;font color=&quot;red&quot;&gt;The Boss Controller crashes NewerSMBW once he loads on-screen.&lt;/font&gt;">
