@@ -1,5 +1,5 @@
 ---
-source_files: [../src/mawRay.S, ../src/mawRay.cpp]
+source_files: [../src/urchinMods.S, ../src/urchinMods.cpp]
 hooks:
   - name: TEX_Urchin
     type: branch_insn

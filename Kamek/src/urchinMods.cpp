@@ -23,10 +23,12 @@ public:
 	
 	USING_STATES(daEnUnizoo_c);
 	DECLARE_STATE(Roll);
+	DECLARE_STATE(WaterFalling);
 	REF_NINTENDO_STATE(Wait);
 };
 
 CREATE_STATE(daEnUnizoo_c, Roll);
+CREATE_STATE(daEnUnizoo_c, WaterFalling);
 
 void daEnUnizoo_c::beginState_Roll() {
 	this->max_speed.x = 0;//(this->direction) ? -0.5 : 0.5; //set the maximum X speed depending of the spawning direction
@@ -66,7 +68,7 @@ void daEnUnizoo_c::executeState_Roll() {
 		//doStateChange(&StateID_Spike_Die);                                      //if hit a wall, die
 	}
 	if(this->EnWaterFlagCheck(&this->pos)) {
-		this->doStateChange(&StateID_Wait);
+		this->doStateChange(&StateID_WaterFalling);
 	}
 }
 
@@ -92,6 +94,16 @@ bool daEnUnizoo_c::calculateTileCollisions() {
 	else {
 		direction = 1;
 	}
+	
+	/*if(collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) != 0) {
+		if(collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) < 0) {
+			direction = 1;
+		} else {
+			direction = 0;
+		}
+	}*/
+
+	OSReport("Slope: %x\n", collMgr.getAngleOfSlopeWithXSpeed(this->speed.x));
 
 	if (collMgr.isOnTopOfTile()) {                       //if the sprite is on top of a tile
 		/*if(alreadyOnTop == 0) {                          //if it just landed
@@ -105,7 +117,7 @@ bool daEnUnizoo_c::calculateTileCollisions() {
 		speed.y = 0.0f;                                  //no Y speed anymore cuz it's on the ground
 		max_speed.x = (direction == 1) ? -1.5f : 1.5f;   //maximum X speed re-setting
 		this->x_speed_inc = 0.0f;                        //no X speed incrementation
-		this->speed.x = (direction == 1) ? -1.5f : 1.5f; //X speed re-setting
+		this->speed.x = collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) * 0.05f - (direction == 1) ? -0.5f : 0.5f; //X speed re-setting
 	}
 	else {                                               //if the sprite in in mid-air
 		//alreadyOnTop = 0;                                //it's no loner on the top of a tile
@@ -131,3 +143,16 @@ void daEnUnizoo_c::setCustomState() {
 	}
 }
 
+
+
+void daEnUnizoo_c::beginState_WaterFalling() {
+	speed.x = 0;
+	speed.y *= 0.3;
+}
+
+void daEnUnizoo_c::executeState_WaterFalling() {
+	s16 rotationSpeed = 0x400 * this->speed.y / this->max_speed.y;
+	bool ret = this->calculateTileCollisions();                                 //calculate the tiles collision
+}
+
+void daEnUnizoo_c::endState_WaterFalling() {}

@@ -177,7 +177,7 @@ modules:
   - processed/playerLocationEvent.yaml
   - processed/codehandler.yaml
   - processed/frogoon.yaml
-  - processed/mawRay.yaml
+  - processed/urchinMods.yaml
   - processed/pakkun.yaml
   - processed/redRingRewards.yaml
   - processed/worldmapAirships.yaml

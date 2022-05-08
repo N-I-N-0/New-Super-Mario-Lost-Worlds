@@ -1511,6 +1511,17 @@
     <dualbox bit="40" title1="Moves Left First" title2="Moves Right First" comment="This determines which direction the Urchin will move first. The starting position from their movement is in the center, not at one of the two edges." requiredbit="41-44, 48" requiredval="1-15, 1"/> <!-- Appears only if Movement Distance is set, and movement is Horizontal -->
   </sprite> <!-- #193: Urchin / Maw-Ray -->
 
+  <sprite id="194" name="Mega Urchin / Crazy Boo" notes="A large spiky ball enemy typically used in Water. Water is not required, however, for it to load and function.">
+    <list nybble="6" title="Style" >
+      <entry value="0">Urchin</entry>
+      <entry value="1">Crazy Boo</entry>
+    </list>
+    <value bit="41-44" title="Movement Distance (x2)" comment="This determines how far the Urchin will move, if at all. Multiply this value by 2."/>
+    <dualbox bit="48" title1="Moves Vertically" title2="Moves Horizontally" comment="This determines which direction the Urchin will move." requiredbit="41-44"/> <!-- Appears only if Movement Distance is set -->
+    <dualbox bit="40" title1="Moves Down First" title2="Moves Up First" comment="This determines which direction the Urchin will move first." requiredbit="41-44, 48" requiredval="1-15, 0"/> <!-- Appears only if Movement Distance is set, and movement is Vertical -->
+    <dualbox bit="40" title1="Moves Left First" title2="Moves Right First" comment="This determines which direction the Urchin will move first." requiredbit="41-44, 48" requiredval="1-15, 1"/> <!-- Appears only if Movement Distance is set, and movement is Horizontal -->
+  </sprite> <!-- #194: Mega Urchin / Crazy Boo -->
+
   <sprite id="195" name="Huckit Crab" asmhacks="True" sizehacks="True" notes="A crab enemy that will throw projectiles at the player while occasionally jumping in the air.">
     <list nybble="6" title="Color" comment="This determines the color and style of the Huckit Crab.">
       <entry value="0">Normal</entry>
@@ -2866,7 +2877,7 @@
       <entry value="1">Maple Leaves</entry>
       <entry value="2">Sakura Petals</entry>
       <entry value="3">Stardust</entry>
-      <entry value="4">Pentagon</entry>
+      <entry value="4">Hexagon</entry>
     </list> <!-- Appears only if Falling Objects is set -->
     <value nybble="5-6" title="Red" requiredbit="48" requiredval="0"/>
     <value nybble="7-8" title="Green" requiredbit="48" requiredval="0"/>

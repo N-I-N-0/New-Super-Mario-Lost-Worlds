@@ -6,11 +6,11 @@
 
 .global TEX_Urchin
 TEX_Urchin:
-	cmpwi	r0, 0
-	beq		doUrchinSpriteTex
-	lwzx	r5, r5, r0
-	blr
-doUrchinSpriteTex:
+	#cmpwi	r0, 0
+	#beq		doUrchinSpriteTex
+	#lwzx	r5, r5, r0
+	#blr
+#doUrchinSpriteTex:						do for both small and big one (Maw-Ray for small, Boo for big)
 	lwz		r5, 4(r30)
 	srwi	r5, r5, 24
 	andi.	r5, r5, 0xF
