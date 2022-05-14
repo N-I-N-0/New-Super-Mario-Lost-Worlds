@@ -41,7 +41,7 @@ public:
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 
-	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
+	/*bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
@@ -51,7 +51,7 @@ public:
 	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);*/
 
 	//setDeathInfo_IceBreak -> what should be done when in an iceblock and crashes a wall -> normally the sprite should die
 	void _vf148();
@@ -59,6 +59,8 @@ public:
 	void _vf14C();
 	//create an ice block when collided with Iceball
 	bool CreateIceActors();
+
+	USING_STATES(daEnParaTenten_c);
 
 	//void addScoreWhenHit(void* other);
 };
@@ -89,52 +91,49 @@ void daEnParaTenten_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apO
 		DamagePlayer(this, apThis, apOther);
 	}
 }
-void daEnParaTenten_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {}
-bool daEnParaTenten_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+void daEnParaTenten_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
+}
+
+/*bool daEnParaTenten_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
+	bool ret = dEn_c::collisionCat7_GroundPound(apThis, apOther);
+	if (ret)
+		this->kill();
+	return ret;
 }
 bool daEnParaTenten_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+	return dEn_c::collisionCat7_GroundPoundYoshi(apThis, apOther);
 }
 bool daEnParaTenten_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+	return dEn_c::collisionCatD_Drill(apThis, apOther);
 }
 bool daEnParaTenten_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
-	if ((this->facingRight && apOther->owner->pos.x < this->pos.x) || (!this->facingRight && apOther->owner->pos.x > this->pos.x))
-	{
-		this->Delete(1);
-		return true;
-	}
-	return false;
+	return dEn_c::collisionCatA_PenguinMario(apThis, apOther);
 }
 
 bool daEnParaTenten_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+	CDPrintCurrentAddress();
+	bool ret = dEn_c::collisionCat1_Fireball_E_Explosion(apThis, apOther);
+	if (ret)
+		this->kill();
+	return ret;
 }
-/*bool daEnParaTenten_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
-
-	return false;
-}*/
+//bool daEnParaTenten_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
+//	return false;
+//}
 bool daEnParaTenten_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return false;
+	return dEn_c::collisionCat9_RollingObject(apThis, apOther);
 }
 bool daEnParaTenten_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+	return dEn_c::collisionCat13_Hammer(apThis, apOther);
 }
 bool daEnParaTenten_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
+	return dEn_c::collisionCat14_YoshiFire(apThis, apOther);
 }
 
 bool daEnParaTenten_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->Delete(1);
-	return true;
-}
+	return dEn_c::collisionCat3_StarPower(apThis, apOther);
+}*/
 
 
 void daEnParaTenten_c::_vf148() {
@@ -183,7 +182,7 @@ int daEnParaTenten_c::onCreate() {
 		return false;
 	}
 	
-	this->deleteForever = true;
+	this->deleteForever = false; //makes the death state being used in preExecute
 
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
@@ -296,8 +295,6 @@ void daEnParaTenten_c::updateModelMatrices() {
 int daEnParaTenten_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
-
-	//OSReport("fr: %d, wD: %d, wS: %d, stepCount: %d\n", this->facingRight, this->wDistance, this->wSpeed, this->stepCount);
 
 	if(this->leftRight) {
 		if (this->facingRight) {
