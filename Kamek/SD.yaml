@@ -1,0 +1,9 @@
+---
+source_files: [../src/SD/sd.cpp]
+hooks: []
+#  - name: OnPlayerJumpTest
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80127730
+#    src_addr_ntsc2: 0x801275f0
+#    target_func: 'TestSD__Fv'
