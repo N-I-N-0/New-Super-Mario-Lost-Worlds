@@ -2,6 +2,7 @@ output_dir: "NewerASM"
 code_address: 0x808D9000
 modules:
   - processed/profile.yaml
+  - processed/SD.yaml
   - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
@@ -12,7 +13,7 @@ modules:
   - processed/hardMode.yaml
  # - processed/layoutDebug.yaml
   - processed/codeDebug.yaml
-  - processed/exceptionHandler.yaml
+ # - processed/exceptionHandler.yaml
   - processed/creditsMgr.yaml
   # - processed/endingMgr.yaml
   - processed/chestnut.yaml
@@ -181,3 +182,5 @@ modules:
   - processed/pakkun.yaml
   - processed/redRingRewards.yaml
   - processed/worldmapAirships.yaml
+  - processed/explodingBoo.yaml
+  - processed/twister.yaml

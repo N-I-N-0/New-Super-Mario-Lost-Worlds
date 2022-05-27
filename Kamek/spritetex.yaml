@@ -433,17 +433,17 @@ hooks:
 #    src_addr_pal: 0x809A67F4
 #    target_func: 'TEX_CheepChomp'
 
-#  - name: TEX_BigBoo
-#     type: branch_insn
-#     branch_type: bl
-#     src_addr_pal: 0x80AAF5E0
-#     target_func: 'TEX_BigBoo'
+  - name: TEX_Boo
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80AAF5E0
+    target_func: 'TEX_Boo'
 
-#  - name: TEX_Boo
-#     type: branch_insn
-#     branch_type: bl
-#     src_addr_pal: 0x808F0628
-#     target_func: 'TEX_Boo'
+#  - name: TEX_BooMap
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x808F0628
+#    target_func: 'TEX_BooMap'
 
   - name: TEX_Midway
     type: branch_insn
@@ -931,11 +931,11 @@ hooks:
     src_addr_pal: 0x80ABC0C0
     target_func: 'IgaPukuBypass'
 
-#  - name: TEX_IgaPuku
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80A24CF4
-#    target_func: 'TEX_IgaPuku'
+  - name: TEX_IgaPuku
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A24CF4
+    target_func: 'TEX_IgaPuku'
 
 #  - name: IgaPukuNoEffect1
 #    type: branch_insn

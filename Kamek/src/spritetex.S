@@ -808,8 +808,8 @@ TEX_Coaster:
 
 .global TEX_ToadBalloon
 TEX_ToadBalloon:
-.global TEX_BigBoo
-TEX_BigBoo:
+.global TEX_Boo
+TEX_Boo:
 	lwz r5, 4(r27)
 	srwi r5, r5, 24
 	andi. r5, r5, 0xF
@@ -880,8 +880,8 @@ TEX_Blooper:
 TEX_Spiny:
 .global TEX_SpringBlock
 TEX_SpringBlock:
-.global TEX_Boo
-TEX_Boo:
+.global TEX_BooMap
+TEX_BooMap:
 .global TEX_Goal
 TEX_Goal:
 .global TEX_StretchMush

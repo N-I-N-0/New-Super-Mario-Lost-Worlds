@@ -1,4 +1,14 @@
 SECTIONS {
+	IOS_Open__FPci = 0x80224db0;
+	IOS_Close__Fi = 0x80224fa0;
+	IOS_ioctl__FiiPvUlPvUli = 0x80225780;
+	IOS_ioctlv__FiiiiPv = 0x80225ae0;
+
+	StateID_Move__12daEnTeresa_c = 0x80b1b868;
+	getTargetPos__12daEnTeresa_cFP7Point2d = 0x80aaff40;
+	origOnExecute__12daEnTeresa_cFv = 0x80aaeb20;
+	origOnCreate__12daEnTeresa_cFv = 0x80aae890;
+
 	sException__Q24nw4r2dbFv = 0x803DA860;
 
 	continuePakkunNormal = 0x8002fa74;
@@ -20,7 +30,9 @@ SECTIONS {
 	continueUrchinNoTurn = 0x80ab90c0;
 	continueUrchinOnCreate = 0x80ab8f48;
 	StateID_Wait__12daEnUnizoo_c = 0x80b1bdd8;
-
+	getAngleOfSlopeInDirection__14collisionMgr_cFi = 0x800708c0;
+	getAngleOfSlopeWithXSpeed__14collisionMgr_cFf = 0x80070900;
+	
 	callFooDeath = 0x80A6B410;
 
 	yoshiEatCheck = 0x8014f6d0;

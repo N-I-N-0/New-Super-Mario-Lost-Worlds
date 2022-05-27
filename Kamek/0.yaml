@@ -1,6 +1,6 @@
 ---
 source_files: [../src/0.cpp]
-hooks:
+hooks: []
 
  # - name: ExceptionRecovery
  #   type: patch
@@ -51,27 +51,27 @@ hooks:
 
 
 
-  - name: Test
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800E2030
-    target_func: 'Test(void)'
+#  - name: Test
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800E2030
+#    target_func: 'Test(void)'
 
-  - name: patchReturn
-    type: patch
-    data: "4E800020"
-    addr_pal: 0x800E2034
+#  - name: patchReturn
+#    type: patch
+#    data: "4E800020"
+#    addr_pal: 0x800E2034
 
-  - name: addSpecialToLevelNum
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800f9724
-    target_func: 'AddToLevelNum(int)'
+#  - name: addSpecialToLevelNum
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800f9724
+#    target_func: 'AddToLevelNum(int)'
 
-  - name: patchReturn2
-    type: patch
-    data: "4E800020"
-    addr_pal: 0x800f9728
+#  - name: patchReturn2
+#    type: patch
+#    data: "4E800020"
+#    addr_pal: 0x800f9728
 
 
 
@@ -85,52 +85,52 @@ hooks:
 
 
 
-  - name: patchReturn3
-    type: patch
-    data: "4E800020"
-    addr_pal: 0x8092c288
+#  - name: patchReturn3
+#    type: patch
+#    data: "4E800020"
+#    addr_pal: 0x8092c288
 
 
 
-  - name: SetLevelIdentifierRewrite
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x8090cf1c
-    target_func: 'SetLevelIdentifier(unsigned char, unsigned char, unsigned char *, unsigned char *)'
-
-
-
-
-
-
-  - name: SetConditionInWorldDataForWorldAndLevel
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800ce4e0
-    target_func: 'SetConditionInWorldDataForWorldAndLevel(int *, int, int, unsigned int)'
-
-
-  - name: CheckIfConditionIsCompletedForWorldAndLevel
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800ce4b0
-    target_func: 'CheckIfConditionIsCompletedForWorldAndLevel(int *, int, int, unsigned int)'
+#  - name: SetLevelIdentifierRewrite
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x8090cf1c
+#    target_func: 'SetLevelIdentifier(unsigned char, unsigned char, unsigned char *, unsigned char *)'
 
 
 
 
-  - name: SetSpecificStarCoinToCollected
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800ce270
-    target_func: 'SetSpecificStarCoinToCollected(int *, int, int, unsigned int)'
+
+
+#  - name: SetConditionInWorldDataForWorldAndLevel
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800ce4e0
+#    target_func: 'SetConditionInWorldDataForWorldAndLevel(int *, int, int, unsigned int)'
+
+
+#  - name: CheckIfConditionIsCompletedForWorldAndLevel
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800ce4b0
+#    target_func: 'CheckIfConditionIsCompletedForWorldAndLevel(int *, int, int, unsigned int)'
 
 
 
-  - name: CheckIfWeHaveASpecificStarCoin
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x800ce300
-    target_func: 'CheckIfWeHaveASpecificStarCoin(int *, int, int, unsigned int)'
+
+#  - name: SetSpecificStarCoinToCollected
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800ce270
+#    target_func: 'SetSpecificStarCoinToCollected(int *, int, int, unsigned int)'
+
+
+
+#  - name: CheckIfWeHaveASpecificStarCoin
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800ce300
+#    target_func: 'CheckIfWeHaveASpecificStarCoin(int *, int, int, unsigned int)'
 
 

@@ -844,6 +844,7 @@ enum Actors {
 	Frogoon, //831
 	ThunderCloud, //832
 	WMAirships, //833
+	Twister, //834
 };
 
 struct Actor {

@@ -586,6 +586,7 @@ enum
 	PlayerLocationEvent = 561,
 	Frogoon = 562,
 	ThunderCloud = 563,
+	Twister = 564,
 
 	Num
 };
@@ -1437,6 +1438,7 @@ enum
 	Frogoon, //831
 	ThunderCloud, //832
 	WMAirships, //833
+	Twister, //834
 	
 	Num
 };
