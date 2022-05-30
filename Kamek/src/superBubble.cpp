@@ -2,7 +2,7 @@
 #include <game.h>
 #include <profile.h>
 
-const char* SuperBubbleFileList[] = { "frogM", 0 };
+const char* SuperBubbleFileList[] = { "frogM", "PoisonMushroom", 0 };
 
 
 
@@ -15,10 +15,15 @@ public:
 
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile resFile;
-	nw4r::g3d::ResFile resFileAnim;
+	nw4r::g3d::ResFile eggFile;
 	m3d::mdl_c bodyModel;
 
+	nw4r::g3d::ResAnmTexPat anmPat;
+
 	m3d::anmChr_c chrAnimation;
+	m3d::anmTexPat_c patAnimation;
+
+	u8 yoshiColor;
 
 	int alreadyOnTop;
 
@@ -27,19 +32,17 @@ public:
 	u32 cmgr_returnValue;
 	int timer;
 	int variation;
+	bool burstFromCollision;
 
-	/******/
-	/*Frog*/
-	/******/
 	m3d::anmChr_c animationChr;
 	m3d::mdl_c coinModel;
 	m3d::anmChr_c animationCoinChr;
 	mMtx coinmatrix;
 	VEC3 coinscale;
 	S16Vec coinrot;
-	bool doIhaveCoin;
 	bool isCoinSpawned;
 
+	Actors actorID;
 	dStageActor_c *content;
 
 	static dActor_c* build();
@@ -74,20 +77,28 @@ CREATE_STATE(daSuperBubble_c, Bubble_Thrown);
 
 
 void daSuperBubble_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	int pid = getNybbleValue(apOther->owner->which_player, 6, 6);
-	int coinsettings = 0 | (0x2 << 0) | (2 << 18) | (4 << 9) | (2 << 10) | ((pid + 8) << 16);
-	VEC3 newPos = {this->pos.x, this->pos.y - 16, this->pos.z};
-	dStageActor_c *coin = dStageActor_c::create(EN_ITEM, coinsettings, &newPos, 0, 0);
-	PlaySound(this, SE_OBJ_GET_COIN);
+	burstFromCollision = true;
+	
 	PlaySound(this, SE_OBJ_CMN_BALLOON_BREAK);
+	if(actorID == EN_COIN) {
+		int pid = getNybbleValue(apOther->owner->which_player, 6, 6);
+		int coinsettings = 0 | (0x2 << 0) | (2 << 18) | (4 << 9) | (2 << 10) | ((pid + 8) << 16);
+		VEC3 newPos = {this->pos.x, this->pos.y - 16, this->pos.z};
+		dStageActor_c *coin = dStageActor_c::create(EN_ITEM, coinsettings, &newPos, 0, 0);
+		PlaySound(this, SE_OBJ_GET_COIN);
+	} else if(actorID == AC_YOSHI_EGG) {
+		VEC3 newPos = {this->pos.x, this->pos.y - 16, this->pos.z};
+		dStageActor_c *yoshiEgg = dStageActor_c::create(AC_YOSHI_EGG, (1 << 21 | yoshiColor), &newPos, 0, 0);
+	}
 	Vec efPos = {this->pos.x, this->pos.y, this->pos.z};
 	S16Vec nullRot = {0,0,0};
 	Vec oneVec = {1.0f, 1.0f, 1.0f};
 	SpawnEffect("Wm_mr_balloonburst", 0, &efPos, &nullRot, &oneVec);
 	this->Delete(1);
 }
-void daSuperBubble_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 
+void daSuperBubble_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
 }
 bool daSuperBubble_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return false;
@@ -140,8 +151,7 @@ void daSuperBubble_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 		this->animationChr.bind(&this->bodyModel, anmChr, unk);
 		this->bodyModel.bindAnim(&this->animationChr, unk2);
 		this->animationChr.setUpdateRate(rate);
-	}
-	else {
+	} else {
 		nw4r::g3d::ResAnmChr anmCoinChr = this->resFile.GetResAnmChr(name);
 		this->animationCoinChr.bind(&this->coinModel, anmCoinChr, unk);
 		this->coinModel.bindAnim(&this->animationCoinChr, unk2);
@@ -152,12 +162,83 @@ void daSuperBubble_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 int daSuperBubble_c::onCreate() {
 	this->deleteForever = true;
 
-	OSReport("0\n");
+	Vec tempPos = (Vec){this->pos.x, this->pos.y, this->pos.z};
 	
-	//OSReport("Nybble 1-2: %x\n", this->eventId2);
-	//OSReport("Nybble 3-4: %x\n", this->eventId1);
-	OSReport("spriteFlagMask: %x\n", (u32)(this->spriteFlagMask >> 32));
-	OSReport("spriteFlagMask: %x\n", (u32)this->spriteFlagMask);
+	actorID = EN_ITEM;
+	u32 set;
+	Vec spawnPos = pos;
+	switch(this->settings & 0xFF) {
+		case 0:
+			return true;
+		case 1:
+			break;
+		case 2:
+			set = 0x0B000000;
+			break;
+		case 3:
+			set = 0x0B000009;
+			break;
+		case 4:
+			set = 0x0B000015;
+			break;
+		case 5:
+			set = 0x0B00000E;
+			break;
+		case 6:
+			set = 0x0B000011;
+			break;
+		case 7:
+			set = 0x0B000019;
+			break;
+		case 8:
+			set = 0x0B000001;
+			break;
+		case 9:
+			set = 0x0B000007;
+			break;
+		case 10:
+			set = 0x0B000006;
+			break;
+		case 11:
+			set = 0x0B000014;
+			break;
+		case 12:
+			set = 0x0B000010;
+			break;
+		case 13:
+			set = 0x0B00000F;
+			break;
+		case 14:
+			set = 0x0B000013;
+			break;
+		case 15:
+			set = 0x0B000016;
+			break;
+		case 16:
+			set = 0x0B000012;
+			break;
+		case 17:
+			actorID = AC_YOSHI_EGG;
+			//set = 0x008003cc04060000;
+			break;
+		case 18:
+			actorID = EN_COIN;
+			//set = 0x008003cc04060000;
+			break;
+		case 19:
+			spawnPos.y += 10;
+			actorID = PoisonShroom;
+			//set = 0x008003cc04060000;
+			break;
+		/*case 148:
+			set = 0x008003cc04060000;
+			break;*/
+		default:
+			break;
+	}
+	if (actorID != EN_COIN && actorID != AC_YOSHI_EGG) {
+		content = CreateActor(actorID, set, tempPos, 0, 0);
+	}
 
 	// Model creation
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
@@ -166,31 +247,49 @@ int daSuperBubble_c::onCreate() {
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("balloon");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Enemy(&bodyModel, 0);
+	
+	
+	if (actorID == AC_YOSHI_EGG) {
+		yoshiColor = GenerateRandomNumber(10);
+		u8 patColor = yoshiColor;
+		if (yoshiColor < 4) {
+			this->eggFile.data = getResource("I_yoshi_egg", "g3d/t00.brres");
+		} else if (yoshiColor < 8) {
+			this->eggFile.data = getResource("I_yoshi_egg", "g3d/t01.brres");
+			patColor -= 4;
+		} else {
+			this->eggFile.data = getResource("I_yoshi_egg", "g3d/t02.brres");
+			patColor -= 8;
+		}
+		nw4r::g3d::ResMdl mdl2 = this->eggFile.GetResMdl("I_yoshi_egg");
+		coinModel.setup(mdl2, &allocator, 0x227, 1, 0);
+		SetupTextures_Item(&coinModel, 0);
+		
+		this->anmPat = this->eggFile.GetResAnmTexPat("I_yoshi_egg");
+		this->patAnimation.setup(mdl2, anmPat, &this->allocator, 0, 1);
+		this->patAnimation.bindEntry(&this->coinModel, &anmPat, 0, 1);
+		this->patAnimation.setFrameForEntry(patColor, 0);
+		this->patAnimation.setUpdateRateForEntry(0.0f, 0);
+		this->coinModel.bindAnim(&this->patAnimation);
+		
+	} else if (actorID == EN_COIN) {
+		nw4r::g3d::ResMdl coinmdl = this->resFile.GetResMdl("obj_coin");
+		coinModel.setup(coinmdl, &allocator, 0x224, 1, 0);
+		SetupTextures_MapObj(&coinModel, 0);
+		
+		nw4r::g3d::ResAnmChr anmCoinChr = this->resFile.GetResAnmChr("no");
+		this->animationCoinChr.setup(coinmdl, anmCoinChr, &this->allocator, 0);
 
-	OSReport("1\n");
+	}
 
-	nw4r::g3d::ResMdl coinmdl = this->resFile.GetResMdl("obj_coin");
-	coinModel.setup(coinmdl, &allocator, 0x224, 1, 0);
-	SetupTextures_MapObj(&coinModel, 0);
 
-	OSReport("2\n");
-
-	bool ret;
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("float");
-	ret = this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
+	this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
 
-	OSReport("3\n");
-
-	bool rett;
-	nw4r::g3d::ResAnmChr anmCoinChr = this->resFile.GetResAnmChr("no");
-	rett = this->animationCoinChr.setup(coinmdl, anmCoinChr, &this->allocator, 0);
-
-	OSReport("4\n");
 
 	allocator.unlink();
 
-	Vec tempPos = (Vec){this->pos.x, this->pos.y, this->pos.z};
-	content = CreateActor(EN_ITEM, 0xA, tempPos, 0, 0);
+	
 
 	// Stuff I do understand
 	this->scale = (Vec){0.6, 0.6, 0.6};
@@ -228,7 +327,9 @@ int daSuperBubble_c::onCreate() {
 	OSReport("5\n");
 
 	bindAnimChr_and_setUpdateRate("float", 1, 0.0, 1.0, false);
-	bindAnimChr_and_setUpdateRate("no", 1, 0.0, 1.0, true);
+	if(actorID == EN_COIN) {
+		bindAnimChr_and_setUpdateRate("no", 1, 0.0, 1.0, true);
+	}
 
 	OSReport("6\n");
 
@@ -245,11 +346,20 @@ int daSuperBubble_c::onCreate() {
 
 
 int daSuperBubble_c::onDelete() {
+	if(!burstFromCollision) {
+		if (actorID != EN_COIN && actorID != AC_YOSHI_EGG) {
+			content->Delete(1);
+		}
+	}
+	
 	return true;
 }
 
 int daSuperBubble_c::onDraw() {
 	bodyModel.scheduleForDrawing();
+	if (actorID == EN_COIN || actorID == AC_YOSHI_EGG) {
+		coinModel.scheduleForDrawing();
+	}
 	return true;
 }
 
@@ -257,40 +367,50 @@ int daSuperBubble_c::onDraw() {
 void daSuperBubble_c::updateModelMatrices() {
 	matrix.translation(pos.x, pos.y, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
-	coinmatrix.translation(pos.x, pos.y, pos.z);
-	coinmatrix.applyRotationYXZ(&coinrot.x, &coinrot.y, &coinrot.z);
-
 	bodyModel.setDrawMatrix(matrix);
 	bodyModel.setScale(&scale);
 	bodyModel.calcWorld(false);
-	coinModel.setDrawMatrix(coinmatrix);
-	coinModel.setScale(&coinscale);
-	coinModel.calcWorld(false);
 	
-	content->pos = this->pos;
+	if (actorID == EN_COIN) {
+		coinmatrix.translation(pos.x, pos.y, pos.z);
+		coinmatrix.applyRotationYXZ(&coinrot.x, &coinrot.y, &coinrot.z);
+		coinModel.setDrawMatrix(coinmatrix);
+		coinModel.setScale(&coinscale);
+		coinModel.calcWorld(false);
+	} else if (actorID == AC_YOSHI_EGG) {
+		coinmatrix.translation(pos.x, pos.y - 8, pos.z);
+		coinmatrix.applyRotationYXZ(&coinrot.x, &coinrot.y, &coinrot.z);
+		coinModel.setDrawMatrix(coinmatrix);
+		coinModel.setScale(&coinscale);
+		coinModel.calcWorld(false);
+	} else {
+		content->pos = this->pos;
+	}
 }
 
 int daSuperBubble_c::onExecute() {
-	
-	//OSReport("Nybble 1-2: %x\n", this->eventId2);
-	//OSReport("Nybble 3-4: %x\n", this->eventId1);
-	OSReport("spriteFlagMask: %x\n", (u32)(this->spriteFlagMask >> 32));
-	OSReport("spriteFlagMask: %x\n", (u32)this->spriteFlagMask);
-	coinModel._vf1C();
+	if (actorID != EN_COIN && actorID != AC_YOSHI_EGG) {
+		coinModel._vf1C();
+	}
 	bodyModel._vf1C();
 	updateModelMatrices();
 	this->timer++;
 
-	if(this->doIhaveCoin && !this->isCoinSpawned) {
-		bindAnimChr_and_setUpdateRate("yes", 1, 0.0, 1.0, true);
-		this->isCoinSpawned = true;
-	}
-
 	if(this->animationChr.isAnimationDone()) {
 		this->animationChr.setCurrentFrame(0.0);
 	}
-	if(this->animationCoinChr.isAnimationDone()) {
-		this->animationCoinChr.setCurrentFrame(0.0);
+
+	if(actorID == EN_COIN) {
+		if(!this->isCoinSpawned) {
+			bindAnimChr_and_setUpdateRate("yes", 1, 0.0, 1.0, true);
+			this->isCoinSpawned = true;
+		}
+
+		if(this->animationCoinChr.isAnimationDone()) {
+			this->animationCoinChr.setCurrentFrame(0.0);
+		}
+		
+		this->coinrot.y += 0x400;
 	}
 
 	if(this->timer > 300) {
@@ -303,28 +423,12 @@ int daSuperBubble_c::onExecute() {
 	}
 
 	this->pos.y += 0.1;
-	this->coinrot.y += 0x400;
-
-
-
-	for (int i = 0; i < 4; i++) {
-		daPlBase_c *player = GetPlayerOrYoshi(i);
-		if (player) {
-			//player->setFlag(0x71);
-			dPlayerModelHandler_c *pmh = (dPlayerModelHandler_c*)(((u32)player) + 0x2A60);
-			pmh->mdlClass->startAnimation(132, 1.0f, 0.0f, 0.0f);
-			pmh->mdlClass->enableStarColours();
-			pmh->mdlClass->enableStarEffects();
-		}
-	}
 }
 
 
 
 
-void daSuperBubble_c::beginState_Bubble_Thrown() {
-
-}
+void daSuperBubble_c::beginState_Bubble_Thrown() {}
 
 void daSuperBubble_c::executeState_Bubble_Thrown() {
 	HandleXSpeed();
@@ -343,6 +447,4 @@ void daSuperBubble_c::executeState_Bubble_Thrown() {
 	}
 }
 
-void daSuperBubble_c::endState_Bubble_Thrown() {
-
-}
+void daSuperBubble_c::endState_Bubble_Thrown() {}
