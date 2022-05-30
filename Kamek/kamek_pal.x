@@ -5,6 +5,7 @@ SECTIONS {
 	IOS_ioctlv__FiiiiPv = 0x80225ae0;
 
 	toadBlockEditsReturn = 0x809c3034;
+	checkToadBlockNoToadReturn = 0x809c39ec;
 	player_set_15daEnBlockMain_cFii = 0x80022080;
 	FUN_P1_800fd140 = 0x800fd140;
 

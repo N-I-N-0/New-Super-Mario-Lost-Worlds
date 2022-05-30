@@ -27,14 +27,17 @@ _End:
 
 .extern ToadBlock_DisappearWithBooLaugh
 .extern player_set_15daEnBlockMain_cFii
+.extern checkToadBlockNoToadReturn
 .global checkToadBlockNoToad #0x809c39e8
 checkToadBlockNoToad:
     // Check spritedata
     lwz r0, 0x4(r31)
     rlwinm. r0, r0, 4, 31, 31  // r0 = (r0 <<< 4) & 1
-    beq _OptionNotEnabled
+    beq _OptionNotEnabled2
 _OptionEnabled2:
-    b ToadBlock_DisappearWithBooLaugh
+    bl ToadBlock_DisappearWithBooLaugh
+	b checkToadBlockNoToadReturn
 _OptionNotEnabled2:
     // (Original code)
-    b player_set_15daEnBlockMain_cFii
+    bl player_set_15daEnBlockMain_cFii
+	b checkToadBlockNoToadReturn
