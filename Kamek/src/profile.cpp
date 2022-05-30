@@ -72,11 +72,11 @@ const char* GetProfileName(u32 profileId)
 
 /* CUSTOM PROFILE CTOR */
 
-Profile::Profile(dActor_c* (*buildFunc)(), u32 id, const SpriteData* spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files, u32 unk) {
+Profile::Profile(dActor_c* (*buildFunc)(), u32 id, const SpriteData* spriteData, u16 executeOrderProfileId, u16 drawOrderProfileId, const char* name, const char** files, u32 flags) {
     this->buildFunc = buildFunc;
     this->executeOrderProfileId = executeOrderProfileId;
     this->drawOrderProfileId = drawOrderProfileId;
-	this->_8 = unk;
+	this->flags = flags;
 
 	u32 profileId;
 	if (spriteData) {
