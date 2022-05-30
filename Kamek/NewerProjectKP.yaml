@@ -184,3 +184,4 @@ modules:
   - processed/worldmapAirships.yaml
   - processed/explodingBoo.yaml
   - processed/twister.yaml
+  - processed/toadBlock.yaml

@@ -1,0 +1,14 @@
+---
+source_files: [../src/toadBlock.cpp, ../src/toadBlock.S]
+hooks:
+  - name: checkToadBlockNoToad
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809c39e8
+    target_func: 'checkToadBlockNoToad'
+
+  - name: toadBlockEdits
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809c3030
+    target_func: 'toadBlockEdits'

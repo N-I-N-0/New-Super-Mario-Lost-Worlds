@@ -4,6 +4,10 @@ SECTIONS {
 	IOS_ioctl__FiiPvUlPvUli = 0x80225780;
 	IOS_ioctlv__FiiiiPv = 0x80225ae0;
 
+	toadBlockEditsReturn = 0x809c3034;
+	player_set_15daEnBlockMain_cFii = 0x80022080;
+	FUN_P1_800fd140 = 0x800fd140;
+
 	StateID_Move__12daEnTeresa_c = 0x80b1b868;
 	getTargetPos__12daEnTeresa_cFP7Point2d = 0x80aaff40;
 	origOnExecute__12daEnTeresa_cFv = 0x80aaeb20;

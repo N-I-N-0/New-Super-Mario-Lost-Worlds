@@ -1,4 +1,49 @@
 SECTIONS {
+	IOS_Open__FPci = 0x802251B0;
+	IOS_Close__Fi = 0x802253A0;
+	IOS_ioctl__FiiPvUlPvUli = 0x80225B80;
+	IOS_ioctlv__FiiiiPv = 0x80225EE0;
+
+	toadBlockEditsReturn = 0x809C8534;
+	player_set_15daEnBlockMain_cFii = 0x800220F0;
+	FUN_P1_800fd140 = 0x800FD150;
+
+	StateID_Move__12daEnTeresa_c = 0x80B20E48;
+	getTargetPos__12daEnTeresa_cFP7Point2d = 0x80AB5510;
+	origOnExecute__12daEnTeresa_cFv = 0x80AB40F0;
+	origOnCreate__12daEnTeresa_cFv = 0x80AB3E60;
+
+	sException__Q24nw4r2dbFv = 0x803E7260;
+
+	continuePakkunNormal = 0x8002FAE4;
+	continuePakkunBony = 0x8002FBE4;
+	dEn_c__fireballInvalid = 0x80097FD0;
+	continuePakkunNormal2 = 0x8002D510;
+	continuePakkunBony2 = 0x8002D62C;
+
+	returnFromEggAddNewPowerups = 0x80915950;
+	returnFromChangeRedRingArray = 0x80A9984C;
+
+	returnToBigUrchinFireballReal = 0x80ABEAA0;
+	continueForNormalUrchinFireball = 0x80ABEA70;
+	returnToBigUrchinIceballReal = 0x80ABEB40;
+	continueForNormalUrchinIceball = 0x80ABEB38;
+	returnForMawRayStar = 0x80ABE9B0;
+	continueForNormalUrchinStar = 0x80ABE988;
+	continueUrchinTurn = 0x80ABE68C;
+	continueUrchinNoTurn = 0x80ABE690;
+	continueUrchinOnCreate = 0x80ABE518;
+	StateID_Wait__12daEnUnizoo_c = 0x80B213B8;
+	getAngleOfSlopeInDirection__14collisionMgr_cFi = 0x80070A00;
+	getAngleOfSlopeWithXSpeed__14collisionMgr_cFf = 0x80070A40;
+
+	callFooDeath = 0x80A709E0;
+
+	yoshiEatCheck = 0x8014FAA0;
+	yoshiSetEatAction = 0x8014F320;
+	yoshiFinalizeEat = 0x8014F710;
+
+	returnFromGetLavaWavesSubType = 0x80075664;
 	returnFromSaveLiquidSettings = 0x807B8E04;
 	continueBGpolyCreate = 0x807B8DE4;
 	returnFromSelectDifferentLiquidsSet = 0x800EB1AC;
@@ -1177,7 +1222,7 @@ SECTIONS {
 	collisionCat5_Mario__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FCD0;
 	_vf108__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FFC0;
 	collisionCatD_Drill__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0150;
-	_vf110__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0140;
+	/* collisionCustom__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0140; */
 	collisionCat8_FencePunch__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x8009FE60;
 	collisionCat7_GroundPound__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A02D0;
 	collisionCat7_GroundPoundYoshi__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x800A0450;
