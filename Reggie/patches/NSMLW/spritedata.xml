@@ -3948,5 +3948,8 @@
 
   <sprite id="564" name="Twister" asmhacks="True" >
   </sprite> <!-- #564: Twister -->
+
+  <sprite id="565" name="Epropeller" asmhacks="True" >
+  </sprite> <!-- #565: Epropeller -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

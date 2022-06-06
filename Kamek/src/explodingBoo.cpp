@@ -155,8 +155,6 @@ bool daEnTeresa_c::inExplosionRange(int radius = 40) {
 int daEnTeresa_c::checkExplosion() {
 	int ret = this->origOnExecute();
 	
-	CDPrintCurrentAddress();
-	
 	if (doWarning) {
 		this->executeState_ExplodeWarning();
 	}

@@ -845,6 +845,7 @@ enum Actors {
 	ThunderCloud, //832
 	WMAirships, //833
 	Twister, //834
+	Epropeller, //835
 };
 
 struct Actor {

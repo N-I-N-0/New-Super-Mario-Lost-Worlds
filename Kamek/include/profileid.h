@@ -587,6 +587,7 @@ enum
 	Frogoon = 562,
 	ThunderCloud = 563,
 	Twister = 564,
+	Epropeller = 565,
 
 	Num
 };
@@ -1439,6 +1440,7 @@ enum
 	ThunderCloud, //832
 	WMAirships, //833
 	Twister, //834
+	Epropeller, //835
 	
 	Num
 };
