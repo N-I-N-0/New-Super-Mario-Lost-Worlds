@@ -3,7 +3,7 @@
 
 source_files: [../src/snakeblock.S]
 hooks:
-  - name: AutoStartSnakeBlock
+  - name: AutoStartSnakeBlock #Also contains the Event-triggered start
     type: branch_insn
     branch_type: b
     src_addr_pal: 0x80AA83D0
@@ -27,10 +27,16 @@ hooks:
     src_addr_pal: 0x80AA7450
     target_func: 'SnakeBlockLoop3'
 
+  # - name: SnakeBlockBackwards
+  #   type: branch_insn
+  #   branch_type: b
+  #   src_addr_pal: 0x80AA7400
+  #   target_func: 'SnakeBlockBackwards'
+
   - name: ExtendSnakeBlockClass
     type: patch
     addr_pal: 0x80AA67E8
-    data: '38602B44' #Old: 38602B40
+    data: '38602B48' #Old: 38602B40
 
   - name: StoreIsLoopToR9_1
     type: branch_insn
@@ -38,7 +44,7 @@ hooks:
     src_addr_pal: 0x80AA859C
     target_func: 'StoreIsLoopToR9_1'
 
-  - name: StoreIsLoopToR9_2
+  - name: StoreIsLoopToR9_2 #NoSFX also included here
     type: branch_insn
     branch_type: b
     src_addr_pal: 0x80AA85AC
@@ -48,3 +54,33 @@ hooks:
     type: patch
     addr_pal: 0x80AA8688
     data: '2C170002' #Old: 7C170000
+
+  - name: OtherDirectionsSpawn
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA7898
+    target_func: 'otherDirectionsSpawn'
+
+  - name: AdjustSpawnPosition
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA6F34
+    target_func: 'adjustSpawnPosition'
+
+  - name: DoNotMoveIfEvent
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA72C0
+    target_func: 'doNotMoveIfEvent'
+
+  - name: MakeTIBTwiceAsBig
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80AA7C14
+    target_func: 'MakeTIBTwiceAsBig'
+
+  - name: CreateBackwardsData
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80AA8150 
+    target_func: 'CreateBackwardsData'

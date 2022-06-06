@@ -2678,20 +2678,31 @@ SECTIONS {
 	dword_803572A0 = 0x803572A0;
 	EffectRelated = 0x8016D780;
 
-	daEnSnakeBlock_c__StateID_Move = 0x80B1B3F8;
-	doSomethingElseWithTravelInfoBuffer__SnakeSubEx = 0x80AA73E0;
+
+	daEnSnakeBlock_c__StateID_Move = 0x80B1B3F8;/*mi*/
+	doSomethingElseWithTravelInfoBuffer__SnakeSubEx = 0x80AA73E0;/*mi*/
 	continueFromFirstLoop = 0x80AA7C10;
 	continueFromNodeLoop = 0x80AA7C80;
 	continueFromSnakeBlockLoop3 = 0x80AA7454;
+	continueFromSnakeBlockBackwards = 0x80AA7404;
 	continueFromStoreIsLoopToR9_1 = 0x80AA85A0;
 	continueFromStoreIsLoopToR9_2 = 0x80AA85B0;
+	continueFromOtherDirectionsSpawn = 0x80AA789C;
+	continueFromAdjustSpawnPosition = 0x80AA6F38;
+	continueFromRemoveSFX = 0x80AA85B0;
+	continueFromDoNotMoveIfEvent = 0x80AA72C4;
+	continueFromMakeTIBTwiceAsBig = 0x80AA7C18;
+	continueFromCreateBackwardsData = 0x80AA8154;
+	returnFromDoNotMoveIfEvent = 0x80AA72E0;
+	skipFromRemoveSFX = 0x80AA85DC;
 	cancelNodeLoop = 0x80AA8138;
 	firstLoop = 0x80AA7BC0;
 	loopForNodes = 0x80AA7C2C;
 	finishNodeLoop = 0x80AA8138;
 	abs = 0x802DE804;
-	dRail__getRailByID_static = 0x800D91B0;
+	dRail__getRailByID_static = 0x800D91B0;/*mi*/
 	loc_80AA86FC = 0x80AA86FC;
+	doSomethingElseWithTravelInfoBuffer__10SnakeSubExFv = 0x80AA73E0;/*mi*/
 
 	instance__22dCourseSelectManager_c = 0x809A2370;
 	StateID_KeyWait__22dCourseSelectManager_c = 0x809A2440;
