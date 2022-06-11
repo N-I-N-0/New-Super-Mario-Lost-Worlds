@@ -12,6 +12,9 @@ version_str = 'Kamek 0.3 by Treeki and RoadRunnerWMC'
 def make_hex_offset(offs):
     return '0x%08X' % offs
 
+def fix_offs_pal_v1(offs):
+    return offs
+
 
 def fix_offs_pal_v2(offs):
     if 0x800CF6E8 <= offs <= 0x800CF90F:

@@ -18,3 +18,5 @@
 
 .set sp, 1
 .set rtoc, 2
+
+#include "src/k_stdlib/kamek_asm.S"

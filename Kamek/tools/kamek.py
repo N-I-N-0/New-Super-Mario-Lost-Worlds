@@ -22,6 +22,8 @@ import elftools.elf.elffile
 
 import hooks
 
+import mapfile_tool
+
 u32 = struct.Struct('>I')
 
 verbose = True
@@ -201,14 +203,21 @@ class DyLinkCreator(object):
             #print(entry)
 
             sym_id = entry['r_info_sym']
+            sym_name = sym_section.get_symbol(sym_id).name
+            
+
             try:
                 sym_value, sym_name = sym_values[sym_id]
             except KeyError:
                 sym = sym_section.get_symbol(sym_id)
                 sym_value = sym.entry['st_value']
                 sym_name = sym.name
-                sym_values[sym_id] = (sym_value, sym_name)
-            #print(hex(sym_value))
+                
+                if sym_name.startswith("__kAutoMap_"):
+                    sym_value = self.symbol_converter(int(sym_name[11:], 16))
+                else:
+                    sym_values[sym_id] = (sym_value, sym_name)
+
 
             self.add_reloc(entry['r_info_type'], entry['r_offset'], sym_value+entry['r_addend'], sym_name)
 
@@ -317,18 +326,26 @@ class KamekBuilder(object):
 
             for s_name, s_script in self._multi_build.items():
                 self.current_build_name = s_name
-
+                
                 self._patches = []
                 self._rel_patches = []
                 self._hooks = []
 
                 self._create_hooks()
 
+                if s_name.endswith("2"):
+                    self.maptool_version = 2
+                    self.maptool_name = s_name[:-1]
+                else:
+                    self.maptool_version = 1
+                    self.maptool_name = s_name
+ 
                 self._link(s_name, s_script)
                 self._read_symbol_map()
 
                 if self.dynamic_link_base:
                     self.dynamic_link = DyLinkCreator(self.dynamic_link_base)
+                    self.dynamic_link.symbol_converter = getattr(mapfile_tool, 'fix_offs_{}_v{}'.format(self.maptool_name, self.maptool_version))
                     self.dynamic_link.set_elf(open(self._currentOutFile, 'rb'))
 
                 for hook in self._hooks:
