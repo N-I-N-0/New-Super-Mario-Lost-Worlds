@@ -129,7 +129,7 @@ int dMeteor::onCreate() {
 	MakeItRound.x = 0.0;
 	MakeItRound.y = 0.0;
 
-	MakeItRound.diameter = 13.0 * sca;
+	MakeItRound.radius = 13.0 * sca;
 	MakeItRound.isRound = 1;
 
 	MakeItRound.update();

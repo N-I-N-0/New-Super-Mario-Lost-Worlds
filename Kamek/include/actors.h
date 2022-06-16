@@ -846,6 +846,8 @@ enum Actors {
 	WMAirships, //833
 	Twister, //834
 	Epropeller, //835
+	CheepCheepModel, //836
+	CheepCheepController, //837
 };
 
 struct Actor {

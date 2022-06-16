@@ -59,6 +59,77 @@ void APDebugDrawer::drawMe() {
 	scheduleForDrawing();
 }
 
+
+void DrawCircle(float centreX, float centreY, float radiusX, float radiusY, float z, u8 r, u8 g, u8 b, u8 a) {
+
+	OSReport("Start DrawCircle!\n");
+
+    // Define a few variables
+    const unsigned short numVert = 64;
+    const float step = 256.0f/numVert;
+    float sin, cos, xDist, yDist;
+
+    // Initialize the prev variables
+    float prevSin = 0.0f;
+    float prevCos = 1.0f;
+    float prevXDist = radiusX;
+    float prevYDist = 0.0f;
+
+    // Begin drawing
+    GXBegin(GX_LINES, GX_VTXFMT0, numVert * 2);
+
+    // Draw each line
+    for (int i = 1; i <= numVert / 4; i++) {
+
+		OSReport("Line: %d\n", i);
+
+        // Calculate sin and cos for the current angle
+        nw4r::math::SinCosFIdx(&sin, &cos, step * i);
+
+        // Calculate the distances from the center
+        xDist = radiusX * cos;
+        yDist = radiusY * sin;
+
+        // Draw on the first quadrant
+        GXPosition3f32(centreX + prevXDist, centreY + prevYDist, z);
+        GXColor4u8(r,g,b,a);
+        GXPosition3f32(centreX + xDist, centreY + yDist, z);
+        GXColor4u8(r,g,b,a);
+
+        // Draw on the second quadrant
+        GXPosition3f32(centreX - prevYDist, centreY + prevXDist, z);
+        GXColor4u8(r,g,b,a);
+        GXPosition3f32(centreX - yDist, centreY + xDist, z);
+        GXColor4u8(r,g,b,a);
+
+        // Draw on the third quadrant
+        GXPosition3f32(centreX - prevXDist, centreY - prevYDist, z);
+        GXColor4u8(r,g,b,a);
+        GXPosition3f32(centreX - xDist, centreY - yDist, z);
+        GXColor4u8(r,g,b,a);
+
+        // Draw on the fourth quadrant
+        GXPosition3f32(centreX + prevYDist, centreY - prevXDist, z);
+        GXColor4u8(r,g,b,a);
+        GXPosition3f32(centreX + yDist, centreY - xDist, z);
+        GXColor4u8(r,g,b,a);
+
+        // Override the "previous" values
+        prevSin = sin;
+        prevCos = cos;
+        prevXDist = xDist;
+        prevYDist = yDist;
+    }
+
+    // End drawing
+    GXEnd();
+}
+
+
+
+
+
+
 void APDebugDrawer::drawOpa() {
 	drawXlu();
 }
@@ -208,48 +279,53 @@ void APDebugDrawer::drawXlu() {
 		a = rainbowColours[colorIndex].a;
 
 
-		GXBegin(GX_LINES, GX_VTXFMT0, 10);
+		if(p->isRound) {
+			DrawCircle(p->lastPos.x, p->lastPos.y, p->radius, p->radius, 9000.0f, r, g, b, a);
+		} else {
 
-		float tlX = p->unkArray[0].x;
-		float tlY = p->unkArray[0].y;
-		float trX = p->unkArray[3].x;
-		float trY = p->unkArray[3].y;
-		float blX = p->unkArray[1].x;
-		float blY = p->unkArray[1].y;
-		float brX = p->unkArray[2].x;
-		float brY = p->unkArray[2].y;
+			GXBegin(GX_LINES, GX_VTXFMT0, 10);
 
-		// Top
-		GXPosition3f32(tlX, tlY, 9000.0f);
-		GXColor4u8(r,g,b,a);
-		GXPosition3f32(trX, trY, 9000.0f);
-		GXColor4u8(r,g,b,a);
+			float tlX = p->unkArray[0].x;
+			float tlY = p->unkArray[0].y;
+			float trX = p->unkArray[3].x;
+			float trY = p->unkArray[3].y;
+			float blX = p->unkArray[1].x;
+			float blY = p->unkArray[1].y;
+			float brX = p->unkArray[2].x;
+			float brY = p->unkArray[2].y;
 
-		// Left
-		GXPosition3f32(tlX, tlY, 9000.0f);
-		GXColor4u8(r,g,b,a);
-		GXPosition3f32(blX, blY, 9000.0f);
-		GXColor4u8(r,g,b,a);
+			// Top
+			GXPosition3f32(tlX, tlY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+			GXPosition3f32(trX, trY, 9000.0f);
+			GXColor4u8(r,g,b,a);
 
-		// Right
-		GXPosition3f32(trX, trY, 9000.0f);
-		GXColor4u8(r,g,b,a);
-		GXPosition3f32(brX, brY, 9000.0f);
-		GXColor4u8(r,g,b,a);
+			// Left
+			GXPosition3f32(tlX, tlY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+			GXPosition3f32(blX, blY, 9000.0f);
+			GXColor4u8(r,g,b,a);
 
-		// Bottom
-		GXPosition3f32(blX, blY, 9000.0f);
-		GXColor4u8(r,g,b,a);
-		GXPosition3f32(brX, brY, 9000.0f);
-		GXColor4u8(r,g,b,a);
+			// Right
+			GXPosition3f32(trX, trY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+			GXPosition3f32(brX, brY, 9000.0f);
+			GXColor4u8(r,g,b,a);
 
-		// Diagonal
-		GXPosition3f32(trX, trY, 9000.0f);
-		GXColor4u8(r,g,b,a);
-		GXPosition3f32(blX, blY, 9000.0f);
-		GXColor4u8(r,g,b,a);
+			// Bottom
+			GXPosition3f32(blX, blY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+			GXPosition3f32(brX, brY, 9000.0f);
+			GXColor4u8(r,g,b,a);
 
-		GXEnd();
+			// Diagonal
+			GXPosition3f32(trX, trY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+			GXPosition3f32(blX, blY, 9000.0f);
+			GXColor4u8(r,g,b,a);
+
+			GXEnd();
+		}
 
 		p = p->next;
 	}

@@ -588,6 +588,7 @@ enum
 	ThunderCloud = 563,
 	Twister = 564,
 	Epropeller = 565,
+	CheepCheepController = 566,
 
 	Num
 };
@@ -1441,6 +1442,8 @@ enum
 	WMAirships, //833
 	Twister, //834
 	Epropeller, //835
+	CheepCheepModel, //836
+	CheepCheepController, //837
 	
 	Num
 };

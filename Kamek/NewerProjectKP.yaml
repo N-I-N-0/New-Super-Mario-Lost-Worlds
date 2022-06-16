@@ -1,6 +1,7 @@
 output_dir: "NewerASM"
 code_address: 0x808D9000
 modules:
+  - processed/k_stdlib.yaml
   - processed/profile.yaml
   - processed/SD.yaml
   - processed/worldmapFiles.yaml
@@ -185,3 +186,5 @@ modules:
   - processed/explodingBoo.yaml
   - processed/twister.yaml
   - processed/toadBlock.yaml
+  - processed/epropeller.yaml
+  - processed/cheepcheeps.yaml

@@ -1419,17 +1419,18 @@ public:
 	Physics *next, *prev;
 	u32 _C, _10, _14, _18, _1C, _20, _24, _28, _2C, _30, _34;
 	void *somePlayer;
-	u32 _3C;
+	u32 isCalced;
 	void *otherCallback1, *otherCallback2, *otherCallback3;
 	void *callback1, *callback2, *callback3;
-	float lastX, lastY;
+	Unknown lastPos;
 	Unknown unkArray[4];
 	float x, y;
 	float _88, _8C;
-	float diameter;
+	float radius;
 	Vec lastActorPosition;
-	float _A0, _A4, last_A0, last_A4, _B0, _B4;
-	u32 _B8;
+	VEC2 diagonalSize; // ??
+	VEC2 prevDiagonalSize; // ??
+	Vec displacement; // ??
 	s16 *ptrToRotationShort;
 	s16 currentRotation;
 	s16 rotDiff;
@@ -1439,7 +1440,7 @@ public:
 	// Flag 4 is icy
 	u32 flagsMaybe;
 	u32 _D4, _D8;
-	u8 isAddedToList, _DD, layer;
+	u8 isAddedToList, chainlinkMode, layer;
 	u32 id;
 
 	void addToList();

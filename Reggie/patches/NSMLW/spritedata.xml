@@ -3951,5 +3951,8 @@
 
   <sprite id="565" name="Epropeller" asmhacks="True" >
   </sprite> <!-- #565: Epropeller -->
+  
+  <sprite id="566" name="Rotating Cheep Cheeps" asmhacks="True" >
+  </sprite> <!-- #566: Rotating Cheep Cheeps -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
