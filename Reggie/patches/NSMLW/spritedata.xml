@@ -3953,6 +3953,18 @@
   </sprite> <!-- #565: Epropeller -->
   
   <sprite id="566" name="Rotating Cheep Cheeps" asmhacks="True" >
+    <value bit="45-48" title="Distance from center" />
+    <value bit="41-44" title="Distance between Cheep Cheeps" />
+    <value bit="37-40" title="Number of lanes" />
+    <value bit="33-36" title="Cheep Cheeps per lane" />
+    <value bit="29-32" title="Seconds per round" />
+    <dualbox bit="28" title1="Rotate counter-clockwise" title2="Rotate clockwise" />
+    <list bit="23-24" title="Color">
+      <entry value="0">Red</entry>
+      <entry value="1">Green</entry>
+      <entry value="2">Yellow</entry>
+      <entry value="3">Rainbow</entry>
+    </list>
   </sprite> <!-- #566: Rotating Cheep Cheeps -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

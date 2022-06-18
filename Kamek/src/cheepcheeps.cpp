@@ -32,6 +32,8 @@ public:
 
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
 
+	void setColor(u32 color);
+
 	void updateModelMatrices();
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
@@ -72,6 +74,7 @@ public:
 	int numberLanes;
 	int numberCheepsPerLane;
 	int secondsPerRound;
+	u32 color;
 	
 	int frame;
 	
@@ -233,7 +236,7 @@ int daEnCheepCheep_c::onCreate() {
 	this->resFile.data = getResource("pukupuku", "g3d/pukupuku.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("pukupuku");
 	bodyModel.setup(mdl, &allocator, 0x227, 1, 0);
-	SetupTextures_Player(&bodyModel, 0);
+	SetupTextures_Enemy(&bodyModel, 0);
 	
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("swim");
 	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
@@ -314,7 +317,9 @@ int daEnCheepCheep_c::onExecute() {
 }
 
 
-
+void daEnCheepCheep_c::setColor(u32 color) {
+	this->patAnimation.setFrameForEntry(color, 0);
+}
 
 
 
@@ -348,12 +353,22 @@ dActor_c* daEnCheepCheepController_c::build() {
 
 int daEnCheepCheepController_c::onCreate() {
 	
-	this->startRadius = this->settings & 0xFF;
-	this->laneDistance = this->settings >> 8 & 0xFF;
-	this->numberLanes = this->settings >> 16 & 0xF;
-	this->secondsPerRound = (this->settings >> 20 & 0xF) * 30; //converted into frames with factor 2 from sin/cos calculated into it so we can reduce additional calculations in onExecute
-	this->numberCheepsPerLane = this->settings >> 24 & 0xF;
-	this->direction = this->settings >> 25 & 1;
+	this->startRadius = (this->settings & 0xF) *24;
+	this->laneDistance = (this->settings >> 4 & 0xF) * 20;
+	this->numberLanes = this->settings >> 8 & 0xF;
+	this->numberCheepsPerLane = this->settings >> 12 & 0xF;
+	this->secondsPerRound = (this->settings >> 16 & 0xF) * 30; //converted into frames with factor 2 from sin/cos calculated into it so we can reduce additional calculations in onExecute
+	this->direction = this->settings >> 20 & 1;
+	this->color = this->settings >> 24 & 3;
+	
+	/*OSReport("startRadius: %d\n", this->startRadius);
+	OSReport("laneDistance: %d\n", this->laneDistance);
+	OSReport("numberLanes: %d\n", this->numberLanes);
+	OSReport("numberCheepsPerLane: %d\n", this->numberCheepsPerLane);
+	OSReport("secondsPerRound: %d\n", this->secondsPerRound);
+	OSReport("direction: %d\n", this->direction);
+	OSReport("color: %d\n", this->color);*/
+
 	this->frame = 0;
 	
 	if (this->direction) {
@@ -370,6 +385,11 @@ int daEnCheepCheepController_c::onCreate() {
 		cheepcheeps[i] = (daEnCheepCheep_c*)dActor_c::create(CheepCheepModel, 0, &cheepPos, 0);
 		cheepcheeps[i]->index = i;
 		cheepcheeps[i]->parent = this;
+		if(this->color < 3) {
+			cheepcheeps[i]->setColor(this->color);
+		} else {
+			cheepcheeps[i]->setColor(i % 3);
+		}
 
 		if ((i+1) % this->numberLanes == 0) {
 			j++;
@@ -404,6 +424,11 @@ int daEnCheepCheepController_c::onExecute() {
 
 			s16 cheepRotX = int(the_cos / M_PI * 0x8000);
 			s16 cheepRotY = int(the_sin / M_PI * 0x8000);
+
+			if(!this->direction) {
+				cheepRotX *= -1;
+				cheepRotY *= -1;
+			}
 
 			cheepcheeps[i]->rot.x = cheepRotX;
 			cheepcheeps[i]->rot.y = cheepRotY;
