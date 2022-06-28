@@ -111,7 +111,7 @@ dActor_c* daShroobUFO_c::build() {
 }
 
 const SpriteData ShroobUFOSpriteData = { ProfileId::ShroobUfo, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ShroobUFOProfile(&daShroobUFO_c::build, SpriteId::ShroobUfo, ShroobUFOSpriteData, ProfileId::ShroobUfo, ProfileId::ShroobUfo, "Shroob UFO", ShroobUFOFileList);
+Profile ShroobUFOProfile(&daShroobUFO_c::build, SpriteId::ShroobUfo, &ShroobUFOSpriteData, ProfileId::ShroobUfo, ProfileId::ShroobUfo, "Shroob UFO", ShroobUFOFileList);
 
 
 int daShroobUFO_c::onCreate() {
@@ -256,7 +256,7 @@ dActor_c* daShroobUFOLaserBall_c::build() {
 }
 
 const SpriteData ShroobUFOLaserBallSpriteData = { ProfileId::ShroobUFOLaserBall, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile ShroobUFOLaserBallProfile(&daShroobUFOLaserBall_c::build, SpriteId::ShroobUFOLaserBall, ShroobUFOLaserBallSpriteData, ProfileId::ShroobUFOLaserBall, ProfileId::ShroobUFOLaserBall, "ShroobUFOLaserBall", ShroobUFOLaserBallFileList);
+Profile ShroobUFOLaserBallProfile(&daShroobUFOLaserBall_c::build, SpriteId::ShroobUFOLaserBall, &ShroobUFOLaserBallSpriteData, ProfileId::ShroobUFOLaserBall, ProfileId::ShroobUFOLaserBall, "ShroobUFOLaserBall", ShroobUFOLaserBallFileList);
 
 int daShroobUFOLaserBall_c::onCreate() {
 	speed = (this->settings >> 8 & 0xF) * 0.25;
