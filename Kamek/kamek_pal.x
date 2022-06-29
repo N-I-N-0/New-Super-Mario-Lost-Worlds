@@ -1726,6 +1726,7 @@ SECTIONS {
 	FindRotationController = 0x8002AC00;
 	GetObjectName = 0x801018C0;
 	GetObjectParent = 0x801626D0;
+	GetParent__7fBase_cFv = 0x801626D0;
 	OSReport = 0x8015F870;
 
 	StagePtr = 0x8042A4A8;

@@ -58,9 +58,16 @@ public:
 	bool CreateIceActors();
 
 	USING_STATES(daEnCheepCheep_c);
+	DECLARE_STATE(Wait);
 
 	//void addScoreWhenHit(void* other);
 };
+
+CREATE_STATE(daEnCheepCheep_c, Wait);
+
+void daEnCheepCheep_c::beginState_Wait() {}
+void daEnCheepCheep_c::executeState_Wait() {}
+void daEnCheepCheep_c::endState_Wait() {}
 
 class daEnCheepCheepController_c : public dStageActor_c {
 public:
@@ -90,28 +97,12 @@ Profile CheepCheepModelProfile(&daEnCheepCheep_c::build, ProfileId::CheepCheepMo
 
 u8 hijackMusicWithSongName(const char* songName, int themeID, bool hasFast, int channelCount, int trackCount, int* wantRealStreamID);
 
-void daEnCheepCheep_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-/*	char hitType;
-	hitType = usedForDeterminingStatePress_or_playerCollision(this, apThis, apOther, 0);
 
-	if(hitType == 1) {	// regular jump
-		apOther->someFlagByte |= 2;
-		this->Delete(1);
-	}
-	else if(hitType == 3) {	// spinning jump or whatever?
-		apOther->someFlagByte |= 2;
-		this->Delete(1);
-	}
-	else if(hitType == 0) {
-		EN_LandbarrelPlayerCollision(this, apThis, apOther);
-		DamagePlayer(this, apThis, apOther);
-	} else {
-		DamagePlayer(this, apThis, apOther);
-	}*/
+void daEnCheepCheep_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	DamagePlayer(this, apThis, apOther);
 }
 void daEnCheepCheep_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	this->playerCollision(apThis, apOther);
+	DamagePlayer(this, apThis, apOther);
 }
 
 bool daEnCheepCheep_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -200,7 +191,8 @@ void daEnCheepCheep_c::_vf14C() {
 
 //this does weird shit, but it creates the iceblock around it
 bool daEnCheepCheep_c::CreateIceActors() {
-	struct DoSomethingCool my_struct = { 0, (Vec){pos.x, pos.y - 12, pos.z}, {1.7, 1.4, 2.0}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	this->pos.z -= 500;
+	struct DoSomethingCool my_struct = { 0, (Vec){pos.x, pos.y - 20, pos.z}, {1.4, 1.4, 2.0}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	this->frzMgr.Create_ICEACTORs((void*)&my_struct, 1);
 	__destroy_arr((void*)&my_struct, sub_80024C20, 0x3C, 1);
 	this->chrAnimation.setCurrentFrame(0.0);
@@ -253,7 +245,7 @@ int daEnCheepCheep_c::onCreate() {
 	ActivePhysics::Info HitMeBaby;
 
 	HitMeBaby.xDistToCenter = 0.0;
-	HitMeBaby.yDistToCenter = 0.0;
+	HitMeBaby.yDistToCenter = -7.5;
 
 	HitMeBaby.xDistToEdge = 7.5;
 	HitMeBaby.yDistToEdge = 7.5;
@@ -271,8 +263,21 @@ int daEnCheepCheep_c::onCreate() {
 	//this->scale = (Vec){0.4, 0.4, 0.4};
 	//this->pos.z = 4000;
 
+	/* Copied from NSMASRv2
+	Unk1 = 1, // Something with shells sliding on expanding blocks, couldn't find a difference
+	AltKillEffect = 2, // Spawns a different effect when spin-jumped on
+	ChainlinkIce = 4, // Sets ice's chainlinkMode based on the appearsOnBackfence variable
+	CoinBattleExtraSFX = 0x10, // Plays an extra sound effect if killed in coin battle
+	KillWhenFrozenUnderwater = 0x10000,
+	DestroyIceIfFrozenMidair = 0x20000, // Spawns a coin when destroyed
+	NoPlayerDamage = 0x1000000,
+	*/
+
+	this->flags_4FC |= 0x10000; //IceBitfield: KillWhenFrozenUnderwater
+
 	bindAnimChr_and_setUpdateRate("swim", 1, 0.0, 1.0);
 
+	doStateChange(&StateID_Wait);
 
 	return true;
 }
@@ -305,7 +310,7 @@ int daEnCheepCheep_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
-	//acState.execute();
+	acState.execute();
 	
 	
 	
