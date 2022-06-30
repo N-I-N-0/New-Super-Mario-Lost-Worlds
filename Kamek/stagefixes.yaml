@@ -27,5 +27,5 @@ hooks:
 
   - name: fixTileAllocation     # Remove unnecessary tile allocation
     type: patch
-    addr_pal: 0x800838B8
-    data: '480001BC'
+    addr_pal: 0x800838C4
+    data: '480001B0'
