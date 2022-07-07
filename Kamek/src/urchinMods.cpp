@@ -19,7 +19,8 @@ public:
 	int onExecute();
 	
 	void setCustomState();
-	bool calculateTileCollisions();
+	bool calculateTileCollisions(bool water);
+	void animation();
 	
 	USING_STATES(daEnUnizoo_c);
 	DECLARE_STATE(Roll);
@@ -62,7 +63,7 @@ extern "C" u8 checkWater(float, float, u8, float*);
 void daEnUnizoo_c::executeState_Roll() {
 	s16 rotationSpeed = 0x400 * this->speed.x / this->max_speed.x;
 	this->rot.z += (this->direction == 1) ? rotationSpeed : -rotationSpeed;
-	bool ret = this->calculateTileCollisions();                                 //calculate the tiles collision
+	bool ret = this->calculateTileCollisions(false);                                 //calculate the tiles collision
 	if (ret) {
 		this->speed.x = 0.0f;
 		//doStateChange(&StateID_Spike_Die);                                      //if hit a wall, die
@@ -70,16 +71,36 @@ void daEnUnizoo_c::executeState_Roll() {
 	if(this->EnWaterFlagCheck(&this->pos)) {
 		this->doStateChange(&StateID_WaterFalling);
 	}
+	
+	//this->animation();
 }
 
-bool daEnUnizoo_c::calculateTileCollisions() {
+bool daEnUnizoo_c::calculateTileCollisions(bool water) {
 	/****************************/
 	/***Tile collision detector**/
 	/*Returns true if hit a wall*/
 	/****************************/
+	
+	OSReport("xSpeed: %f\n", this->speed.x);
+	OSReport("ySpeed: %f\n", this->speed.y);
+	OSReport("direction: %d\n", this->direction);
+	
+	if (!water && collMgr.isOnTopOfTile()) {                       //if the sprite is on top of a tile
+		speed.y = 0.0f;                                  //no Y speed anymore cuz it's on the ground
+		max_speed.x = (direction == 1) ? -1.5f : 1.5f;   //maximum X speed re-setting
+		this->x_speed_inc = 0.0f;                        //no X speed incrementation
+		this->speed.x = (direction == 1) ? -1.5f : 1.5f; //X speed re-setting
+	}
+	
 	HandleXSpeed();                                      //consider the X speed
 	HandleYSpeed();                                      //consider the Y speed
 	doSpriteMovement();                                  //execute the speed movements
+
+	OSReport("xSpeed: %f\n", this->speed.x);
+	OSReport("ySpeed: %f\n", this->speed.y);
+	OSReport("direction: %d\n", this->direction);
+
+	OSReport("----\n");
 
 	u32 cmgr_returnValue = collMgr.isOnTopOfTile();          //check if the sprite is on top of a tile
 	collMgr.calculateBelowCollisionWithSmokeEffect();    //duh
@@ -95,40 +116,15 @@ bool daEnUnizoo_c::calculateTileCollisions() {
 		direction = 1;
 	}
 	
-	/*if(collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) != 0) {
-		if(collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) < 0) {
-			direction = 1;
-		} else {
-			direction = 0;
-		}
-	}*/
-
 	OSReport("Slope: %x\n", collMgr.getAngleOfSlopeWithXSpeed(this->speed.x));
 
-	if (collMgr.isOnTopOfTile()) {                       //if the sprite is on top of a tile
-		/*if(alreadyOnTop == 0) {                          //if it just landed
-			PlaySound(this, SE_OBJ_ROCK_LAND);           //play SFX
-			alreadyOnTop = 1;                            //now it's already on the to^p
-		}*/
-
-		//if (cmgr_returnValue == 0)                       //just read ?
-		//	isOnTopOfTile = true;
-
-		speed.y = 0.0f;                                  //no Y speed anymore cuz it's on the ground
-		max_speed.x = (direction == 1) ? -1.5f : 1.5f;   //maximum X speed re-setting
-		this->x_speed_inc = 0.0f;                        //no X speed incrementation
-		this->speed.x = collMgr.getAngleOfSlopeWithXSpeed(this->speed.x) * 0.05f - (direction == 1) ? -0.5f : 0.5f; //X speed re-setting
-	}
-	else {                                               //if the sprite in in mid-air
-		//alreadyOnTop = 0;                                //it's no loner on the top of a tile
-	}
+	
 
 	collMgr.calculateAdjacentCollision(0);               //literally calculate the adjacent collision
 
 	if (collMgr.outputMaybe & (0x15 << direction)) {     //if hit a wall
-		if (collMgr.isOnTopOfTile()) {                   //if on the top of a tile
-			//isOnTopOfTile = true;
-		}
+		this->speed.x = 0;
+		this->x_speed_inc = 0;
 		return true;                                     //returns true duh
 	}
 	return false;                                        //if didn't hit a wall
@@ -145,14 +141,38 @@ void daEnUnizoo_c::setCustomState() {
 
 
 
+inline void daEnUnizoo_c::animation() {
+	m3d::anmChr_c* chrAnimation = (m3d::anmChr_c*)(((u32)this)+0x58C);
+	if(chrAnimation->isAnimationDone()) {
+		chrAnimation->setCurrentFrame(0.0);
+	}
+}
+
+
+
 void daEnUnizoo_c::beginState_WaterFalling() {
-	speed.x = 0;
-	speed.y *= 0.3;
+	speed.x = 0.0;
+	this->x_speed_inc = 0;
+	speed.y = 1.0;
 }
 
 void daEnUnizoo_c::executeState_WaterFalling() {
-	s16 rotationSpeed = 0x400 * this->speed.y / this->max_speed.y;
-	bool ret = this->calculateTileCollisions();                                 //calculate the tiles collision
+	float yDelta = abs(pos.y - last_pos.y);                   //just read dude
+	if (collMgr.isOnTopOfTile()) {                                //change of direction if needed
+
+		u32 behaivour1 = collisionMgr_c::getTileBehaviour1At(pos.x, pos.y - 2, this->currentLayerID);
+		if ((behaivour1 & 0xFF) != 0x20) {
+			speed.x = 0;
+			this->x_speed_inc = 0;
+			doStateChange(&StateID_Wait);
+		}
+	} else {
+		this->speed.x = 0;
+		this->x_speed_inc = 0;
+	}
+	bool ret = this->calculateTileCollisions(true);                                 //calculate the tiles collision
+	
+	//this->animation();
 }
 
 void daEnUnizoo_c::endState_WaterFalling() {}
