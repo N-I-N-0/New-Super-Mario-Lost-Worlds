@@ -52,6 +52,7 @@ int daEnGoombaTower_c::onCreate()
 
 	for (int i = 0; i < this->stackSize; i++)
 	{
+		OSReport("Creating goomba: %d\n", i);
 		goombaPos.x = this->pos.x;
 		goombaPos.y = this->pos.y + (17 * i);
 		goombaPos.z = this->pos.z - (500 * i);
@@ -62,24 +63,28 @@ int daEnGoombaTower_c::onCreate()
 
 	for (int i = 1; i < this->stackSize; i++)
 	{
+		OSReport("setting up goomba: %d\n", i);
 		this->goombas[i]->speed.x = this->goombas[0]->speed.x;
 		this->goombas[i]->speed.y = this->goombas[0]->speed.y;
 		this->goombas[i]->speed.z = this->goombas[0]->speed.z;
 
 		this->goombas[i]->direction = this->goombas[0]->direction;
 	}
+	
+	dStateBase_c* firstGoombaState = ((dEn_c*)this->goombas[firstGoombaID])->acState.getCurrentState();
 
     if(this->isOutOfView())
 	{
+		OSReport("out of view\n");
 		for (int i = firstGoombaID; i < this->stackSize; i++)
 		{
+			OSReport("killing goomba: %d\n", i);
+			
 			((dEn_c*)this->goombas[i])->doStateChange(&StateID_DieFall__Goomba);
 			
 			this->goombas[i] = 0;
 		}
 	}		
-	
-	dStateBase_c* firstGoombaState = ((dEn_c*)this->goombas[firstGoombaID])->acState.getCurrentState();
 	
 	lastFirstGoombaState = firstGoombaState;
 
@@ -275,7 +280,7 @@ int daEnGoombaTower_c::onExecute()
 			{
 				this->stackSize = (this->settings >> 12 & 0xF) + 1;
 
-				OSReport("StackSize: %d\n", this->stackSize);
+				//OSReport("StackSize: %d\n", this->stackSize);
 
 				Vec3 goombaPos;
 
