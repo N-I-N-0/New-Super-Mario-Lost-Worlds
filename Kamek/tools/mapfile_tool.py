@@ -8,7 +8,7 @@ original = 'pal' #< Here, you need to select the version you use.
 todo = ['pal', 'pal2', 'ntsc', 'ntsc2', 'jpn', 'jpn2', 'kor', 'twn']
 fix_for = {}
 unfix_from = {}
-version_str = 'Kamek 1.0 by Treeki, RoadRunnerWMC, CLF78, John10v10 and Nin0'
+version_str = 'Kamek 1.0 by Treeki, RoadrunnerWMC, CLF78, John10v10 and Nin0'
 
 
 def make_hex_offset(offs):
