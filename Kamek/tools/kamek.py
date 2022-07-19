@@ -6,8 +6,6 @@
 
 # Requires PyYAML and pyelftools
 
-version_str = 'Kamek 0.2 by Treeki'
-
 import binascii
 import os
 import os.path
@@ -710,7 +708,6 @@ class KamekProject(object):
 
 
 def main():
-    print(version_str)
     print('')
 
     if len(sys.argv) < 2:
