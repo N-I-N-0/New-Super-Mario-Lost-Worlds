@@ -1024,6 +1024,14 @@
     </list>
   </sprite> <!-- #101: Bob-Omb -->
   
+  <sprite id="102" name="Broozer" sizehacks="True" notes="A ghost house enemy that behaves similarly to Chargin' Chuck from Super Mario World. He must be stepped on twice in order to be defeated. He will also destroy certain types of blocks and terrain with his flailing attack. Please note that he can only destroy tileset bricks and not sprite bricks.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the broozer's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Charging Chuck (Titovision1)</entry>
+      <entry value="2">Shadow Broozer (Wario358)</entry>
+    </list>
+  </sprite> <!-- #102: Broozer -->
+  
   <sprite id="105" name="Pokey" asmhacks="True" notes="A tall segmented enemy whose pieces must be destroyed individually unless the head is defeated first.">
     <list bit="46-48" title="Height" comment="This determines how tall the Pokey is. One piece will be the head, and every other piece is a body piece." comment2="The height value also affects what Yoshi lays when consumed whole.">
       <entry value="0">2 Pieces</entry>
@@ -1083,6 +1091,13 @@
       <entry value="1">Bomb Boo (explodes)</entry>
     </list>
   </sprite> <!-- #131: Boo -->
+
+  <sprite id="134" name="Crowber Crow" sizehacks="True" notes="A purple crow enemy called a Crowber that will fly around in the skies above the player.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the crow's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Green (Weland1234)</entry>
+    </list>
+  </sprite> <!-- #134: Crowber Crow -->
 
   <!-- Oh where to begin... -->
   <!-- Moving Water - Delay at Starting Point: Comment, accuracy when involving events. -->
@@ -1346,6 +1361,15 @@
     <value nybble="11" title="Withstands (Needs Multiple Hits)" comment="This determines the number of hits or ground-pounds needed for the block to break. For this function, a texture will be used that has some odd-looking white numbers on it." advanced="True" advancedcomment="This setting may only apply to the original Giant Breakable Brick Block"/>
   </sprite> <!-- #157: Big Pumpkin -->
 
+  <sprite id="158" name="Fire Snake" yoshinotes="While Yoshi cannot safely jump on this enemy, if he eats one he will spit out a fireball." notes="A hopping fire enemy that will also affect the lighting in a dark Zone.">
+    <checkbox bit="48" title="Hides and Waits" comment="When enabled, the Fire Snake will be a stationary ball of fire until the player approaches it."/>
+    <checkbox bit="44" title="Unknown Flag 11 (1)" advanced="True" advancedcomment="ASM shows Nybble 11 might affect something."/>
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the fire Snake's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Blue</entry>
+    </list>
+  </sprite> <!-- #158: Fire Snake -->
+
   <sprite id="166" name="Snake Block (Ice)">
   <dependency notes="The sprite snaps to the Path Node location. From Node-0 to Node-1, it must be a straight horizontal line, and it must be at least as long as the Snake Block itself. Straight lines and exact 45° angles are recommended, as after each Node, the Snake Block will navigate in a 1-by-1 zigzag until it reaches the height of the next Node before going straight."/>
     <checkbox bit="28" title="Icy (Must Be Enabled)" comment="This causes the Snake Block to be icy instead of green. The green version is incomplete and crashes the game, so you MUST use an icy one."/> <!-- All other options are hidden unless this is enabled -->
@@ -1433,7 +1457,54 @@
     </list>
     <checkbox nybble="7" title="Enable Iron Box Effect" comment="let's do some RSMHaxxxxxxx"/>
   </sprite> <!-- #169: Magic Platform -->
-  
+
+  <sprite id="175" name="Flying &quot;?&quot; Block" asmhacks="True" noyoshi="True" notes="A '?' Block with wings that flies around until opened, remaining in place afterwards.">
+    <list bit="35-36" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="This determines which color the '?' Block will use.">
+      <entry value="0">Overworld (Yellow)</entry>
+      <entry value="1">Underground (Blue)</entry>
+      <entry value="2">Snow (Gray)</entry>
+      <entry value="3">Lava (Red)</entry>
+    </list>
+    <list nybble="6" title="Color (2)&lt;br&gt;&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM&lt;/font&gt;&lt;/b&gt;" comment="Changes the block's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Dark (by 8forest)</entry>
+    </list>
+    <list bit="43-44" title="Direction" comment="This determines which direction the '?' Block will fly in.">
+      <entry value="0">Right</entry>
+      <entry value="1">Left + Right</entry>
+      <entry value="2">Up + Down</entry>
+    </list>
+    <checkbox bit="40" title="Reverse Direction" comment="When enabled, Direction will be reversed."/>
+    <list nybble="12" title="Contains" comment="This determines what item the '?' Block will contain." advancedcomment="Unlisted values are Empty.">
+      <entry value="0">Empty</entry>
+      <entry value="1">1 Coin</entry>
+      <entry value="3">Fire Flower</entry>
+      <entry value="15">Ice Flower</entry>
+      <entry value="4">Propeller Shroom</entry>
+      <entry value="5">Penguin Suit</entry>
+      <entry value="2">Hammer Suit</entry>
+      <entry value="6">Mini Mushroom</entry>
+      <entry value="7">Star</entry>
+      <entry value="11">1-Up</entry>
+    </list>
+    <checkbox bit="20" title="Unknown Flag 5 (1)" advanced="True" advancedcomment="Used in Retail: 06-05 A2. Possibly distance related."/>
+  </sprite> <!-- #175: Flying "?" Block -->
+
+  <sprite id="176" name="Roulette Block" notes="A large roulette style block that will award either a Star, a 1-Up, a Mushroom, or a specific power-up item. It should be noted that it makes a moderate amount of noise when it's on screen.">
+    <list bit="47-48" title="Power-up" comment="This determines which power-up the block can provide.">
+      <entry value="0">Fire Flower</entry>
+      <entry value="1">Propeller Shroom</entry>
+      <entry value="2">Ice Flower</entry>
+      <entry value="3">Penguin Suit</entry>
+    </list>
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the block's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Dark (by 8forest)</entry>
+      <entry value="2">Grey (by CloudyLuigi)</entry>
+      <entry value="3">White (by John Telstra)</entry>
+    </list>
+  </sprite> <!-- #176: Roulette Block -->
+
   <sprite id="183" name="Meteor" asmhacks="True" notes="A floating, spinning, usually safe to stand on Meteor.">
     <value nybble="9-10" title="Size" comment="This determines how large the Meteor is." comment2="A setting of 0 is the same as a setting of 5. 1-255 provide general scaling from 20% to 5100% scaling."/>
     <checkbox bit="44" title="Electrified" comment="When enabled, the Meteor will be electrified, and will hurt any player that touches it."/>
@@ -2434,7 +2505,24 @@
       <entry value="13">Spring</entry>
     </list>
   </sprite> <!-- #256: Rotation Controlled Brick Block -->
-  
+
+  <sprite id="259" name="D-Pad Door" sizehacks="True" noyoshi="True" notes="A standard door with a D-Pad symbol on it that can have an Entrance placed on it." advancednotes="The door can also be paired with a Rotation Controller, but the results are moderately glitchy with many combinations not functioning and several restrictions on getting them to work as actual doors.">
+    <list bit="35-36" title="Orientation" comment="This determines which direction the door will be facing." comment2="A door can only be entered if it is upright." advancedcomment="As decoration, this is fine. Actually making it properly associate its corresponding Entrance is either impossible or very functionally strange.">
+      <entry value="0">Upright</entry>
+      <entry value="1">Left</entry>
+      <entry value="2">Down</entry>
+      <entry value="3">Right</entry>
+    </list>
+    <checkbox bit="40" title="Rotation Controlled (Buggy)" comment="When enabled, the door will only function when paired with a Rotation ID." advanced="True" advancedcomment="'Function' is perhaps misleading. There are only a few ways you can successfully utilize a Rotation Controller door. For starters, you can only enter the door while it is almost fully upright. There is also a peculiarity with how the Entrance is placed. The most reliable way to use a Rotation Controlled Door is to place it with an already activated Spinning controller that returns to its original position when deactivated."/>
+    <value nybble="11-12" title="Rotation ID" comment="This pairs the Door to a matching rotation controller." advanced="True" idtype="Rotation"/>
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the door's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Exit Door (Dark, by 8forest)</entry>
+      <entry value="2">Yellow + Red (by CloudyLuigi)</entry>
+      <entry value="3">Ghost House (by LORBSheddy)</entry>
+    </list>
+  </sprite> <!-- #259: D-Pad Door -->
+
   <sprite id="269" name="Parachute Bob-Omb" asmhacks="True" sizehacks="True" notes="A parachuting Bob-Omb enemy that will turn into a standard Bob-Omb after it lands.">
     <dependency notes="The Y-position of the Bob-Omb has no effect. It will always appear directly above the top edge of the screen."/>
     <list nybble="6" title="Color" comment="This determines the color of the Bob-Omb.">
@@ -2901,6 +2989,13 @@
     </list>
   </sprite> <!-- #358: Effect - Rising (Lava) Particle -->
 
+  <sprite id="359" name="Lighting - Fire Lamp" notes="A decorative fire lamp that generates light around it. It has no collision by default.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the fire lamp's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Simple Light (Python)</entry>
+    </list>
+  </sprite> <!-- #359: Lighting - Fire Lamp -->
+
   <!-- Test is 90 continues to function (at all? / correctly?) if Falling Objects is set to something other than Snow. -->
   <!-- Test if 374 is required for 90 to generate pushback (90 Only). Test if 90 is required for 374 to generate sandstorm graphics (374 Only). -->
   <!-- Clean up 90 after finishing research on these questions -->
@@ -2963,7 +3058,15 @@
     </list>
     <value nybble="12" title="Unknown Value 12" advanced="True" advancedcomment="ASM shows Nybble 12 might affect something."/>
   </sprite> <!-- #391: Lighting - Glow Block -->
-  
+
+  <sprite id="393" name="Propeller Block" notes="A grabbable propeller block that is affected by gravity. It can be picked up and thrown by shaking the controller next to it. It can also boost the player into the air like a Propeller Cap if the player shakes their controller a second time while holding it. If it is thrown and it hits the ground, it will bounce slightly.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the block's model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Green (by DarkMoon Team)</entry>
+      <entry value="2">Orange (by CloudyLuigi)</entry>
+    </list>
+  </sprite> <!-- #393: Propeller Block -->
+
   <sprite id="402" name="Line Controlled ? Block" asmhacks="True" notes="A variant of the ? Block that will ride along Line objects.">
     <dependency notes="This sprite must be paired with a [236] Use Lines movement controller in order to function.">
       <required sprite="236"/>
@@ -3966,5 +4069,11 @@
       <entry value="3">Rainbow</entry>
     </list>
   </sprite> <!-- #566: Rotating Cheep Cheeps -->
+  
+  <sprite id="567" name="Pokey Head" asmhacks="True" >
+  </sprite> <!-- #567: Pokey Head -->
+
+  <sprite id="568" name="Screaming Pillar" asmhacks="True" >
+  </sprite> <!-- #568: Screaming Pillar -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

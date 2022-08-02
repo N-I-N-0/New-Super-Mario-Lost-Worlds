@@ -589,6 +589,8 @@ enum
 	Twister = 564,
 	Epropeller = 565,
 	CheepCheepController = 566,
+	PokeyHead = 567,
+	ScreamingPillar = 568,
 
 	Num
 };
@@ -1444,6 +1446,8 @@ enum
 	Epropeller, //835
 	CheepCheepModel, //836
 	CheepCheepController, //837
+	PokeyHead, //838
+	ScreamingPillar, //839
 	
 	Num
 };

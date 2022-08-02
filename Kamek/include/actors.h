@@ -848,6 +848,8 @@ enum Actors {
 	Epropeller, //835
 	CheepCheepModel, //836
 	CheepCheepController, //837
+	PokeyHead, //838
+	ScreamingPillar, //839
 };
 
 struct Actor {

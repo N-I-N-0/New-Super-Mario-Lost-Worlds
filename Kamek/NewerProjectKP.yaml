@@ -188,3 +188,5 @@ modules:
   - processed/toadBlock.yaml
   - processed/epropeller.yaml
   - processed/cheepcheeps.yaml
+  - processed/pokeyHead.yaml
+  - processed/screamingPillar.yaml

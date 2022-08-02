@@ -1,5 +1,5 @@
 ---
-source_files: [../src/spritetex.S]
+source_files: [../src/spritetex.cpp, ../src/spritetex.S]
 hooks:
   - name: BigBlockSound1
     type: branch_insn
@@ -1001,3 +1001,106 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x80AAE8E0
     target_func: 'BooZOrder'
+
+
+
+
+#----------------------
+# Added by NewerGEM
+#----------------------
+
+  - name: TEX_DPadDoor1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80895990
+    target_func: 'TEX_DPadDoorOne'
+
+  - name: TEX_DPadDoor2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808976E0
+    target_func: 'TEX_DPadDoorOne'
+
+  - name: TEX_DPadDoor3
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809F56E8
+    target_func: 'TEX_DPadDoorTwo'
+
+  - name: TEX_MushBubble
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x801119E0
+    target_func: 'TEX_MushBubble'
+
+  - name: TEX_PropellerBlock
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808941B4
+    target_func: 'TEX_PropellerBlock'
+
+  - name: TEX_FlyingQuestionBlock
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A80254
+    target_func: 'TEX_FlyingQuestionBlock'
+
+#  - name: TEX_PowBlock
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x808914C4
+#    target_func: 'TEX_PowBlock'
+
+  - name: TEX_RouletteBlock
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A9A980
+    target_func: 'TEX_RouletteBlock'
+
+#  - name: TEX_BarrelTwo #-> TEX_BlockTaru
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807C19C4
+#    target_func: 'TEX_BarrelTwo'
+
+#  - name: TEX_WoodenCrate
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x80ACBFB0
+#    target_func: 'TEX_WoodenCrate'
+
+#  - name: TEX_BoomerangBro
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807C6D14
+#    target_func: 'TEX_BoomerangBro'
+
+  - name: TEX_FireLamp
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808B0E54
+    target_func: 'TEX_FireLamp'
+
+  - name: TEX_Broozer
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809EB078
+    target_func: 'TEX_Broozer'
+
+  - name: TEX_FireSnake
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809FA298
+    target_func: 'TEX_FireSnake'
+
+  - name: TEX_FireSnake2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809FA834
+    target_func: 'TEX_FireSnake2'
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809ED5B4
+    target_func: 'TEX_Crow'
