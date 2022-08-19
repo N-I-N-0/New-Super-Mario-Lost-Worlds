@@ -1,0 +1,87 @@
+---
+
+source_files: [../src/starSign.cpp, ../src/starSign.S]
+hooks:  
+  - name: AddSignFlag
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x800F46F8
+    target_func: 'AddSignFlag'
+
+  - name: SpawnStarSign
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808E1924
+    target_func: 'SpawnStarSign'
+
+  - name: PreserveR5
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808E1878
+    target_func: 'PreserveR5'
+
+  - name: LoadStarSign
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80926ABC
+    target_func: 'LoadStarSign'
+
+  - name: DoSomeCheating1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808C9DC0
+    target_func: 'DoSomeCheating1'
+
+  - name: DoSomeCheating2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808C9DD4
+    target_func: 'DoSomeCheating2'
+
+  - name: DoSomeCheating3
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808C9E78
+    target_func: 'DoSomeCheating3'
+
+  - name: DoSomeCheating4
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808CA08C
+    target_func: 'DoSomeCheating4'
+
+  - name: DoSomeCheating5
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808C9CD0
+    target_func: 'DoSomeCheating5'
+
+  - name: CheckForWorld
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80907D34
+    target_func: 'CheckForWorld(void)'
+
+  - name: DoW8Checks
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80907D48
+    target_func: 'DoW8Checks'
+
+  - name: CSMgrCheckForSignByte
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8092F9E8
+    target_func: 'CSMgrCheckForSignByte'
+
+  - name: HoldBoardReturnValue
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809061FC
+    target_func: 'HoldBoardReturnValue'
+
+  - name: ChangeCSMgrByte
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80906270
+    target_func: 'ChangeCSMgrByte'

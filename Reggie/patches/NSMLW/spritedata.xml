@@ -4052,8 +4052,11 @@
   <sprite id="564" name="Twister" asmhacks="True" >
   </sprite> <!-- #564: Twister -->
 
-  <sprite id="565" name="Epropeller" asmhacks="True" >
-  </sprite> <!-- #565: Epropeller -->
+  <sprite id="565" name="PRNG Modifier" notes="Altered seeds will be reset to zero on deletion of this sprite, e.g. after leaving the zone." asmhacks="True" >
+    <value bit="17-48" title="Seed Value" comment="Cycle:\nLength 1: 0x443b4723\nLength 2: 0x99909c78\nLength 4: 0x02fa05e2\nLength 8: 0x000702ef\nOtherwise use 0!" />
+    <checkbox bit="64" title="Seed" comment="Used by sprites and other stuff."/>
+    <checkbox bit="63" title="Alt Seed" comment="Mostly used for tile randomisation."/>
+  </sprite> <!-- #565: PRNG Modifier -->
   
   <sprite id="566" name="Rotating Cheep Cheeps" asmhacks="True" >
     <value bit="45-48" title="Distance from center" />

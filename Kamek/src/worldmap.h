@@ -15,7 +15,7 @@
 
 #include "layoutlib.h"
 #include "fileload.h"
-#include "levelinfo_old.h"
+//#include "levelinfo_old.h"
 
 #ifdef WM_DEBUGGING
 #define MapReport OSReport
@@ -45,7 +45,7 @@ public:
 	void *levelInfo;
 	FileHandle levelInfoFH;
 
-	void StartLevel(LevelInfo_Entry *entry);
+	void StartLevel(dLevelInfo_c::entry_s *entry);
 
 	void StartLevel();
 	void GenText();
@@ -57,7 +57,7 @@ public:
 	int onExecute();
 	int onDraw();
 
-	static dScNewerWorldMap_c *build();
+	static dActor_c *build();
 	static dScNewerWorldMap_c *instance;
 };
 

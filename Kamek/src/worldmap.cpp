@@ -5,7 +5,7 @@ extern "C" void LoadMapScene();
 dScNewerWorldMap_c *dScNewerWorldMap_c::instance = 0;
 
 
-dScNewerWorldMap_c *dScNewerWorldMap_c::build() {
+dActor_c *dScNewerWorldMap_c::build() {
 	// return new dScNewerWorldMap_c;
 
 	void *buffer = AllocFromGameHeap1(sizeof(dScNewerWorldMap_c));
@@ -13,8 +13,12 @@ dScNewerWorldMap_c *dScNewerWorldMap_c::build() {
 
 
 	instance = c;
-	return c;
+	return (dActor_c*)c;
 }
+
+
+const char* EmptyFILE_LISTFileList[] = {NULL};
+Profile FileListProfile(&dScNewerWorldMap_c::build, ProfileId::FILE_LIST, NULL, ProfileId::FILE_LIST, ProfileId::FILE_LIST, "File List", EmptyFILE_LISTFileList);
 
 
 #define SELC_SETUP_DONE(sc) (*((bool*)(((u32)(sc))+0xD38)))
@@ -69,7 +73,13 @@ dScNewerWorldMap_c *dScNewerWorldMap_c::build() {
 #define CONT_DONE(cont) (*((bool*)(((u32)(cont))+0x2D7)))
 #define CONT_UNK3(cont) (*((bool*)(((u32)(cont))+0x2E0)))
 
+inline u8 GetSwitchStatus() {
+	return *((u8*)(((u32)GameMgrP)+0x380));
+}
 
+inline void SetSwitchStatus(u8 stat) {
+	*((u8*)(((u32)GameMgrP)+0x380)) = stat;
+}
 
 #define STATE_START_DVD 0
 #define STATE_LOAD_RES 1
@@ -122,8 +132,115 @@ const char *group14 = "G_opt13";
 const char *group15 = "G_opt14";
 
 
+void dScNewerWorldMap_c::StartLevel() {
+	/*LevelInfo_Entry *level = LevelInfo_GetLevels(this->levelInfo, this->currentPage);
+	level += this->selections[this->currentPage];
+	StartLevel(level);*/
+}
 
+void dScNewerWorldMap_c::StartLevel(dLevelInfo_c::entry_s *entry) {
+	for (int i = 0; i < 4; i++) {
+		bool isThere = QueryPlayerAvailability(i);
+		int id = Player_ID[i];
+		Player_Active[i] = isThere ? 1 : 0;
+		if (!isThere) Player_Flags[i] = 0;
+	}
 
+	StartLevelInfo sl;
+	sl.replayType = 0;
+	sl.entrance = 0xFF;
+	sl.area = 0;
+	sl.isReplay = 0;
+	sl.screenType = 0;
+
+	sl.world1 = entry->worldSlot;
+	sl.world2 = entry->worldSlot;
+	sl.level1 = entry->levelSlot;
+	sl.level2 = entry->levelSlot;
+
+	// hopefully this will fix the Star Coin issues
+	SetSomeConditionShit(entry->worldSlot, entry->levelSlot, 2);
+
+	ActivateWipe(WIPE_MARIO);
+
+	DoStartLevel(GetGameMgr(), &sl);
+}
+
+void dScNewerWorldMap_c::SetTitle(const char *text) {
+	unsigned short conv_buf[0x200];
+	int length = strlen(text);
+	if (length > 0x1FF)
+		length = 0x1FF;
+
+	for (int i = 0; i < length; i++) {
+		conv_buf[i] = text[i];
+	}
+	conv_buf[length] = 0;
+
+	void *textBox = EmbeddedLayout_FindTextBoxByName(this->layout, "ScreenTitle");
+	TextBox_SetString(textBox, conv_buf, 0);
+}
+
+void dScNewerWorldMap_c::GenSBTitle() {
+	char buf[0x100];
+	sprintf(buf, "Switches: R:%s; G:%s; Y:%s; B:%s",
+			((GetSwitchStatus() & 1) != 0) ? "On" : "Off",
+			((GetSwitchStatus() & 2) != 0) ? "On" : "Off",
+			((GetSwitchStatus() & 4) != 0) ? "On" : "Off",
+			((GetSwitchStatus() & 8) != 0) ? "On" : "Off");
+	this->SetTitle(buf);
+}
+
+void dScNewerWorldMap_c::GenText() {
+	char buf[0x1FF];
+	char paneNameBuf[0x20];
+	char textBoxNameBuf[0x20];
+	unsigned short wchars[0x1FF];
+
+	SaveBlock *save = GetSaveFile()->GetBlock(-1);
+
+	/*LevelInfo_Section *section = LevelInfo_GetSection(this->levelInfo, this->currentPage);
+	LevelInfo_Entry *levels = LevelInfo_GetLevels(this->levelInfo, section);
+
+	//dLevelInfo_c::section_s *section = dLevelInfo_c::s_info.getSectionByIndex(i);
+	//dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchBySlot(worldNum, levelNum);
+	
+
+	int count = section->levelCount;
+
+	for (int i = 0; i < MENU_HEIGHT; i++) {
+		sprintf(paneNameBuf, "Opt%02d", i);
+		sprintf(textBoxNameBuf, "OptText%02d", i);
+		void *pane = EmbeddedLayout_FindPaneByName(this->layout, paneNameBuf);
+		void *textBox = EmbeddedLayout_FindTextBoxByName(this->layout, textBoxNameBuf);
+
+		if (i < count) {
+			// valid level
+			PANE_FLAGS(pane) |= 1;
+
+			u32 conds = save->GetLevelCondition(levels[i].world, levels[i].level);
+
+			char cond1, cond2, cond3, cond4, cond5;
+			cond1 = (conds & COND_NORMAL ? 'x' : '.');
+			cond2 = (conds & COND_SECRET ? 'x' : '.');
+			cond3 = (conds & COND_COIN1 ? 'x' : '.');
+			cond4 = (conds & COND_COIN2 ? 'x' : '.');
+			cond5 = (conds & COND_COIN3 ? 'x' : '.');
+
+			sprintf(buf, "%s %c%c %c%c%c", LevelInfo_GetName(this->levelInfo, &levels[i]), cond1, cond2, cond3, cond4, cond5);
+
+			for (int i = 0; i < 0x1FF; i++) {
+				wchars[i] = buf[i];
+				if (buf[i] == 0) break;
+			}
+
+			TextBox_SetString(textBox, wchars, 0);
+		} else {
+			// invalid, hide the pane
+			PANE_FLAGS(pane) &= ~1;
+		}
+	}*/
+}
 
 int dScNewerWorldMap_c::onCreate() {
 
@@ -197,8 +314,8 @@ int dScNewerWorldMap_c::onCreate() {
 	*CurrentDrawFunc = NewerMapDrawFunc;
 
 	// level info
-	this->levelInfo = LoadFile(&this->levelInfoFH, "/NewerRes/LevelInfo.bin");
-	LevelInfo_Prepare(&this->levelInfoFH);
+	//this->levelInfo = LoadFile(&this->levelInfoFH, "/NewerRes/LevelInfo.bin");
+	///////////LevelInfo_Prepare(&this->levelInfoFH);
 
 	// load the menu info
 	SaveBlock *save = GetSaveFile()->GetBlock(-1);
@@ -209,7 +326,7 @@ int dScNewerWorldMap_c::onCreate() {
 	if (save->current_path_node >= 15)
 		save->current_path_node = 0;
 
-	int sCount = LevelInfo_GetSectionCount(this->levelInfo);
+	int sCount = 1;//////////////LevelInfo_GetSectionCount(this->levelInfo);
 	this->selections = (int*)AllocFromGameHeap1(sizeof(int) * sCount);
 
 	for (int i = 0; i < sCount; i++) {
@@ -235,7 +352,7 @@ int dScNewerWorldMap_c::onDelete() {
 
 	FreeFromGameHeap1(this->selections);
 
-	FreeFile(&this->levelInfoFH);
+	//FreeFile(&this->levelInfoFH);
 
 	FreeScene(0);
 	FreeScene(1);
@@ -390,7 +507,7 @@ int dScNewerWorldMap_c::onExecute() {
 				newSelection = currentSelection - 1;
 			}
 
-			if ((nowPressed & WPAD_DOWN) && currentSelection < (LevelInfo_GetSection(this->levelInfo, currentPage)->levelCount - 1)) {
+			if ((nowPressed & WPAD_DOWN) && currentSelection < 2) {///////////(LevelInfo_GetSection(this->levelInfo, currentPage)->levelCount - 1)) {
 				newSelection = currentSelection + 1;
 			}
 
@@ -399,7 +516,7 @@ int dScNewerWorldMap_c::onExecute() {
 				newPage = currentPage - 1;
 			}
 
-			if ((nowPressed & WPAD_RIGHT) && currentPage < (LevelInfo_GetSectionCount(this->levelInfo) - 1)) {
+			if ((nowPressed & WPAD_RIGHT) && currentPage < 2) {///////////(LevelInfo_GetSectionCount(this->levelInfo) - 1)) {
 				newPage = currentPage + 1;
 			}
 
@@ -900,7 +1017,7 @@ void NewerMapDrawFunc() {
 	DrawXlu();
 
 	// Stage 5
-	if (GAMEMGR_GET_AFC(GameMgr)) {
+	if (GAMEMGR_GET_AFC(GameMgrP)) {
 		for (int i = 0; i < 4; i++) {
 			RenderEffects(0, 11+i);
 		}

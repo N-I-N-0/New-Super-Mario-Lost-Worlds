@@ -16,7 +16,7 @@ pause
 exit
 
 :kamek
-py -3 tools/kamek.py NewerProjectKP.yaml --no-rels --use-mw --gcc-type=powerpc-eabi --gcc-path=tools\devkitPPC\bin --gcc-append-exe --mw-path=tools --fast-hack
+py -3 tools/kamek.py NSMLW.yaml --no-rels --use-mw --gcc-type=powerpc-eabi --gcc-path=tools\devkitPPC\bin --gcc-append-exe --mw-path=tools --fast-hack
 if %errorlevel%==0 goto rename
 pause
 exit

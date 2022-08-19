@@ -7,6 +7,10 @@
 #include "worldmapShop.h"
 #include "creatorInfo.h"
 
+class dStarSign_c;
+class dSettings_c;
+
+
 class dCourseSelectManager_c : public dBase_c {
 public:
 	dStateWrapper_c<dCourseSelectManager_c> state;
@@ -69,7 +73,14 @@ public:
 	u8 doesSomethingWithShop;			// 0x578
 	u8 doesSomethingWithCreatorInfo;	// 0x579
 
-	u8 pad[8];
+	u8 pad2;							// 0x57A
+
+	u8 doesLetterOpenAnime; 			// 0x57B
+
+	dSettings_c *settingsPtr;			// 0x57C
+	dStarSign_c *signPtr;				// 0x580
+
+	u8 pad[12];
 
 	static dCourseSelectManager_c* instance;
 
@@ -83,6 +94,11 @@ public:
 	REF_NINTENDO_STATE(KeyWait);
 	DECLARE_STATE(ShopWait);
 	DECLARE_STATE(CreatorInfoWait);
+
+	DECLARE_STATE(SettingsWait);
+	DECLARE_STATE(LetterOpenAnim);
+	DECLARE_STATE(LetterDisp);
+	DECLARE_STATE(LetterExitAnim);
 };
 
 #endif

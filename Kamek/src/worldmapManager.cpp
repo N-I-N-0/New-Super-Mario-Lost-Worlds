@@ -144,6 +144,20 @@ dWMManager_c::dWMManager_c() {
 }
 
 int dWMManager_c::onCreate() {
+	
+	int fd = IOS_Open("/dev/net/ncd/manage", 0);
+	ioctlv data[2];
+	u8 mac[6];
+	data[0].len = 0;
+	data[1].data = mac;
+	data[1].len = 0x6;
+	
+	
+	IOS_ioctlv(fd, 8, 0, 2, data); // NCDGetWirelessMacAddress, 32 out, 6 out
+	
+	OSReport("Mac: %02X:%02X:%02X:%02X:%02X:%02X\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+	IOS_Close(fd);
+	
 	layout = (m2d::EmbedLayout_c*)((int)(dCourseSelectManager_c::instance) + 208);
 	
 	save = GetSaveFile()->GetBlock(-1);
@@ -226,7 +240,7 @@ int dWMManager_c::onExecute() {
 	
 	WriteBMGToTextBox(creatorText, GetBMG(), 7, 2, 0);
 	
-	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(0x238, 0, 0);
+	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(FILE_LIST, 0, 0);
 	
 	u8 CurrentNodeNum = *(u8*)((int)(dCourseSelectManager_c::instance) + 0x4D7);
 

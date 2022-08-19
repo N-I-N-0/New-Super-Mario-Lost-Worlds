@@ -1,0 +1,5 @@
+---
+# New Actor TALKBALLOON
+
+source_files: [../src/talkBalloon.cpp]
+hooks: []

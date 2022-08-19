@@ -1,0 +1,101 @@
+---
+source_files: [../src/fileselect.cpp, ../src/fileselect.S]
+hooks:
+
+# NOTE: CD = Copy and Delete buttons
+
+# Dummy out the BRLANs
+  - {name: FSDisBrlan1, type: add_func_pointer, src_addr_pal: 0x80943A74, target_func: 'FSDummyBrlanName'}
+  - {name: FSDisBrlan2, type: add_func_pointer, src_addr_pal: 0x80943AB4, target_func: 'FSDummyBrlanName'}
+  - {name: FSDisBrlan3, type: add_func_pointer, src_addr_pal: 0x80943AB8, target_func: 'FSDummyBrlanName'}
+  - {name: FSDisBrlan4, type: add_func_pointer, src_addr_pal: 0x80943ABC, target_func: 'FSDummyBrlanName'}
+  - {name: FSDisBrlan5, type: add_func_pointer, src_addr_pal: 0x80943AC0, target_func: 'FSDummyBrlanName'}
+  - {name: FSDisBrlan6, type: add_func_pointer, src_addr_pal: 0x80943AC4, target_func: 'FSDummyBrlanName'}
+
+# Dummy out the groups
+  - {name: FSDisGroup1a, type: add_func_pointer, src_addr_pal: 0x80943B88, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup1b, type: add_func_pointer, src_addr_pal: 0x80943B8C, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup2a, type: add_func_pointer, src_addr_pal: 0x80943BDC, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup2b, type: add_func_pointer, src_addr_pal: 0x80943BE0, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup3a, type: add_func_pointer, src_addr_pal: 0x80943BE4, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup3b, type: add_func_pointer, src_addr_pal: 0x80943BE8, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup4a, type: add_func_pointer, src_addr_pal: 0x80943BEC, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup4b, type: add_func_pointer, src_addr_pal: 0x80943BF0, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup5a, type: add_func_pointer, src_addr_pal: 0x80943BF4, target_func: 'FSDummyGroup'}
+  - {name: FSDisGroup5b, type: add_func_pointer, src_addr_pal: 0x80943BF8, target_func: 'FSDummyGroup'}
+
+# Dummy out N_back
+  - name: FSDummyPane1
+    type: add_func_pointer
+    src_addr_pal: 0x80943C5C
+    target_func: 'FSDummyPane'
+
+  - {name: FSShowOrHideNBackNop1, type: nop_insn, area_pal: 0x80783428}
+  - {name: FSShowOrHideNBackNop2, type: nop_insn, area_pal: 0x80783440}
+  - {name: FSShowOrHideNBackNop3, type: nop_insn, area_pal: 0x80783458}
+  - {name: FSShowOrHideNBackNop4, type: nop_insn, area_pal: 0x8078346C}
+
+# Disable text and window panes for the multiplayer buttons
+  - name: FSCutOffSomeBmgs
+    type: patch
+    addr_pal: 0x80782F38
+    data: '38E00007'
+
+  - name: FSCutOffSomeTexts
+    type: patch
+    addr_pal: 0x80782F4C
+    data: '38C00002'
+
+  - name: FSNoBackBmg
+    type: nop_insn
+    area_pal: 0x80782F70
+
+  - name: FSNoWindows
+    type: nop_insn
+    area_pal: 0x80782F98
+
+# Fix controls
+  - {name: FSDontMoveDown, type: patch, addr_pal: 0x80783D04, data: '4800001C'}
+
+  - {name: FS1MoveLeftToUp, type: patch, addr_pal: 0x80783D20, data: '548007BD'}
+  - {name: FS1MoveRightToDown, type: patch, addr_pal: 0x80783D3C, data: '548007FF'}
+
+  - {name: FS2MoveLeftToUp, type: patch, addr_pal: 0x8078456C, data: '540007BD'}
+  - {name: FS2MoveRightToDown, type: patch, addr_pal: 0x80784598, data: '540007FF'}
+
+  - {name: FS3MoveLeftToUp, type: patch, addr_pal: 0x80784B08, data: '540007BD'}
+  - {name: FS3MoveRightToDown, type: patch, addr_pal: 0x80784B40, data: '540007FF'}
+
+# Replace A00_window with a couple of pointers and redirect the original elsewhere
+  - {name: FSFixWindowName, type: add_func_pointer, src_addr_pal: 0x80943B54, target_func: 'A00_window'}
+  - {name: FSShowRlan, type: add_func_pointer, src_addr_pal: 0x80943ACC, target_func: 'ShowEraseCopy'}
+  - {name: FSHideRlan, type: add_func_pointer, src_addr_pal: 0x80943AD0, target_func: 'HideEraseCopy'}
+  - {name: FSInitExtraRlans, type: patch, addr_pal: 0x80782EE4, data: '38A0001F'}
+
+# Add our own panes to the groups
+  - {name: FSCDHolderGrpA, type: add_func_pointer, src_addr_pal: 0x80943BFC, target_func: 'CDHolderGroup'}
+  - {name: FSCDHolderGrpB, type: add_func_pointer, src_addr_pal: 0x80943C00, target_func: 'CDHolderGroup'}
+  - {name: FSRlanIdx, type: patch, addr_pal: 0x8093422C, data: '0000001D0000001E'}
+
+# Disable the MultiOut anims
+  - {name: FSDisMulti, type: patch, addr_pal: 0x80784200, data: '4E800020'}
+
+# Override StartWait
+  - {name: FSResetAnim, type: patch, addr_pal: 0x80783610, data: '3880002A'}
+
+# Override OpenWait
+  - {name: FSShowCDa, type: branch_insn, branch_type: b, src_addr_pal: 0x80783800, target_func: 'FSShowCD_OpenWait'}
+  
+# Override MultiButtnOnStageAnimeEndWait
+  - {name: FSShowCDOverrideA, type: patch, addr_pal: 0x80783954, data: '3880002A'}
+  - {name: FSShowCDOverrideB, type: patch, addr_pal: 0x807839AC, data: '3880002A'}
+
+# Override MultiButtonExitAnimeEndWait
+  - {name: FSHideCD, type: branch_insn, branch_type: b, src_addr_pal: 0x80784200, target_func: 'FSHideCD'}
+
+# Inject texts
+  - {name: DFNiceTitle, type: branch_insn, branch_type: bl, src_addr_pal: 0x8077D044, target_func: 'DFNiceTitle'}
+  - {name: DFNiceWorldName, type: branch_insn, branch_type: bl, src_addr_pal: 0x8077DA10, target_func: 'DFNiceWorldName'}
+
+# Inject data when creating a save
+  - {name: DefaultSavefileInfo, type: branch_insn, branch_type: b, src_addr_pal: 0x800CE100, target_func: 'DefaultSavefileInfo'}

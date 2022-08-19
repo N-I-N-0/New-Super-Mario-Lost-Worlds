@@ -168,4 +168,6 @@ namespace nw4r { namespace db {
 	void* sException();
 }}
 
+typedef char* __builtin_va_list;
+typedef __builtin_va_list va_list;
 #endif

@@ -1,0 +1,8 @@
+---
+source_files: [../src/terrible_random.cpp]
+hooks:
+  - name: FixPRNGSeed
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80781cf4
+    target_func: 'dRandom_c_SetRandomSeed(unsigned int)'

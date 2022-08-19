@@ -1,0 +1,9 @@
+---
+
+source_files: [../src/tagProcessor.cpp]
+hooks: 
+ - name: NewTag5
+   type: branch_insn
+   branch_type: b
+   src_addr_pal: 0x800E6D50
+   target_func: 'fmtTag5_getLevelPicture(void *, void *, void *)'

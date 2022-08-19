@@ -2729,7 +2729,7 @@ def main():
     do_mapfiles('kamek_%s.x')
 
     already_done = set()
-    do_project('NewerProjectKP.yaml', already_done)
+    do_project('NSMLW.yaml', already_done)
 
 
 if __name__ == '__main__':

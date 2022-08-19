@@ -1,0 +1,14 @@
+---
+
+source_files: [../src/lyt.S]
+hooks:
+ - name: ExtendTextBoxSize
+   type: patch
+   addr_pal: 0x802AD940
+   data: '38800108' # Orig: 38800104
+
+ - name: StoreStringLength
+   type: branch_insn
+   branch_type: bl
+   src_addr_pal: 0x802AEA54
+   target_func: 'StoreStringLength'

@@ -1,0 +1,221 @@
+---
+
+source_files: [../src/fastFoe.cpp, ../src/fastFoe.S]
+hooks:
+  # - name: FPointerHook
+  #   type: add_func_pointer
+  #   src_addr_pal: 0xDEADBEEF
+  #   target_func: 'Whatever'
+
+  # - name: PatchHook
+  #   type: patch
+  #   addr_pal: 0xDEADBEEF
+  #   data: 'YYYYYYYY' # Orig: XXXXXXXX
+
+  # - name: BranchHook
+  #   type: branch_insn
+  #   src_addr_pal: 0xDEADBEEF
+  #   branch_type: b
+  #   target_func: 'Whatever'
+
+  - name: TowerBlockSpeed
+    type: branch_insn
+    src_addr_pal: 0x800D74E8
+    branch_type: b
+    target_func: 'TowerBlockSpeed'
+
+  - name: TowerBlockDelay
+    type: branch_insn
+    src_addr_pal: 0x800D74AC
+    branch_type: b
+    target_func: 'TowerBlockDelay'
+
+  - name: CenterExecute
+    type: add_func_pointer
+    src_addr_pal: 0x80971EBC
+    target_func: 'daObjCenter_c::newOnExecute(void)'
+
+  - name: CenterSpeed1
+    type: branch_insn
+    src_addr_pal: 0x80874564
+    branch_type: b
+    target_func: 'CenterSpeed1'
+
+  - name: CenterSpeed2
+    type: branch_insn
+    src_addr_pal: 0x808745B0
+    branch_type: b
+    target_func: 'CenterSpeed2'
+
+  - name: CenterSpeed3
+    type: branch_insn
+    src_addr_pal: 0x808745E8
+    branch_type: b
+    target_func: 'CenterSpeed3'
+
+  # - name: DryBonesUpdateRate
+  #   type: branch_insn
+  #   src_addr_pal: 0x80A42A60
+  #   branch_type: b
+  #   target_func: 'DryBonesUpdateRate'
+
+  # - name: dEnCDoubleSpeedX1
+  #   type: branch_insn
+  #   src_addr_pal: 0x8009561C
+  #   branch_type: b
+  #   target_func: 'dEnCDoubleSpeedX1'
+
+  # - name: dEnCDoubleSpeedX2
+  #   type: branch_insn
+  #   src_addr_pal: 0x80095658
+  #   branch_type: b
+  #   target_func: 'dEnCDoubleSpeedX2'
+
+  # - name: dEnCDoubleSpeedY1
+  #   type: branch_insn
+  #   src_addr_pal: 0x800956A0
+  #   branch_type: b
+  #   target_func: 'dEnCDoubleSpeedY1'
+
+  # - name: dEnCDoubleSpeedY2
+  #   type: branch_insn
+  #   src_addr_pal: 0x8009570C
+  #   branch_type: b
+  #   target_func: 'dEnCDoubleSpeedY2'
+
+  # - name: DoublePipeSpeed
+  #   type: branch_insn
+  #   src_addr_pal: 0x80064004
+  #   branch_type: b
+  #   target_func: 'DoublePipeSpeed'
+
+  # - name: DoubleCanonSpeed
+  #   type: branch_insn
+  #   src_addr_pal: 0x80A4E564
+  #   branch_type: b
+  #   target_func: 'DoubleCanonSpeed'
+
+  # - name: DoubleCanonSpeed # More like "do not divide in half"
+  #   type: patch
+  #   addr_pal: 0x80A4E574
+  #   data: 'D0230E08' # Orig: D0030E08
+
+  # - name: DoubleBulletSpeed
+  #   type: branch_insn
+  #   src_addr_pal: 0x80A496F8
+  #   branch_type: b
+  #   target_func: 'DoubleBulletSpeed'
+
+  # - name: DoubleSpeedToPos
+  #   type: branch_insn
+  #   src_addr_pal: 0x8006CD40
+  #   branch_type: b
+  #   target_func: 'DoubleSpeedToPos'
+
+  # - name: DoublePodobooSpeed
+  #   type: branch_insn
+  #   src_addr_pal: 0x809D1CE4
+  #   branch_type: bl
+  #   target_func: 'DoublePodobooSpeed'
+
+  # - name: DoublePodobooInc
+  #   type: branch_insn
+  #   src_addr_pal: 0x809D0748
+  #   branch_type: bl
+  #   target_func: 'DoublePodobooInc'
+
+  # - name: HalfPodobooDelay
+  #   type: branch_insn
+  #   src_addr_pal: 0x809D06E8
+  #   branch_type: bl
+  #   target_func: 'HalfPodobooDelay'
+
+  - name: DoubleCoinSpeed
+    type: branch_insn
+    src_addr_pal: 0x8008DEFC
+    branch_type: b
+    target_func: 'DoubleCoinSpeed'
+
+  # - name: DoublePlatformSpeed
+  #   type: branch_insn
+  #   src_addr_pal: 0x800C0314
+  #   branch_type: b
+  #   target_func: 'DoublePlatformSpeed'
+
+  # - name: DoublePakkunSpeed1
+  #   type: branch_insn
+  #   src_addr_pal: 0x8002CE4C
+  #   branch_type: bl
+  #   target_func: 'DoublePakkunSpeed1'
+
+  # - name: DoublePakkunSpeed2
+  #   type: branch_insn
+  #   src_addr_pal: 0x8002CF64
+  #   branch_type: b
+  #   target_func: 'DoublePakkunSpeed2'
+
+  - name: DoubleFbaseSpeed1
+    type: branch_insn
+    src_addr_pal: 0x80161E28
+    branch_type: bl
+    target_func: 'DoubleFbaseSpeed1'
+
+  - name: DoubleFbaseSpeed2
+    type: branch_insn
+    src_addr_pal: 0x80161E90
+    branch_type: bl
+    target_func: 'DoubleFbaseSpeed2'
+
+  - name: DoubleFbaseSpeed3
+    type: branch_insn
+    src_addr_pal: 0x80161E50
+    branch_type: b
+    target_func: 'DoubleFbaseSpeed3'
+
+  - name: DontDoubleFbaseCreate
+    type: branch_insn
+    src_addr_pal: 0x80162004
+    branch_type: bl
+    target_func: 'DontDoubleFbase'
+
+  - name: DontDoubleFbaseDelete
+    type: branch_insn
+    src_addr_pal: 0x801621E4
+    branch_type: bl
+    target_func: 'DontDoubleFbase'
+
+  - name: DoDoubleFbaseExecute
+    type: branch_insn
+    src_addr_pal: 0x801622E4
+    branch_type: bl
+    target_func: 'DoDoubleFbase'
+
+  - name: DontDoubleFbaseDraw
+    type: branch_insn
+    src_addr_pal: 0x801623E4
+    branch_type: bl
+    target_func: 'DontDoubleFbase'
+
+  - name: Change2CastleMazeSpeed1
+    type: branch_insn
+    src_addr_pal: 0x80079BE4
+    branch_type: b
+    target_func: 'Change2CastleMazeSpeed1'
+
+  - name: Change2CastleMazeSpeed2
+    type: branch_insn
+    src_addr_pal: 0x80079CEC
+    branch_type: b
+    target_func: 'Change2CastleMazeSpeed2'
+
+  - name: Change2CastleMazeSpeed3
+    type: branch_insn
+    src_addr_pal: 0x80079D64
+    branch_type: b
+    target_func: 'Change2CastleMazeSpeed3'
+
+  - name: DoubleTileAnimSpeed
+    type: branch_insn
+    src_addr_pal: 0x800879F0
+    branch_type: b
+    target_func: 'DoubleTileAnimSpeed'

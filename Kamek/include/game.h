@@ -647,6 +647,12 @@ float FastS16toFloat(s16 value) {
 }
 
 
+enum HTxtAlignment {
+	HALIGN_LEFT,
+	HALIGN_MID,
+	HALIGN_RIGHT,
+};
+
 namespace nw4r {
 	namespace math {
 		float CosFIdx(float);
@@ -925,6 +931,16 @@ namespace lyt {
 
 		u8 alignment;
 		u8 flags;
+		
+		float textLen; // New
+		
+		inline u8 GetHorizontalTextAlignment() {
+			return (this->alignment % 3);
+		}
+
+		inline bool IsHAlignment(HTxtAlignment align) {
+			return (this->alignment % 3) == align;
+		}
 	};
 
 	class Picture : public Pane {
@@ -1422,8 +1438,8 @@ public:
 	u32 isCalced;
 	void *otherCallback1, *otherCallback2, *otherCallback3;
 	void *callback1, *callback2, *callback3;
-	Unknown lastPos;
-	Unknown unkArray[4];
+	Vec2 lastPos;
+	Vec2 calcedPos[4];
 	float x, y;
 	float _88, _8C;
 	float radius;
@@ -1484,6 +1500,15 @@ public:
 	// todo: more stuff that might not be relevant atm
 };
 
+struct ccCollType {
+    enum Value {
+        Normal,
+        Circle,
+        TrapezoidUD,
+        TrapezoidLR,
+    };
+};
+
 
 class ActivePhysics {
 public:
@@ -1495,11 +1520,22 @@ public:
 		float yDistToCenter;
 		float xDistToEdge;
 		float yDistToEdge;
-		u8 category1;
-		u8 category2;
-		u32 bitfield1;
-		u32 bitfield2;
-		u16 unkShort1C;
+		union {
+			struct {
+				u8 category1;
+				u8 category2;
+				u32 bitfield1;
+				u32 bitfield2;
+				u16 unkShort1C;
+			};
+			struct {
+				u8 category;
+				u8 attack;
+				u32 categoryBitfield;
+				u32 attackBitfield;
+				u16 miscFlags;
+			};
+		};
 		Callback callback;
 	};
 
@@ -1507,23 +1543,69 @@ public:
 	virtual ~ActivePhysics();
 
 	dStageActor_c *owner;
-	u32 _8;
+	dStageActor_c* ignoreActor; // collisions with this actor are ignored in dCc_c::checkCollision
 	u32 _C;
 	ActivePhysics *listPrev, *listNext;
-	u32 _18;
+	union {
+		u32 _18;
+		u32 canBounce; // set to 1 on Giant Wiggler body parts, if 0 Mario/Yoshi will not bounce and get hit instead
+	};
 	Info info;
-	float trpValue0, trpValue1, trpValue2, trpValue3;
-	float firstFloatArray[8];
-	float secondFloatArray[8];
+	union {
+		struct {
+			float trpValue0, trpValue1, trpValue2, trpValue3;
+			float firstFloatArray[8];
+			float secondFloatArray[8];
+			// Plus more stuff that isn't needed in the public API, I'm pretty sure.
+		};
+
+		struct {		
+			float trapezoidDist1, trapezoidDist2, trapezoidDist3, trapezoidDist4;
+			float displacementX[8];
+			float displacementY[8];
+			
+			// Plus more stuff that isn't needed in the public API, I'm pretty sure.
+		};
+	};
 	Vec2 positionOfLastCollision;
-	u16 result1;
-	u16 result2;
-	u16 result3;
-	u8 collisionCheckType;
+	union {
+		struct {
+			u16 result1;
+			u16 result2;
+			u16 result3;
+			u8 collisionCheckType;
+		};
+		struct {
+			u16 selfCatCheckResult;
+			u16 otherAtkCheckResult;
+			u16 selfAtkCheckResult;
+			u8 collisionType;
+		};
+	};
 	u8 chainlinkMode;
 	u8 layer;
-	u8 someFlagByte;
+	union {
+		u8 someFlagByte;
+		u8 isDead; // set to 2 if actor is killed, 0 otherwise
+	};
 	bool isLinkedIntoList;
+	
+	u16 checkResult1(u16 param);
+	u16 checkResult3(u16 param);
+	
+	float top();
+	float bottom();
+	float yCenter();
+	float right();
+	float left();
+	float xCenter();
+	
+	float getCenterPosX();
+	float getCenterPosY();
+	float getLeftPos();
+	float getRightPos();
+	float getTopPos();
+	float getUnderPos();
 
 	void clear();
 	void addToList();
@@ -1532,18 +1614,6 @@ public:
 	void initWithStruct(dActor_c *owner, const Info *info);
 	void initWithStruct(dActor_c *owner, const Info *info, u8 clMode);
 
-	u16 checkResult1(u16 param);
-	u16 checkResult3(u16 param);
-
-	float top();
-	float bottom();
-	float yCenter();
-	float right();
-	float left();
-	float xCenter();
-
-	// Plus more stuff that isn't needed in the public API, I'm pretty sure.
-	
 	static ActivePhysics *globalListHead;
 	static ActivePhysics *globalListTail;
 };
@@ -2466,6 +2536,7 @@ class daPlBase_c : public dStageActor_c {
 		USING_STATES(daPlBase_c);
 		REF_NINTENDO_STATE(Quake);
 		REF_NINTENDO_STATE(Jump);
+		REF_NINTENDO_STATE(DemoInWaterTank);
 		DECLARE_STATE(ShellConnect);
 };
 
@@ -3089,6 +3160,10 @@ class dPlayerModel_c : public dPlayerModelBase_c {
 		u32 currentPlayerModelID;
 		u32 lastPlayerModelID;
 		// tons of crap more, don't feel like fixing this up atm
+		
+		void enableMetalEffect();
+		void disableMetalEffect();
+		void doesFunStuffsWithClr(m3d::mdl_c*, u32 materialID);
 };
 
 
@@ -3801,6 +3876,7 @@ namespace mHeap {
 };
 
 void WriteNumberToTextBox(int *number, const int *fieldLength, nw4r::lyt::TextBox *textBox, bool unk); // 800B3B60
+void WriteNumberToTextBox(u32 *number, u32 *fieldLength, nw4r::lyt::TextBox *textBox, bool unk); // 800B3B60
 void WriteNumberToTextBox(int *number, nw4r::lyt::TextBox *textBox, bool unk); // 800B3BE0
 
 namespace EGG {
@@ -3849,6 +3925,18 @@ class MessageClass {
 		void *rawBmgPointer;
 		dScript::Res_c *msgRes;
 };
+
+dScript::Res_c *GetBMG(); // 800CDD50
+const wchar_t *GetBMGMessage(int category, int message);
+void WriteBMGToTextBox(nw4r::lyt::TextBox *textBox, dScript::Res_c *res, int category, int message, int argCount, ...); // 0x800C9B50
+
+// My version ignores the Font and Font Scale fields in BMG
+void Newer_WriteBMGToTextBox_VAList(nw4r::lyt::TextBox *textBox, dScript::Res_c *res, int category, int message, int argCount, va_list *args);
+void Newer_WriteBMGToTextBox(nw4r::lyt::TextBox *textBox, dScript::Res_c *res, int category, int message, int argCount, ...);
+
+// support functions needed for it
+void CheckForUSD1ShadowEntry(nw4r::lyt::TextBox *textBox); // 800C9BF0
+void WriteParsedStringToTextBox(nw4r::lyt::TextBox *textBox, const wchar_t *str, int vaCount, va_list *args, dScript::Res_c *res);
 
 class dAcPy_c : public daPlBase_c {
 	public:

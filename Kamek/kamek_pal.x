@@ -1,4 +1,79 @@
 SECTIONS {
+	/* The Prankster Comets */
+	
+	doneWithAddSignFlag = 0x800F4714;
+
+	doneWithSpawnStarSign = 0x808E1928;
+	doneWithSpawnStarSign2 = 0x808E194C;
+	doneWithSpawnStarSign3 = 0x808E19AC;
+	AndR5WithNodeR4Props = 0x800F58B0;
+	SpawnWorldmapObject = 0x800F2B00;
+
+	sub_801007D0 = 0x801007D0;
+	doneWithPreserveR5 = 0x808E187C;
+	
+	doneWithLoadStarSign = 0x80926AC0;
+
+	doneWithDoSomeCheating4 = 0x808CA090;
+	
+	doneWithDoSomeCheating5 = 0x808C9CD8;
+
+	GetPositionOfWorldmapBone = 0x801007F0;
+	
+	doneWithCSMgrCheckForSignByte = 0x8092F9EC;
+	doneWithCSMgrCheckForSignByte2 = 0x8092FB68;
+	
+	doneWithDoW8Checks = 0x80907D4C;
+	doneWithDoW8Checks2 = 0x80907DB0;
+	AndR5WithNodeR4Props = 0x800F58B0;
+	
+	
+	CalcLayoutPos = 0x800B33D0;
+
+	loadBMGStringToMyBuffer = 0x800E6AD0;
+
+	onExecute_orig__13daObjCenter_cFv = 0x808744D0;
+	doneWithTowerBlockSpeed = 0x800D74EC;
+	doneWithTowerBlockDelay = 0x800D74B4;
+	doneWithCenterSpeed1 = 0x80874568;
+	doneWithCenterSpeed2 = 0x808745B4;
+	doneWithCenterSpeed3 = 0x808745EC;
+	doneWithDryBonesUpdateRate = 0x80A42A64;
+	doneWithdEnCDoubleSpeedX1 = 0x80095620;
+	doneWithdEnCDoubleSpeedX2 = 0x8009565C;
+	doneWithdEnCDoubleSpeedY1 = 0x800956A4;
+	doneWithdEnCDoubleSpeedY2 = 0x80095710;
+
+	doneWithDoublePipeSpeed = 0x80064008;
+	doneWithDoubleCanonSpeed = 0x80A4E568;
+	doneWithDoubleBulletSpeed = 0x80A496FC;
+	doneWithDoubleSpeedToPos = 0x8006CD44;
+
+	mazeAutoscrollSpeed = 0x8042C078;
+	doneWithChange2CastleMazeSpeed1 = 0x80079BE8;
+	doneWithChange2CastleMazeSpeed2 = 0x80079CF0;
+	doneWithChange2CastleMazeSpeed3 = 0x80079D68;
+	
+	doneWithDoubleCoinSpeed = 0x8008DF00;
+
+	doneWithDoublePlatformSpeed = 0x800C0318;
+
+	onExecute__17daEnDpakkunBase_cFv = 0x8002CE30;
+	doneWithDoublePakkunSpeed2 = 0x8002CF68;
+
+	doneWithDoubleFbaseSpeed3 = 0x80161E54;
+
+	processOperation_fBase_c = 0x80161E00;
+
+	doneWithDoubleTileAnimSpeed = 0x800879F4;
+
+	/* The Prankster Comets */
+
+	SetSeed__9dRandom_cFUi = 0x800b2eb0;
+	SetAltSeed__9dRandom_cFUi = 0x801614c0;
+
+	doesFunStuffsWithClr__14dPlayerModel_cFPQ23m3d5mdl_cUi = 0x800d4bc0;
+
 	IOS_Open__FPci = 0x80224db0;
 	IOS_Close__Fi = 0x80224fa0;
 	IOS_ioctl__FiiPvUlPvUli = 0x80225780;
@@ -211,6 +286,7 @@ SECTIONS {
 	unstunPlayer__7dAcPy_cFv = 0x80137790;
 	StateID_Quake__10daPlBase_c = 0x803766b0;
 	StateID_Jump__10daPlBase_c = 0x80375f6c;
+	StateID_DemoInWaterTank__10daPlBase_c = 0x80354d6c;
 	
 	StateID_Flagdown__12daEnGlpole_c = 0x80b154f0;
 	StateID_ProcGoalEnd__14dGameDisplay_c = 0x80377438;
@@ -761,6 +837,7 @@ SECTIONS {
 	__construct_array = 0x802DCC90;
 
 	GetBMG__Fv = 0x800CDD50;
+	GetBMGMessage__Fii = 0x800CDD30;
 	findStringForMessageID__Q23EGG6MsgResCFii = 0x802D7B50;
 	WriteBMGToTextBox__FPQ34nw4r3lyt7TextBoxPQ27dScript5Res_ciiie = 0x800C9B50;
 	_Z26WriteParsedStringToTextBoxPN4nw4r3lyt7TextBoxEPKwiPA1_13__va_list_tagPN7dScript5Res_cE = 0x800C9F70; /*addAnyway*//*mi*/
@@ -1472,6 +1549,8 @@ SECTIONS {
 
 	globalListHead__13ActivePhysics = 0x8042A140;
 
+	getCenterPosY__13ActivePhysicsFv = 0x8008C510;
+	getCenterPosX__13ActivePhysicsFv = 0x8008C570;
 
 	__ct__7PhysicsFv = 0x8007F7A0;
 	__dt__7PhysicsFv = 0x8007F810;
@@ -1578,6 +1657,7 @@ SECTIONS {
 	DrawAllLayoutsAfterX__Fi = 0x801634D0;
 	DrawAllLayoutsAfterXandBeforeY__Fii = 0x80163560;
 
+	getRootPane__Q23m2d17EmbedLayoutBase_cFv = 0x80007220;
 	findPaneByName__Q23m2d17EmbedLayoutBase_cCFPCc = 0x80007300;
 	findTextBoxByName__Q23m2d17EmbedLayoutBase_cCFPCc = 0x80007320;
 	findPictureByName__Q23m2d17EmbedLayoutBase_cCFPCc = 0x800073D0;

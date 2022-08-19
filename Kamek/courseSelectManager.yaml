@@ -4,7 +4,7 @@ hooks:
   - name: ExpandCSMSize
     type: patch
     addr_pal: 0x8092f028
-    data: '38600580' # Orig: 38600570
+    data: '38600590' # Orig: 38600570
 
   - name: SpawnShopAndLevelCredits
     type: branch_insn

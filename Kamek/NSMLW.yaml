@@ -23,11 +23,9 @@ modules:
   - processed/superLaunchStar.yaml
   - processed/pullStar.yaml
   - processed/leafPile.yaml
-  # - processed/fileselect.yaml
   - processed/magicplatform.yaml
   - processed/bonepiece.yaml
   - processed/bugfixes.yaml
-  #- processed/worldmap.yaml
   ##########- processed/levelnames.yaml
   # - processed/koopatlas.yaml
   - processed/animtiles.yaml
@@ -107,7 +105,7 @@ modules:
   - processed/AnimFrames.yaml
   - processed/smw_throws.yaml
   - processed/zement_goalpole.yaml
-  - processed/DebugMenu.yaml
+  #- processed/DebugMenu.yaml
   - processed/icefix.yaml
   - processed/yoshi.yaml
   #- processed/UpsideDown.yaml
@@ -153,7 +151,8 @@ modules:
   - processed/smallScoreMgr.yaml
   - processed/randomLooperEvent.yaml
   - processed/greenRing.yaml
-  - processed/fileSelectModes.yaml
+ # - processed/fileSelectModes.yaml
+  - processed/fileselect.yaml
   - processed/barrelCannon.yaml
   - processed/tikiAirship.yaml
   - processed/mummyMe.yaml
@@ -186,7 +185,15 @@ modules:
   - processed/explodingBoo.yaml
   - processed/twister.yaml
   - processed/toadBlock.yaml
-  - processed/epropeller.yaml
   - processed/cheepcheeps.yaml
   - processed/pokeyHead.yaml
   - processed/screamingPillar.yaml
+  - processed/terrible_random.yaml
+  - processed/fastFoe.yaml
+  - processed/lyt.yaml
+  - processed/tagProcessor.yaml
+  - processed/talkBalloon.yaml
+  - processed/arrowSignboard.yaml
+  - processed/starSign.yaml
+  - processed/worldmap.yaml
+  

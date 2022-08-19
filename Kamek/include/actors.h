@@ -845,11 +845,14 @@ enum Actors {
 	ThunderCloud, //832
 	WMAirships, //833
 	Twister, //834
-	Epropeller, //835
+	PRNGModifier, //835
 	CheepCheepModel, //836
 	CheepCheepController, //837
 	PokeyHead, //838
 	ScreamingPillar, //839
+	TALKBALLOON, //840
+	WM_STARSIGN, //841
+	FILE_LIST, //842
 };
 
 struct Actor {

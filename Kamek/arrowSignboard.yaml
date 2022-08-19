@@ -1,0 +1,14 @@
+---
+
+source_files: [../src/arrowSignboard.cpp]
+hooks: 
+ - name: ExpandArrowSignboardSize
+   type: patch
+   addr_pal: 0x8081C838
+   data: '38600474' # Orig: 38600470
+
+ - name: NewArrowWaitingState
+   type: branch_insn
+   branch_type: b
+   src_addr_pal: 0x8081CC10
+   target_func: 'daKanbanArrow_c::executeState_Wait(void)'
