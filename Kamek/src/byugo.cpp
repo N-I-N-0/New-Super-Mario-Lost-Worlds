@@ -238,7 +238,7 @@ int daSwitchLayer_c::onCreate() {
 	HitMeBaby.bitfield1 = 0x4F; 
 	HitMeBaby.bitfield2 = 0xFFFFFFFF; 
 	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
+	HitMeBaby.callback = &dEn_c::collisionCallback;
 	this->aPhysics.initWithStruct(this, &HitMeBaby); 
 	this->aPhysics.addToList(); 
 
@@ -246,6 +246,14 @@ int daSwitchLayer_c::onCreate() {
 }
 
 int daSwitchLayer_c::onExecute() {
+	for (int i = 0; i < 4; i++) {
+		dAcPy_c *player;
+		if (player = dAcPy_c::findByID(i)) {
+			OSReport("player state1: %s\n", player->demoStates.getCurrentState()->getName());
+			OSReport("player state1: %p\n", player->demoStates.getCurrentState());
+			OSReport("player state2: %s\n", player->states2.getCurrentState()->getName());
+		}
+	}
 	return true;
 }
 
@@ -255,7 +263,14 @@ int daSwitchLayer_c::onDelete() {
 
 void daSwitchLayer_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	dAcPy_c* player = (dAcPy_c*)apOther->owner;
-	if(player->speed.y > 0) {
-		player->currentLayerID = 0;
+	
+	if(player->demoStates.getCurrentState() == &daPlBase_c::StateID_DemoInWaterTank) {
+			player->currentLayerID = 2;
+		
+	} else {
+	
+		if(player->speed.y > 0) {
+			player->currentLayerID = 0;
+		}
 	}
 }

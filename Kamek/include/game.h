@@ -249,7 +249,7 @@ public:
 	u8 field_01;				// 0x01
 	u8 bitfield;				// 0x02
 	u8 current_world;			// 0x03
-	u8 field_04;				// 0x04
+	u8 field_04;				// 0x04 - curren_subworld maybe?
 	u8 current_path_node;		// 0x05
 	u8 field_06;				// 0x06
 	u8 switch_on;				// 0x07
@@ -280,7 +280,9 @@ public:
 			u8 secretGems;						//0x6FC
 			u8 new_powerups_available[14];		//0x6FD
 			u8 new_toad_level_idx[24];			//0x70B
+			
 			char additional[31];				//0x723
+			
 
 
 
@@ -2320,7 +2322,7 @@ public:
 	u8 _366, _367;
 	u32 _368;
 	u8 eatenState;	// 0=normal,2=eaten,4=spit out
-	u8 _36D;
+	u8 edible;
 	Vec scaleBeforeBeingEaten;
 	u32 _37C, lookAtMode, _384, _388;
 	u8 stageActorType;
@@ -2511,6 +2513,8 @@ class daPlBase_c : public dStageActor_c {
 		u32 _1458, _145C;
 		u8 _1460;
 		dStateWrapper_c<daPlBase_c> states2;
+		
+		u8 data6[0x14D4 - 0x14A0];
 
 		void useDemoControl();
 		void disableDemoControl();
@@ -3050,8 +3054,12 @@ public:
 	mHeapAllocator_c allocator;
 	u32 _20;
 	u32 _24;
-	char someAnimation[2][0x38]; // actually PlayerAnim's
-	char yetAnotherAnimation[40]; // actually m3d::banm_c afaics -- is it even 40 bytes?
+	// char someAnimation[2][0x38]; // actually PlayerAnim's
+	// char yetAnotherAnimation[40]; // actually m3d::banm_c afaics -- is it even 40 bytes?
+	m3d::fanm_c SomeAnimation_0;
+	m3d::fanm_c SomeAnimation_1;
+	m3d::banm_c anmChrPart;
+
 	Vec HeadPos; // maybe not an array
 	Vec HatPos; // maybe not an array
 	Mtx finalMatrix;

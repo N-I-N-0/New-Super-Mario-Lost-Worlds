@@ -31,3 +31,18 @@ extern "C" GEIFS *GrabExitInfoForFileSelect(GEIFS *out, SaveBlock *save) {
 
 	return out;
 }
+
+
+extern "C" void SetWorldNameForSaveFile(int worldNumber, nw4r::lyt::TextBox* worldName) {
+	OSReport("WorldNumber: %d\n", worldNumber);
+	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchByDisplayNum(worldNumber+1, 100);
+
+	const char *worldNameText = dLevelInfo_c::s_info.getNameForLevel(level);
+	
+	OSReport("WorldNumber: %s\n", worldNameText);
+	
+	wchar_t convertedWorldName[32];
+	mbstowcs(convertedWorldName, worldNameText, 32);
+
+	worldName->SetString(convertedWorldName);
+}

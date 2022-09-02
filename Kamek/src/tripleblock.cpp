@@ -231,6 +231,7 @@ void daEnTripleBlock_c::executeState_Wait() {
 		tileRight.tileNumber = 0xA8;
 		tileMiddle.tileNumber = 0xA7;
 		tileLeft.tileNumber = 0xA6;
+		this->_68D = 1;
 		this->doOneTime++;
 	}
 }

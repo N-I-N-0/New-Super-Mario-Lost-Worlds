@@ -46,9 +46,13 @@ public:
 	USING_STATES(daBarrelCannon_c);
 	
 	DECLARE_STATE(Wait);
+	DECLARE_STATE(Rotate);
+	DECLARE_STATE(Nothing);
 };
 
 CREATE_STATE(daBarrelCannon_c, Wait);
+CREATE_STATE(daBarrelCannon_c, Rotate);
+CREATE_STATE(daBarrelCannon_c, Nothing);
 
 
 void daBarrelCannon_c::beginState_Wait() {}
@@ -65,6 +69,21 @@ void daBarrelCannon_c::executeState_Wait() {
 	}
 }
 void daBarrelCannon_c::endState_Wait() {}
+
+
+void daBarrelCannon_c::beginState_Rotate() {}
+void daBarrelCannon_c::executeState_Rotate() {
+	if ((this->rot.y+1) % 0x8000) {
+		this->rot.y++;
+	} else {
+		doStateChange(&StateID_Nothing);
+	}
+}
+void daBarrelCannon_c::endState_Rotate() {}
+
+void daBarrelCannon_c::beginState_Nothing() {}
+void daBarrelCannon_c::executeState_Nothing() {}
+void daBarrelCannon_c::endState_Nothing() {}
 
 
 
@@ -247,10 +266,17 @@ int daBarrelCannon_c::onExecute() {
 	updateModelMatrices();
 	acState.execute();
 
+	bool flagOn = ((dFlagMgr_c::instance->flags & spriteFlagMask) != 0);
+	if(flagOn) {
+		
+		return true;
+	}
+
 	int i = 0;
 	while (i < 4) {
-		if(delays[i] != 0) {
+		if(delays[i] >= 0) {
 			delays[i]--;
+			continue;
 		}
 		
 		if(players[i] != 0) {

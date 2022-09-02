@@ -44,6 +44,16 @@ void dHammerSuitRenderer_c::setup(dPlayerModelHandler_c *handler) {
 	setup(handler, 0);
 }
 
+
+void dPlayerModel_c::enableMetalEffect() {
+	this->doesFunStuffsWithClr(&this->models[0].body,4);
+	this->doesFunStuffsWithClr(&this->models[0].head,4);
+}
+void dPlayerModel_c::disableMetalEffect() {
+	
+}
+
+
 void dHammerSuitRenderer_c::setup(dPlayerModelHandler_c *handler, int sceneID) {
 	victim = (dPlayerModel_c*)handler->mdlClass;
 
@@ -153,6 +163,11 @@ void dHammerSuitRenderer_c::draw() {
 	
 		hammerShell.scheduleForDrawing();
 	}
+	
+	if(victim->powerup_id == 8) {
+		victim->enableMetalEffect();
+	}
+	
 	if(victim->powerup_id == 9) {
 		/*if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible

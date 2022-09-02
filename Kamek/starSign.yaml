@@ -20,11 +20,11 @@ hooks:
     src_addr_pal: 0x808E1878
     target_func: 'PreserveR5'
 
-  - name: LoadStarSign
-    type: branch_insn
-    branch_type: b
-    src_addr_pal: 0x80926ABC
-    target_func: 'LoadStarSign'
+#  - name: LoadStarSign
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80926ABC
+#    target_func: 'LoadStarSign'
 
   - name: DoSomeCheating1
     type: branch_insn

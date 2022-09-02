@@ -653,10 +653,13 @@ isHammerForToad:
 
 .global CheckExistingPowerup
 CheckExistingPowerup:
-
+	cmpwi r3, 0
+	beq noPlayerForCheckExistingPowerup
 	lwz r3, 0x14E0(r3)
 	blr
-
+noPlayerForCheckExistingPowerup:
+	li r3, -0x1
+	blr
 
 
 

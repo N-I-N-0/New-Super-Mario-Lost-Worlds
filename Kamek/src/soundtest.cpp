@@ -91,6 +91,10 @@ int dScSoundTest_c::onExecute() {
 		}
 		currentSFXHandle = !currentSFXHandle;
 		PlaySoundWithFunctionB4(SoundRelatedClass, &handles[currentSFXHandle], this->selectedSFX, 1);
+		const char* gfx = effects_name_list[this->selectedSFX];
+		OSReport("GFX: %s\n", gfx);
+		Vec tempVec = (Vec){ 0,0,0};
+		SpawnEffect(gfx, 0, &tempVec, 0, 0);
 	}
 
 	if(nowPressed & WPAD_B) {

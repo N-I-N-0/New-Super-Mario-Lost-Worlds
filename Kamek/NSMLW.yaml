@@ -196,4 +196,8 @@ modules:
   - processed/arrowSignboard.yaml
   - processed/starSign.yaml
   - processed/worldmap.yaml
-  
+  - processed/worldmapPause.yaml
+  - processed/cosmicClone.yaml
+  - processed/cosmicMario.yaml
+  #- processed/cosmicDestructor.yaml
+  - processed/raceRecorder.yaml

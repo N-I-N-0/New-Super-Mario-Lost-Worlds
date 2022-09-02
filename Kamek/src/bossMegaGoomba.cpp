@@ -418,7 +418,7 @@ int daMegaGoomba_c::onCreate() {
 
 	this->_120 |= 0x200;
 
-	this->_36D = 0;
+	this->edible = 0;
 	this->setupCollision();
 
 	//HOMEMADE//

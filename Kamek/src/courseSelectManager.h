@@ -90,6 +90,8 @@ public:
 	void sub_80931090();
 	void sub_80931110();
 
+	void changeToNormalState();
+
 	USING_STATES(dCourseSelectManager_c);
 	REF_NINTENDO_STATE(KeyWait);
 	DECLARE_STATE(ShopWait);

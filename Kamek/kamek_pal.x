@@ -1,5 +1,33 @@
 SECTIONS {
 	/* The Prankster Comets */
+
+	doneWithAddSettingsBMG = 0x8077AC48;
+	TextBoxSetBmgString = 0x800C9B50;
+
+	CSMWindow = 0x809413E0;
+	CSMButton1 = 0x809413EC;
+	CSMButton2 = 0x809413F8;
+	CSMButton3 = 0x80941404;
+	CSMButton4 = 0x80941410;
+	doneWithChangeGroupNames = 0x8077ABF0;
+
+	P_SBBase_01 = 0x80941468;
+	P_SBBase_02 = 0x80941474;
+	P_SBBase_03 = 0x80941480;
+	P_SBBase_04 = 0x8094148C;
+	P_back = 0x80941498;
+	P_backWhite = 0x809414A0;
+	doneWithChangePicturePaneNames = 0x8077AC10;
+
+	doneWithChangeSelectCursorStuff = 0x8077AD90;
+
+	doneWithChangeMenuResults = 0x8092FC58;
+	doneWithChangeMenuResults2 = 0x8092FD60;
+
+	doneWithSpawnSettingsActor = 0x8092707C;
+
+	changeToNormalState__22dCourseSelectManager_cFv = 0x8092F660;
+
 	
 	doneWithAddSignFlag = 0x800F4714;
 

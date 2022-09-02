@@ -1,7 +1,7 @@
 ---
 source_files: [../src/worldmapWorldSelection.cpp]
 hooks:
-  - name: BuildWMSelection # WM_NOTE
+  - name: BuildWMSelection # WORLD_SELECT 
     type: add_func_pointer
-    src_addr_pal: 0x80984a24
-    target_func: 'dWMSelection_c::build(void)'
+    src_addr_pal: 0x8098E278
+    target_func: 'dWMWSEL_c::build(void)'

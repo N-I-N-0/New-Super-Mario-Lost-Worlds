@@ -98,4 +98,4 @@ hooks:
   - {name: DFNiceWorldName, type: branch_insn, branch_type: bl, src_addr_pal: 0x8077DA10, target_func: 'DFNiceWorldName'}
 
 # Inject data when creating a save
-  - {name: DefaultSavefileInfo, type: branch_insn, branch_type: b, src_addr_pal: 0x800CE100, target_func: 'DefaultSavefileInfo'}
+#  - {name: DefaultSavefileInfo, type: branch_insn, branch_type: b, src_addr_pal: 0x800CE100, target_func: 'DefaultSavefileInfo'}
