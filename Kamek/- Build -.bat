@@ -28,7 +28,7 @@ pause
 exit
 
 :move
-move "%~dp0\Build\*" "C:\Users\Besitzer\Desktop\NSMLW\NSMBWer\DATA\files\NewerRes" >nul
+move "%~dp0\Build\*" "%NSMBWer%\DATA\files\NewerRes" >nul
 if %errorlevel%==0 goto end
 pause
 exit
