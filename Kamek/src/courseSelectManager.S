@@ -40,6 +40,25 @@ SpawnShopAndLevelCredits:
 	stb r3, 0x578(r31) # 0'ing them here so I don't have to mess with CSM's constructor
 	stb r3, 0x579(r31) # Those two will be used as "is in shop" and "is in level credits" bytes
 
+
+
+	li r3, WM_SETTINGS
+	mr r4, r29
+	li r5, 0
+	li r6, 0
+	bl CreateParentedObject__FsPvic
+	stw r3, 0x57C(r31)
+
+	#li r3, WM_STARSIGN # WM_STARSIGN
+	#mr r4, r29
+	#li r5, 0
+	#li r6, 0
+	#bl CreateParentedObject__FsPvic
+	#stw r3, 0x580(r31)
+
+
+
+
 	b doneWithSpawnShopAndLevelCredits
 
 .global CheckForButtonPress

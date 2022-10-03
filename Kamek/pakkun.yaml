@@ -45,3 +45,52 @@ hooks:
     type: add_func_pointer
     src_addr_pal: 0x80af32d0
     target_func: 'PakkunHammer(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+
+  - name: Pakkun_Projectile
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80029640
+    target_func: 'Pakkun_Projectile'
+
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac60
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac64
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac68
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac6c
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac78
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: PakkunSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031ac7c
+    target_func: 'PParcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+
+
+
+

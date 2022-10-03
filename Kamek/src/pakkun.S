@@ -1,4 +1,5 @@
 #include <asm_setup.S>
+#include <asm_profiles.S>
 
 .text
 .align 4
@@ -43,3 +44,15 @@ Pakkun_Fireball2:
 isBonyPakkun2:
 	bl		dEn_c__fireballInvalid
 	b		continuePakkunBony2
+
+
+.extern returnFromPakkun_Projectile #0x80029644
+.global Pakkun_Projectile
+Pakkun_Projectile:
+	lbz r7, 4(r3)		#get spriteTex
+	slwi r7, r7, 24
+	or r4, r4, r7		#add spriteTex to projectile settings
+	
+	li r3, PakkunProjectile #add PakkunProjectile to asm_profiles.S!
+	
+	b returnFromPakkun_Projectile

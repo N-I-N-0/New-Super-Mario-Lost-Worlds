@@ -5,6 +5,8 @@
 .extern __ctor_loc
 .extern __ctor_end
 .extern OSReport
+.extern getDolphinVersion__Fv
+.extern setDiscordPresence__Fiib
 
 .global Prolog
 Prolog:
@@ -47,6 +49,12 @@ startLoop:
 	mr r4, r30
 	crclr 4*cr1+eq
 	bl OSReport
+	
+	bl getDolphinVersion__Fv
+	li r3, 0
+	li r4, 0
+	li r5, 1
+	bl setDiscordPresence__Fiib
 
 	# -- Done
 	li r3, 1
@@ -61,7 +69,7 @@ startLoop:
 
 .data
 PMsg:
-	.string "Newer Super Mario Bros. Wii - Hacks by Treeki and Tempus 2009-2013\nNewer v1.0.2\n.ctors: %p - %p\n"
+	.string "New Super Mario Lost Worlds - .ctors: %p - %p\n"
 
 PMsg2:
 	.string "%d inits called\n"

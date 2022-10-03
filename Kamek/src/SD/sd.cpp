@@ -1,15 +1,7 @@
 #include "game.h"
+#include <IOS.h>
 #include "SD/sd.h"
-extern int IOS_Open(char*, int);
-extern void IOS_Close(int);
-extern void IOS_ioctl(int, int, void*, size_t, void*, size_t, int);
-extern void IOS_ioctlv(int, int,int,int, void*);
 
-typedef struct _ioctlv
-{
-	void *data;
-	u32 len;
-} ioctlv;
 u32 SD_BLOCK_POS = 0;
 void SDSeek(u32 new_clock_pos){
 	SD_BLOCK_POS = new_clock_pos;

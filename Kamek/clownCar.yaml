@@ -88,3 +88,22 @@ hooks:
     target_func: 'JrClownForPlayer_playAccelSound'
 
 
+#  - name: ClownShotBuild
+#    type: add_func_pointer
+#    src_addr_pal: 0x80988934
+#    target_func: 'daClownShot::build(void)'
+
+  - name: ClownShotKillAmp
+    type: add_func_pointer
+    src_addr_pal: 0x80ADA69C
+    target_func: 'Amp_NewPreSpriteCollision'
+
+  - name: ClownShotKillLineAmp
+    type: add_func_pointer
+    src_addr_pal: 0x80AFA4FC
+    target_func: 'Amp_NewPreSpriteCollision'
+
+  - name: ClownShotKillKazanRock
+    type: add_func_pointer
+    src_addr_pal: 0x80937FA8
+    target_func: 'KazanRock_CollisionCallback'

@@ -1,6 +1,6 @@
 #include <profile.h>
 
-#if defined(REGION_K) || defined(REGION_W)
+#if defined(REGION_K) || defined(REGION_W) || defined(REGION_C)
 	#define ORIGINAL_PROFILES 752
 #else
 	#define ORIGINAL_PROFILES 750

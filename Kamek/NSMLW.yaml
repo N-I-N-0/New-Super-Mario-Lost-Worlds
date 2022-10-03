@@ -3,18 +3,20 @@ code_address: 0x808D9000
 modules:
   - processed/k_stdlib.yaml
   - processed/profile.yaml
+  - processed/actorlog.yaml
   - processed/SD.yaml
   - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
+  - processed/codeDebug.yaml
+  - processed/dolphin.yaml
   - processed/prolog.yaml
   # - processed/corseClear.yaml
   - processed/wandDots.yaml
   - processed/apDebug.yaml
   - processed/hardMode.yaml
  # - processed/layoutDebug.yaml
-  - processed/codeDebug.yaml
- # - processed/exceptionHandler.yaml
+  - processed/exceptionHandler.yaml
   - processed/creditsMgr.yaml
   # - processed/endingMgr.yaml
   - processed/chestnut.yaml
@@ -44,7 +46,7 @@ modules:
   - processed/statsMenu.yaml
   - processed/cutScene.yaml
   # - processed/poweruphax_old.yaml
-  # - processed/heapbar.yaml
+  #- processed/heapbar.yaml
   - processed/pregame.yaml
   - processed/randtiles.yaml
   - processed/layouthax.yaml
@@ -89,7 +91,6 @@ modules:
   # - processed/singAlong.yaml
   - processed/pumpkinGoomba.yaml
   # - processed/pengi.yaml
-  # - processed/actorlog.yaml
   - processed/trapblock.yaml
   #- processed/1.yaml#######################wm player fail
   - processed/purplecoin.yaml
@@ -105,7 +106,7 @@ modules:
   - processed/AnimFrames.yaml
   - processed/smw_throws.yaml
   - processed/zement_goalpole.yaml
-  #- processed/DebugMenu.yaml
+  - processed/DebugMenu.yaml
   - processed/icefix.yaml
   - processed/yoshi.yaml
   #- processed/UpsideDown.yaml
@@ -120,7 +121,6 @@ modules:
   - processed/minisidestepper.yaml
   - processed/waterlift.yaml
   - processed/texmapcolouriser.yaml
-  - processed/courseSelectManager.yaml
   - processed/worldmapShop.yaml
   - processed/worldmapWorldSelection.yaml
   - processed/worldmapScripts.yaml
@@ -128,6 +128,7 @@ modules:
   - processed/worldmapStartNode.yaml
   - processed/worldmapCobCourse.yaml
   - processed/worldmapManager.yaml
+  - processed/courseSelectManager.yaml
   - processed/worldmapParatroopa.yaml
   - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
@@ -180,6 +181,7 @@ modules:
   - processed/frogoon.yaml
   - processed/urchinMods.yaml
   - processed/pakkun.yaml
+  - processed/pakkunProjectile.yaml
   - processed/redRingRewards.yaml
   - processed/worldmapAirships.yaml
   - processed/explodingBoo.yaml
@@ -194,6 +196,11 @@ modules:
   - processed/tagProcessor.yaml
   - processed/talkBalloon.yaml
   - processed/arrowSignboard.yaml
-  - processed/starSign.yaml
+  #- processed/starSign.yaml
   - processed/worldmap.yaml
-  
+  - processed/worldmapPause.yaml
+  #- processed/cosmicClone.yaml
+  #- processed/cosmicMario.yaml
+  #- processed/cosmicDestructor.yaml
+  #- processed/raceRecorder.yaml
+  - processed/kuribo.yaml

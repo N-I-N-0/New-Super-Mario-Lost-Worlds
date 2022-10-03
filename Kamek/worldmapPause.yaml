@@ -1,0 +1,140 @@
+---
+
+source_files: [../src/worldmapPause.S, ../src/worldmapPause.cpp]
+hooks: 
+  # - name: FPointerHook
+  #   type: add_func_pointer
+  #   src_addr_pal: 0xDEADBEEF
+  #   target_func: 'Whatever'
+
+  # - name: PatchHook
+  #   type: patch
+  #   addr_pal: 0xDEADBEEF
+  #   data: 'YYYYYYYY' # Orig: XXXXXXXX
+
+  # - name: BranchHook
+  #   type: branch_insn
+  #   src_addr_pal: 0xDEADBEEF
+  #   branch_type: b
+  #   target_func: 'Whatever'
+
+  - name: ExtendCSMSize
+    type: patch
+    addr_pal: 0x8077A758
+    data: '38600298' # Orig: 38600278
+
+  - name: ChangeGroupNames
+    type: branch_insn
+    src_addr_pal: 0x8077ABE4
+    branch_type: b
+    target_func: 'ChangeGroupNames'
+
+  - name: ChangePicturePaneNames
+    type: branch_insn
+    src_addr_pal: 0x8077AC04
+    branch_type: b
+    target_func: 'ChangePicturePaneNames'
+
+  - name: AddSettingsBMG
+    type: branch_insn
+    src_addr_pal: 0x8077AC44
+    branch_type: b
+    target_func: 'AddSettingsBMG'
+
+  - name: ChangeSelectCursorStuff
+    type: branch_insn
+    src_addr_pal: 0x8077AD8C
+    branch_type: b
+    target_func: 'ChangeSelectCursorStuff'
+
+  - name: ChangePicturePaneLocation
+    type: patch
+    addr_pal: 0x8077ADA8
+    data: '80630278' # Orig: 80630248
+
+  - name: ChangePBackLocation1
+    type: patch
+    addr_pal: 0x8077AA94
+    data: '807D028C' # Orig: 807D0258
+
+  - name: ChangePBackLocation2
+    type: patch
+    addr_pal: 0x8077AABC
+    data: '807D028C' # Orig: 807D0258
+
+  - name: ChangePBackWLocation1
+    type: patch
+    addr_pal: 0x8077AAA8
+    data: '807D0290' # Orig: 807D025C
+
+  - name: ChangePBackWLocation2
+    type: patch
+    addr_pal: 0x8077AACC
+    data: '807D0290' # Orig: 807D025C
+
+  - name: ChangeOffAnimLocation
+    type: patch
+    addr_pal: 0x8077AF58
+    data: '38840011' # Orig: 3884000E
+
+  - name: ChangeHitAnimLocation
+    type: patch
+    addr_pal: 0x8077B1AC
+    data: '3884000C' # Orig: 3884000A
+
+  - name: ChangeOutAnimLocation
+    type: patch
+    addr_pal: 0x8077B264
+    data: '38800016' # Orig: 38800012
+
+  - name: ChangeLoopDuration
+    type: patch
+    addr_pal: 0x8077ADF8
+    data: '2C1F0006' # Orig: 2C1F0005
+
+  - name: ChangeMenuRange1
+    type: patch
+    addr_pal: 0x8077B0C0
+    data: '2C000005' # Orig: 2C000004
+
+  - name: ChangeMenuRange2
+    type: patch
+    addr_pal: 0x8077B088
+    data: '38000004' # Orig: 38000003
+
+  - name: ChangeMenuResults
+    type: branch_insn
+    src_addr_pal: 0x8092FC54
+    branch_type: b
+    target_func: 'ChangeMenuResults'
+
+  - name: ChangeMenuResults1
+    type: patch
+    addr_pal: 0x8092FCA4
+    data: '2C000002' # Orig: 2C000001
+
+  - name: ChangeMenuResults2
+    type: patch
+    addr_pal: 0x8092FCE8
+    data: '2C000003' # Orig: 2C000002
+
+  - name: ChangeMenuResults3
+    type: patch
+    addr_pal: 0x8092FD44
+    data: '2C000004' # Orig: 2C000003
+
+#  - name: ExtendCSMgrSize
+#    type: patch
+#    addr_pal: 0x8092F028
+#    data: '3860057C' # Orig: 38600570
+    
+#  - name: SettingsBuild # Replaces Actor 663 WM_TREASURESHIP
+#    type: add_func_pointer
+#    src_addr_pal: 0x8098640C
+#    target_func: 'dSettings_c::build(void)'
+
+#  - name: SpawnSettingsActor # merged in courseSelectManager.*
+#    type: branch_insn
+#    src_addr_pal: 0x80927078
+#    branch_type: b
+#    target_func: 'SpawnSettingsActor'

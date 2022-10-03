@@ -699,6 +699,7 @@ balloonColors:
 .long 0xFF00FFFF #another pink
 .long 0xFE3E87FF
 
+.text
 .align 4
 
 .global TEX_YoshiFruit
@@ -739,6 +740,7 @@ dontChangeEff_:
 .data
 magmawave: .string "Wm_en_magmawave"
 .text
+.align 4
 
 .global TobiPukuSoundChange
 TobiPukuSoundChange:
@@ -779,6 +781,7 @@ dontChangeEff:
 .data
 firepillarsign: .string "Wm_ob_firespillarunder"
 .text
+.align 4
 
 .global IgaPukuSoundChange
 IgaPukuSoundChange:
@@ -792,8 +795,6 @@ IgaPukuSoundChange:
 
 
 # The below was added by Tempus
-.global TEX_Goomba
-TEX_Goomba:
 .global TEX_BuzzyShell
 TEX_BuzzyShell:
 .global TEX_SpinyShell
@@ -868,6 +869,11 @@ TEX_FireSnake:
 	andi. r5, r5, 0xF
 	b GetTexFilenameForR5
 
+
+.global TEX_Palm
+TEX_Palm:
+.global TEX_Foo
+TEX_Foo:
 .global TEX_Broozer
 TEX_Broozer:
 .global TEX_FinalDoor
@@ -889,6 +895,12 @@ TEX_CloudBounce:
 
 
 
+.global TEX_Firepillar
+TEX_Firepillar:
+.global TEX_Fuzzy
+TEX_Fuzzy:
+.global TEX_WalkPakkun
+TEX_WalkPakkun:
 .global TEX_FireSnake2
 TEX_FireSnake2:
 .global TEX_Crow
@@ -919,8 +931,8 @@ TEX_Gabon:
 TEX_Bramball:
 .global TEX_Monty
 TEX_Monty:
-.global TEX_ChainChomp
-TEX_ChainChomp:
+.global TEX_Wanwan
+TEX_Wanwan:
 .global TEX_Parabeetle
 TEX_Parabeetle:
 .global TEX_Bomb
@@ -933,6 +945,16 @@ TEX_CheepChomp:
 TEX_PokeyB:
 .global TEX_Huckit
 TEX_Huckit:
+.global TEX_RiverPiranha
+TEX_RiverPiranha:
+.global TEX_KamekBoss
+TEX_KamekBoss:
+.global TEX_KamekCastleDemo
+TEX_KamekCastleDemo:
+.global TEX_GhostDoor
+TEX_GhostDoor:
+.global TEX_BlooperNanny
+TEX_BlooperNanny:
 .global TEX_IgaPuku
 TEX_IgaPuku:
 	lwz r5, 4(r29)
@@ -941,16 +963,20 @@ TEX_IgaPuku:
 	b GetTexFilenameForR5
 
 
-.global TEX_BoomerangBro
-TEX_BoomerangBro:
+.global TEX_Wanwan2
+TEX_Wanwan2:
+.global TEX_Penguin
+TEX_Penguin:
+.global TEX_Boomerang
+TEX_Boomerang:
+.global TEX_Hammer
+TEX_Hammer:
 .global TEX_WoodenCrate
 TEX_WoodenCrate:
 .global TEX_PropellerBlock
 TEX_PropellerBlock:
 .global TEX_DPadDoorOne
 TEX_DPadDoorOne:
-.global TEX_BigGoomba
-TEX_BigGoomba:
 .global TEX_Barrel
 TEX_Barrel:
 .global TEX_Blooper
@@ -979,6 +1005,8 @@ TEX_SpikeBall:
 TEX_HuckitBalls:
 .global TEX_LightBlock
 TEX_LightBlock:
+.global TEX_FloatingLog
+TEX_FloatingLog:
 .global HammerColour
 HammerColour:
 	lwz r5, 4(r30)
@@ -987,6 +1015,22 @@ HammerColour:
 	b GetTexFilenameForR5
 
 
+
+.extern returnFromBlooperNanny #0x809a8f2c
+.global TEX_BlooperNannyAdjustSettings
+TEX_BlooperNannyAdjustSettings:
+	lbz r4, -0x734(r30) #blooper settings
+	slwi r4, r4, 24
+	or r4, r4, r31
+	b returnFromBlooperNanny
+
+
+.global TEX_RiverPiranhaBall
+TEX_RiverPiranhaBall:
+	lwz r5, 4(r30)
+	andi. r5, r5, 0xF
+	b GetTexFilenameForR5
+
 .global TEX_SnakeBlock
 TEX_SnakeBlock:
 	lwz r5, 4(r27)
@@ -994,6 +1038,38 @@ TEX_SnakeBlock:
 	andi. r5, r5, 0b111111
 	b GetTexFilenameForR5
 
+
+.global TEX_Lakitu
+TEX_Lakitu:
+    lwz r5, 4(r29)
+    srwi r5, r5, 4
+    andi. r5, r5, 0xF
+    b GetTexFilenameForR5
+
+.extern returnFromLakituSpawnArea #80abcb4c
+.global TEX_LakituSpawnArea
+TEX_LakituSpawnArea:
+    rlwimi r4,r8,0x0,0x7,0x7
+    lwz r0, 4(r31)
+    andi. r0, r0, 0xF0
+    or r4, r4, r0
+    b returnFromLakituSpawnArea
+
+.extern returnFromLakituCloudBlock #80a36094
+.global TEX_LakituCloudBlock
+TEX_LakituCloudBlock:
+    lbz r5, 4(r30)
+    andi. r5, r5, 0xF0
+    or r4, r4, r5
+    or r5, r6, r6
+    b returnFromLakituCloudBlock
+
+.global TEX_LakituCloudBlock2
+TEX_LakituCloudBlock2:
+    lbz r5, 4(r29)
+    srwi r5, r5, 4
+    andi. r5, r5, 0xF
+    b GetTexFilenameForR5
 
 .global TEX_Podoboo
 TEX_Podoboo:
@@ -1471,6 +1547,15 @@ HammerTime:
 	beq ThrowLemmyBall
 
 	# Use the normal settings
+	#... but do hammer spriteTex
+	lbz r7, 0x4(r31) #get color of the hammer bro
+	cmpwi r7, 4
+	beq useBoneHammer
+	b selectedHammer
+useBoneHammer:
+	oris r0, r0, 0x0100 #set hammer color nybble for bone hammer bro
+selectedHammer:
+
 	lhz r8, 8(r31)
 	cmpwi r8, 0x70
 	beq isHammerBros
@@ -2004,6 +2089,28 @@ TEX_CloudLT_Ca:
 	blr
 
 
+.extern returnFromTEX_HammerSettings #80a123f4
+.global TEX_HammerSettings
+TEX_HammerSettings:
+	oris r4, r0, 0xF
+	lbz r7, 0x4(r31) #get color of the hammer bro
+	cmpwi r7, 4
+	beq doBoneHammer
+	b returnFromTEX_HammerSettings
+doBoneHammer:
+	oris r4, r4, 0x0100 #set hammer color nybble for bone hammer bro
+	b returnFromTEX_HammerSettings
+
+	
+.extern returnFromTEX_BoomerangSettings #809ce458
+.global TEX_BoomerangSettings
+TEX_BoomerangSettings:
+	oris r4, r0, 0xE
+	lbz r7, 0x4(r31) #get color of the boomerang bro
+	slwi r7, r7, 24
+	or r4, r4, r7 #set boomerang color nybble
+	b returnFromTEX_BoomerangSettings
+
 
 .global BigMetPowFix
 .extern OriginalPowBlockActivated
@@ -2047,6 +2154,7 @@ TogeMetIceSpecial:
 	blr
 
 .data
+.align 4
 BomombDir:
 	.word 0x0400FC00
 
@@ -2056,7 +2164,7 @@ TexFilenameBuffer:
 TexFormatString:
 	.string "g3d/t%02d.brres"
 
-
+.align 4
 .global TEX_FlakeArcs
 TEX_FlakeArcs:
 	.long stringsnow

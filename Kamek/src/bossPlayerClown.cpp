@@ -125,13 +125,13 @@ void CConExecuteMove(dEn_c *clown) {
 			if (cTimer > 90) {
 				if (clown->direction == 0) { // Going right
 					tempPos = (Vec){clown->pos.x + 32.0, clown->pos.y + 32.0, 3564.0};
-					//dStageActor_c *spawned = CreateActor(657, 0, tempPos, 0, 0);
-					//spawned->speed.x = 5.0;
+					dStageActor_c *spawned = CreateActor(CustomClown, 0, tempPos, 0, 0);
+					spawned->speed.x = 5.0;
 				}
 				else {
 					tempPos = (Vec){clown->pos.x - 32.0, clown->pos.y + 32.0, 3564.0};
-					//dStageActor_c *spawned = CreateActor(657, 0, tempPos, 0, 0);
-					//spawned->speed.x = -5.0;
+					dStageActor_c *spawned = CreateActor(CustomClown, 0, tempPos, 0, 0);
+					spawned->speed.x = -5.0;
 				}
 
 				SpawnEffect("Wm_en_killervanish", 0, &tempPos, &(S16Vec){0,0,0}, &(Vec){0.1, 0.1, 0.1});
@@ -191,4 +191,152 @@ void newClownDtor(dEn_c *clown, u32 willDelete) {
 extern "C" void JrClownForPlayer_playAccelSound() {
 	nw4r::snd::SoundHandle handle;
 	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_PLY_CROWN_ACC, 1);
+}
+
+
+
+class daClownShot : public dEn_c {
+public:
+	int onCreate();
+	int onExecute();
+	int onDraw();
+
+	mHeapAllocator_c allocator;
+	nw4r::g3d::ResFile resFile;
+	m3d::mdl_c bodyModel;
+
+	mEf::es2 effect;
+	static dActor_c *build();
+
+	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+};
+
+void daClownShot::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) { }
+
+dActor_c *daClownShot::build() {
+	void *buffer = AllocFromGameHeap1(sizeof(daClownShot));
+	return new(buffer) daClownShot;
+}
+
+const char* EmptyClownShotFileList[] = {NULL};
+Profile CustomClownProfile(&daClownShot::build, ProfileId::CustomClown, NULL, ProfileId::CustomClown, ProfileId::CustomClown, "Custom Clown", EmptyClownShotFileList);
+
+
+int daClownShot::onCreate() {
+	allocator.link(-1, GameHeaps[0], 0, 0x20);
+	this->resFile.data = getResource("koopaJr_clown_ply", "g3d/houdai_ball.brres");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("houdai_ball");
+	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
+	allocator.unlink();
+
+	ActivePhysics::Info GreatBalls;
+	
+	GreatBalls.xDistToCenter = 0.0;
+	GreatBalls.yDistToCenter = 0.0;
+	GreatBalls.xDistToEdge = 8.0;
+	GreatBalls.yDistToEdge = 7.0;
+	
+	GreatBalls.category1 = 0x3;
+	GreatBalls.category2 = 0x0;
+	GreatBalls.bitfield1 = 0x6F;
+	GreatBalls.bitfield2 = 0xffbafffe;
+	GreatBalls.unkShort1C = 0;
+	GreatBalls.callback = &dEn_c::collisionCallback;
+
+	this->aPhysics.initWithStruct(this, &GreatBalls);
+	this->aPhysics.addToList();
+
+
+	// These fucking rects do something for the tile rect
+	spriteSomeRectX = 8.0f;
+	spriteSomeRectY = 8.0f;
+	_320 = 0.0f;
+	_324 = 0.0f;
+
+	u32 flags = SENSOR_BREAK_BRICK | SENSOR_BREAK_BLOCK | SENSOR_80000000;
+	static const lineSensor_s below(flags, 12<<12, 4<<12, 0<<12);
+	static const pointSensor_s above(flags, 0<<12, 12<<12);
+	static const lineSensor_s adjacent(flags, 6<<12, 9<<12, 6<<12);
+
+	collMgr.init(this, &below, &above, &adjacent);
+	collMgr.calculateBelowCollisionWithSmokeEffect();
+
+
+	this->speed.y = 4.0;
+	this->y_speed_inc = -0.1875;
+	
+	this->onExecute();
+	return true;
+}
+
+int daClownShot::onDraw() {
+	matrix.translation(this->pos.x, this->pos.y, this->pos.z);
+
+	matrix.applyRotationYXZ(&this->rot.x, &this->rot.y, &this->rot.z);
+
+	bodyModel.setDrawMatrix(matrix);
+	bodyModel.setScale(&scale);
+	bodyModel.calcWorld(true);
+
+	bodyModel.scheduleForDrawing();
+	return true;
+}
+
+
+int daClownShot::onExecute() {
+	HandleXSpeed();
+	HandleYSpeed();
+	doSpriteMovement();
+
+	collMgr.calculateBelowCollisionWithSmokeEffect();
+	collMgr.calculateAboveCollision(0);
+	collMgr.calculateAdjacentCollision();
+	if (collMgr.outputMaybe) {
+		SpawnEffect("Wm_en_burst_m", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		nw4r::snd::SoundHandle handle;
+		PlaySoundWithFunctionB4(SoundRelatedClass, &handle, SE_OBJ_TARU_BREAK, 1);
+		Delete(1);
+		return true;
+	}
+
+	effect.spawn("Wm_en_killersmoke", 0, &(Vec){pos.x, pos.y, pos.z}, &(S16Vec){0,0,0}, &(Vec){0.7, 0.7, 0.7});
+
+	float rect[] = {0.0, 0.0, 8.0, 8.0};
+	int ret = this->outOfZone(this->pos, (float*)&rect, this->currentZoneID);
+	if(ret) {
+		this->Delete(1);
+	}
+
+	return true;
+}
+
+
+
+
+// This is for making clown shots able to kill other shit
+
+extern "C" bool Amp_NewPreSpriteCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
+	// apThis = amp, apOther = other thing
+	dEn_c *amp = (dEn_c*)apThis->owner;
+
+	if (apOther->info.category2 == 9) {
+		if (amp->collisionCat9_RollingObject(apThis, apOther))
+			return true;
+	} else if (apOther->owner->name == CustomClown) {
+		amp->killByDieFall(apOther->owner);
+		return true;
+	}
+
+	return false;
+}
+
+extern "C" void KazanRock_Explode(void *kazanRock);
+extern "C" void KazanRock_OriginalCollisionCallback(ActivePhysics *apThis, ActivePhysics *apOther);
+extern "C" void KazanRock_CollisionCallback(ActivePhysics *apThis, ActivePhysics *apOther) {
+	if (apOther->owner->name == CustomClown) {
+		apThis->someFlagByte |= 2;
+		KazanRock_Explode(apThis->owner);
+	} else {
+		KazanRock_OriginalCollisionCallback(apThis, apOther);
+	}
 }

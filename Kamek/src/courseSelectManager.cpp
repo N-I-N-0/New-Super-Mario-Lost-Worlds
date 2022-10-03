@@ -67,3 +67,14 @@ void CheckForButtonPress() {
 		}
 	}
 }
+
+
+void dCourseSelectManager_c::endState_CharacterChangeWait_new() {
+	u8 count = 0;
+	for(int i = 0; i<4; i++) {
+		if (QueryPlayerAvailability(i)) {
+			count++;
+		}
+	}
+	setDiscordPresence(count, dWMManager_c::instance->worldNumber, false);
+}

@@ -90,6 +90,7 @@
   
   <sprite id="13" name="Rideable Clowncar with Cannon" asmhacks="True" noyoshi="True" notes="Used in the NewerSMBW Final Boss Fight. The player can fly around freely and shoot a cannon at a fixed angle. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;Not recommended for use outside of the Final Boss Fight.&lt;/font&gt;" advancedcomment="If you do choose to use this vehicle outside of the boss fight, please keep in mind there is no documentation for what issues you might encounter. Be sure to test your level for crashes and glitches. Cannon shots behave similarly but not identically to Bob-omb explosions. Water causes it to react similarly to Yoshi, with the player jumping off and the Clowncar sinking.">
     <value nybble="12" title="Minimum Number of Players" comment="This determines the number of players required for the Clowncar to load. A value of 4 will only load if there are 4 players." advanced="True"/>
+    <checkbox bit="44" title="Use Cannon" comment="When enabled, the clown car will have the cannon seen in the NewerSMBW Final Boss Fight."/>
   </sprite> <!-- #13: Rideable Clowncar with Cannon -->
   
   <sprite id="14" name="(Unused) Captain Bowser Flame Breath" asmhacks="True" notes="Captain Bowser uses this in the NewerSMBW Final Boss Fight. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;Cannot be placed as an individual sprite.&lt;/font&gt;">
@@ -220,13 +221,14 @@
     <list nybble="6" title="Color" comment="This determines the color and style of the Goomba.">
       <entry value="0">Normal</entry>
       <entry value="1">Gloomba</entry>
-      <entry value="2">"Hyper" (Normal color)</entry>
-      <entry value="3">Peach</entry>
-      <entry value="4">Red</entry>
-      <entry value="5">Blue</entry>
-      <entry value="6">Gray</entry>
-      <entry value="7">Santa</entry>
-      <entry value="8">Gray Santa</entry>
+      <entry value="2">Cat Goomba (H1K0USEN)</entry>
+      <entry value="3">Galoomba (H1K0USEN)</entry>
+      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="5">Jack O'Goomba (G4L)</entry>
+      <entry value="6">Waddlewing (WTails358)</entry>
+      <entry value="7">Santa (Newer)</entry>
+	  <entry value="8">Shrooblet (Azmudai)</entry>
+	  <entry value="9">Bone (Microtransagolor)</entry>
     </list> <!-- Update [21] Paragoomba and [99] Pipe Enemy Generator when new items are added to this list! -->
     <checkbox bit="32" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Goomba placing it further behind other sprites."/>
     <list nybble="12" title="Load-In Animation" comment="This determines what animation state is used by the Goomba when it is first loaded. This is useful for Goombas within range of a nearby Entrance." comment2="Jumps and 'Tumble' will result in it landing on the next platform below where it was initially placed.">
@@ -243,13 +245,14 @@
     <list nybble="6" title="Color" comment="This determines the color and style of the Paragoomba.">
       <entry value="0">Normal</entry>
       <entry value="1">Gloomba</entry>
-      <entry value="2">"Hyper" (Normal color)</entry>
-      <entry value="3">Peach</entry>
-      <entry value="4">Red</entry>
-      <entry value="5">Blue</entry>
-      <entry value="6">Gray</entry>
-      <entry value="7">Santa (No Wings)</entry>
-      <entry value="8">Gray Santa (No Wings)</entry>
+      <entry value="2">Cat Goomba (H1K0USEN)</entry>
+      <entry value="3">Galoomba (H1K0USEN)</entry>
+      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="5">Jack O'Goomba (G4L)</entry>
+      <entry value="6">Waddlewing (WTails358)</entry>
+      <entry value="7">Santa (Newer)</entry>
+	  <entry value="8">Shrooblet (Azmudai)</entry>
+	  <entry value="9">Bone (Microtransagolor)</entry>
     </list>
     <checkbox bit="32" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Paragoomba placing it further behind other sprites."/>
   </sprite> <!-- #21: Paragoomba -->
@@ -505,7 +508,11 @@
       <entry value="6">Violet</entry>
       <entry value="7">Black</entry>
       <entry value="8">White</entry>
-      <entry value="9">Pink</entry>
+      <entry value="9">Boo (by StupidMarioBros1Fan)</entry>
+	  <entry value="10">Jellyfish (by StupidMarioBros1Fan)</entry>
+	  <entry value="11">Spiky Cheep Cheep (by StupidMarioBros1Fan)</entry>
+	  <entry value="12">Fishbone (by StupidMarioBros1Fan)</entry>
+	  <entry value="13">Blooper (by StupidMarioBros1Fan)</entry>
     </list>
 	<list nybble="7-8" title="Splash Color" comment="This determines the color of the lava splash.">
       <entry value="0">Original</entry>
@@ -556,6 +563,18 @@
       <entry value="3">Mud</entry>
     </list>
   </sprite> <!-- #53: Effect - Quicksand -->
+
+   <sprite id="54" name="Lakitu" notes="A stand-alone Lakitu, more useful for small rooms than entire levels. Lakitu will throw Spinies (or coins) at the player and will follow the player until killed.">
+    <dependency notes="The stand-alone Lakitu will spawn at exactly the height that it is placed and will remain at that height as it follows the player. Additionally, as it does not respawn after killed unless re-entering the zone, utilizing it for its cloud riding is not recommended for mandatory progress."/>
+    <dualbox bit="40" title1="Spawn from the Side" title2="Spawn from the Background" comment="This will determine which animation state is used by the Lakitu when it is first loaded." comment2="Spawning from the Background means that the Lakitu will fly in from the background, facing the camera."/>
+    <dualbox bit="47" title1="Throws Spinies" title2="Throws Coins" comment="This determines what the Lakitu will throw." advancedcomment="ASM shows that odd values may differ from even values. No differences observed."/>
+    <checkbox bit="8" title="Low Throw Arc" advanced="True" advancedcomment="When enabled, the Lakitu will throw spinies from a low throwing arc. This behavior looks glitchy when the Lakitu is moving quickly. It also should be noted this option is in a space normally used for events, so it may have a deeper function."/>
+    <value nybble="7" title="Unknown Value 7" advanced="True" advancedcomment="ASM shows Nybble 7 might affect something."/>
+    <list nybble="11" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Gold</entry>
+    </list>
+  </sprite> <!-- #54: Lakitu -->
 
   <sprite id="57" name="Koopa Troopa" asmhacks="True" sizehacks="True" notes="Your standard Koopa Troopa. Place it in the level and it will walk towards Mario when it loads. It can either be set to walk off ledges, or turn around at ledges.">
     <dualbox bit="48" title1="Walks Off Ledges" title2="Turns Around At Ledges" comment="This determines if the Koopa Troopa will mindlessly walk off of ledges or if it will turn around when it reaches a ledge." comment2="This also changes the color of the Koopa Troopa."/>
@@ -687,6 +706,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #65: Pipe Piranha Plant - Up -->
 
@@ -697,6 +722,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #66: Pipe Piranha Plant - Down -->
 
@@ -707,6 +738,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #67: Pipe Piranha Plant - Right -->
 
@@ -717,6 +754,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #68: Pipe Piranha Plant - Left -->
 
@@ -733,6 +776,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #69: Pipe Fire Piranha Plant - Up -->
 
@@ -749,6 +798,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #70: Pipe Fire Piranha Plant - Down -->
 
@@ -765,6 +820,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #71: Pipe Fire Piranha Plant - Right -->
 
@@ -781,6 +842,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #72: Pipe Fire Piranha Plant - Left -->
 
@@ -792,6 +859,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #73: Piranha Plant -->
 
@@ -803,6 +876,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #74: Big Piranha Plant -->
 
@@ -813,6 +892,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #75: Fire Piranha Plant -->
 
@@ -823,6 +908,12 @@
       <entry value="1">Bony</entry>
       <entry value="2">Prickly</entry>
       <entry value="3">Spiny</entry>
+      <entry value="4">Ice</entry>
+      <entry value="5">Gold Coin</entry>
+      <entry value="6">Poison</entry>
+      <entry value="7">Spiky</entry>
+      <entry value="8">Cannonball</entry>
+      <entry value="9">Putrid</entry>
     </list>
   </sprite> <!-- #76: Big Fire Piranha Plant -->
 
@@ -847,6 +938,16 @@
     <value bit="25-32" title="Target Event ID End" comment="After enabling and disabling this event, if the Triggering Event is still activated, the Looper will return to [Target Event ID Start] and repeat the loop."/>
     <value nybble="11-12" title="Delay" comment="This determines the amount of time the Looper will wait between activating/deactivating each event." comment2="A value of 6 is approximately 1 second on the game's clock."/>
   </sprite> <!-- #79: Event Looper -->
+
+  <sprite id="80" name="Fire Bro" sizehacks="True" notes="A standard Brothers enemy that shoots fireballs at the player.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="This determines the color of the Fire Bro.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Normal (2)</entry>
+      <entry value="2">Custom (by 8forrest)</entry>
+      <entry value="3">Sledge (by StupidMarioBros1Fan)</entry>
+	  <entry value="4">Bone (Microtransagolor)</entry>
+    </list>
+  </sprite> <!-- #80: Fire Bro -->
 
   <sprite id="90" name="Effect - Wind Physics and Sound" notes="This will generate occasional windy pushbacks and wind sound effects. It is best used in conjunction with the suggested sprites, but they are not required.">
     <dependency notes="In order to generate sandstorm graphics, [374] Effect - Falling Objects and Wind is required using the Snow setting. To add coins to this effect, [284] Physics Coin Controller must be linked.">
@@ -927,12 +1028,25 @@
     <checkbox nybble="5" title="Spiky" comment="No Comment."/>
   </sprite> <!-- #92: Bullet Bill Launcher -->
   
+  <sprite id="94" name="Boomerang Bro" sizehacks="True" notes="A standard Brothers enemy that throws Boomerangs at the player.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="This determines the color of the Boomerang Bro.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Normal (2)</entry>
+      <entry value="2">Custom (by 8forrest)</entry>
+      <entry value="3">Sledge (by StupidMarioBros1Fan)</entry>
+	  <entry value="4">Bone (Microtransagolor)</entry>
+    </list>
+  </sprite> <!-- #94: Boomerang Bro -->
+  
   <sprite id="95" name="Hammer Bro Plus" asmhacks="True" sizehacks="True" notes="A standard Brothers enemy that throws hammers (or other objects!) at the player.">
     <dependency notes="The Hammer Bro will first calculate where the nearest solid ground is. This is defined as a terrain object with solid block collision. With a platform limit of one, he can jump onto any passthrough terrain or brick blocks above this solid ground at a distance of 4. With a platform limit of two, he can jump between this platform and another one above it. When on the top of this platform limit, he will not try and jump upwards. He can also jump down from passthrough terrain set higher than 8 blocks above the solid ground, though he will not be able to return."/>
     <dualbox bit="48" title1="Uses 2 Platforms" title2="Uses 1 Platform" comment="This determines the number of Platforms the AI of the Hammer Bro tries to make use of. See Dependency Notes for more information."/>
     <list nybble="6" title="Color" comment="This determines the color of the Hammer Bro.">
       <entry value="0">Normal</entry>
       <entry value="1">Black</entry>
+	  <entry value="2">Custom (by 8forrest)</entry>
+      <entry value="3">Cyan (by StupidMarioBros1Fan)</entry>
+	  <entry value="4">Bone (Microtransagolor)</entry>
     </list>
     <list nybble="10" title="Thrown Object" comment="This determines which object will be thrown by the Hammer Bro Plus.">
       <entry value="0">Hammers</entry>
@@ -967,13 +1081,14 @@
     <list nybble="6" title="Color" comment="This determines the color and style of the Spawned Goombas." requiredbit="44" requiredval="0">
       <entry value="0">Normal</entry>
       <entry value="1">Gloomba</entry>
-      <entry value="2">"Hyper" (Normal color)</entry>
-      <entry value="3">Peach</entry>
-      <entry value="4">Red</entry>
-      <entry value="5">Blue</entry>
-      <entry value="6">Gray</entry>
-      <entry value="7">Santa</entry>
-      <entry value="8">Gray Santa</entry>
+      <entry value="2">Cat Goomba (H1K0USEN)</entry>
+      <entry value="3">Galoomba (H1K0USEN)</entry>
+      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="5">Jack O'Goomba (G4L)</entry>
+      <entry value="6">Waddlewing (WTails358)</entry>
+      <entry value="7">Santa (Newer)</entry>
+	  <entry value="8">Shrooblet (Azmudai)</entry>
+	  <entry value="9">Bone (Microtransagolor)</entry>
     </list> <!-- Appears when Spawns Goombas is set -->
     <list nybble="6" title="Color" comment="This determines the color of the Spawned Bob-Ombs." requiredbit="44">
       <entry value="0">Original</entry>
@@ -985,6 +1100,8 @@
       <entry value="6">Violet</entry>
       <entry value="7">White</entry>
       <entry value="8">Pink</entry>
+	  <entry value="9">King (by StupidMarioBros1Fan)</entry>
+	  <entry value="10">Bomb Boo (by StupidMarioBros1Fan)</entry>
     </list> <!-- Appears when Spawns Bob-Ombs is set -->
     <list nybble="12" title="Exit Direction" commnet="This determines which direction the enemy will spawn from the pipe." comment2="The spawner must be correctly positioned or it will not function. See Dependency Notes for more information.">
       <entry value="0">Up</entry>
@@ -1009,6 +1126,8 @@
       <entry value="6">Violet</entry>
       <entry value="7">White</entry>
       <entry value="8">Pink</entry>
+	  <entry value="9">King (by StupidMarioBros1Fan)</entry>
+	  <entry value="10">Bomb Boo (by StupidMarioBros1Fan)</entry>
     </list> <!-- Update [99] Pipe Enemy Generator when new items are added to this list! -->
     <list nybble="5" title="Load-In Animation" comment="This determines what animation state is used by the Bob-Omb when it is first loaded. Changing this value is not recommended." comment2="Frozen in Ice (Minus Ice): The Bob-Omb is placed at a random angle in a random spot inside a square of 3x3 blocks, the sprite's placement it the middle block. It appears somewhere between Layer 1 and Layer 2, and cannot be interacted with in any way.">
       <entry value="0">Normal</entry>
@@ -1045,10 +1164,14 @@
     </list>
     <list nybble="6" title="Style" comment="This determines the color and style of the Pokey.">
       <entry value="0">Original</entry>
-      <entry value="1">Pumpkin</entry>
-      <entry value="2">Snowman</entry>
-      <entry value="3">Jungle</entry>
-      <entry value="4">Lava</entry>
+      <entry value="1">Pumpkin (Newer)</entry>
+      <entry value="2">Snowman (Newer)</entry>
+      <entry value="3">Jungle (Newer)</entry>
+      <entry value="4">Lava (Newer)</entry>
+      <entry value="5">Mummipokey (NSMBDS)</entry>
+      <entry value="6">Skellokey (PiT)</entry>
+      <entry value="7">Snowman (3D World)</entry>
+      <entry value="8">Pokey (SMG)</entry>
     </list>
   </sprite> <!-- #105: Pokey -->
   
@@ -1057,6 +1180,46 @@
       <suggested sprite="152"/>
     </dependency>
   </sprite> <!-- #107: Message Box Controller -->
+
+  <sprite id="111" name="Blooper" notes="An underwater enemy that will chase the player.">
+    <dependency notes="Because the Bloopers can be used without Water, if they are placed in anything but an Underwater style level, they will appear to fly rather than swim and not be confined to Location Water, etc."/>
+    <list bit="19-20" title="Hiding In Wait" comment="When this is set to an option other than the default, the Blooper will wait for the player to approach before shooting out from behind the terrain.">
+      <entry value="0">Already Moving</entry>
+      <entry value="3">Shoots Up and Left</entry>
+      <entry value="1">Shoots Upwards</entry>
+      <entry value="2">Shoots Up and Right</entry>
+    </list>
+    <dualbox bit="48" title1="Moves Towards Player" title2="Moves Direction Player is Facing"/>
+	<value nybble="3-4" title="Triggering Event ID" comment="The Blooper will appear once this event is triggered." idtype="Triggering Event"/>
+	<list nybble="6" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Blue</entry>
+      <entry value="2">Green</entry>
+      <entry value="3">Pink</entry>
+      <entry value="4">Yellow</entry>
+      <entry value="5">Shroob</entry>
+    </list>
+  </sprite> <!-- #111: Blooper -->
+
+  <sprite id="112" name="Blooper Nanny with Babies" notes="An underwater enemy that will chase the player with a trail of babies in tow.">
+    <dependency notes="Because the Bloopers can be used without Water, if they are placed in anything but an Underwater style level, they will appear to fly rather than swim and not be confined to Location Water, etc."/>
+    <list bit="19-20" title="Hiding In Wait" comment="When this is set to an option other than the default, the Blooper will wait for the player to approach before shooting out from behind the terrain.">
+      <entry value="0">Already Moving</entry>
+      <entry value="3">Shoots Up and Left</entry>
+      <entry value="1">Shoots Upwards</entry>
+      <entry value="2">Shoots Up and Right</entry>
+    </list>
+    <dualbox bit="48" title1="Moves Towards Player" title2="Moves Direction Player is Facing"/>
+	<value nybble="3-4" title="Triggering Event ID" comment="The Blooper will appear once this event is triggered." idtype="Triggering Event"/>
+	<list nybble="6" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Blue</entry>
+      <entry value="2">Green</entry>
+      <entry value="3">Pink</entry>
+      <entry value="4">Yellow</entry>
+      <entry value="5">Shroob</entry>
+    </list>
+  </sprite> <!-- #112: Blooper Nanny with Babies -->
 
   <sprite id="113" name="Goal Pole and Fortress" sizehacks="True" notes="This is the Flag Pole that you've seen at the end of almost every Mario level. If you want to actually end your level without any fancy tricks, you need one of these.">
     <dualbox bit="20" title1="Normal Exit" title2="Secret Exit" comment="This determines which level exit flag will be completed when this Goal Pole is reached."/>
@@ -1082,6 +1245,16 @@
       <entry value="3">Dull</entry>
     </list>
   </sprite> <!-- #119: Giant Dry Bones -->
+
+  <!-- If a chance arises, test Super Guide with 04-05 setting Flag 6 to 0. -->
+  <sprite id="124" name="Lakitu Spawn Area" notes="Assigns a spawn area where Lakitu will continue to respawn while the player is inside it. Lakitu will follow the player along the top of the camera line and toss Spiny balls at the player to hinder their progress. The sprite's vertical position is used for Lakitu's height.">
+    <value nybble="9-10" title="Location ID" comment="Lakitu respawn and chase the player only while a player is in this location." idtype="Location"/>
+    <checkbox bit="24" title="Delay" comment="This flag makes Lakitu throw Spinies less often." advancedcomment="Used in Retail: 04-05 A1."/>
+    <list nybble="11" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Gold</entry>
+    </list>
+  </sprite> <!-- #124: Lakitu Spawn Area -->
 
   <sprite id="131" name="Boo" notes="A standard loose Boo enemy. The Boo will chase the player when there is no player actively facing the Boo.">
     <checkbox bit="48" title="Slightly Faster" comment="When enabled, the Boo will move slightly faster towards the player."/>
@@ -1263,6 +1436,16 @@
     </list>
     <checkbox bit="17" title="Initially Submerged" comment="When enabled, the floating barrel will load partially submerged."/>
   </sprite> <!-- #145: Floating Barrel -->
+
+  <sprite id="146" name="Chain Chomp" notes="A chain chomp enemy tied up to a 3 block pole. The pole must be ground-pounded 3 times to release the Chain Chomp and he will rampage in the direction he is freed destroying all block terrain in his path." advancednotes="We're pretty sure there's no setting to change the height of the pole, but you're welcome to test a few values.">
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Black</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Shroob</entry>
+      <entry value="4">Chompette (StupidMarioBros1Fan)</entry>
+    </list>
+  </sprite> <!-- #146: Chain Chomp -->
 
   <sprite id="151" name="Porcu-Puffer" notes="A stand-alone Porcu-Puffer that will chase the player along the water line indefinitely until killed, but will not respawn.">
     <dependency notes="Water is required for the Porcu-Puffer to function. It must be non-location water, possibly non-moving water.">
@@ -1458,6 +1641,15 @@
     <checkbox nybble="7" title="Enable Iron Box Effect" comment="let's do some RSMHaxxxxxxx"/>
   </sprite> <!-- #169: Magic Platform -->
 
+  <sprite id="173" name="Giant Floating Log" noyoshi="True" yoshinotes="Yoshi can't jump off of the log, and instead rides it to the bottom. Also, he can eat the whole thing." notes="A very large log that will slowly try to dump the player into the liquid below.">
+    <dependency notes="While this is not dependent on liquid in order to spawn, it should be noted that it only has collision along the top. While the player is along the top two blocks of the log, the log will generate spinning momentum and try to drop the player below it. Once the player passes those top two blocks, they will instantly fall no matter how fast the log is spinning."/>
+    <list nybble="6" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Ice</entry>
+      <entry value="2">Metal</entry>
+    </list>
+  </sprite> <!-- #173: Giant Floating Log -->
+
   <sprite id="175" name="Flying &quot;?&quot; Block" asmhacks="True" noyoshi="True" notes="A '?' Block with wings that flies around until opened, remaining in place afterwards.">
     <list bit="35-36" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="This determines which color the '?' Block will use.">
       <entry value="0">Overworld (Yellow)</entry>
@@ -1542,24 +1734,7 @@
 
   <sprite id="188" name="Midway Flag" asmhacks="True" notes="A flag that when touched by the player will mark their progress in the level and respawn them at this location when re-entering the level." advancednotes="Only one Midway Flag works properly per level. Let's say there are five Checkpoints in a Zone. If Mario were to activate Checkpoint A through C in that order, and then die, he would respawn at Checkpoint C's Entrance, and all five Checkpoints would be activated.">
     <list nybble="5-6" title="Logo" comment="NewerSMBW changes the logo placed on the Midway Flag for each sub-world.">
-      <entry value="0">Newer Logo</entry>
-      <entry value="1">Yoshi's Island</entry>
-      <entry value="2">Goldwood</entry>
-      <entry value="3">Desert</entry>
-      <entry value="4">Sewer</entry>
-      <entry value="5">Mushroom Peaks</entry>
-      <entry value="6">Mega-Mega</entry>
-      <entry value="7">Mini-Mini</entry>
-      <entry value="8">Cherry Blossom Valley</entry>
-      <entry value="9">Freezeflame Volcano</entry>
-      <entry value="10">Crystal Caverns</entry>
-      <entry value="11">Ghost Realm</entry>
-      <entry value="12">Winding Waterfall (Cliffs)</entry>
-      <entry value="13">Starry Mountain Skies</entry>
-      <entry value="14">Starry Skies</entry>
-      <entry value="15">Sky City</entry>
-      <entry value="16">Koopa Planet</entry>
-      <entry value="17">Koopa Core</entry>
+      <entry value="0">Standard</entry>
     </list>
     <value nybble="7-8" title="Entrance ID" comment="This determines which Entrance the level will load the player into when they respawn." idtype="Entrance"/>
     <dualbox bit="44" title1="Load Facing Right" title2="Load Facing Left" comment="This determines which direction the players will face when they respawn."/>
@@ -1657,11 +1832,8 @@
     <list nybble="6" title="Color" comment="This determines the color and style of the Giant Goomba." comment2="The smaller Goombas spawned correspond to it's recolor of the same value. This means that all smaller Goombas are the same color, except for Green, which is the normal brown at the smallest size.">
       <entry value="0">Normal</entry>
       <entry value="1">Gloomba</entry>
-      <entry value="2">Green</entry>
-      <entry value="3">Peach</entry>
-      <entry value="4">Red</entry>
-      <entry value="5">Blue</entry>
-      <entry value="6">Gray</entry>
+      <entry value="2">Cat Goomba (H1K0USEN)</entry>
+      <entry value="3">Galoomba (H1K0USEN)</entry>
     </list>
   </sprite> <!-- #198: Giant Goomba -->
   
@@ -1669,15 +1841,17 @@
     <list nybble="6" title="Color" comment="This determines the color and style of the Mega Goomba." comment2="The smaller Goombas spawned correspond to it's recolor of the same value. This means that all smaller Goombas are the same color, except for Green, which is the normal Brown at the smallest size.">
       <entry value="0">Normal</entry>
       <entry value="1">Gloomba</entry>
-      <entry value="2">Green</entry>
-      <entry value="3">Peach</entry>
-      <entry value="4">Red</entry>
-      <entry value="5">Blue</entry>
-      <entry value="6">Gray</entry>
-    </list>
+      <entry value="2">Cat Goomba (H1K0USEN)</entry>
+      <entry value="3">Galoomba (H1K0USEN)</entry>
+	</list>
   </sprite> <!-- #199: Mega Goomba -->
 
   <sprite id="200" name="Micro Goomba" notes="A very small Goomba that clings to the player until they spin jump to shake them off.">
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Bone (Microtransagolor)</entry>
+      <entry value="2">Mouser (Weland1234)</entry>
+    </list>
   </sprite> <!-- #200: Micro Goomba -->
   
   <sprite id="203" name="Chest" asmhacks="True" noyoshi="True" notes="A chest that will award some type of inventory item to the player. Note that opening a chest will complete the level with the standard exit.">
@@ -2523,6 +2697,70 @@
     </list>
   </sprite> <!-- #259: D-Pad Door -->
 
+  <sprite id="263" name="Lily Piranha Plant" notes="A floating piranha plant that balances a spiky spore ball in the air above it.">
+    <dependency notes="The piranha plant must be placed inside or on the surface of water [138] to spawn. It will snap to the surface when loaded on-screen.">
+      <suggested sprite="138"/>
+    </dependency>
+    <checkbox nybble="12" title="Disable Collisions After Death" comment="When Lily Piranhas die and sink, they bounce when they hit a solid tile, such as a wall. This flag disables that behavior."/>
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Ice</entry>
+      <entry value="2">Gold Coin</entry>
+      <entry value="3">Poison</entry>
+      <entry value="4">Spiky</entry>
+      <entry value="5">Cannonball</entry>
+    </list>
+  </sprite> <!-- #263: Lily Piranha Plant -->
+  
+  <sprite id="264" name="Stalking Piranha Plant" notes="A walking piranha plant that will extend and harass the player, then shrink and wander around for a bit.">
+    <dualbox bit="40" title1="Moves Left First" title2="Moves Right First" comment="This determines which direction the piranha plant will attempt to move first after shrinking."/>
+    <value nybble="12" title="Movement Distance" comment="This determines how far the piranha plant will wander in both directions from its starting point."/>
+    <checkbox bit="32" title="Slower in Water" comment="When enabled, the piranha plant will walk more slowly when moving through water."/>
+    <checkbox bit="36" title="Increase Z-pos by 200" comment="When ticked, the piranha plant's z position will be 200 higher."/>
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Ice</entry>
+      <entry value="2">Gold Coin</entry>
+      <entry value="3">Poison</entry>
+      <entry value="4">Spiky</entry>
+      <entry value="5">Cannonball</entry>
+    </list>
+  </sprite> <!-- #264: Stalking Piranha Plant -->
+
+  <sprite id="268" name="Lava Geyser" notes="An eruption of lava that will block a player's path.">
+    <dependency notes="While it is not required, it is recommended to place the geyser partially submerged in Lava of some form.">
+      <suggested sprite="139"/>
+    </dependency>
+    <list nybble="9" title="Geyser Height" comment="This determines how high the geyser will erupt.">
+      <entry value="0">Tallest</entry>
+      <entry value="1">Tall</entry>
+      <entry value="2">Medium-Tall</entry>
+      <entry value="3">Medium</entry>
+      <entry value="4">Short-Medium</entry>
+      <entry value="5">Short</entry>
+      <entry value="6">Very Short</entry>
+    </list>
+    <dualbox bit="48" title1="Delay on Load" title2="Erupt on Load" comment="This determines the state of the geyser when it first loads on the screen."/>
+    <list nybble="11" title="Eruption Length" comment="This determines how long the geyser will erupt.">
+      <entry value="0">Long</entry>
+      <entry value="1">Short</entry>
+      <entry value="2">Medium</entry>
+    </list>
+    <list nybble="10" title="Delay Between Eruptions" comment="This determines how long the geyser will wait between eruptions.">
+      <entry value="0">Long</entry>
+      <entry value="1">Short</entry>
+      <entry value="2">Medium</entry>
+    </list>
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Blue</entry>
+      <entry value="2">Yellow</entry>
+      <entry value="3">Purple</entry>
+      <entry value="4">Green</entry>
+      <entry value="5">Pink</entry>
+    </list>
+	</sprite> <!-- #268: Lava Geyser -->
+
   <sprite id="269" name="Parachute Bob-Omb" asmhacks="True" sizehacks="True" notes="A parachuting Bob-Omb enemy that will turn into a standard Bob-Omb after it lands.">
     <dependency notes="The Y-position of the Bob-Omb has no effect. It will always appear directly above the top edge of the screen."/>
     <list nybble="6" title="Color" comment="This determines the color of the Bob-Omb.">
@@ -2535,8 +2773,37 @@
       <entry value="6">Violet</entry>
       <entry value="7">White</entry>
       <entry value="8">Pink</entry>
+	  <entry value="9">King (by StupidMarioBros1Fan)</entry>
+	  <entry value="10">Bomb Boo (by StupidMarioBros1Fan)</entry>
     </list>
   </sprite> <!-- #269: Parachute Bob-Omb -->
+
+  <sprite id="272" name="Ice Bro" sizehacks="True" notes="A standard Brothers enemy that shoots ice balls at the player.">
+    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="This determines the color of the Ice Bro.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Normal (2)</entry>
+      <entry value="2">Custom (by 8forrest)</entry>
+      <entry value="3">Sledge (by StupidMarioBros1Fan)</entry>
+	  <entry value="4">Bone (Microtransagolor)</entry>
+    </list>
+  </sprite> <!-- #272: Ice Bro -->
+  
+  <sprite id="276" name="Ghost House Door" noyoshi="True" notes="A Ghost House door that can have an Entrance placed on it." advancednotes="The door can also be paired with a Rotation Controller, but the results are moderately glitchy with many combinations not functioning and several restrictions on getting them to work as actual doors.">
+    <checkbox bit="32" title="Fake Door" comment="When enabled, when the player attempt to enter the door, it will vanish and disperse into 4 harmless Boos."/>
+    <list bit="35-36" title="Orientation" comment="This determines which direction the door will be facing." comment2="A door can only be entered if it is upright." advancedcomment="As decoration, this is fine. Actually making it properly associate its corresponding Entrance is either impossible or very functionally strange.">
+      <entry value="0">Upright</entry>
+      <entry value="1">Left</entry>
+      <entry value="2">Down</entry>
+      <entry value="3">Right</entry>
+    </list>
+    <checkbox bit="40" title="Rotation Controlled (Buggy)" comment="When enabled, the door will only function when paired with a Rotation ID." advanced="True" advancedcomment="'Function' is perhaps misleading. There are only a few ways you can successfully utilize a Rotation Controller door. For starters, you can only enter the door while it is almost fully upright. There is also a peculiarity with how the Entrance is placed. The most reliable way to use a Rotation Controlled Door is to place it with an already activated Spinning controller that returns to its original position when deactivated."/>
+    <value nybble="11-12" title="Rotation ID" comment="This pairs the Door to a matching rotation controller." advanced="True" idtype="Rotation"/>
+    <list nybble="6" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">NSMBU</entry>
+      <entry value="2">Toad House</entry>
+    </list>
+  </sprite> <!-- #276: Ghose House Door -->
   
   <sprite id="279" name="World-3 Boss: Balboa Wrench" asmhacks="True" noyoshi="True" notes="The giant Rocky Wrench boss used by NewerSMBW. He must be Ground-Pounded 3 times to be defeated. ">
     <dependency notes="Kamek and Kamek Controller can be placed in any area. They should be placed in an area on their own, though.">
@@ -2802,14 +3069,17 @@
     </list>
     <checkbox bit="48" title="Loose Monty Mole" comment="When enabled, the Monty Mole will already be out of the wall running around, and does not leave behind a Monty Hole."/>
   </sprite> <!-- #303: Monty Mole -->
-  
+
   <!-- Do we know what makes this one special compared to #95? -->
   <sprite id="308" name="Platform Hammer Bro" asmhacks="True" sizehacks="True" notes="'En_Lift_HammerBros' - Likely allows it to be used on places where he shouldn't jump off.">
     <dualbox bit="48" title1="Uses 2 Platforms" title2="Uses 1 Platform" comment="This determines the number of Platforms the AI of the Hammer Bro tries to make use of. See Dependency Notes for more information."/>
     <list nybble="6" title="Color" comment="This determines the color of the Hammer Bro.">
       <entry value="0">Normal</entry>
       <entry value="1">Black</entry>
-    </list>
+	  <entry value="2">Custom (by 8forrest)</entry>
+      <entry value="3">Cyan (by StupidMarioBros1Fan)</entry>
+	  <entry value="4">Bone (Microtransagolor)</entry>
+	</list>
     <list nybble="10" title="Thrown Object" comment="This determines which object will be thrown by the Hammer Bro Plus.">
       <entry value="0">Hammers</entry>
       <entry value="1">Bob-omb</entry>
@@ -2990,11 +3260,34 @@
   </sprite> <!-- #358: Effect - Rising (Lava) Particle -->
 
   <sprite id="359" name="Lighting - Fire Lamp" notes="A decorative fire lamp that generates light around it. It has no collision by default.">
-    <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the fire lamp's model.">
-      <entry value="0">Original</entry>
-      <entry value="1">Simple Light (Python)</entry>
+    <list nybble="6" title="Color" comment="This determines the color of the fire lamp.">
+      <entry value="0">Normal</entry>
+      <entry value="1">Magenta</entry>
+      <entry value="2">Blue</entry>
+      <entry value="3">Green</entry>
+      <entry value="4">Yellow</entry>
+      <entry value="5">Light Blue</entry>
+      <entry value="6">Brown, Purple fire</entry>
+      <entry value="7">Gray, Cyan fire</entry>
+      <entry value="8">Brown, Orange fire</entry>
+      <entry value="9">Red-ish</entry>
+      <entry value="10">Pink</entry>
+      <entry value="11">Pink, Magenta fire</entry>
+      <entry value="12">Dark Blue</entry>
+      <entry value="13">Lime</entry>
+      <entry value="14">Dark Gray</entry>
+      <entry value="15">Purple</entry>
     </list>
   </sprite> <!-- #359: Lighting - Fire Lamp -->
+
+  <sprite id="370" name="Lakitu Cloud Block" notes="A block that when struck from below will spawn a Lakitu enemy that throws coins instead of Spinies.">
+    <value nybble="11" title="Maximum Coins Thrown (*5)" comment="This determines how many coins the Lakitu will throw before flying off." comment2="A value of 1 is equal to 5 coins across 15 game seconds. If set to 0, the Lakitu will never fly off."/>
+    <value nybble="12" title="Spawn Height" comment="This determines the distance relative to the bottom border of the Zone, in which the Lakitu will float upwards before it begins to throw coins." comment2="At value 0, the top of the Lakitu's shell will reach 12 blocks above the bottom Zone border. Each additional value increases this by two blocks. A value of 4 is equal to the standard height of a [134] Lakitu Spawn Area's Lakitu spawn."/>
+    <list nybble="5" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Gold</entry>
+    </list>
+  </sprite> <!-- #370: Lakitu Cloud Block -->
 
   <!-- Test is 90 continues to function (at all? / correctly?) if Falling Objects is set to something other than Snow. -->
   <!-- Test if 374 is required for 90 to generate pushback (90 Only). Test if 90 is required for 374 to generate sandstorm graphics (374 Only). -->
@@ -3017,11 +3310,15 @@
 	<checkbox bit="47" title="No Random Alpha" requiredbit="48" requiredval="0"/>
   </sprite> <!-- #374: Effect - Falling Objects and Wind -->
 
-  <sprite id="383" name="Boss Controller - Kamek" notes="This controls the various boss fight mechanics for the Kamek fight in World 8-Tower, such as the boss movement, and level completion. &lt;font color=&quot;red&quot;&gt;The Boss Controller crashes NewerSMBW once he loads on-screen.&lt;/font&gt;">
-    <dependency notes="For help in placement of the Boss Controllers and Cutscene Controllers, see 08-22's Boss Room.">
+  <sprite id="383" name="Boss Controller - Kamek" notes="Kamek himself can be placed anywhere within the Zone, as the controller's placement itself determines his spawn position. &lt;br&gt;&lt;br&gt;The blocks move left and despawn when their right edges reach the left border, and respawn from their right edge on the right border.">
+    <dependency notes="For more help setting up the boss room, see the zone from the original game.">
       <required sprite="427"/>
       <suggested sprite="436"/>
     </dependency>
+	<list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Kamella (H1K0USEN)</entry>
+    </list>
   </sprite> <!-- #383: Boss Controller - Kamek -->
 
   <!-- Color conflicts in recent sprite data, needs rechecked with screenshot. Also check color changes with Size setting. -->
@@ -3029,12 +3326,15 @@
     <dualbox bit="44" title1="Use Bush Color" title2="Yellowish Bush" comment="This determines if the Bush is a yellowish color, or if it uses the color listed in Bush Color instead."/>
     <list nybble="5" title="Bush Style" comment="This determines the style of the Bush. The Forest Tree Leafs specifically are in front of Layer 1, but behind Layer 0." requiredbit="44" requiredval="0">
       <entry value="0">Green</entry>
-      <entry value="1">Brown</entry>
-      <entry value="2">Dark Red</entry>
-      <entry value="3">Yellow</entry>
-      <entry value="4">Dark Brown</entry>
-      <entry value="5">Red</entry>
-      <entry value="15">Forest Tree Leafs</entry>
+      <entry value="1">Yellow</entry>
+      <entry value="2">Red</entry>
+      <entry value="3">Cyan</entry>
+      <entry value="4">Pink</entry>
+      <entry value="5">NSMBU Green</entry>
+      <entry value="6">NSMBU Yellow</entry>
+      <entry value="7">NSMBU Red</entry>
+      <entry value="8">NSMBU Cyan</entry>
+      <entry value="9">NSMBU Pink</entry>
     </list> <!-- Appears only if Use Bush Color is set -->
     <list bit="47-48" title="Size" comment="This determines the size of the Bush. Larger sizes use different models.">
       <entry value="0">Small</entry>
@@ -3166,6 +3466,7 @@
       <entry value="5">Blue</entry>
       <entry value="6">Violet</entry>
       <entry value="7">Black</entry>
+      <entry value="8">Fliprus (NSMBU)</entry>
     </list> <!-- Stone Spike colors -->
     <list nybble="6" title="Color" comment="This determines the color of the Spike." requiredbit="48" requiredval="1">
       <entry value="0">Original</entry>
@@ -3173,7 +3474,8 @@
       <entry value="2">Orange</entry>
       <entry value="3">Yellow</entry>
       <entry value="4">Green</entry>
-      <entry value="5">NSMBDS Snow Spike</entry>
+      <entry value="5">Snow Spike (NSMBDS)</entry>
+      <entry value="6">Fliprus (NSMBU)</entry>
     </list> <!-- Spike colors -->
     <dualbox bit="48" title1="Stone Spike (Throws Down)" title2="Spike (Throws to Side)" comment="This determines the type of enemy that will spawn." comment2="A Stone Spike throws spiked balls downwards, and a Spike throws spiked balls left or right."/>
     <dualbox bit="40" title1="Faces Left" title2="Faces Right" comment="This determines the initial direction the Spike will face." comment2="This has limited use, as the Spike will turn to face the player when needed. It's most useful when placing the Spike in range of an entrance." requiredbit="48" requiredval="0"/>
@@ -3193,11 +3495,32 @@
     <checkbox bit="48" title="Unknown Flag 12 (1)" advanced="True" advancedcomment="ASM shows Nybble 12 might affect something."/>
   </sprite> <!-- #423: Toad Needs Help - Brick Block -->
 
-  <sprite id="427" name="Kamek" noyoshi="True" notes="Kamek himself, used in the tower boss fight of World 8. He cannot be used without the proper controllers and level setup. &lt;font color=&quot;red&quot;&gt;Kamek crashes NewerSMBW once he loads on-screen.&lt;/font&gt;">
-    <dependency notes="For help in placement of the Boss Controllers and Cutscene Controllers, see 08-22's Boss Room.">
+  <sprite id="424" name="Palm Tree" notes="A palm tree decoration with a solid-on-top collision.">
+    <list bit="46-48" title="Height" comment="This determines the height of the Palm Tree.">
+      <entry value="0">4 Blocks</entry>
+      <entry value="1">5 Blocks</entry>
+      <entry value="2">6 Blocks</entry>
+      <entry value="3">7 Blocks</entry>
+      <entry value="4">8 Blocks</entry>
+      <entry value="5">9 Blocks</entry>
+      <entry value="6">10 Blocks</entry>
+      <entry value="7">11 Blocks</entry>
+    </list>
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">NSMBU</entry>
+    </list>
+  </sprite> <!-- #424: Palm Tree -->
+
+  <sprite id="427" name="Kamek" noyoshi="True" notes="Requires his boss controller to function. His spawn position is fixed relative to the boss controller's position, making the placement of the sprite itself irrelevant.">
+    <dependency notes="For more help setting up the boss room, see the zone from the original game.">
       <required sprite="383"/>
       <suggested sprite="436"/>
     </dependency>
+    <list nybble="6" title="SpriteTex" comment="Changes the sprites model.">
+      <entry value="0">Original</entry>
+      <entry value="1">Kamella (H1K0USEN)</entry>
+    </list>
   </sprite> <!-- #427: Kamek -->
   
   <sprite id="431" name="Boss Controller - Bowser" noyoshi="True" notes="The main boss controller for the Retail Bowser battle.">

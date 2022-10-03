@@ -115,6 +115,8 @@ public:
 	
 	mEf::es2 effects[7];
 	
+	int worldNumber;
+	
 	void spawnEffects();
 };
 
@@ -169,7 +171,15 @@ int dWMManager_c::onCreate() {
 	cSelect = layout->findTextBoxByName("T_cSelect_00");
 	cSelectPic = layout->findTextBoxByName("T_cSelect_pic");
 
-	uint worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+	this->worldNumber = getLevelInfoWorldNumber(CurrentWorldNumForWorldMap, CurrentWorldNumForWorldMapSub);
+	
+	u8 count = 0;
+	for(int i = 0; i<4; i++) {
+		if (QueryPlayerAvailability(i)) {
+			count++;
+		}
+	}
+	setDiscordPresence(count, worldNumber, false);
 	
 	dLevelInfo_c::entry_s *level = dLevelInfo_c::s_info.searchByDisplayNum(worldNumber+1, 100);
 
@@ -201,7 +211,7 @@ int dWMManager_c::onCreate() {
 		dActor_c::create(WM_NOTE, 0, 0, 0);
 	}*/
 	
-	Vec airshipPos = player->pos;
+	/*Vec airshipPos = player->pos;
 	airshipPos.x += 20;
 	dActor_c::create(WMAirships, 0, &airshipPos, 0);
 	airshipPos.y += 200;
@@ -217,7 +227,7 @@ int dWMManager_c::onCreate() {
 	dActor_c::create(WMAirships, 5, &airshipPos, 0);
 	
 	airshipPos.x += 200;
-	dActor_c::create(WMAirships, 6, &airshipPos, 0);
+	dActor_c::create(WMAirships, 6, &airshipPos, 0);*/
 	
 	return true;
 }

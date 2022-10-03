@@ -218,7 +218,7 @@ void dCreatorInfo_c::loadInfo() {
 		AuthorNames->SetString(convertedCreditsText1);
 		FreeFile(&fileHandles[0]);
 	} else {
-		const wchar_t* noCreditsFile = L"You should\nnot see this\nhere!\nPlease\nreport on\nDiscord!";
+		const wchar_t* noCreditsFile = L"You should\nnot see this\nhere!\nReport this\non Discord\nplease!";
 		AuthorNames->SetString(noCreditsFile);
 	}
 	

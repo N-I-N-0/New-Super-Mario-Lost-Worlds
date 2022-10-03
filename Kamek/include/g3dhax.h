@@ -326,6 +326,18 @@ namespace m3d {
 
 			void bind(/*b*/mdl_c *model, nw4r::g3d::ResAnmChr anmRes, bool playsOnce);
 	};
+	
+	class anmChrPart_c : public banm_c {
+		public:
+			~anmChrPart_c();
+			int _vf0C();
+
+			bool setup(nw4r::g3d::ResMdl modelRes, u32 count,
+					mAllocator_c *allocator, u32 *sizeOutPtr);
+
+			// void bind(/*b*/mdl_c *model, nw4r::g3d::ResAnmChr anmRes, bool playsOnce);
+			void attachChr(u32 index, m3d::anmChr_c anim, float weight);
+	};
 
 	class anmVis_c : public fanm_c {
 		public:

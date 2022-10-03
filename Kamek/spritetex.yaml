@@ -58,6 +58,55 @@ hooks:
 #    src_addr_pal: 0x80aa6b9c
 #    target_func: 'TEX_SnakeBlock'
 
+  - name: TEX_RiverPiranha
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80ac5ae4
+    target_func: 'TEX_RiverPiranha'
+
+  - name: TEX_RiverPiranhaBall
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x807f5950
+    target_func: 'TEX_RiverPiranhaBall'
+
+  - name: TEX_RiverPiranhaPassSpriteTexToBall
+    type: patch
+    data: '88A30004' #lbz r5, 0x4(r3)
+    addr_pal: 0x80ac61ec
+
+  - name: KamekBrresFix1 #Airship Demo
+    type: patch
+    data: '6733642F7430302E627272657300' #g3d/t00.brres
+    addr_pal: 0x80960f44
+
+  - name: KamekBrresFix3 #WM
+    type: patch
+    data: '6733642F7430302E627272657300' #g3d/t00.brres
+    addr_pal: 0x80986d70
+
+  - name: KamekBrresFix4 #Boss Koopa Demo
+    type: patch
+    data: '6733642F7430302E627272657300' #g3d/t00.brres
+    addr_pal: 0x80b7f66c
+
+  - name: KamekBossIntroPassSpriteTex
+    type: patch
+    data: '809F0004' #lwz r4, 4(r31)
+    addr_pal: 0x807c811c
+    
+  - name: TEX_KamekBoss
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80b391e8
+    target_func: 'TEX_KamekBoss'
+
+  - name: TEX_KamekCastleDemo
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80819424
+    target_func: 'TEX_KamekCastleDemo'
+
   - name: TEX_Sandpillar
     type: branch_insn
     branch_type: b
@@ -209,29 +258,11 @@ hooks:
     target_func: 'TEX_YoshiFruit'
 
 # The below was added by Tempus
-  - name: TEX_Goomba
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x80031384
-    target_func: 'TEX_Goomba'
-
-  - name: TEX_BigGoomba
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x80033350
-    target_func: 'TEX_BigGoomba'
-
   - name: TEX_Barrel
     type: branch_insn
     branch_type: bl
     src_addr_pal: 0x809AB3B4
     target_func: 'TEX_Barrel'
-
-#  - name: TEX_Blooper
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80A0451C
-#    target_func: 'TEX_Blooper'
 
 #  - name: TEX_BigBlock
 #    type: branch_insn
@@ -373,12 +404,6 @@ hooks:
     src_addr_pal: 0x809D8DB4
     target_func: 'TEX_Monty'
 
-#  - name: TEX_ChainChomp
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80ABF934
-#    target_func: 'TEX_ChainChomp'
-
   - name: TEX_Manta
     type: branch_insn
     branch_type: bl
@@ -408,30 +433,6 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x80A7EEF8
     target_func: 'TEX_ParaBomb'
-
-#  - name: TEX_CheepA
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80A3B8F8
-#    target_func: 'TEX_CheepA'
-
-#  - name: TEX_CheepB
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80AB2288
-#    target_func: 'TEX_CheepB'
-
-#  - name: TEX_CheepC
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x80A8A008
-#    target_func: 'TEX_CheepC'
-
-#  - name: TEX_CheepChomp
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x809A67F4
-#    target_func: 'TEX_CheepChomp'
 
   - name: TEX_Boo
     type: branch_insn
@@ -1069,12 +1070,6 @@ hooks:
 #    src_addr_pal: 0x80ACBFB0
 #    target_func: 'TEX_WoodenCrate'
 
-#  - name: TEX_BoomerangBro
-#    type: branch_insn
-#    branch_type: bl
-#    src_addr_pal: 0x807C6D14
-#    target_func: 'TEX_BoomerangBro'
-
   - name: TEX_FireLamp
     type: branch_insn
     branch_type: bl
@@ -1104,3 +1099,193 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x809ED5B4
     target_func: 'TEX_Crow'
+    
+    
+#####################
+  - name: TEX_WalkPakkun
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80abd264
+    target_func: 'TEX_WalkPakkun'
+
+  - name: TEX_Wanwan
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80abf934
+    target_func: 'TEX_Wanwan'
+
+  - name: WanwanPilePassSpriteTex
+    type: patch
+    data: '809E0004' #lwz r4, 4(r30)
+    addr_pal: 0x80ac2d08
+
+  - name: WanwanEffWanChain
+    type: patch
+    data: '6733642F7430302E627272657300' #g3d/t00.brres
+    addr_pal: 0x80311800
+
+  - name: WanwanChain
+    type: patch
+    data: '6733642F7430302E627272657300' #g3d/t00.brres
+    addr_pal: 0x8031b6b0
+
+  - name: TEX_Wanwan2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80ac2c10
+    target_func: 'TEX_Wanwan2'
+
+#  - name: TEX_Wanwan3
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x800919e4
+#    target_func: 'TEX_Wanwan3'
+
+#  - name: TEX_Wanwan4
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x800ea750
+#    target_func: 'TEX_Wanwan4'
+
+  - name: TEX_Lakitu_Coin
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a34db4
+    target_func: 'TEX_Lakitu'
+
+  - name: TEX_Lakitu_Body
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a37694
+    target_func: 'TEX_Lakitu'
+
+  - name: TEX_LakituSpawnArea
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80abcb48
+    target_func: 'TEX_LakituSpawnArea'
+
+  - name: TEX_LakituCloudBlock
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80a36090
+    target_func: 'TEX_LakituCloudBlock'
+
+  - name: TEX_LakituCloudBlock2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809c2634
+    target_func: 'TEX_LakituCloudBlock2'
+
+  - name: TEX_Foo
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a6af98
+    target_func: 'TEX_Foo'
+    
+  - name: TEX_Penguin
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80aa2fb0
+    target_func: 'TEX_Penguin'
+    
+  - name: TEX_Fuzzy
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809d7924
+    target_func: 'TEX_Fuzzy'
+
+  - name: TEX_Firepillar
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8090f684
+    target_func: 'TEX_Firepillar'
+ 
+  - name: TEX_CheepA
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A3B8F8
+    target_func: 'TEX_CheepA'
+
+  - name: TEX_CheepB
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80AB2288
+    target_func: 'TEX_CheepB'
+
+  - name: TEX_CheepC
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A8A008
+    target_func: 'TEX_CheepC'
+
+  - name: TEX_CheepChomp
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809A67F4
+    target_func: 'TEX_CheepChomp'
+
+  - name: TEX_Palm
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8088c484
+    target_func: 'TEX_Palm'
+
+  - name: TEX_GhostDoor
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a75788
+    target_func: 'TEX_GhostDoor'
+
+
+
+  - name: TEX_Boomerang
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x807C6D14
+    target_func: 'TEX_Boomerang'
+
+  - name: TEX_Hammer
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x807fcdf4
+    target_func: 'TEX_Hammer'
+
+#  - name: TEX_HammerSettings	#see HammerTime
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x80a123f0
+#    target_func: 'TEX_HammerSettings'
+
+
+  - name: TEX_BoomerangSettings
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809ce454
+    target_func: 'TEX_BoomerangSettings'
+
+
+
+  - name: TEX_FloatingLog
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a63774
+    target_func: 'TEX_FloatingLog'
+
+  - name: TEX_Blooper
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80A0451C
+    target_func: 'TEX_Blooper'
+
+  - name: TEX_BlooperNanny
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a08534
+    target_func: 'TEX_BlooperNanny'
+
+  - name: TEX_BlooperNannyAdjustSettings
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809a8f28
+    target_func: 'TEX_BlooperNannyAdjustSettings'

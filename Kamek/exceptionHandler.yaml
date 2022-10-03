@@ -1,7 +1,13 @@
-source_files: [../src/exceptionHandler.cpp]
+source_files: [../src/exceptionHandler.cpp, ../src/exceptionHandler.S]
 hooks:
-    - name: ReplacePrintContext
-      type: branch_insn
-      branch_type: b
-      src_addr_pal: 0x80234CA0
-      target_func: 'PrintContext(unsigned short, void *, unsigned int, unsigned int)'
+  - name: ReplacePrintContext
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80234CA0
+    target_func: 'PrintContext(unsigned short, void *, unsigned int, unsigned int)'
+
+  - name: noAudioAfterCrash
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80234888
+    target_func: 'noAudioAfterCrash'

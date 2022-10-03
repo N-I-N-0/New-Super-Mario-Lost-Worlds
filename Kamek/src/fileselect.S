@@ -6,6 +6,7 @@
 .extern findPictureByName__Q23m2d17EmbedLayoutBase_cCFPCc
 .extern GrabExitInfoForFileSelect
 .extern InsertIntIntoTextBox1
+.extern SetWorldNameForSaveFile
 #.extern ResetAllCompletionCandidates__Fv
 
 .global A00_window
@@ -57,33 +58,17 @@ DFNiceWorldName:
 	stw r20, 0x2C(r1)
 	stw r21, 0x28(r1)
 	stw r22, 0x24(r1)
+	stw r31, 0x20(r1)
 
 	# Savefile is in r31
+
+
+	lbz r3, 0x3(r31)	#r3 is the last played world number - save->current_world
+	bl SetWorldNameForSaveFile
+
 	# World Name field is in r20
-	mr r20, r4
-
-useNormalWName:
-	lis r4, ConvertedWorldName@h
-	ori r4, r4, ConvertedWorldName@l
-	mr r3, r4
-	mr r5, r31
-	li r6, 32
-	mtctr r6
-
-convWNameLoop:
-	lbz r6, 0x6FC(r5)
-	sth r6, 0(r3)
-	addi r3, r3, 2
-	addi r5, r5, 1
-	bdnz convWNameLoop
-
-chosenWName:
-	mr r3, r20
-	li r5, 0
-	lwz r12, 0(r3)
-	lwz r12, 0x7C(r12)
-	mtctr r12
-	bctrl
+	lwz r20, 0x2C(r1)
+	lwz r31, 0x20(r1)
 
 	# Load hint colour
 	lwz r3, 0x71C(r31)
@@ -92,18 +77,18 @@ chosenWName:
 	stw r3, 0xE0(r20)
 
 	# Set hint color
-	addi r3, r30, 0x74
-	lis r4, Picture_00@h
-	ori r4, r4, Picture_00@l
-	bl findPictureByName__Q23m2d17EmbedLayoutBase_cCFPCc
+	#addi r3, r30, 0x74
+	#lis r4, Picture_00@h
+	#ori r4, r4, Picture_00@l
+	#bl findPictureByName__Q23m2d17EmbedLayoutBase_cCFPCc
 	
 	# Load text color
-	lwz r4, 0x724(r31)
-	stw r4, 0xD8(r3)
-	stw r4, 0xDC(r3)
-	lwz r4, 0x728(r31)
-	stw r4, 0xE0(r3)
-	stw r4, 0xE4(r3)
+	#lwz r4, 0x724(r31)
+	#stw r4, 0xD8(r3)
+	#stw r4, 0xDC(r3)
+	#lwz r4, 0x728(r31)
+	#stw r4, 0xE0(r3)
+	#stw r4, 0xE4(r3)
 
 	# Grab exits
 	lis r3, Out_Stuff@h
@@ -198,6 +183,8 @@ DFTitle:
 .short 'F','i','l','e',' ','X',0
 
 ConvertedWorldName:
+.long 0, 0, 0, 0, 0, 0, 0, 0
+.long 0, 0, 0, 0, 0, 0, 0, 0
 .long 0, 0, 0, 0, 0, 0, 0, 0
 .long 0, 0, 0, 0, 0, 0, 0, 0
 

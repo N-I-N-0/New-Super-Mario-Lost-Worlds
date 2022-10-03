@@ -44,6 +44,16 @@ void dHammerSuitRenderer_c::setup(dPlayerModelHandler_c *handler) {
 	setup(handler, 0);
 }
 
+
+void dPlayerModel_c::enableMetalEffect() {
+	this->doesFunStuffsWithClr(&this->models[0].body,4);
+	this->doesFunStuffsWithClr(&this->models[0].head,4);
+}
+void dPlayerModel_c::disableMetalEffect() {
+	
+}
+
+
 void dHammerSuitRenderer_c::setup(dPlayerModelHandler_c *handler, int sceneID) {
 	victim = (dPlayerModel_c*)handler->mdlClass;
 
@@ -130,7 +140,7 @@ void dHammerSuitRenderer_c::draw() {
 	}
 
 	if(victim->powerup_id == 7) {
-		/*if (victim->player_id_2 <= 1) {
+		if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -142,7 +152,7 @@ void dHammerSuitRenderer_c::draw() {
 			hammerHelmet.calcWorld(false);
 	
 			hammerHelmet.scheduleForDrawing();
-		}*/
+		}
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -153,8 +163,13 @@ void dHammerSuitRenderer_c::draw() {
 	
 		hammerShell.scheduleForDrawing();
 	}
+	
+	if(victim->powerup_id == 8) {
+		victim->enableMetalEffect();
+	}
+	
 	if(victim->powerup_id == 9) {
-		/*if (victim->player_id_2 <= 1) {
+		if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -166,7 +181,7 @@ void dHammerSuitRenderer_c::draw() {
 			spikeHelmet.calcWorld(false);
 	
 			spikeHelmet.scheduleForDrawing();
-		}*/
+		}
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -178,7 +193,7 @@ void dHammerSuitRenderer_c::draw() {
 		spikeShell.scheduleForDrawing();
 	}
 	if(victim->powerup_id == 10) {
-		/*if (victim->player_id_2 <= 1) {
+		if (victim->player_id_2 <= 1) {
 			// Materials: 2=hair 3=hat; Modes: BACK=visible ALL=invisible
 			SetCullModeForMaterial(&victim->getCurrentModel()->head, 3, GX_CULL_ALL);
 	
@@ -190,7 +205,7 @@ void dHammerSuitRenderer_c::draw() {
 			boomerHelmet.calcWorld(false);
 	
 			boomerHelmet.scheduleForDrawing();
-		}*/
+		}
 	
 		Mtx rootMtx;
 		victimModel->getMatrixForNode(rootNodeID, rootMtx);
@@ -275,9 +290,9 @@ void dStockItem_c::setScalesOfSomeThings() {
 
 				if(!IsWideScreen()) {
 					out.y -= 12;
-					stockItemPlayerModelScale = 3.6f;
+					stockItemPlayerModelScale = 2.8f;
 				} else {
-					stockItemPlayerModelScale = 4.1f;
+					stockItemPlayerModelScale = 3.2f;
 				}
 
 				

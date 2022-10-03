@@ -23,3 +23,9 @@ hooks:
     branch_type: b
     src_addr_pal: 0x8092FADC
     target_func: 'CheckForNewCSMBytes'
+
+  - name: UpdateDiscord
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8092ffe0
+    target_func: 'dCourseSelectManager_c::endState_CharacterChangeWait_new(void)'

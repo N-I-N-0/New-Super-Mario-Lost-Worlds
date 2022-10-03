@@ -1,0 +1,56 @@
+source_files: [../src/kuribo.S]
+hooks:
+  - name: TEX_Goomba
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80031384
+    target_func: 'TEX_Goomba'
+
+  - name: TEX_BigGoomba
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80033350
+    target_func: 'TEX_BigGoomba'
+
+  - name: TEX_MiniGoomba
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809b0ab4
+    target_func: 'TEX_MiniGoomba'
+
+
+# not doing this because the animations for each version are different which makes this too complicated
+#  - name: kuriboMiniUseNormalModel1
+#    type: patch
+#    data: '00000000'
+#    addr_pal: 0x80ad7a96
+
+#  - name: kuriboMiniUseNormalModel2
+#    type: patch
+#    data: '00000000'
+#    addr_pal: 0x80319c36
+
+
+#  - name: kuriboBigUseNormalModel1
+#    type: patch
+#    data: '00000000'
+#    addr_pal: 0x803050ce
+
+#  - name: kuriboBigUseNormalModel2
+#    type: patch
+#    data: '00000000'
+#    addr_pal: 0x80319c36
+
+
+
+# todo: Cat Goomba attack & Shrooblet jump
+
+
+
+
+
+
+
+
+
+
