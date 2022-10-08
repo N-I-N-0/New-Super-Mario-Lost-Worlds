@@ -1,3 +1,7 @@
 ---
 source_files: [../src/cheepcheeps.cpp]
-hooks: []
+hooks:
+  - name: daEnJumpPuku_cCreateIceActors
+    type: add_func_pointer
+    src_addr_pal: 0x80af45ec
+    target_func: 'daEnJumpPuku_cCreateIceActors(dEn_c *)'

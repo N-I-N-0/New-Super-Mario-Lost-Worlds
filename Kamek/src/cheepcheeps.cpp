@@ -446,3 +446,15 @@ int daEnCheepCheepController_c::onExecute() {
 		
 	return true;
 }
+
+
+
+
+bool daEnJumpPuku_cCreateIceActors(dEn_c* self) {
+	self->aPhysics.removeFromList();
+
+	struct DoSomethingCool my_struct = { 0, (Vec){self->pos.x, self->pos.y - 13.0, self->pos.z}, {1.6, 1.4, 1.5}, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	self->frzMgr.Create_ICEACTORs( (void*)&my_struct, 1 );
+	__destroy_arr( (void*)&my_struct, sub_80024C20, 0x3C, 1 );
+	return true;
+}
