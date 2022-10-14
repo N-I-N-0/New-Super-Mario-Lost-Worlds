@@ -2127,6 +2127,21 @@ class SpriteImage_GoombaTower(SLib.SpriteImage_Static):  # 524
         SLib.loadIfNotInImageCache('GoombaTower', 'goombaTower.png')
         
 
+class SpriteImage_Octoomba(SLib.SpriteImage_Static):  # 570
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            1.45,
+            ImageCache['Octoomba'],
+            (-3, -14),
+        )
+        
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('Octoomba', 'octoomba.png')
+
+
+
 ImageClasses = {
     12: SpriteImage_StarCollectable,
     13: SpriteImage_ClownCar,
@@ -2210,4 +2225,5 @@ ImageClasses = {
     524: SpriteImage_CloudPlattform,
     525: SpriteImage_GoombaTower,
     563: SpriteImage_Thundercloud,
+    573: SpriteImage_Octoomba,
 }

@@ -1,0 +1,21 @@
+---
+
+source_files: [../src/underwaterLamp.S]
+hooks:
+  - name: ChangeLampPower
+    type: branch_insn
+    src_addr_pal: 0x808A8858
+    branch_type: bl
+    target_func: 'ChangeLampPower'
+
+#  - name: UpdateUnderwaterLampSpriteInfo
+#    type: patch
+#    # 0x8030A340 + sprite num * 0x28 == offset
+#    addr_pal: 0x8030e918
+#    #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+#  # Orig: '026A 0000  00000008 FFFFFFF0  00000000 00000008 000000C0 000000C0  0000 0000 0000 0000  0008 0000'
+#    data: '026A 0000  00000008 FFFFFFF0  00000000 00000008 000000C0 000000C0  0000 0000 0000 0000  0002 0000'
+
+  - name: dontDespawn
+    type: nop_insn
+    area_pal: 0x808a84e8

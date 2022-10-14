@@ -1,0 +1,25 @@
+---
+source_files: [../src/rescueBowsette.S]
+hooks:
+  - name: useNewBrres
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80b48f34
+    target_func: 'useNewBrres'
+
+  - name: useNewArcAndMdl
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80b48f3c
+    target_func: 'useNewArcAndMdl'
+
+  - name: useNewArcAndMdl
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80b48f50
+    target_func: 'useNewArcAndMdl'
+
+  - name: loadNewArc
+    type: add_func_pointer
+    src_addr_pal: 0x8031a8e8
+    target_func: 'bowsette'

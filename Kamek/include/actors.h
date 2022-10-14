@@ -865,6 +865,22 @@ enum Actors {
 	PakkunProjectile, //848
 	BoomerangHax, //849
 	CustomClown, //850
+	Octo, //851
+	OctoBullet, //852
+	ThornyFlower, //853
+	RYOM, //854
+	RYONDaisy, //855
+	RYONPeach, //856
+	RYONDK, //857
+	RYONToadette, //858
+	RYONWario, //859
+	RYONWaluigi, //860
+	RYONRosalina, //861
+	RYONBowsette, //862
+	RYONToadsworth, //863
+	MANTA_MGR2_NEW, //864
+	UniversalReconfigurator, //865
+
 };
 
 struct Actor {

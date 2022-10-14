@@ -45,39 +45,6 @@
     <dualbox bit="48" title1="Throws Left" title2="Throws Right" comment="This determines which direction the object will be thrown." advanced="True"/>
   </sprite> <!-- #10: (Unused) Large Object Thrower -->
 
-  <!-- Establish full list of Dependencies -->
-  <sprite id="11" name="Custom Model Loader" asmhacks="True" notes="The Custom Model Loader allows the use of pre-scripted Models and Animations for use in user-created cutscenes. It can also provide new models as decoration for your level. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning:&lt;/b&gt; Will CRASH if [Animate Model] is set and no animation is available.&lt;/font&gt;" advancednotes="New Models and Animations can be added to this sprite's functionality specifically for your hack. This requires editing of the game code through Kamek or with the assistance of members of the NEWER team.">
-    <dependency notes="As this sprite will pull Models and Animations from specific .arc files, those sprites are required to be placed within the level to prevent a game crash. The list of required sprites is as follows: &lt;br&gt; &lt;br&gt;0-6: arrow.arc (143) &lt;br&gt;7-16: block_arrow.arc (321) &lt;br&gt;17-24: arrow.arc (143) &lt;br&gt;25-28: cage_boss_koopa.arc (439) &lt;br&gt;29-38: kameck_princess.arc (439) &lt;br&gt;39: CreditsBG.arc (???) &lt;br&gt;40-42: chestnut.arc (320) &lt;br&gt;43-48: OpeningScene.arc (273) &lt;br&gt;49: chestnut.arc (320)">
-      <suggested sprite="143"/> <!-- arrow.arc -->
-      <suggested sprite="321"/> <!-- block_arrow.arc -->
-      <suggested sprite="439"/> <!-- cage_boss_koopa, kameck_princess -->
-      <suggested sprite="0"/> <!-- CreditsBG -->
-      <suggested sprite="320"/> <!-- chestnut -->
-      <suggested sprite="273"/> <!-- OpeningScene -->
-    </dependency>
-    <external type="models" nybble="11-12" title="Model ID" comment="Use this external window to select your Model.&lt;br&gt;&lt;br&gt;This determines which Model will be used. If [Animate Model] is checked, then the Models will run their coded animation instead of standing still. Values with '---' were not used in Newer levels." />
-    <value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
-    <checkbox bit="40" title="Animate Model" comment="When enabled, the loaded model will activate its attached animation, otherwise the loaded model will be stationary." comment2="&lt;font color=&quot;red&quot;&gt;Will CRASH if Animation not present and this is checked.&lt;/font&gt; &lt;br&gt; &lt;br&gt;Known values that must have [Animate Model] left unchecked: &lt;br&gt;17: Perfect Title Peach's Castle &lt;br&gt;40-42, 49: Tree Canopy A/B/C/D"/>
-    <list nybble="8" title="Z-Order" comment="This determines the Z-Order of the model." comment2="Some in-game Z-Order values: &lt;br&gt;Background: -5500.0 &lt;br&gt;Layer 2: -3300.0 &lt;br&gt;Layer 1: 0.0 &lt;br&gt;Player: 300.0 &lt;br&gt;Foreground: 1200.0 &lt;br&gt;Layer 0: 3300.0 &lt;br&gt;Above Layer 0: 5500.0">
-      <entry value="0">Use Default Z-Order for Custom Model</entry>
-      <entry value="1">-5000.0</entry>
-      <entry value="2">-4500.0</entry>
-      <entry value="3">-2000.0</entry>
-      <entry value="4">-1000.0</entry>
-      <entry value="5">300.0</entry>
-      <entry value="6">800.0</entry>
-      <entry value="7">1600.0</entry>
-      <entry value="8">2000.0</entry>
-      <entry value="9">3600.0</entry>
-      <entry value="10">4000.0</entry>
-      <entry value="11">4500.0</entry>
-      <entry value="12">6000.0</entry>
-      <entry value="13">6500.0</entry>
-      <entry value="14">7000.0</entry>
-      <entry value="15">7500.0</entry>
-    </list>
-  </sprite> <!-- #11: Custom Model Loader -->
-
   <sprite id="12" name="Toad House Minigame - Silver Star" notes="A collection challenge added in NewerSMBW. The player must collect all of the stars within the time limit in order to succeed and trigger an event.">
     <value nybble="5-6" title="Target Event ID" comment="This determines which Event will be activated when all Collectible Stars in the Zone are collected." idtype="Target Event"/>
     <list bit="47-48" title="Minimum Number of Players" comment="This determines the minimum number of players required to be present for this start to spawn.">
@@ -272,16 +239,10 @@
     <checkbox bit="47" title="Inside Shell" comment="When enabled, the Buzzy Beetle will spawn inside his shell. He will eventually climb out and resume walking, even if set to be upside-down. Upside-down shells will fall without spinning towards the player."/>
   </sprite> <!-- #24: Buzzy Beetle -->
   
-  <sprite id="25" name="Spiny" asmhacks="True" sizehacks="True" notes="A Spiny that walks along the ground.">
+  <sprite id="25" name="Spiny / Nipper Plant" asmhacks="True" sizehacks="True" notes="A Spiny that walks along the ground.">
     <list nybble="6" title="Color" comment="This determines the color and style of the Spiny." comment2="Any Spiny that uses the Balled Up animation will initially use the original red color. Additionally, the Sidestepper's shell has no texture, so it flickers through all the other colors.">
       <entry value="0">Original</entry>
-      <entry value="1">Orange</entry>
-      <entry value="2">Yellow</entry>
-      <entry value="3">Green</entry>
-      <entry value="4">Blue</entry>
-      <entry value="5">Violet</entry>
-      <entry value="6">Black</entry>
-      <entry value="7">Sidestepper</entry>
+      <entry value="1">Nipper Plant</entry>
     </list>
     <list bit="47-48" title="Load-In Animation" comment="This will determine which animation state is used by the Spiny when it is first loaded.">
       <entry value="0">Normal (Towards Player)</entry>
@@ -1404,23 +1365,6 @@
       <entry value="2">Gold</entry>
     </list>
   </sprite> <!-- #139: Lava -->
-
-<!-- Can this still be used as 'an ugly loose arrow' and placed into stages with an editable Arrow Direction? -->
-  <sprite id="143" name="arrow.arc" asmhacks="True" notes="This stores many of the models used by NewerSMBW for their cinematics. &lt;font color=&quot;red&quot;&gt;This sprite freezes the game if it shows up on-screen.">
-    <dependency notes="If using option 0-6 or 17-24 of the Custom Model Loader (11), you'll need one of these placed somewhere in the level. It does not have to be within a Zone.">
-       <suggested sprite="11"/> <!-- You'll want to use this with the Custom Model Loader. -->
-    </dependency>
-    <list bit="46-48" title="Arrow Direction" advanced="True" advancedcomment="If this were still a Loose Arrow, you would be able to set its direction.">
-      <entry value="0">Up</entry>
-      <entry value="1">Up + Left</entry>
-      <entry value="2">Left</entry>
-      <entry value="3">Down + Left</entry>
-      <entry value="4">Down</entry>
-      <entry value="5">Down + Right</entry>
-      <entry value="6">Right</entry>
-      <entry value="7">Up + Right</entry>
-    </list>
-  </sprite> <!-- #143: arrow.arc -->
   
   <sprite id="145" name="Floating Barrel" noyoshi="True" notes="A floating barrel that can only be placed on a liquid surface. It will sink while a player is standing on it, but will pop back up once the player jumps off. The barrel can also flow with the unused water current controller.">
     <dependency notes="The Floating Barrel will not load when placed on the same screen as an entrance. Place the Floating Barrel where you want it to load using the liquid line, and it will spawn floating at the surface line of that body of liquid. It only works with non-Location liquids, and it does work with Moving liquids when placed correctly. Unlike Floating Coins / ? Blocks, it will also function with Rising/Falling Water. Lastly, it should be noted that the visual splash effect is always made of water.">
@@ -3592,6 +3536,28 @@
     <checkbox bit="36" title="Place In Front Of Other Sprites" comment="When enabled, this changes the relative Z-Order of the platform placing it in front of other sprites." comment2="The player will jump behind the mushroom platform when passing through from underneath."/>
   </sprite> <!-- #441: Mushroom Platform -->
 
+  <sprite id="447" name="Lighting - Underwater Lamp" notes="A decorative aquatic lamp that generates light around it. It has no collision by default. It does not have to be used with water, it just happens to have a ship motif.">
+    <value nybble="11" title="Model ID" comment="This determines the model used by the lamp. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" advancedcomment="If the Model ID is set to 0, the model that will be used will be &quot;shinkai_light.mdl0&quot;.&lt;br&gt;Otherwise, say x is the Model ID, the model that will be used will be &quot;shinkai_light_x.mdl0&quot;."/>
+    <list nybble="12" title="Power" comment="This determines the power of the light emmited by the sprite. 100% = 266 units = 16.625 tiles.">
+      <entry value="0">100%</entry>
+      <entry value="1">25%</entry>
+      <entry value="2">50%</entry>
+      <entry value="3">75%</entry>
+      <entry value="4">125%</entry>
+      <entry value="5">150%</entry>
+      <entry value="6">175%</entry>
+      <entry value="7">200%</entry>
+      <entry value="8">250%</entry>
+      <entry value="9">300%</entry>
+      <entry value="10">350%</entry>
+      <entry value="11">400%</entry>
+      <entry value="12">500%</entry>
+      <entry value="13">600%</entry>
+      <entry value="14">700%</entry>
+      <entry value="15">800%</entry>
+    </list>
+  </sprite> <!-- #447: Lighting - Underwater Lamp -->
+
   <sprite id="478" name="Bowser Switch (Small)" asmhacks="True" sizehacks="True" notes="This switch is nearly identical to the Red ! Switch, but it does not activate outlined Red Blocks. It may have additional bugs. Not recommended for use outside of the final Bowser Boss fight.">
     <dependency notes="This sprite has additional hardcoded behavior that may cause bugs when it is used outside of its intended boss fight.">
       <suggested sprite="431"/>
@@ -4401,5 +4367,118 @@
 
   <sprite id="568" name="Screaming Pillar" asmhacks="True" >
   </sprite> <!-- #568: Screaming Pillar -->
+  
+  <sprite id="569" name="Talk Balloon Manager" notes="Place in the zone if you want to use text boxes. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
+  </sprite> <!-- #569: Talk Balloon Manager -->
+  
+  <sprite id="570" name="Cosmic Clone" asmhack="true" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
+    <value nybble="11-12" title="Delay" comment="The Cosmic Clone with spawn with a Delay of this number of frames."/>
+    <checkbox bit="40" title="Plays Sound Upon Dying" comment=""/>
+  </sprite> <!-- #570: Cosmic Clone -->
+  
+  <sprite id="571" name="Cosmic Mario" asmhack="true" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
+  </sprite> <!-- #571: Cosmic Mario -->
+
+  <sprite id="572" name="Race Recorder" asmhack="true" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
+  </sprite> <!-- #572: Race Recorder -->
+  
+  <sprite id="573" name="Octoomba" asmhacks="True" notes="An Octoomba from Super Mario 3D-World. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning:&lt;/b&gt; Don't use with slopes! chr0-animations and bullet-shots won't work correctly! Make sure the Octoomba only moves on horizontal ground!">
+	<checkbox bit="17-20" title="Should walk" />
+  </sprite> <!-- #573: Octoomba -->
+  
+  <sprite id="574" name="Thorny FLower" asmhack="true" notes="A Thorny Flower from SMG.">
+  </sprite> <!-- #574: Thorny Flower-->
+
+  <sprite id="575" name="Custom Model Loader" asmhacks="True" notes="The Custom Model Loader allows the use of pre-scripted Models and Animations for use in user-created cutscenes. It can also provide new models as decoration for your level. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning:&lt;/b&gt; Will CRASH if [Animate Model] is set and no animation is available.&lt;/font&gt;" advancednotes="New Models and Animations can be added to this sprite's functionality specifically for your hack. This requires editing of the game code through Kamek or with the assistance of members of the NEWER team.">
+    <list nybble="11-12" title="Model">
+      <entry value="0">Dolphin</entry>
+      <entry value="1">Penguin</entry>
+      <entry value="2">Snowman</entry>
+      <entry value="3">Tree 1</entry>
+      <entry value="4">Tree 2</entry>
+    </list>
+	<checkbox bit="37" title="ANMCLR" />
+	<checkbox bit="38" title="ANMPAT" />
+	<checkbox bit="39" title="ANMSRT" />
+	<checkbox bit="40" title="ANMCHR" />    
+	<value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
+    <list nybble="8" title="Z-Order" comment="This determines the Z-Order of the model." comment2="Some in-game Z-Order values: &lt;br&gt;Background: -5500.0 &lt;br&gt;Layer 2: -3300.0 &lt;br&gt;Layer 1: 0.0 &lt;br&gt;Player: 300.0 &lt;br&gt;Foreground: 1200.0 &lt;br&gt;Layer 0: 3300.0 &lt;br&gt;Above Layer 0: 5500.0">
+      <entry value="0">Use Default Z-Order for Custom Model</entry>
+      <entry value="1">-5000.0</entry>
+      <entry value="2">-4500.0</entry>
+      <entry value="3">-2000.0</entry>
+      <entry value="4">-1000.0</entry>
+      <entry value="5">300.0</entry>
+      <entry value="6">800.0</entry>
+      <entry value="7">1600.0</entry>
+      <entry value="8">2000.0</entry>
+      <entry value="9">3600.0</entry>
+      <entry value="10">4000.0</entry>
+      <entry value="11">4500.0</entry>
+      <entry value="12">6000.0</entry>
+      <entry value="13">6500.0</entry>
+      <entry value="14">7000.0</entry>
+      <entry value="15">7500.0</entry>
+    </list>
+  </sprite> <!-- #575: Custom Model Loader -->
+
+  <sprite id="576" name="NPC: Daisy" asmhacks="True" >
+	<checkbox bit="37" title="ANMCLR" />
+	<checkbox bit="38" title="ANMPAT" />
+	<checkbox bit="39" title="ANMSRT" />
+	<checkbox bit="40" title="ANMCHR" />    
+	<value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
+    <list nybble="8" title="Z-Order" comment="This determines the Z-Order of the model." comment2="Some in-game Z-Order values: &lt;br&gt;Background: -5500.0 &lt;br&gt;Layer 2: -3300.0 &lt;br&gt;Layer 1: 0.0 &lt;br&gt;Player: 300.0 &lt;br&gt;Foreground: 1200.0 &lt;br&gt;Layer 0: 3300.0 &lt;br&gt;Above Layer 0: 5500.0">
+      <entry value="0">Use Default Z-Order for Custom Model</entry>
+      <entry value="1">-5000.0</entry>
+      <entry value="2">-4500.0</entry>
+      <entry value="3">-2000.0</entry>
+      <entry value="4">-1000.0</entry>
+      <entry value="5">300.0</entry>
+      <entry value="6">800.0</entry>
+      <entry value="7">1600.0</entry>
+      <entry value="8">2000.0</entry>
+      <entry value="9">3600.0</entry>
+      <entry value="10">4000.0</entry>
+      <entry value="11">4500.0</entry>
+      <entry value="12">6000.0</entry>
+      <entry value="13">6500.0</entry>
+      <entry value="14">7000.0</entry>
+      <entry value="15">7500.0</entry>
+    </list>
+  </sprite> <!-- #576: NPC: Daisy -->
+
+  <sprite id="577" name="NPC: Peach" asmhacks="True" >
+  </sprite> <!-- #577: NPC: Peach -->
+
+  <sprite id="578" name="NPC: DK" asmhacks="True" >
+  </sprite> <!-- #578: NPC: DK -->
+
+  <sprite id="579" name="NPC: Toadette" asmhacks="True" >
+  </sprite> <!-- #579: NPC: Toadette -->
+
+  <sprite id="580" name="NPC: Wario" asmhacks="True" >
+  </sprite> <!-- #580: NPC: Wario -->
+
+  <sprite id="581" name="NPC: Waluigi" asmhacks="True" >
+  </sprite> <!-- #581: NPC: Waluigi -->
+
+  <sprite id="582" name="NPC: Rosalina" asmhacks="True" >
+  </sprite> <!-- #582: NPC: Rosalina -->
+
+  <sprite id="583" name="NPC: Bowsette" asmhacks="True" >
+  </sprite> <!-- #583: NPC: Bowsette -->
+
+  <sprite id="584" name="NPC: Toadsworth" asmhacks="True" >
+  </sprite> <!-- #584: NPC: Toadsworth -->
+
+  <sprite id="585" name="Jumbo Ray Respawner 2" notes="A controller that will respawn or otherwise spawn additional Jumbo Rays.">
+    <value nybble="12" title="Ray ID" comment="This determines which Jumbo Rays will be respawned by this controller." idtype="Ray"/>
+    <value nybble="7-9" title="Spawn Delay While Ridden" comment="This determines how soon after the launch of the initial Jumbo Ray that another one will be spawned. Used whenever at least one Ray is being ridden by a player." comment2="A value of 16 is equal to about the width of one Jumbo Ray. &lt;font color=&quot;red&quot;&gt;Do not use a value of 0 or the game will crash.&lt;/font&gt;"/>
+    <value nybble="5-6" title="Spawn Delay While Not Ridden" comment="Used instead of the other Spawn Delay whenever no Rays are currently being ridden." />
+  </sprite> <!-- #585: Jumbo Ray Respawner 2 -->
+
+  <sprite id="586" name="Universal Reconfigurator" asmhacks="True" >
+  </sprite> <!-- #586: Universal Reconfigurator-->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

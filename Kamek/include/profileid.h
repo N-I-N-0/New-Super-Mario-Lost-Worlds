@@ -595,6 +595,20 @@ enum
 	CosmicClone = 570,
 	CosmicMario = 571,
 	RaceRecorder = 572,
+	Octo = 573,
+	ThornyFlower = 574,
+	RYOM = 575,
+	RYONDaisy = 576,
+	RYONPeach = 577,
+	RYONDK = 578,
+	RYONToadette = 579,
+	RYONWario = 580,
+	RYONWaluigi = 581,
+	RYONRosalina = 582,
+	RYONBowsette = 583,
+	RYONToadsworth = 584,
+	MANTA_MGR2 = 585,
+	UniversalReconfigurator = 586,
 
 	Num
 };
@@ -1467,6 +1481,21 @@ enum
 	PakkunProjectile, //848
 	BoomerangHax, //849
 	CustomClown, //850
+	Octo, //851
+	OctoBullet, //852
+	ThornyFlower, //853
+	RYOM, //854
+	RYONDaisy, //855
+	RYONPeach, //856
+	RYONDK, //857
+	RYONToadette, //858
+	RYONWario, //859
+	RYONWaluigi, //860
+	RYONRosalina, //861
+	RYONBowsette, //862
+	RYONToadsworth, //863
+	MANTA_MGR2_NEW, //864
+	UniversalReconfigurator, //865
 	
 	Num
 };

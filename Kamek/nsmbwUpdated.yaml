@@ -1,0 +1,129 @@
+---
+source_files: [../src/nsmbwUpdated.S, ../src/nsmbwUpdated.cpp]
+hooks:
+# Source: https://github.com/RoadrunnerWMC/NSMBW-Updated
+
+# bush.cpp
+  - name: MoveSpawnRange4TilesUp
+    type: patch
+    addr_pal: 0x8030dfc8
+    data: '00000040'
+
+  - name: IncreaseSpawnRangeHeightBy4Tiles
+    type: patch
+    addr_pal: 0x8030dfd4
+    data: '00000040'
+
+# boo_circle.cpp
+  - name: DontKillByDrill
+    type: patch
+    addr_pal: 0x80ad4158
+    data: '0000880e'
+
+# falling_icicle.cpp
+  - name: turnIcicleIntoIceballYoshiEat
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a20b48
+    target_func: 'turnIcicleIntoIceballYoshiEat'
+
+# added myself
+  - name: DontLetYoshiEatBigIcicle
+    type: patch
+    addr_pal: 0x80acdb6c
+    data: 'ffba5Ffe'
+
+# giant_floating_log.cpp
+  - name: DontLetYoshiEatFloatingLog
+    type: patch
+    addr_pal: 0x80ad2e5c
+    data: 'ffba5Ffe'
+
+# jumbo_ray_respawner_2.cpp
+  - name: fixJumbo1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80860070
+    target_func: 'fixJumbo1'
+
+  - name: fixJumbo2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808600d4
+    target_func: 'fixJumbo2'
+
+# lightmaps.cpp
+  - name: fixLightmapsForDolphin
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x802cc5f4
+    target_func: 'fixLightmapsForDolphin'
+
+# rotation_controlled_coin.cpp
+  - name: rotationControlledCoinFix1
+    type: patch
+    addr_pal: 0x809e55f4
+    data: '3860c000'
+
+  - name: rotationControlledCoinFix2
+    type: patch
+    addr_pal: 0x809e560c
+    data: '3860c000'
+
+# rotation_controlled_event_deactivation_block.cpp
+  - name: rotationControlledEventDeactivationBlockFix1
+    type: patch
+    addr_pal: 0x809e55f4
+    data: '3860c000'
+
+  - name: rotationControlledEventDeactivationBlockFix2
+    type: patch
+    addr_pal: 0x809e560c
+    data: '3860c000'
+
+# rotation_controlled_q_block_and_brick_block.cpp
+  - name: rotationControlledQAndBrickBlockFix
+    type: patch
+    addr_pal: 0x809c15c4
+    data: '3860c000'
+
+  - name: rotationControlledEventDeactivationBlockFix2
+    type: patch
+    addr_pal: 0x809c15dc
+    data: '3860c000'
+
+# special_exit_controller.cpp
+  - name: DontLetYoshiEatSpecialExitController
+    type: patch
+    addr_pal: 0x80939b88
+    data: 'ffba7Ffe'
+
+# switch.cpp
+  - name: DontMoveUpsideDownSwitchToTheLeft
+    type: nop_insn
+    area_pal: 0x80a19a7c
+
+# toad_house_chest.cpp
+  - name: DontLetYoshiEatToadHouseChest
+    type: patch
+    addr_pal: 0x8093b43c
+    data: 'ffba7Ffe'
+
+# unused_rotation_controlled_solid_platform.cpp
+  - name: rotationControlledSolidPlatformFix
+    type: patch
+    addr_pal: 0x80a5d980
+    data: '38a0c000'
+
+# event_controlled_cameras.cpp
+  - name: fixEventControlledCameras
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80077290
+    target_func: 'fixEventControlledCameras'
+
+# bowsers_castle_door.cpp
+  - name: bowsersCastleDoorFix
+    type: patch
+    addr_pal: 0x8013f41c
+    data: '28000002'

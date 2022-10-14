@@ -4,13 +4,14 @@ modules:
   - processed/k_stdlib.yaml
   - processed/profile.yaml
   - processed/actorlog.yaml
-  - processed/SD.yaml
   - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
   - processed/codeDebug.yaml
   - processed/dolphin.yaml
   - processed/prolog.yaml
+  - processed/SD.yaml
+  #- processed/network.yaml
   # - processed/corseClear.yaml
   - processed/wandDots.yaml
   - processed/apDebug.yaml
@@ -200,7 +201,14 @@ modules:
   - processed/worldmap.yaml
   - processed/worldmapPause.yaml
   #- processed/cosmicClone.yaml
-  #- processed/cosmicMario.yaml
+ # - processed/cosmicMario.yaml
   #- processed/cosmicDestructor.yaml
-  #- processed/raceRecorder.yaml
+#  - processed/raceRecorder.yaml
   - processed/kuribo.yaml
+  - processed/Octo.yaml
+  - processed/OctoBullet.yaml
+  - processed/thornyFlower.yaml
+  - processed/rescueBowsette.yaml
+  - processed/nsmbwUpdated.yaml
+  - processed/underwaterLamp.yaml
+  - processed/universal_reconfigurator.yaml

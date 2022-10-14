@@ -11,7 +11,7 @@ void getDolphinVersion() {
         vec.data = new char[99];
         vec.len = 99;
 
-        IOS_ioctlv(fd, 2, 0, 1, (void *)&vec);
+        IOS_Ioctlv(fd, 2, 0, 1, (void *)&vec);
 
         sprintf(dolphinVersion, "DOLPHIN %s", vec.data);
     }
@@ -28,7 +28,7 @@ void setDiscordPresence(int partySize, int worldNumber, bool isTitleScreen) {
     char clientID[] = "1026223612161700002";
     clientVector[0].data = clientID;
     clientVector[0].len = sizeof(clientID);
-    int setclient = IOS_ioctlv(fd, 0x7, 1, 0, clientVector);
+    int setclient = IOS_Ioctlv(fd, 0x7, 1, 0, clientVector);
     OSReport("setclient = %i\n", setclient);
 	
     ioctlv statusVector[10] = { 0 };
@@ -72,7 +72,7 @@ void setDiscordPresence(int partySize, int worldNumber, bool isTitleScreen) {
 	statusVector[6].data = &number0;
 	statusVector[7].data = &number0;
 	
-	int setpresence = IOS_ioctlv(fd, 0x8, 10, 0, (void *)statusVector);
+	int setpresence = IOS_Ioctlv(fd, 0x8, 10, 0, (void *)statusVector);
     OSReport("setpresence = %i\n", setpresence);
 
     return;

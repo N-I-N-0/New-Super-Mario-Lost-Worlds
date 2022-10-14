@@ -9,7 +9,7 @@ void SDSeek(u32 new_clock_pos){
 void SDReadWrite(bool write, void* buffer, int size){
 	int fd = IOS_Open("/dev/sdio/slot0", 0);
 	u32 res_buffer;
-	IOS_ioctl( fd, 0x0B, 0, 0, &res_buffer, 4, 0);
+	IOS_Ioctl( fd, 0x0B, 0, 0, &res_buffer, 4);
 	//OSReport("SD ready? %08X\n", buffer);
 	if ((res_buffer & 0x00010001) != 0x00010001){
 		OSReport("SD not ready\n");
@@ -17,7 +17,7 @@ void SDReadWrite(bool write, void* buffer, int size){
 		return;
 	}
 	OSReport("SD ready\n");
-	IOS_ioctl( fd, 4, 0, 0, &res_buffer, 4, 0);
+	IOS_Ioctl( fd, 4, 0, 0, &res_buffer, 4);
 	OSReport("SD reset; RCA and stuff: %08X\n", res_buffer);
 	SD_SendCMD(fd, 7, 3, 2, res_buffer&0xFFFF0000, 0, 0, 0);
 	OSReport("SD selected\n");
@@ -28,7 +28,7 @@ void SDReadWrite(bool write, void* buffer, int size){
 	SD_SetHCRegister(fd, 0x28, (SD_GetHCRegister(fd, 0x28)&2)|2);
 	OSReport("SD bus width to 4\n");
 	u32 clock = 1;
-	IOS_ioctl(fd, 6, &clock, 4, 0, 0, 0);
+	IOS_Ioctl(fd, 6, &clock, 4, 0, 0);
 	OSReport("SD clock set\n");
 	u32 bufferPTR = (u32)buffer;
 	while (size > 0){
@@ -48,7 +48,7 @@ void SDReadWrite(bool write, void* buffer, int size){
 			bufferPTR += 0x200;
 			size -= 0x200;
 		}
-		IOS_ioctlv(fd, 7, 2, 1, data);
+		IOS_Ioctlv(fd, 7, 2, 1, data);
 	}
 	IOS_Close(fd);
 }
@@ -59,7 +59,7 @@ u32 SD_GetHCRegister(u32 sd_fd, u32 register_offset){
 	inbuf[3] = 1;
 	inbuf[4] = 0;
 	u32 reg;
-	IOS_ioctl( sd_fd, 2, inbuf, 0x18, &reg, 4, 0);
+	IOS_Ioctl( sd_fd, 2, inbuf, 0x18, &reg, 4);
 	return reg;
 }
 void SD_SetHCRegister(u32 sd_fd, u32 register_offset, u32 value){
@@ -68,7 +68,7 @@ void SD_SetHCRegister(u32 sd_fd, u32 register_offset, u32 value){
 	inbuf[0] = register_offset;
 	inbuf[3] = 1;
 	inbuf[4] = value;
-	IOS_ioctl( sd_fd, 1, inbuf, 0x18, 0, 0, 0);
+	IOS_Ioctl( sd_fd, 1, inbuf, 0x18, 0, 0);
 }
 
 void SD_SendCMD(u32 sd_fd, u32 cmd, u32 cmd_type, u32 resp_type, u32 arg, u32 buffer, u32 block_count, u32 sector_size){
@@ -86,5 +86,5 @@ void SD_SendCMD(u32 sd_fd, u32 cmd, u32 cmd_type, u32 resp_type, u32 arg, u32 bu
 	inbuf[8]=0; // ?
 
 	u32 outbuf[4];
-	IOS_ioctl( sd_fd, 7, inbuf, 0x24, outbuf, 0x10, 0);
+	IOS_Ioctl( sd_fd, 7, inbuf, 0x24, outbuf, 0x10);
 }

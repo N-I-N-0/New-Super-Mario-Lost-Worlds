@@ -1,5 +1,5 @@
 ---
-source_files: [../src/spritetex.cpp, ../src/spritetex.S]
+source_files: [../src/spritetex.cpp, ../src/spritetex.S, ../src/spritetexTPC.S]
 hooks:
   - name: BigBlockSound1
     type: branch_insn
@@ -1289,3 +1289,46 @@ hooks:
     branch_type: b
     src_addr_pal: 0x809a8f28
     target_func: 'TEX_BlooperNannyAdjustSettings'
+
+#################### TPC ###################
+  - name: SpriteTex_UnderwaterLamp
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808A8708
+    target_func: 'SpriteTex_UnderwaterLamp'
+
+  - name: SpriteTex_FrontBlack
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x807C8DA4
+    target_func: 'SpriteTex_FrontBlack'
+
+#  - name: SpriteTex_Pipes
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x80045760
+#    target_func: 'SpriteTex_Pipes'
+
+#  - name: SpriteTex_Rolling1HillPipe
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807F0080
+#    target_func: 'SpriteTex_Rolling1HillPipe'
+
+#  - name: SpriteTex_Rolling8HillPipe
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x807EDCD8
+#    target_func: 'SpriteTex_Rolling8HillPipe'
+
+#  - name: SpriteTex_4WayCannonPipe
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x8089ECD0
+#    target_func: 'SpriteTex_4WayCannonPipe'
+
+  - name: SpriteTex_ArrowSignboard
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8081CB30
+    target_func: 'SpriteTex_ArrowSignboard'

@@ -7,15 +7,20 @@
 #define ANMPAT 4
 #define ANMCLR 8
 
-const char* RYOMFileList [] = {
-	"models",
-	NULL	
-};
+const char* RYONDaisyFileList [] = { "daisy", NULL };
+const char* RYONPeachFileList [] = { "peach", NULL };
+const char* RYONDKFileList [] = { "dk", NULL };
+const char* RYONToadetteFileList [] = { "toadette", NULL };
+const char* RYONWarioFileList [] = { "wario", NULL };
+const char* RYONWaluigiFileList [] = { "waluigi", NULL };
+const char* RYONRosalinaFileList [] = { "rosalina", NULL };
+const char* RYONBowsetteFileList [] = { "bowsette", NULL };
+const char* RYONToadsworthFileList [] = { "toadsworth", NULL };
 
 
 
 // This is the class allocator, you don't need to touch this
-class dMakeYourOwn : public dStageActor_c {
+class dMakeYourOwnNPC : public dStageActor_c {
 public:
 	// Let's give ourselves a few functions
 	int onCreate();
@@ -47,18 +52,34 @@ public:
 	void setupModel(int arcIndex, const char* brresName, const char* mdlName);
 };
 
-const SpriteData RYOMSpriteData = { ProfileId::RYOM, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile RYOMProfile(&dMakeYourOwn::build, SpriteId::RYOM, &RYOMSpriteData, ProfileId::RYOM, ProfileId::RYOM, "RYOM", RYOMFileList);
+const SpriteData RYONDaisySpriteData = { ProfileId::RYONDaisy, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONPeachSpriteData = { ProfileId::RYONPeach, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONDKSpriteData = { ProfileId::RYONDK, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONToadetteSpriteData = { ProfileId::RYONToadette, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONWarioSpriteData = { ProfileId::RYONWario, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONWaluigiSpriteData = { ProfileId::RYONWaluigi, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONRosalinaSpriteData = { ProfileId::RYONRosalina, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONBowsetteSpriteData = { ProfileId::RYONBowsette, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData RYONToadsworthSpriteData = { ProfileId::RYONToadsworth, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile daisyNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONDaisy, &RYONDaisySpriteData, ProfileId::RYONDaisy, ProfileId::RYONDaisy, "RYONDaisy", RYONDaisyFileList);
+Profile peachNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONPeach, &RYONPeachSpriteData, ProfileId::RYONPeach, ProfileId::RYONPeach, "RYONPeach", RYONPeachFileList);
+Profile dkNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONDK, &RYONDKSpriteData, ProfileId::RYONDK, ProfileId::RYONDK, "RYONDK", RYONDKFileList);
+Profile toadetteNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONToadette, &RYONToadetteSpriteData, ProfileId::RYONToadette, ProfileId::RYONToadette, "RYONToadette", RYONToadetteFileList);
+Profile warioNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONWario, &RYONWarioSpriteData, ProfileId::RYONWario, ProfileId::RYONWario, "RYONWario", RYONWarioFileList);
+Profile waluigiNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONWaluigi, &RYONWaluigiSpriteData, ProfileId::RYONWaluigi, ProfileId::RYONWaluigi, "RYONWaluigi", RYONWaluigiFileList);
+Profile rosalinaNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONRosalina, &RYONRosalinaSpriteData, ProfileId::RYONRosalina, ProfileId::RYONRosalina, "RYONRosalina", RYONRosalinaFileList);
+Profile bowsetteNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONToadsworth, &RYONBowsetteSpriteData, ProfileId::RYONBowsette, ProfileId::RYONBowsette, "RYONBowsette", RYONBowsetteFileList);
+Profile toadsworthNPCProfile(&dMakeYourOwnNPC::build, SpriteId::RYONToadsworth, &RYONToadsworthSpriteData, ProfileId::RYONToadsworth, ProfileId::RYONToadsworth, "RYONToadsworth", RYONToadsworthFileList);
 
 
 // This sets up how much space we have in memory
-dActor_c *dMakeYourOwn::build() {
-	void *buffer = AllocFromGameHeap1(sizeof(dMakeYourOwn));
-	return new(buffer) dMakeYourOwn;
+dActor_c *dMakeYourOwnNPC::build() {
+	void *buffer = AllocFromGameHeap1(sizeof(dMakeYourOwnNPC));
+	return new(buffer) dMakeYourOwnNPC;
 }
 
 // Sets up each animation if enabled
-void dMakeYourOwn::setupAnim(const char* name, float rate) {
+void dMakeYourOwnNPC::setupAnim(const char* name, float rate) {
 	if (animtype & ANMCHR) {
 		nw4r::g3d::ResAnmChr anmChr;
 
@@ -103,7 +124,7 @@ void dMakeYourOwn::setupAnim(const char* name, float rate) {
 	}
 }
 
-void dMakeYourOwn::setupModel(int arcIndex, const char* brresName, const char* mdlName) {
+void dMakeYourOwnNPC::setupModel(int arcIndex, const char* brresName, const char* mdlName) {
 	this->resFile.data = getResource(RYOMFileList[arcIndex], brresName);
 	this->mdl = this->resFile.GetResMdl(mdlName);
 
@@ -111,7 +132,7 @@ void dMakeYourOwn::setupModel(int arcIndex, const char* brresName, const char* m
 }
 
 // This gets run when the sprite spawns!
-int dMakeYourOwn::onCreate() {
+int dMakeYourOwnNPC::onCreate() {
 	// Settings for your sprite!
 	this->model = this->settings & 0xFF; 						// Sets nubble 12 to choose the model you want
 	this->animtype = this->settings >> 8 & 0xF;					// Sets nybble 10 to a series of checkbox for which anim should be used
@@ -179,11 +200,11 @@ int dMakeYourOwn::onCreate() {
 }
 
 // No need to do anything below here.
-int dMakeYourOwn::onDelete() {
+int dMakeYourOwnNPC::onDelete() {
 	return true;
 }
 
-int dMakeYourOwn::onExecute() {
+int dMakeYourOwnNPC::onExecute() {
 	// Process and reset the animation(s) when done
 
 	if (this->animtype & ANMCHR) {
@@ -213,7 +234,7 @@ int dMakeYourOwn::onExecute() {
 	return true;
 }
 
-int dMakeYourOwn::onDraw() {
+int dMakeYourOwnNPC::onDraw() {
 	if (customZ)
 		matrix.translation(pos.x, pos.y, this->zOrder);	// Set where to draw the model : -5500.0 is the official behind layer 2, while 5500.0 is in front of layer 0.
 	else
