@@ -609,6 +609,7 @@ enum
 	RYONToadsworth = 584,
 	MANTA_MGR2 = 585,
 	UniversalReconfigurator = 586,
+	RopeBlock = 587,
 
 	Num
 };
@@ -1496,6 +1497,7 @@ enum
 	RYONToadsworth, //863
 	MANTA_MGR2_NEW, //864
 	UniversalReconfigurator, //865
+	RopeBlock, //866
 	
 	Num
 };

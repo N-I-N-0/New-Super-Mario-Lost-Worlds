@@ -4480,5 +4480,8 @@
 
   <sprite id="586" name="Universal Reconfigurator" asmhacks="True" >
   </sprite> <!-- #586: Universal Reconfigurator-->
+
+  <sprite id="587" name="Rope Block" asmhacks="True" >
+  </sprite> <!-- #587: Rope Block -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

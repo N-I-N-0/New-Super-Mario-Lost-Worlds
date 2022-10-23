@@ -58,6 +58,7 @@ newSceneLightList:
 	.long aLightKumorisor
 	.long aLightToride2sc
 	.long aLightSilhouette
+	.long aLightShyGuyDaishizenScene
 
 .global newSceneLightMapList
 newSceneLightMapList:
@@ -85,6 +86,7 @@ newSceneLightMapList:
 	.long aLightKumoris_0
 	.long aLightToride2_0
 	.long aLightMapSilhouette
+	.long aLightDaishiz_0
 
 .global newSceneFogList
 newSceneFogList:
@@ -112,6 +114,7 @@ newSceneFogList:
 	.long aFogKumorisoras
 	.long aFogToride2scen
 	.long aFogSilhouette
+	.long aFogDaishizensc
 
 
 .global aLightSilhouette
@@ -129,5 +132,11 @@ aLightMapSilhouette:
 .global aFogSilhouette
 aFogSilhouette:
 	.string	"fog/Silhouette.bfog"
+	.byte	0
+	.byte	0
+
+.global aLightShyGuyDaishizenScene
+aLightShyGuyDaishizenScene:
+	.string	"light/ShyGuyDaishizenScene.blight"
 	.byte	0
 	.byte	0

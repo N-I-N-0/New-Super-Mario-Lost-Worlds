@@ -1,0 +1,15 @@
+---
+
+source_files: [../src/boos.S]
+hooks: 
+  - name: BooCircleZAdjustment
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808A0218
+    target_func: 'BooCircleZAdjustment'
+
+  - name: BooZAdjustment
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80AAEAA4
+    target_func: 'BooZAdjustment'

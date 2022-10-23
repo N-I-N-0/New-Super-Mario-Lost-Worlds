@@ -212,3 +212,6 @@ modules:
   - processed/nsmbwUpdated.yaml
   - processed/underwaterLamp.yaml
   - processed/universal_reconfigurator.yaml
+  - processed/boos.yaml
+ # - processed/shield-fix.yaml
+  - processed/ropeBlock.yaml

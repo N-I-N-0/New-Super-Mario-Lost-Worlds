@@ -1,0 +1,4 @@
+---
+source_files: [../src/shield-fix.cpp]
+hooks:
+# Source: https://github.com/Treeki/Kamek/blob/master/shield-fix/shield-fix.cpp

@@ -1,4 +1,10 @@
 SECTIONS {
+	FUN_8085f5c0 = 0x8085f5c0;
+	fixJumbo1return = 0x80860074;
+	fixJumbo2return	= 0x808600d8;
+
+	IOS_OpenAsync = 0x80224c90;
+
 	AXSetMasterVolume = 0x801a1a30;
 
 	returnFromBlooperNanny = 0x809a8f2c;
@@ -113,8 +119,9 @@ SECTIONS {
 
 	IOS_Open__FPci = 0x80224db0;
 	IOS_Close__Fi = 0x80224fa0;
-	IOS_ioctl__FiiPvUlPvUli = 0x80225780;
-	IOS_ioctlv__FiiiiPv = 0x80225ae0;
+	IOS_Ioctl__FiiPvUlPvUli = 0x80225780;
+	IOS_Ioctlv__FiiiiPv = 0x80225ae0;
+	IOS_Ioctl__FiiPvUlPvUl = 0x80225780;
 
 	toadBlockEditsReturn = 0x809c3034;
 	checkToadBlockNoToadReturn = 0x809c39ec;
@@ -2128,6 +2135,7 @@ SECTIONS {
 	snprintf__FPcUlPCce = 0x802E19D8;
 	memcmp__FPCvPCvUl = 0x802DF388;
 	memcmp__FPCvPCvUi = 0x802DF388;
+	free__FPv = 0x802ddb50;
 	_Z6strcatPKcS0_ = 0x802E1D2C;
 
 	_Znaj = 0x802B9350;
@@ -2314,6 +2322,12 @@ SECTIONS {
 	bind__Q23m3d8anmChr_cFPQ23m3d5mdl_cQ34nw4r3g3d9ResAnmChrb = 0x80165330;
 	internalBind__Q23m3d8anmChr_cFv = 0x801653c0;
 
+	__vt__Q23m3d12anmChrPart_c = 0x803036F0;
+	__dt__Q23m3d12anmChrPart_cFv = 0x80028370;
+	vf0C__Q23m3d12anmChrPart_cFv = 0x8002A200;
+	attachChr__Q23m3d12anmChrPart_cFUiQ23m3d8anmChr_cf = 0x80165800;
+	setup__Q23m3d12anmChrPart_cFQ34nw4r3g3d6ResMdlUiP12mAllocator_cPUi = 0x80165660;
+	
 	/* m3d::anmVis_c */
 	__vt__Q23m3d8anmVis_c = 0x80ad8158;
 	__dt__Q23m3d8anmVis_cFv = 0x809b2090;
@@ -2352,6 +2366,7 @@ SECTIONS {
 	getUpdateRateForEntry__Q23m3d11anmTexPat_cFv = 0x80167040;
 	setUpdateRateForEntry__Q23m3d11anmTexPat_cFfi = 0x80167050;
 	isEntryAnimationDone__Q23m3d11anmTexPat_cFv = 0x80167060;
+	isEntryAnimationDone__Q23m3d11anmTexPat_cFi = 0x80167060;
 	queryEntrySomething__Q23m3d11anmTexPat_cFv = 0x80167070;
 	setEntryByte34__Q23m3d11anmTexPat_cFUci = 0x80167080;
 	getEntryField28__Q23m3d11anmTexPat_cFv = 0x801670a0;
