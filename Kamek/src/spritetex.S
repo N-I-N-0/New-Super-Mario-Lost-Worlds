@@ -963,10 +963,23 @@ TEX_IgaPuku:
 	b GetTexFilenameForR5
 
 
+.global TEX_PenguinSpawner
+TEX_PenguinSpawner:
+	lwz r6, 4(r31)
+	andis. r6, r6, 0x0F00
+	or r4, r4, r6
+	li r6, 0x0 #restore instruction
+	blr
+
+
+
+
 .global TEX_Wanwan2
 TEX_Wanwan2:
 .global TEX_Penguin
 TEX_Penguin:
+.global TEX_Penguin2
+TEX_Penguin2:
 .global TEX_Boomerang
 TEX_Boomerang:
 .global TEX_Hammer

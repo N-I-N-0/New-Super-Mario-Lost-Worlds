@@ -1186,8 +1186,20 @@ hooks:
   - name: TEX_Penguin
     type: branch_insn
     branch_type: bl
-    src_addr_pal: 0x80aa2fb0
+    src_addr_pal: 0x808a7a20
     target_func: 'TEX_Penguin'
+
+  - name: TEX_Penguin2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80aa2fb0
+    target_func: 'TEX_Penguin2'
+
+  - name: TEX_PenguinSpawner
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808bae3c
+    target_func: 'TEX_PenguinSpawner'
     
   - name: TEX_Fuzzy
     type: branch_insn

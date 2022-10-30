@@ -3916,7 +3916,18 @@ namespace EGG {
 			const INFEntry *findINFForMessageID(int category, int message) const; // 802D7C90
 			u32 getEntryFromMID(int index) const; // 802D7D70
 	};
+
+
+
+	struct Vector3f {
+		float x, y, z;
+		void normalise();
+	};
 }
+
+struct MTX34 { float m[3][4]; };
+
+
 namespace dScript {
 	class Res_c : public EGG::MsgRes {
 		public:
