@@ -31,6 +31,28 @@ useNewFogList:
 
 
 
+.global newUseNewLightList
+newUseNewLightList:
+	lis r5, newSceneLightList@h
+	ori r5, r5, newSceneLightList@l
+	lwzx r5, r5, r28
+	blr
+
+.global newUseNewLightMapList
+newUseNewLightMapList:
+	lis r5, newSceneLightMapList@h
+	ori r5, r5, newSceneLightMapList@l
+	lwzx r5, r5, r28
+	blr
+
+.global newUseNewFogList
+newUseNewFogList:
+	lis r5, newSceneFogList@h
+	ori r5, r5, newSceneFogList@l
+	lwzx r5, r5, r28
+	blr
+
+
 .data
 .global newSceneLightList
 newSceneLightList:
