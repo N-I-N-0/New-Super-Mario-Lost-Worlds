@@ -534,6 +534,7 @@
     <list nybble="11" title="SpriteTex">
       <entry value="0">Original</entry>
       <entry value="1">Gold</entry>
+	  <entry value="2">Lakitufo</entry>
     </list>
   </sprite> <!-- #54: Lakitu -->
 
@@ -1214,6 +1215,7 @@
     <list nybble="11" title="SpriteTex">
       <entry value="0">Original</entry>
       <entry value="1">Gold</entry>
+	  <entry value="2">Lakitufo</entry>
     </list>
   </sprite> <!-- #124: Lakitu Spawn Area -->
 
@@ -3242,6 +3244,7 @@
     <list nybble="5" title="SpriteTex">
       <entry value="0">Original</entry>
       <entry value="1">Gold</entry>
+	  <entry value="2">Lakitufo</entry>
     </list>
   </sprite> <!-- #370: Lakitu Cloud Block -->
 
