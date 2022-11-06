@@ -16,18 +16,18 @@ public:
 	//void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 	//void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 
-	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat8_FencePunch(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther); 
-	//bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther); 
-	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther); 
+	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
+	//bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
+	//bool collisionCat8_FencePunch(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
+	//bool collisionCat11_PipeCannon(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
+	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool customCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool spikeballCollision(ActivePhysics* apThis, ActivePhysics* apOther);
@@ -85,7 +85,7 @@ int daThornyFlower_c::onCreate() {
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Player(&bodyModel, 0);
 
-	allocator.unlink(); 
+	allocator.unlink();
 
 	if (this->settings & 2) {
 		this->scale.x = 0.25;
@@ -97,23 +97,23 @@ int daThornyFlower_c::onCreate() {
 		this->scale.z = 0.125;
 	}
 
-	ActivePhysics::Info HitMeBaby; 
-	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 0.0; 
+	ActivePhysics::Info HitMeBaby;
+	HitMeBaby.xDistToCenter = 0.0;
+	HitMeBaby.yDistToCenter = 0.0;
 	if (this->settings & 2) {
-		HitMeBaby.xDistToEdge = 24.0; 
-		HitMeBaby.yDistToEdge = 24.0; 
+		HitMeBaby.xDistToEdge = 24.0;
+		HitMeBaby.yDistToEdge = 24.0;
 	} else {
 		HitMeBaby.xDistToEdge = 12.0;
 		HitMeBaby.yDistToEdge = 12.0;
 	}
-	HitMeBaby.category1 = 0x3; 
-	HitMeBaby.category2 = 0x0; 
-	HitMeBaby.bitfield1 = 0x6F; 
-	HitMeBaby.bitfield2 = 0xffbafffe; 
-	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
-	this->aPhysics.initWithStruct(this, &HitMeBaby); 
+	HitMeBaby.category1 = 0x3;
+	HitMeBaby.category2 = 0x0;
+	HitMeBaby.bitfield1 = 0x6F;
+	HitMeBaby.bitfield2 = 0xffba5ffe;
+	HitMeBaby.unkShort1C = 0;
+	HitMeBaby.callback = &dEn_c::collisionCallback;
+	this->aPhysics.initWithStruct(this, &HitMeBaby);
 	this->aPhysics.addToList();
 
 	return true;
