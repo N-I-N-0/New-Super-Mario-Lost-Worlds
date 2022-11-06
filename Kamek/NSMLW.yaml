@@ -4,6 +4,7 @@ modules:
   - processed/k_stdlib.yaml
   - processed/profile.yaml
   - processed/actorlog.yaml
+  #- processed/anmlog.yaml
   - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
@@ -47,7 +48,7 @@ modules:
   - processed/statsMenu.yaml
   - processed/cutScene.yaml
   # - processed/poweruphax_old.yaml
-  #- processed/heapbar.yaml
+ # - processed/heapbar.yaml
   - processed/pregame.yaml
   - processed/randtiles.yaml
   - processed/layouthax.yaml
@@ -215,3 +216,4 @@ modules:
   - processed/boos.yaml
  # - processed/shield-fix.yaml
   - processed/ropeBlock.yaml
+  - processed/coinFountain.yaml

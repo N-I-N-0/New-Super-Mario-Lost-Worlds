@@ -1,0 +1,8 @@
+---
+source_files: [../src/anmconstruct.S]
+hooks:
+  - name: AnmChrConstructWrapper
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80248AD0
+    target_func: 'AnmChrConstructWrapper'

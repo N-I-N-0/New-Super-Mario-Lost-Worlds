@@ -138,6 +138,8 @@ SECTIONS {
 	continuePakkunNormal = 0x8002fa74;
 	continuePakkunBony = 0x8002fb74;
 	dEn_c__fireballInvalid = 0x80097e50;
+	fireballInvalid__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x80097e50;
+	iceballInvalid__5dEn_cFP13ActivePhysicsP13ActivePhysics = 0x80097ea0;
 	continuePakkunNormal2 = 0x8002d4a0;
 	continuePakkunBony2 = 0x8002d5bc;
 

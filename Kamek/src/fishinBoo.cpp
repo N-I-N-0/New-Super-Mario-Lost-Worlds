@@ -42,6 +42,7 @@ public:
 	u64 eventFlag;
 
 	u32 hookNodeID;
+	dActor_c* obj;
 
 	void dieFall_Execute();
 	static dActor_c *build();
@@ -237,6 +238,86 @@ int daFishinBoo_c::onCreate() {
 
 	
 	doStateChange(&StateID_Follow);
+	
+	
+	Vec ropePos;
+	Actors content = EN_ITEM;
+	u32 set = 0;
+	switch(this->settings & 0xFF) {
+		case 0:
+			return true;
+		case 1:
+			break;
+		case 2:
+			set = 0x0B000000;
+			break;
+		case 3:
+			set = 0x0B000009;
+			break;
+		case 4:
+			set = 0x0B000015;
+			break;
+		case 5:
+			set = 0x0B00000E;
+			break;
+		case 6:
+			set = 0x0B000011;
+			break;
+		case 7:
+			set = 0x0B000019;
+			break;
+		case 8:
+			set = 0x0B000001;
+			break;
+		case 9:
+			set = 0x0B000007;
+			break;
+		case 10:
+			set = 0x0B000006;
+			break;
+		case 11:
+			set = 0x0B000014;
+			break;
+		case 12:
+			set = 0x0B000010;
+			break;
+		case 13:
+			set = 0x0B00000F;
+			break;
+		case 14:
+			set = 0x0B000013;
+			break;
+		case 15:
+			set = 0x0B000016;
+			break;
+		case 16:
+			set = 0x0B000012;
+			break;
+		case 17:
+			content = AC_YOSHI_EGG;
+			//set = 0x008003cc04060000;
+			break;
+		case 18:
+			content = EN_COIN_JUMP;
+			//set = 0x008003cc04060000;
+			break;
+		case 19:
+			//spawnPos.y += 10;
+			content = PoisonShroom;
+			//set = 0x008003cc04060000;
+			break;
+		/*case 148:
+			set = 0x008003cc04060000;
+			break;*/
+		default:
+			break;
+	}
+	
+	
+	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
+	this->obj = (dActor_c*)CreateActor(content, set, ropePos, 0, 0);
+	
+	
 
 	// this->onExecute();
 	return true;
@@ -251,9 +332,10 @@ int daFishinBoo_c::onExecute() {
 	updateModelMatrices();
 	bodyModel._vf1C();
 	
-	Vec ropePos;
-	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
-	//CreateActor(EN_COIN, 0, ropePos, 0, 0);
+	//Vec ropePos;
+	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &this->obj->pos/*&ropePos*/);
+	//this->obj->pos = ropePos;
+	//(dActor_c*)CreateActor(EN_COIN, 0, ropePos, 0, 0);
 	
 	
 	if (dFlagMgr_c::instance->flags & this->eventFlag) {

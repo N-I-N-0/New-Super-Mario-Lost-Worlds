@@ -82,6 +82,8 @@ public:
 	void dieFall_Execute();
 	void dieFall_End();
 
+	void destroyBubble();
+
 	static daBoomerangHax_c *build();
 
 	void updateModelMatrices();
@@ -269,12 +271,7 @@ bool daBoomerangHax_c::customCollision(ActivePhysics *apThis, ActivePhysics *apO
 				VEC3 newPos = {this->pos.x, this->pos.y - 16, this->pos.z};
 				dStageActor_c *coin = dStageActor_c::create(EN_ITEM, coinsettings, &newPos, 0, 0);
 				PlaySound(this, SE_OBJ_GET_COIN);
-				PlaySound(this, SE_OBJ_CMN_BALLOON_BREAK);
-				Vec efPos = {this->pos.x, this->pos.y, this->pos.z};
-				S16Vec nullRot = {0,0,0};
-				Vec oneVec = {1.0f, 1.0f, 1.0f};
-				SpawnEffect("Wm_mr_balloonburst", 0, &efPos, &nullRot, &oneVec);
-				this->Delete(1);
+				this->destroyBubble();
 			}
 		}
 		if (this->variation == 4)
@@ -286,6 +283,16 @@ bool daBoomerangHax_c::customCollision(ActivePhysics *apThis, ActivePhysics *apO
 				this->Delete(1);
 			}
 		}
+	}
+
+
+	void daBoomerangHax_c::destroyBubble() {
+		PlaySound(this, SE_OBJ_CMN_BALLOON_BREAK);
+		Vec efPos = {this->pos.x, this->pos.y, this->pos.z};
+		S16Vec nullRot = {0,0,0};
+		Vec oneVec = {1.0f, 1.0f, 1.0f};
+		SpawnEffect("Wm_mr_balloonburst", 0, &efPos, &nullRot, &oneVec);
+		this->Delete(1);
 	}
 
 	void daBoomerangHax_c::yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther) {

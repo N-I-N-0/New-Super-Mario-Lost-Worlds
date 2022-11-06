@@ -2736,7 +2736,7 @@ public:
 	virtual void ice_Begin(); // does stuff with Class484 and lots of vf's
 	virtual void ice_Execute(); // tons of stuff with Class484
 	virtual void ice_End(); // sets a field in Class484 to 0
-
+	
 	virtual void spawnHitEffectAtPosition(Vec2 pos);
 	virtual void doSomethingWithHardHitAndSoftHitEffects(Vec pos);
 	virtual void playEnemyDownSound2();
@@ -2786,6 +2786,9 @@ public:
 	void killByDieFall(dStageActor_c *killedBy);
 
 	bool EnWaterFlagCheck(Vec* pos);
+	
+	void fireballInvalid(ActivePhysics *apThis, ActivePhysics *apOther);
+	void iceballInvalid(ActivePhysics *apThis, ActivePhysics *apOther);
 
 	// States
 	USING_STATES(dEn_c);
