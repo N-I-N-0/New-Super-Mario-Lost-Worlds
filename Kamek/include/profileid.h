@@ -610,6 +610,8 @@ enum
 	MANTA_MGR2 = 585,
 	UniversalReconfigurator = 586,
 	RopeBlock = 587,
+	CoinFountain = 588,
+	CloudSpawner = 589,
 
 	Num
 };
@@ -1498,6 +1500,8 @@ enum
 	MANTA_MGR2_NEW, //864
 	UniversalReconfigurator, //865
 	RopeBlock, //866
+	CoinFountain, //867
+	CloudSpawner, //868
 	
 	Num
 };

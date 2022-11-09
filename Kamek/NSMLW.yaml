@@ -217,3 +217,4 @@ modules:
  # - processed/shield-fix.yaml
   - processed/ropeBlock.yaml
   - processed/coinFountain.yaml
+  - processed/cloudSpawner.yaml

@@ -1969,7 +1969,7 @@
     <value nybble="5-6" title="Mushroom ID" comment="If pairing the ?-Block with sprite 382, match the Mushroom ID to enable Mushroom Bolt controlled movement. It will be paired to the platform without the Bolt." requirednybble="7" requiredval="6" idtype="Mushroom"/> <!-- Appears if [Movement Type] = 6 -->
     <dualbox nybble="11.4" title1="Normal" title2="Alternate" comment="This determines which item table will the ? block use."/>
     <list nybble="12" title="Block Contains" comment="This determines what item the block contains." comment2="This block will release as many items as there are players." requirednybble="11.4" requiredval="0">
-      <entry value="0">Empty</entry>
+      <entry value="0">Boomerang Flower</entry>
       <entry value="1">1 Coin</entry>
       <entry value="10">10-Coin</entry>
       <entry value="14">Mushroom (if small)</entry>
@@ -4506,5 +4506,16 @@
 
   <sprite id="587" name="Rope Block" asmhacks="True" >
   </sprite> <!-- #587: Rope Block -->
+
+  <sprite id="588" name="Coin Fountain" asmhacks="True" >
+      <value nybble="5" title="Coin Count" />
+      <value nybble="6" title="Number of spouts" />
+      <value nybble="7-8" title="Triggering Event ID" idtype="Triggering Event" />
+      <value nybble="9" title="Direction for burst" />
+  </sprite> <!-- #588: Coin Fountain -->
+
+  <sprite id="589" name="Cloud Spawner" asmhacks="True" >
+    <checkbox nybble="6.4" title="Respawn" />
+  </sprite> <!-- #589: Cloud Spawner -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
