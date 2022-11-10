@@ -24,6 +24,7 @@ public:
 	m3d::anmChr_c animationChr;
 	nw4r::g3d::ResFile resFile;
 	
+	u32 physicsWait;
 	
 	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 	void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
@@ -78,7 +79,6 @@ void daEnScreamingPillar_c::bindAnimChr_and_setUpdateRate(const char* name, int 
 
 
 static void ScreamingPillarPhysCB1(daEnScreamingPillar_c *one, dStageActor_c *two) {
-	OSReport("1\n");
 	return;
 	
 	if (two->stageActorType != 1)
@@ -94,10 +94,7 @@ static void ScreamingPillarPhysCB1(daEnScreamingPillar_c *one, dStageActor_c *tw
 		HurtMarioBecauseOfBeingSquashed(two, one, 9);
 }
 
-static void ScreamingPillarPhysCB2(daEnScreamingPillar_c *one, dStageActor_c *two) {
-	OSReport("2\n");
-	return;
-	
+static void ScreamingPillarPhysCB2(daEnScreamingPillar_c *one, dStageActor_c *two) {	
 	if (two->stageActorType != 1)
 		return;
 
@@ -105,14 +102,13 @@ static void ScreamingPillarPhysCB2(daEnScreamingPillar_c *one, dStageActor_c *tw
 	//if (one->moveDirection <= 1)
 	//	return;
 
-	if (one->pos_delta.y < 0.0f)
+	if (one->pos_delta.y < 1.0f)
 		HurtMarioBecauseOfBeingSquashed(two, one, 2);
 	else
 		HurtMarioBecauseOfBeingSquashed(two, one, 10);
 }
 
 static void ScreamingPillarPhysCB3(daEnScreamingPillar_c *one, dStageActor_c *two, bool unkMaybeNotBool) {
-	OSReport("3\n");
 	return;
 
 	if (two->stageActorType != 1)
@@ -136,17 +132,14 @@ static void ScreamingPillarPhysCB3(daEnScreamingPillar_c *one, dStageActor_c *tw
 }
 
 static bool ScreamingPillarPhysCB4(daEnScreamingPillar_c *one, dStageActor_c *two) {
-	OSReport("4\n");
 	return true;
 }
 
 static bool ScreamingPillarPhysCB5(daEnScreamingPillar_c *one, dStageActor_c *two) {
-	OSReport("5\n");
 	return true;
 }
 
 static bool ScreamingPillarPhysCB6(daEnScreamingPillar_c *one, dStageActor_c *two, bool unkMaybeNotBool) {
-	OSReport("6\n");
 	return true;
 
 	if (unkMaybeNotBool) {
@@ -195,12 +188,12 @@ int daEnScreamingPillar_c::onCreate() {
 	ActivePhysics::Info HitMeBaby;
 	HitMeBaby.xDistToCenter = 0.0;
 	HitMeBaby.yDistToCenter = -72.0;
-	HitMeBaby.xDistToEdge = 72.0;
+	HitMeBaby.xDistToEdge = 90.0;
 	HitMeBaby.yDistToEdge = 280.0;
 	HitMeBaby.category1 = 0x5;
 	HitMeBaby.category2 = 0x0;
 	HitMeBaby.bitfield1 = 0x4F;
-	HitMeBaby.bitfield2 = 0xFFFFFFFF;
+	HitMeBaby.bitfield2 = 0xFFC00000;
 	HitMeBaby.unkShort1C = 0;
 	HitMeBaby.callback = &dEn_c::collisionCallback;
 
@@ -208,9 +201,9 @@ int daEnScreamingPillar_c::onCreate() {
 	this->aPhysics.addToList();
 	
 	physicsInfo.x1 = -14;
-	physicsInfo.y1 = 140;
-	physicsInfo.x2 = -8;
-	physicsInfo.y2 = 70;
+	physicsInfo.y1 = 120;
+	physicsInfo.x2 = 14;
+	physicsInfo.y2 = 118;
 	
 	physicsInfo.otherCallback1 = &ScreamingPillarPhysCB1;
 	physicsInfo.otherCallback2 = &ScreamingPillarPhysCB2;
@@ -222,7 +215,7 @@ int daEnScreamingPillar_c::onCreate() {
 	physics.callback1 = &ScreamingPillarPhysCB4;
 	physics.callback2 = &ScreamingPillarPhysCB5;
 	physics.callback3 = &ScreamingPillarPhysCB6;
-	physics.addToList();
+	//physics.addToList();
 	
 	doStateChange(&StateID_Wait);
 	
@@ -263,6 +256,18 @@ void daEnScreamingPillar_c::beginState_Fall() {
 	bindAnimChr_and_setUpdateRate("tumble_front", 1, 0.0, 1.0);
 }
 void daEnScreamingPillar_c::executeState_Fall() {
+	if(physicsWait < 60) {
+		physicsWait++;
+	} else if (physicsWait == 60) {
+		physics.addToList();
+		physicsWait++;
+	} else if (physicsWait < 73) {
+		this->physicsInfo.y1-=7.5;
+		this->physicsInfo.y2-=10;
+		physics.setup(this, &physicsInfo, 3, currentLayerID);		
+		physicsWait++;
+	}
+	
 	if (this->animationChr.isAnimationDone()) {
 		doStateChange(&StateID_Dead);
 	}
