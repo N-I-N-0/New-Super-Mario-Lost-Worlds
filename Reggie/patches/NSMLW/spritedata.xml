@@ -888,6 +888,7 @@
       <entry value="4">Blue Mushroom</entry>
       <entry value="5">Yellow Mushroom</entry>
       <entry value="6">Big Checkered Block</entry>
+      <entry value="7">DK Bounce Flower</entry>
     </list>
     <checkbox nybble="9.4" title="Larger Cloud" comment="When enabled, the Bouncy Cloud will be bigger."/>
   </sprite> <!-- #78: Bouncy Cloud -->
