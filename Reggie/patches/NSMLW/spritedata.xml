@@ -893,6 +893,7 @@
     <checkbox nybble="9.4" title="Larger Cloud" comment="When enabled, the Bouncy Cloud will be bigger."/>
   </sprite> <!-- #78: Bouncy Cloud -->
 
+
   <!-- Determine the scope of this event controller with a video showcasing its behavior with a delay of 6 and 10 Red Coins. Create a Zone that the player will stand in and an IF controller that governs the Looper. Stand in it until the coins have come on, and all gone off, at least twice (assuming they turn off). If they do not turn off, exit the location and observe the behavior. If they do turn off, exit the location after half of the coins have come on and observe the behavior. -->
   <!-- My descriptions here are operating under the assumption that it proceeds to disable each event after having activated it before it proceeds to the next. It also assumes that it must complete the full sequence before deactivating even when the Triggering Event ID is deactivated. -->
   <sprite id="79" name="Event Controller - Looper (If X, do Y THEN Z+, Repeat)" asmhacks="True" notes="Similar to the Multi-Chainer, this controller will activate a sequence of Events ranging from [Target Event ID Start] through [Target Event ID End]. However, it will only activate one event at a time. After activating one event, it will deactivate it and activate the next event. Once it has done this for all events, if the [Triggering Event ID] is still activated, it will return to [Target Event ID Start] and begin again.">
@@ -1190,6 +1191,62 @@
     <checkbox nybble="11.4" title="Disable Goal Wall" comment="When enabled, the player can jump over the Goal Pole."/>
   </sprite> <!-- #113: Goal Pole and Fortress -->
 
+  <!-- Which Cheep Cheep types are successfully affected by Swim Speed? -->
+  <!-- Does Swims Left override Type completely or ??? -->
+  <!-- Is that Positioning thing completely useless? -->
+  <!-- Does the Triggering Event for Type 3 cause the Cheep Cheep to chase the player while the event is active? Any effect at all? -->
+  <!-- Any difference between Type 0 and Type 2? -->
+  <!-- Copy settings to #333 (334? 395?) -->
+  <sprite id="115" name="Cheep Cheep / Deep Cheep / Eep Cheep" notes="A basic Cheep Cheep and its very similar brethren. When placed in water, it will swim along or even swim after the player.">
+    <dependency notes="The Cheep Cheep will only spawn if placed within water. In addition, Deep Cheeps and the Eep Cheep only work on non-location water.">
+      <required sprite="138"/> <!-- Requires Water -->
+    </dependency>
+    <checkbox nybble="5.1" title="Swims Left" comment="If checked, swims to the left. The fish will not swim backwards when you backtrack. If unchecked, the direction the Cheep Cheep swims first depends on the 'Type'. For Types 3, 4, 6 and 7, it swims to the right in general. All other types will cause the Cheep Cheeps to swim first in Mario's direction."/>
+    <list nybble="12" title="Type" comment="This determines which type of behavior the Cheep Cheep will follow, as well as the type of Cheep Cheep that is spawned." comment2="Specifies the Swimming-'Type' that should be used for this Cheep Cheep. Value 5 is unique. Type-5 Cheep Cheeps will look into the camera until Mario comes close. Furthermore, the direction will be ignored and the Cheep Cheep will always swim in the opposite direction, away from Mario, if Mario is close enough.&lt;br&gt;&lt;br&gt;Values marked ​​with an asterisk &lt;b&gt;(*)&lt;/b&gt; will ignore the speed value set and instead will always use value 1, no matter what is selected there. Also, all values ​​with &lt;b&gt;(*)&lt;/b&gt; will let the Cheep Cheep swim in a wavy line (just as the Coin Cheep Cheep does).&lt;br&gt;&lt;br&gt;The two values ​​with &lt;b&gt;(**)&lt;/b&gt; follow exactly the same behavior as those marked with &lt;b&gt;(*)&lt;/b&gt;, the only difference is its speed. Cheep Cheeps affected will swim slightly faster, both vertical and horizontal.">
+      <entry value="0">Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="2">Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="3">Cheep Cheep ("LrSwim"), Swims Left / Right</entry>
+      <entry value="4">Cheep Cheep ("Swim"), Swims Straight**</entry>
+      <entry value="5">Cheep Cheep ("WaterWait"), Waits, Then Swims Straight**</entry>
+      <entry value="6">Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="1">Deep Cheep ("SrcSwim"), Follows Player Slightly*</entry>
+      <entry value="7">Deep Cheep ("SrcSwim"), Follows Player Slightly*</entry>
+      <entry value="8">Eep Cheep ("ReverseSrcSwim"), Dodges Player*</entry>
+    </list>
+    <list nybble="9.3-9.4" title="Swim Speed" comment="This determines the swimming speed of [?????] Types of Cheep Cheep." comment2="Note: Type-3 Cheep Cheeps (Swims Left / Right) have the same speed as values 1 and 2. [Both? What? Slow and Medium-Slow?]">
+      <entry value="3">Slower</entry>
+      <entry value="1">Slow</entry>
+      <entry value="2">Slow+</entry>
+      <entry value="0">Medium</entry>
+    </list>
+    <list nybble="8" title="Swim Distance" comment="This determines the distance that a Type 3 Cheep Cheep will swim in both directions from its initial placement." requirednybble="12" requiredval="3">
+      <entry value="0">1 Block</entry>
+      <entry value="1">2 Blocks</entry>
+      <entry value="2">3 Blocks</entry>
+      <entry value="3">4 Blocks</entry>
+      <entry value="4">5 Blocks</entry>
+      <entry value="5">6 Blocks</entry>
+      <entry value="6">7 Blocks</entry>
+      <entry value="7">8 Blocks</entry>
+      <entry value="8">9 Blocks</entry>
+      <entry value="9">10 Blocks</entry>
+      <entry value="10">11 Blocks</entry>
+      <entry value="11">12 Blocks</entry>
+      <entry value="12">13 Blocks</entry>
+      <entry value="13">14 Blocks</entry>
+      <entry value="14">15 Blocks</entry>
+      <entry value="15">16 Blocks</entry>
+    </list> <!-- Appears only if Type = 3 -->
+    <checkbox nybble="4.3" title="Positioning Flag (2)" comment="Treeki:&lt;br&gt;Setting Flag 2 and 4 for Nybble 4: This function will create a particular Y position picture of all the Cheep Cheeps, each frame. The 'Cheep Cheep Formation Spawner' that has generated the Cheep Cheeps will store this 'picture'."/>
+    <checkbox nybble="4.2" title="Positioning Flag (4)" comment="Treeki:&lt;br&gt; Setting Flag 2 and 4 for Nybble 4: This function will create a particular Y position picture of all the Cheep Cheeps, each frame. The 'Cheep Cheep Formation Spawner' that has generated the Cheep Cheeps will store this 'picture'."/>
+    <value nybble="6" title="Positioning" comment="Treeki also commented:&lt;br&gt;'Nybble 6 determines WHICH position is allocated to the fish. This option is only useful for the Cheep Cheep Formation Spawner (247), because 247 uses this nybble for all generated Cheep Cheeps. For everything else, this option seems to be pointless. When you use the two flags for a Cheep Cheep in Reggie!, the corresponding Cheep Cheep won't have 'parents' any more, so it will get some random data for the Y position and might go off the screen. So you can safely ignore this value.'"/>
+    <value nybble="3-4" title="'Dodge' Triggering Event ID" comment="This may look weird at first glance, but it seems as if this function should work. It definitely has to do with Type 3 (Swims Left / Right).&lt;br&gt;Treeki wrote this: 'LrSwim (Type 3) accepts an Event that will make the Cheep Cheep follow the player (turning state LrSwim into state LrSrcSwim)'. If it really works is a good question. Try it and report your findings!" idtype="Triggering Event"/>
+    <list nybble="7" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Mecha</entry>
+    </list>
+  </sprite> <!-- #115: Cheep Cheep / Deep Cheep / Eep Cheep -->
+
   <sprite id="118" name="Dry Bones" notes="A skeletal Koopa Troopa that cannot die from being stomped on. It will also not walk off of platforms.">
     <checkbox nybble="12.4" title="Immune to Lava" comment="When enabled, the Dry Bones will not 'disappear' when he touches lava."/>
     <list nybble="5-6" title="Color" comment="This determines the color of the Dry Bone.">
@@ -1216,7 +1273,7 @@
     <list nybble="11" title="SpriteTex">
       <entry value="0">Original</entry>
       <entry value="1">Gold</entry>
-	  <entry value="2">Lakitufo</entry>
+      <entry value="2">Lakitufo</entry>
     </list>
   </sprite> <!-- #124: Lakitu Spawn Area -->
 
@@ -1393,6 +1450,13 @@
       <entry value="4">Chompette (StupidMarioBros1Fan)</entry>
     </list>
   </sprite> <!-- #146: Chain Chomp -->
+
+  <sprite id="150" name="Jumping Cheep Cheep" notes="A Cheep Cheep that will jump out of the water in an attempt to damage the player.">
+    <dependency notes="Cannot be used without Water for the Cheep Cheep to live in.">
+      <required sprite="138"/>
+    </dependency>
+    <checkbox nybble="12.4" title="Alternate Movement" comment="When enabled, after the first jump, the Cheep Cheep will not continue swimming but instead wait at the landing point to jump again." comment2="It ends up looking like the Cheep Cheep is 'stuck' in the water." advanced="True"/>
+  </sprite> <!-- #150: Jumping Cheep Cheep -->
 
   <sprite id="151" name="Porcu-Puffer" notes="A stand-alone Porcu-Puffer that will chase the player along the water line indefinitely until killed, but will not respawn.">
     <dependency notes="Water is required for the Porcu-Puffer to function. It must be non-location water, possibly non-moving water.">
@@ -3155,7 +3219,55 @@
       </list>
       <value nybble="9" title="Loop Delay" comment="This determines the number of seconds between activations of the sound or graphic effect." comment2="The effect will only activate once if the delay is left at 0."/>
   </sprite> <!-- #332: Effect/Sound Spawner -->
-  
+
+  <!-- See #115 -->
+  <sprite id="334" name="Big Cheep Cheep / Big Deep Cheep / Big Eep Cheep" notes="A larger version of the basic Cheep Cheep and its very similar brethren. When placed in water, it will swim along or even swim after the player.">
+    <dependency notes="The Cheep Cheep will only spawn if placed within water. In addition, Deep Cheeps and the Eep Cheep only work on non-location water.">
+      <required sprite="138"/> <!-- Requires Water -->
+    </dependency>
+    <checkbox nybble="5.1" title="Swims Left" comment="If checked, swims to the left. The fish will not swim backwards when you backtrack. If unchecked, it depends on the 'Type' set, in which Direction the Cheep Cheep swims first. For Types 3, 4, 6 and 7, it swims to the right in general. All other Types will cause the Cheep Cheeps to swim in Mario's Direction."/>
+    <list nybble="12" title="Type" comment="Specifies the Swimming-'Type' that should be used for this Cheep Cheep. Deep Cheeps and Eep Cheeps only work in non-Location water. Value 5 is unique. Type-5 Cheep Cheeps will look into the camera until Mario comes close. Furthermore, the Direction will be ignored and the Cheep Cheep will always swim in the opposite Direction, away from Mario, but only if Mario is close enough.&lt;br&gt;Values marked with an asterisk &lt;b&gt;(*)&lt;/b&gt; will ignore the speed Value set and instead will always use Value 1, no matter what is selected there. Also, all Values with &lt;b&gt;(*)&lt;/b&gt; will let the Cheep Cheep swim in a wavy line (just as the Coin Cheep Cheep does).&lt;br&gt;The two Values with &lt;b&gt;(**)&lt;/b&gt; follow exactly the same behavior as those marked with &lt;b&gt;(*)&lt;/b&gt;, only difference is its speed. Cheep Cheeps affected will swim slightly faster, both vertical and horizontal.&lt;br&gt;&lt;br&gt;&lt;b&gt;New naming scheme as of NSMBU:&lt;/br&gt;&lt;br&gt;Red = Cheep Cheep (normal)&lt;br&gt;Green = Deep Cheep (aggressive)&lt;br&gt;Yellow = Eep Cheep (shy)">
+      <entry value="0">Big Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="2">Big Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="3">Big Cheep Cheep ("LrSwim"), Swims Left / Right</entry>
+      <entry value="4">Big Cheep Cheep ("Swim"), Swims Straight**</entry>
+      <entry value="5">Big Cheep Cheep ("WaterWait"), Waits, Then Swims Straight**</entry>
+      <entry value="6">Big Cheep Cheep ("Swim"), Swims Straight</entry>
+      <entry value="1">Big Deep Cheep ("SrcSwim"), Follows Player Slightly*</entry>
+      <entry value="7">Big Deep Cheep ("ScrSwim"), Follows Player Slightly*</entry>
+      <entry value="8">Big Eep Cheep ("ReverseSrcSwim"), Dodges Player*</entry>
+    </list>
+    <list nybble="9.3-9.4" title="Swim Speed" comment="This determines the swimming speed of [?????] Types of Cheep Cheep." comment2="Note: Type-3 Cheep Cheeps (Swims Left / Right) have the same speed as values 1 and 2. [Both? What? Slow and Medium-Slow?]">
+      <entry value="3">Slower</entry>
+      <entry value="1">Slow</entry>
+      <entry value="2">Medium - Slow</entry>
+      <entry value="0">Medium</entry>
+    </list>
+    <list nybble="8" title="Swim Distance" comment="This determines the distance that a Type 3 Cheep Cheep will swim in both directions from its initial placement." requirednybble="12" requiredval="3">
+      <entry value="0">1 Block</entry>
+      <entry value="1">2 Blocks</entry>
+      <entry value="2">3 Blocks</entry>
+      <entry value="3">4 Blocks</entry>
+      <entry value="4">5 Blocks</entry>
+      <entry value="5">6 Blocks</entry>
+      <entry value="6">7 Blocks</entry>
+      <entry value="7">8 Blocks</entry>
+      <entry value="8">9 Blocks</entry>
+      <entry value="9">10 Blocks</entry>
+      <entry value="10">11 Blocks</entry>
+      <entry value="11">12 Blocks</entry>
+      <entry value="12">13 Blocks</entry>
+      <entry value="13">14 Blocks</entry>
+      <entry value="14">15 Blocks</entry>
+      <entry value="15">16 Blocks</entry>
+    </list>
+    <value nybble="3-4" title="'Dodge' Event ID" comment="Right, this does look weird at first glance, but it seems as if this function should work. It definitely has to do with Type 3 (Swims Left / Right). Treeki wrote this: 'LrSwim (Type 3) accepts an Event that will make the Cheep Cheep follow the player (turning state LrSwim into state LrSrcSwim)'.&lt;br&gt;If it really works is a good question." idtype="Triggering Event"/>
+    <list nybble="7" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Mecha</entry>
+    </list>
+  </sprite>
+
   <sprite id="341" name="Giant Koopa Shell Cave" asmhacks="True" notes="A decorative large shell that can be used as a cave with the right arrangement of invisible blocks and settings.">
     <dependency notes="Look in Retail 5-01 A1 for an example of how to use this sprite correctly. You will need to make use of Spotlight Lighting, Layer 0 tiles, and invisible collision blocks in order for it to look correct."/>
     <dualbox nybble="6.4" title1="Green" title2="Red" comment="This determines the color of the Shell Cave."/>
@@ -3226,7 +3338,7 @@
       <entry value="15">Purple</entry>
     </list>
   </sprite> <!-- #359: Lighting - Fire Lamp -->
-
+  
   <sprite id="369" name="Cooligan" notes="" noyoshi="True" yoshinotes="Yoshi cannot jump on Cooligans, though he can use the stomp attack and tongue attack to defeat them.">
     <list nybble="12" title="Starting Direction">
       <entry value="0">Towards Mario</entry>
