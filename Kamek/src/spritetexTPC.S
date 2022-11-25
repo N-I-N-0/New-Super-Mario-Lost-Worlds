@@ -181,6 +181,46 @@ SpriteTex_ArrowSignboard:
 
 
 
+.extern getBubbleColor__Fv
+.global SpriteTex_Bubble
+SpriteTex_Bubble:
+	stwu sp, -0x40(sp)
+	stw r0, 0x44(sp)
+	mflr r0
+	stw r0, 0x3C(sp)
+	stw r3, 0x38(sp)
+	stw r6, 0x2C(sp)
+	stw r7, 0x28(sp)
+	stw r8, 0x24(sp)
+	stw r9, 0x20(sp)
+	stw r10, 0x1C(sp)
+	stw r11, 0x18(sp)
+	stw r12, 0x14(sp)
+	stw r31, 0x10(sp)
+
+	bl	getBubbleColor__Fv
+	mr	r5, r3
+	lis		r4, balloon@h
+	ori		r4, r4, balloon@l	
+	bl getNameForMDL0
+
+
+	lwz r31, 0x10(sp)
+	lwz r12, 0x14(sp)
+	lwz r11, 0x18(sp)
+	lwz r10, 0x1C(sp)
+	lwz r9, 0x20(sp)
+	lwz r8, 0x24(sp)
+	lwz r7, 0x28(sp)
+	lwz r6, 0x2C(sp)
+	lwz r3, 0x38(sp)
+	lwz r0, 0x3C(sp)	
+	mtlr	r0
+	lwz r0, 0x44(sp)
+	addi	sp, sp, 0x40
+	blr	
+
+
 ###################
 # Strings & stuff #
 ###################
@@ -206,5 +246,6 @@ shinkai_light: .string "shinkai_light"
 FrontBlack: .string "FrontBlack"
 obj_dokan: .string "obj_dokan"
 kanban_yajirushi: .string "kanban_yajirushi"
+balloon: .string "balloon"
 
 .align 4

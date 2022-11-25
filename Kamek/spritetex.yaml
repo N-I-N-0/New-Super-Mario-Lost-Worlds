@@ -1028,11 +1028,6 @@ hooks:
     src_addr_pal: 0x809F56E8
     target_func: 'TEX_DPadDoorTwo'
 
-  - name: TEX_MushBubble
-    type: branch_insn
-    branch_type: bl
-    src_addr_pal: 0x801119E0
-    target_func: 'TEX_MushBubble'
 
   - name: TEX_PropellerBlock
     type: branch_insn
@@ -1344,3 +1339,15 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x8081CB30
     target_func: 'SpriteTex_ArrowSignboard'
+
+#  - name: TEX_MushBubble
+#    type: branch_insn
+#    branch_type: bl
+#    src_addr_pal: 0x801119E0
+#    target_func: 'TEX_MushBubble'
+
+  - name: SpriteTex_Bubble
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x801119f8
+    target_func: 'SpriteTex_Bubble'
