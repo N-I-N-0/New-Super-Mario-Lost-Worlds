@@ -64,12 +64,17 @@ public:
 	bool collisionCat14_YoshiFire(ActivePhysics *apThis, ActivePhysics *apOther);
 	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
 	
+	void startIfEventActive();
+	void stopIfEventNotActive();
+	
 	USING_STATES(daBallon_c);
 	
 	DECLARE_STATE(Wait);
+	DECLARE_STATE(Pause);
 };
 
 CREATE_STATE(daBallon_c, Wait);
+CREATE_STATE(daBallon_c, Pause);
 
 
 void daBallon_c::beginState_Wait() {}
@@ -82,12 +87,37 @@ void daBallon_c::executeState_Wait() {
 	distance = sqrtf(pow(dx, 2) + pow(dy, 2));
 
 	if (distance <= 64) {
-		doStateChange(&StateID_FollowPath);
+		//doStateChange(&StateID_FollowPath);
+		startIfEventActive();
 	}
 }
 void daBallon_c::endState_Wait() {}
 
+void daBallon_c::beginState_Pause() {}
+void daBallon_c::executeState_Pause() {
+	startIfEventActive();
+}
+void daBallon_c::endState_Pause() {}
 
+
+//makes the ballon start moving if the event is activate
+void daBallon_c::startIfEventActive() {
+	dStateBase_c* currentState = acState.getCurrentState();
+	if ((dFlagMgr_c::instance->flags & spriteFlagMask) != 0) {
+		if(!currentState->isEqual(&StateID_FollowPath)) {
+			doStateChange(&StateID_FollowPath);
+		}
+	}
+}
+
+void daBallon_c::stopIfEventNotActive() {
+	dStateBase_c* currentState = acState.getCurrentState();
+	if ((dFlagMgr_c::instance->flags & spriteFlagMask) == 0) {
+		if(currentState->isEqual(&StateID_FollowPath)) {
+			doStateChange(&StateID_Pause);
+		}
+	}
+}
 
 
 
@@ -423,6 +453,7 @@ void daBallon_c::updateModelMatrices() {
 int daBallon_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
+	stopIfEventNotActive();
 	acState.execute();
 	/*physics1.removeFromList();
 	physics1.setupRound(this, 0.0f, 200.0f - this->aTestFloat, 80.0f, (void*)&BallonPhysCB1, (void*)&BallonPhysCB2, (void*)&BallonPhysCB3, 1, 0, 0);

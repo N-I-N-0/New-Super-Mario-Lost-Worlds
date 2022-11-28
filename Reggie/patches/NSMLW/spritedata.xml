@@ -4072,6 +4072,7 @@
   </sprite> <!-- #506: Pumpkin Goomba -->
 
   <sprite id="507" name="Ballon" asmhacks="True" notes="A Ballon that can follow a path.">
+    <value nybble="3-4" title="Triggering Event ID" idtype="Triggering Event" />
     <value nybble="11-12" title="Path ID" comment="0 means that this ballon won't ever fly as there is no path to follow." />
     <value nybble="9-10" title="Start Node" />
     <value nybble="8" title="Speed" />
