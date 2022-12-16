@@ -612,6 +612,7 @@ enum
 	RopeBlock = 587,
 	CoinFountain = 588,
 	CloudSpawner = 589,
+	Scuttlebug = 590,
 
 	Num
 };
@@ -1502,7 +1503,8 @@ enum
 	RopeBlock, //866
 	CoinFountain, //867
 	CloudSpawner, //868
-	
+	Scuttlebug, //869
+
 	Num
 };
 

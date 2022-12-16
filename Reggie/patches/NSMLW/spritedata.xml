@@ -4631,5 +4631,10 @@
   <sprite id="589" name="Cloud Spawner" asmhacks="True" >
     <checkbox nybble="6.4" title="Respawn" />
   </sprite> <!-- #589: Cloud Spawner -->
+
+  <sprite id="590" name="Scuttlebug" asmhacks="True" >
+      <value nybble="5" title="Move Distance" />
+      <value nybble="6" title="Idle Time" />
+  </sprite> <!-- #590: Scuttlebug -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

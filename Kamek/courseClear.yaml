@@ -1,0 +1,6 @@
+source_files: [../src/courseClear.cpp]
+hooks:
+  - name: COURSECLEARCreate
+    type: add_func_pointer
+    src_addr_pal: 0x80940F78
+    target_func: 'dCourseClear_c::newOnCreate(void)'

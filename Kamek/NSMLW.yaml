@@ -116,6 +116,7 @@ modules:
   - processed/ballon.yaml
   - processed/pinkKoopa.yaml
   - processed/ActorSpawner.yaml
+  - processed/courseClear.yaml
   - processed/theGreatGoalPole.yaml
 #  - processed/poisontex.yaml
   - processed/gakenoko.yaml
@@ -218,3 +219,4 @@ modules:
   - processed/ropeBlock.yaml
   - processed/coinFountain.yaml
   - processed/cloudSpawner.yaml
+  - processed/scuttlebug.yaml

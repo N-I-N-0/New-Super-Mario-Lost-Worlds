@@ -33,9 +33,13 @@ public:
 
 	ActivePhysics a1UPPhysics;
 	Physics::Info physicsInfo;
-	StandOnTopCollider  sotCollider;
+	StandOnTopCollider sotCollider;
 	
 	bool done;
+	
+	s32 timer;
+	u8 exiting;
+	bool touched;
 
 	static dActor_c *build();
 
@@ -60,9 +64,13 @@ public:
 	USING_STATES(daGreatGoalPole_c);
 	
 	DECLARE_STATE(Wait);
+	DECLARE_STATE(Anim);
+	DECLARE_STATE(Touched);
 };
 
 CREATE_STATE(daGreatGoalPole_c, Wait);
+CREATE_STATE(daGreatGoalPole_c, Anim);
+CREATE_STATE(daGreatGoalPole_c, Touched);
 
 
 void daGreatGoalPole_c::beginState_Wait() {}
@@ -92,6 +100,10 @@ Profile GreatGoalPoleProfile(&daGreatGoalPole_c::build, SpriteId::GreatGoalPole,
 
 
 void daGreatGoalPole_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	if(!this->touched) {
+		doStateChange(&StateID_Touched);
+		this->touched = true;
+	}
 }
 void daGreatGoalPole_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 
@@ -201,11 +213,11 @@ int daGreatGoalPole_c::onCreate() {
 	ActivePhysics::Info aPhysicsInfo;
 	aPhysicsInfo.xDistToCenter = 0.0;
 	aPhysicsInfo.yDistToCenter = 72.0;
-	aPhysicsInfo.category1 = 0x0;
+	aPhysicsInfo.category1 = 0x5;
 	aPhysicsInfo.category2 = 0x0;
-	aPhysicsInfo.bitfield1 = 0x0;
+	aPhysicsInfo.bitfield1 = 0x4F;
 
-	aPhysicsInfo.bitfield2 = 0x0;
+	aPhysicsInfo.bitfield2 = 0x200;
 	aPhysicsInfo.xDistToEdge = 3;
 	aPhysicsInfo.yDistToEdge = 76;
 
@@ -219,11 +231,11 @@ int daGreatGoalPole_c::onCreate() {
 	ActivePhysics::Info a1UPPhysicsInfo;
 	a1UPPhysicsInfo.xDistToCenter = 0.0;
 	a1UPPhysicsInfo.yDistToCenter = 151.0;
-	a1UPPhysicsInfo.category1 = 0x0;
+	a1UPPhysicsInfo.category1 = 0x5;
 	a1UPPhysicsInfo.category2 = 0x0;
-	a1UPPhysicsInfo.bitfield1 = 0x0;
+	a1UPPhysicsInfo.bitfield1 = 0x4F;
 
-	a1UPPhysicsInfo.bitfield2 = 0x0;
+	a1UPPhysicsInfo.bitfield2 = 0x200;
 	a1UPPhysicsInfo.xDistToEdge = 3;
 	a1UPPhysicsInfo.yDistToEdge = 3;
 
@@ -341,3 +353,129 @@ int daGreatGoalPole_c::afterExecute(int param) {
 	a1UPPhysics.clear();
 	return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static nw4r::snd::StrmSoundHandle greatGoalHandle;
+
+
+
+
+
+
+
+void daGreatGoalPole_c::beginState_Touched() {
+	this->timer = 0;
+	//this->isGlowing = false;
+	//cosmicKillFlag = 1;
+
+	// WLClass::instance->flags |= 4;
+	WLClass::instance->_4 = 5;
+	WLClass::instance->_8 = 0;
+	dStage32C_c::instance->freezeMarioBossFlag = 1;
+
+	// MakeMarioEnterDemoMode();
+	StopBGMMusic();
+
+	//PlaySoundWithFunctionB4(SoundRelatedClass, &starSoundHandle, 767, 1); // SE_OBJ_BROOM_KEY_GET
+
+	S16Vec nullRot = {0,0,0};
+	Vec twoVec = {2.0f, 2.0f, 2.0f};
+	SpawnEffect("Wm_ob_keyget01", 0, &this->pos, &nullRot, &twoVec);
+}
+
+void daGreatGoalPole_c::executeState_Touched() {
+	bool isOnGround = true;
+	for(int i = 0; i < 4; i++) {
+		if(Player_Active[i] && Player_Lives[i] > 0) {
+			if(!(GetPlayerOrYoshi(i)->collMgr.isOnTopOfTile())) {
+				// OSReport("Player %d isn't on ground\n", i);
+				isOnGround = false;
+			}
+		}
+	}
+
+	// OSReport("isOnGround: %d\n", isOnGround);
+
+	if(isOnGround) {
+		this->timer++;
+	}
+
+	if(this->timer == 30) {
+		doStateChange(&StateID_Anim);
+	}
+}
+
+void daGreatGoalPole_c::endState_Touched() {}
+
+
+
+
+
+
+
+void daGreatGoalPole_c::beginState_Anim() {
+	this->timer = 0;
+	WLClass::instance->_4 = 5;
+	WLClass::instance->_8 = 0;
+	dStage32C_c::instance->freezeMarioBossFlag = 1;
+	// WLClass::instance->flags |= 0xf;
+
+	//if(!this->isCastleStar) 
+	//	PlaySoundWithFunctionB4(SoundRelatedClass, &greatGoalHandle, STRM_BGM_COURSE_CLEAR, 1);
+	//else
+		PlaySoundWithFunctionB4(SoundRelatedClass, &greatGoalHandle, STRM_BGM_SHIRO_BOSS_CLEAR, 1);
+
+	BossGoalForAllPlayers();
+}
+
+void daGreatGoalPole_c::executeState_Anim() {
+	this->timer++;
+	// OSReport("_4 & _8: %d %d\n", WLClass::instance->_4, WLClass::instance->_8);
+	// OSReport("flags: %d %d\n", WLClass::instance->flags, *((u32*)(*((u32*)(WLClass::instance->flags)) + 0x10)));
+
+	if(this->timer == 20) {
+		WLClass::instance->_4 = 5;
+		WLClass::instance->_8 = 0;
+	}
+	else if(this->timer == 50) {
+		UpdateGameMgr();
+		*((u8*)((u32)(dCourseClear_c::instance) + 0x375)) = 1;
+	}
+	else if(this->timer == 230) {
+		dGameDisplay_c::instance->_44C = 1;
+		*((u8*)((u32)(dCourseClear_c::instance) + 0x376)) = 1;
+	}
+
+	if(this->exiting) {
+		this->exiting++;
+	}
+	//else if(!strcmp(dGameDisplay_c::instance->state.getCurrentState()->getName(), "dGameDisplay_c::StateID_ProcGoalEnd")) { // For some reason, strcmp returns true if the string ISN'T what it was compared to; weird. EDIT: that's actually normal
+	else if(dGameDisplay_c::instance->state.getCurrentState() == &dGameDisplay_c::StateID_ProcGoalEnd) {
+		this->exiting = 1;
+	}
+
+	if(this->exiting == 60) {
+		ExitStage(WORLD_MAP, 0, BEAT_LEVEL, MARIO_WIPE);
+	}
+}
+
+void daGreatGoalPole_c::endState_Anim() {}
+
+
+
+
+

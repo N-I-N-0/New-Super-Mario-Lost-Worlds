@@ -883,6 +883,7 @@ enum Actors {
 	RopeBlock, //866
 	CoinFountain, //867
 	CloudSpawner, //868
+	Scuttlebug, // 869
 
 };
 
