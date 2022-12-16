@@ -266,24 +266,14 @@ void Scuttlebug::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) 
     if (hitType == 0) {
         DamagePlayer(this, apThis, apOther);
     } else if (hitType == 1 || hitType == 3) {
+		SpawnEffect("Wm_en_burst_ss", 0, &pos, 0, &scale);
 		VEC2 effectiveSpeed = (VEC2){0.0f, 0.0f};
         this->killWithSpecifiedState(apOther->owner, &effectiveSpeed, &Scuttlebug::StateID_Die);
     }
 }
 
 void Scuttlebug::yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
-    u32 hitType = usedForDeterminingStatePress_or_playerCollision(this, apThis, apOther, 0);
-
-    if (hitType == 0) {
-        DamagePlayer(this, apThis, apOther);
-    } else if (hitType == 1 || hitType == 3) {
-        VEC2 effectiveSpeed = (VEC2){0.0f, 0.0f};
-        this->killWithSpecifiedState(apOther->owner, &effectiveSpeed, &Scuttlebug::StateID_Die);
-        
-		/*Vec3f effectOrigin(this->position.x, this->position.y, 4500.0f);
-        Vec3f effectPos(effectOrigin);
-        Effect::spawn(RP_Jugemu_CloudDisapp, &effectPos, nullptr, &this->scale);*/
-    }
+    this->playerCollision(apThis, apOther);
 }
 
 bool Scuttlebug::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
@@ -296,6 +286,9 @@ bool Scuttlebug::collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *a
     Effect::spawn(RP_Jugemu_CloudDisapp, &effectPos, nullptr, &this->scale);*/
 
     //this->wasDestroyed = true;
+
+	SpawnEffect("Wm_en_burst_ss", 0, &pos, 0, &scale);
+
 	VEC2 effectiveSpeed = (VEC2){0.0f, 0.0f};
 	this->killWithSpecifiedState(apOther->owner, &effectiveSpeed, &Scuttlebug::StateID_Die);
 
