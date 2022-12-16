@@ -162,10 +162,10 @@ int Scuttlebug::onCreate() {
 	ActivePhysics::Info HitMeBaby;
 
 	HitMeBaby.xDistToCenter = 0.0;
-	HitMeBaby.yDistToCenter = 0.0;
+	HitMeBaby.yDistToCenter = -4.0;
 
 	HitMeBaby.xDistToEdge = 10.0;
-	HitMeBaby.yDistToEdge = 10.0;
+	HitMeBaby.yDistToEdge = 12.0;
 
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
