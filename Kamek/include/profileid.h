@@ -613,6 +613,7 @@ enum
 	CoinFountain = 588,
 	CloudSpawner = 589,
 	Scuttlebug = 590,
+	FlyingBook = 591,
 
 	Num
 };
@@ -1504,6 +1505,7 @@ enum
 	CoinFountain, //867
 	CloudSpawner, //868
 	Scuttlebug, //869
+	FlyingBook, // 870
 
 	Num
 };

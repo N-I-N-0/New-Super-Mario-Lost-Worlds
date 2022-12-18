@@ -884,6 +884,7 @@ enum Actors {
 	CoinFountain, //867
 	CloudSpawner, //868
 	Scuttlebug, // 869
+	FlyingBook, // 870
 
 };
 
