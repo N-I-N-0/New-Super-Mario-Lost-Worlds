@@ -4560,11 +4560,11 @@
   </sprite> <!-- #575: Custom Model Loader -->
 
   <sprite id="576" name="NPC: Daisy" asmhacks="True" >
-	<checkbox nybble="10.1" title="ANMCLR" />
-	<checkbox nybble="10.2" title="ANMPAT" />
-	<checkbox nybble="10.3" title="ANMSRT" />
-	<checkbox nybble="10.4" title="ANMCHR" />    
-	<value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
+    <checkbox nybble="10.1" title="ANMCLR" />
+    <checkbox nybble="10.2" title="ANMPAT" />
+    <checkbox nybble="10.3" title="ANMSRT" />
+    <checkbox nybble="10.4" title="ANMCHR" />    
+    <value nybble="5-6" title="Scale: Value/4.0" comment="This determines the scale of the Model." comment2="Value 0 creates an original-sized Model (100%). Values above 0 are divided by 4 to determine the Model Size. 1=25%, 2=50%, 8=200%, etc." advancedcomment="Value limit unknown. Maximum value suspected to be 24, or 600%"/>
     <list nybble="8" title="Z-Order" comment="This determines the Z-Order of the model." comment2="Some in-game Z-Order values: &lt;br&gt;Background: -5500.0 &lt;br&gt;Layer 2: -3300.0 &lt;br&gt;Layer 1: 0.0 &lt;br&gt;Player: 300.0 &lt;br&gt;Foreground: 1200.0 &lt;br&gt;Layer 0: 3300.0 &lt;br&gt;Above Layer 0: 5500.0">
       <entry value="0">Use Default Z-Order for Custom Model</entry>
       <entry value="1">-5000.0</entry>
@@ -4636,5 +4636,16 @@
       <value nybble="5" title="Move Distance" />
       <value nybble="6" title="Idle Time" />
   </sprite> <!-- #590: Scuttlebug -->
+
+  <sprite id="591" name="Flying Book" asmhacks="True" >
+    <list nybble="8" title="Color" comment="This determines the texture for the book.">
+      <entry value="0">Bowsette</entry>
+      <entry value="1">King Boo</entry>
+      <entry value="2">Shroob</entry>
+      <entry value="3">Mushroom</entry>
+    </list>
+    <checkbox nybble="12.4" title="Start on ground" />
+    <value nybble="9-10" title="Direction for burst" requirednybble="12.4" requiredval="1"/>
+  </sprite> <!-- #591: Flying Book -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

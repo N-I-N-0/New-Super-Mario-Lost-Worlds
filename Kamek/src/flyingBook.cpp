@@ -22,8 +22,10 @@ public:
 
 	m3d::anmChr_c chrAnimation;
 	m3d::anmTexPat_c patAnimation;
-	bool fallNext;
+	bool fallOrFlyUpNext;
 	int timer;
+
+	float originalY;
 
 
 	static dActor_c* build();
@@ -53,12 +55,13 @@ public:
 	//create an ice block when collided with Iceball
 	bool CreateIceActors();
 
-	bool shouldFall();
+	bool shouldFallOrFlyUp(bool);
 
 	USING_STATES(daFlyingBook_c);
 	DECLARE_STATE(Wait);
 	DECLARE_STATE(Attack);
 	DECLARE_STATE(Fly);
+	DECLARE_STATE(FlyUp);
 
 	//void addScoreWhenHit(void* other);
 };
@@ -66,6 +69,7 @@ public:
 CREATE_STATE(daFlyingBook_c, Wait);
 CREATE_STATE(daFlyingBook_c, Attack);
 CREATE_STATE(daFlyingBook_c, Fly);
+CREATE_STATE(daFlyingBook_c, FlyUp);
 
 const SpriteData FlyingBookSpriteData = { ProfileId::FlyingBook, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 Profile FlyingBookProfile(&daFlyingBook_c::build, SpriteId::FlyingBook, &FlyingBookSpriteData, ProfileId::FlyingBook, ProfileId::FlyingBook, "FlyingBook", FlyingBookFileList);
@@ -193,12 +197,12 @@ int daFlyingBook_c::onCreate() {
 	nw4r::g3d::ResAnmChr anmChr = this->resFileAnim.GetResAnmChr("fly");
 	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
 
-	/*this->anmPat = this->resFile.GetResAnmTexPat("TentenWing");
+	this->anmPat = this->resFile.GetResAnmTexPat("BookColor");
 	this->patAnimation.setup(mdl, anmPat, &this->allocator, 0, 1);
 	this->patAnimation.bindEntry(&this->bodyModel, &anmPat, 0, 1);
-	this->patAnimation.setFrameForEntry(((this->eventId1 & 0b111) % 5), 0);
+	this->patAnimation.setFrameForEntry(((this->settings >> 16) & 0b11), 0);
 	this->patAnimation.setUpdateRateForEntry(0.0f, 0);
-	this->bodyModel.bindAnim(&this->patAnimation);*/
+	this->bodyModel.bindAnim(&this->patAnimation);
 
 	allocator.unlink();
 
@@ -221,7 +225,7 @@ int daFlyingBook_c::onCreate() {
 	this->aPhysics.addToList();
 
 
-	static const lineSensor_s below(12<<12, 4<<12, 0<<12);
+	static const lineSensor_s below(-5<<12, 5<<12, 0<<12);
 	static const pointSensor_s above(0<<12, 12<<12);
 	static const lineSensor_s adjacent(6<<12, 9<<12, 6<<12);
 
@@ -229,17 +233,21 @@ int daFlyingBook_c::onCreate() {
 	collMgr.calculateBelowCollisionWithSmokeEffect();
 
 
-	this->scale = (Vec){0.5, 0.5, 0.5};
+	this->scale = (Vec){0.45, 0.45, 0.45};
 
 	this->rot.y = 0x5000;
 	this->rot.z = 0x8000;
-	
 
 	this->pos.z = 4000;
 
-	bindAnimChr_and_setUpdateRate("fly", 1, 0.0, 1.0);
+	if (this->settings & 1) {
+		originalY = this->pos.y + ((this->settings >> 8) & 0xFF);
+		doStateChange(&StateID_Wait);
+	} else {
+		originalY = this->pos.y;
+		doStateChange(&StateID_Fly);
+	}
 
-	doStateChange(&StateID_Fly);
 
 
 	this->onExecute();
@@ -279,8 +287,8 @@ int daFlyingBook_c::onExecute() {
 
 
 
-bool daFlyingBook_c::shouldFall() {
-	if(GenerateRandomNumber(60) == 0 || timer > 300) {
+bool daFlyingBook_c::shouldFallOrFlyUp(bool flyUp = false) {
+	if(GenerateRandomNumber(90) == 0 || (flyUp && timer > 420) || (!flyUp && timer > 300)) {
 		float current = 1000000000000000000000000000000.0;
 
 		for(u8 i = 0; i < 4; i++) {
@@ -293,7 +301,12 @@ bool daFlyingBook_c::shouldFall() {
 				current = distance;
 			}
 		}
-		return current <= 32;
+
+		if (flyUp) {
+			return current <= 96;
+		} else {
+			return current <= 32;
+		}
 
 	} else {
 		timer++;
@@ -303,31 +316,37 @@ bool daFlyingBook_c::shouldFall() {
 
 
 
-void daFlyingBook_c::beginState_Attack() {}
+void daFlyingBook_c::beginState_Attack() {
+	bindAnimChr_and_setUpdateRate("fall", 1, 0.0, 1.0);
+}
 void daFlyingBook_c::executeState_Attack() {
 	collMgr.calculateBelowCollisionWithSmokeEffect();
 
 	if (collMgr.isOnTopOfTile()) {
-		this->aPhysics.removeFromList();
-		doStateChange(&StateID_Wait);
+		if (this->chrAnimation.isAnimationDone()) {
+			doStateChange(&StateID_Wait);
+		}
 	} else {
 		this->pos.y -= 4;
 	}
 }
-void daFlyingBook_c::endState_Attack() {}
+void daFlyingBook_c::endState_Attack() {
+	this->aPhysics.removeFromList();
+}
 
 
 void daFlyingBook_c::beginState_Fly() {
-	this->speed.y = 0.0f;
+	bindAnimChr_and_setUpdateRate("fly", 1, 0.0, 1.0);
+	this->chrAnimation.setCurrentFrame(15.0);
+
+	fallOrFlyUpNext = false;
+	timer = 0;
+	this->speed.y = 0;
 }
 void daFlyingBook_c::executeState_Fly() {
 	if (this->chrAnimation.isAnimationDone()) {
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
-
-
-
-
 
 
 
@@ -356,16 +375,12 @@ void daFlyingBook_c::executeState_Fly() {
 
 
 
-
-
-
-
-	if (shouldFall()) {
-		fallNext = true;
+	if (shouldFallOrFlyUp()) {
+		fallOrFlyUpNext = true;
 	}
 
 	if ((((int)this->chrAnimation.getCurrentFrame()+15) %  30) == 0) {
-		if (fallNext) {
+		if (fallOrFlyUpNext) {
 			this->chrAnimation.setUpdateRate(0.0f);
 			doStateChange(&StateID_Attack);
 		}
@@ -374,6 +389,44 @@ void daFlyingBook_c::executeState_Fly() {
 void daFlyingBook_c::endState_Fly() {}
 
 
-void daFlyingBook_c::beginState_Wait() {}
-void daFlyingBook_c::executeState_Wait() {}
-void daFlyingBook_c::endState_Wait() {}
+void daFlyingBook_c::beginState_Wait() {
+	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
+
+	fallOrFlyUpNext = false;
+	timer = 0;
+}
+void daFlyingBook_c::executeState_Wait() {
+	if (this->chrAnimation.isAnimationDone()) {
+		this->chrAnimation.setCurrentFrame(0.0);
+	}
+
+
+	if (shouldFallOrFlyUp(true)) {
+		fallOrFlyUpNext = true;
+	}
+
+	if (fallOrFlyUpNext) {
+		this->chrAnimation.setUpdateRate(0.0f);
+		doStateChange(&StateID_FlyUp);
+	}
+}
+void daFlyingBook_c::endState_Wait() {
+	this->aPhysics.addToList();
+}
+
+
+void daFlyingBook_c::beginState_FlyUp() {
+	bindAnimChr_and_setUpdateRate("flyUp", 1, 0.0, 1.0);
+}
+void daFlyingBook_c::executeState_FlyUp() {
+	if(this->pos.y < this->originalY) {
+		this->pos.y += 4;
+	} else {
+		if (this->chrAnimation.isAnimationDone()) {
+			doStateChange(&StateID_Fly);
+		}
+	}
+}
+void daFlyingBook_c::endState_FlyUp() {
+	this->speed.x = 2.5f*(dSprite_c__getXDirectionOfFurthestPlayerRelativeToVEC3(this, this->pos)*2 - 1);
+}
