@@ -250,7 +250,8 @@ int dWMManager_c::onExecute() {
 	
 	WriteBMGToTextBox(creatorText, GetBMG(), 7, 2, 0);
 	
-	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(FILE_LIST, 0, 0);
+	//if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(FILE_LIST, 0, 0);
+	if(nowPressed & WPAD_B && nowPressed & WPAD_A) DoSceneChange(TARZAN_ROPE, 0, 0); //Sound Test
 	
 	u8 CurrentNodeNum = *(u8*)((int)(dCourseSelectManager_c::instance) + 0x4D7);
 

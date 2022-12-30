@@ -1,6 +1,8 @@
 SECTIONS {
 	returnToFooCloud = 0x809dd710;
 	StateID_IceDamage__10daPlBase_c = 0x80376770;
+	returnToAfterIceBallSound = 0x807d50a4;
+	returnToStartIceBallSound = 0x807d5094;
 
 	FUN_8085f5c0 = 0x8085f5c0;
 	fixJumbo1return = 0x80860074;

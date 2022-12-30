@@ -318,12 +318,16 @@ bool daFlyingBook_c::shouldFallOrFlyUp(bool flyUp = false) {
 
 void daFlyingBook_c::beginState_Attack() {
 	bindAnimChr_and_setUpdateRate("fall", 1, 0.0, 1.0);
+	PlaySoundAsync(this, SE_EMY_REV_KOURA_FALL);
 }
 void daFlyingBook_c::executeState_Attack() {
 	collMgr.calculateBelowCollisionWithSmokeEffect();
 
 	if (collMgr.isOnTopOfTile()) {
 		if (this->chrAnimation.isAnimationDone()) {
+			SpawnEffect("Wm_en_sndlandsmk", 0, &pos, &(S16Vec){0,0,0}, &(Vec){0.4, 0.4, 0.4});
+			SpawnEffect("Wm_en_landsmoke", 0, &pos, &(S16Vec){0,0,0}, &(Vec){0.4, 0.4, 0.4});
+			PlaySoundAsync(this, SE_PLY_LAND_SAND);
 			doStateChange(&StateID_Wait);
 		}
 	} else {

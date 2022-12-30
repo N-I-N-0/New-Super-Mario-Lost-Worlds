@@ -19,7 +19,7 @@ void performAction(dStageActor_c* cloud, dAcPy_c* player) {
             break;
         case 2:
             if (player->states2.getCurrentState() != &daPlBase_c::StateID_IceDamage)
-                CreateActor(BROS_ICEBALL, 0, player->pos, 0, 0);
+                CreateActor(BROS_ICEBALL, 0x10000000, player->pos, 0, 0);
             break;
     }
 }
@@ -29,10 +29,17 @@ void collisionCheck(dStageActor_c* cloud, float y, float x) {
     for (int i = 0; i < GetActivePlayerCount(); i++) {
         dAcPy_c* player = dAcPy_c::findByID(i);
 
-        if (player->pos.x > (x - 16.0f) && player->pos.x < (x + 16.0f)) {
-            if (player->pos.y > (y - 16.0f) && player->pos.y < (y + 16.0f)) {
+        if (player->pos.x > (x - 6.0f) && player->pos.x < (x + 6.0f)) {
+            if (player->pos.y > (y - 6.0f) && player->pos.y < (y + 6.0f)) {
                 performAction(cloud, player);
             }
         }
     }
+}
+
+bool shouldDeactivate(dActor_c* iceball) {
+    if (iceball->settings >> 28 & 0xF)
+        return 1;
+    else
+        return 0;
 }

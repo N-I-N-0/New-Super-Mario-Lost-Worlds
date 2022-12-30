@@ -1184,6 +1184,12 @@ hooks:
     src_addr_pal: 0x809dd70c
     target_func: 'fooFix'
 
+  - name: brosIceBallSFX
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x807d5090
+    target_func: 'deactivateSFX'
+
   - name: TEX_Foo_Pass_to_Cloud
     type: branch_insn
     branch_type: bl

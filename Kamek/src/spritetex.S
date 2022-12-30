@@ -941,6 +941,26 @@ fooFix:
 	cmpwi r3, 0x2
 	b returnToFooCloud
 
+.extern shouldDeactivate__FP8dActor_c
+.extern returnToAfterIceBallSound
+.extern returnToStartIceBallSound
+
+.global workaroundSkipIceSound
+workaroundSkipIceSound:
+    b returnToAfterIceBallSound
+
+
+.global deactivateSFX
+deactivateSFX:
+    mr r3, r30
+    bl shouldDeactivate__FP8dActor_c
+    cmpwi r3, 1
+    beq workaroundSkipIceSound
+
+    # Do the sound
+    or r3, r31, r31
+    b returnToStartIceBallSound
+
 
 .global TEX_Palm
 TEX_Palm:
