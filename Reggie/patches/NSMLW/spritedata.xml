@@ -2445,6 +2445,14 @@
     <checkbox nybble="10.4" title="Airship Clouds" comment="Airship clouds only work for cloud types 0, 4 and 7, and they will span the entire zone regardless of the location's width (they will be at the location's height though)."/>
   </sprite> <!-- #234: Effect - Cloud Area -->
 
+  <sprite id="238" name="Foo" notes="">
+    <list nybble="6" title="Type" >
+      <entry value="0">Normal</entry>
+      <entry value="1">Death</entry>
+      <entry value="2">Ice</entry>
+    </list>
+  </sprite> <!-- #238: Foo, the Cloud Blower -->
+
   <sprite id="241" name="Trap Block" notes="">
     <list nybble="6" title="Block Tile" >
       <entry value="0">Invisible</entry>

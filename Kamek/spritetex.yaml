@@ -1177,7 +1177,37 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x80a6af98
     target_func: 'TEX_Foo'
-    
+
+  - name: fooFixHook
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809dd70c
+    target_func: 'fooFix'
+
+  - name: TEX_Foo_Pass_to_Cloud
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a6aef0
+    target_func: 'TEX_Foo_Pass_to_Cloud'
+
+  - name: TEX_Foo_Pass_to_Cloud2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a6c2f8
+    target_func: 'TEX_Foo_Pass_to_Cloud2'
+
+  - name: TEX_Foo_Cloud
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809dd9c8
+    target_func: 'TEX_Foo_Cloud'
+
+  - name: TEX_Foo_Cloud2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809dda60
+    target_func: 'TEX_Foo_Cloud2'
+
   - name: TEX_Penguin
     type: branch_insn
     branch_type: bl

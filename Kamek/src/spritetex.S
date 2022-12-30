@@ -827,6 +827,121 @@ TEX_FireSnake:
 	b GetTexFilenameForR5
 
 
+
+.global TEX_Foo_Pass_to_Cloud
+TEX_Foo_Pass_to_Cloud:
+	lwz r7, 0x4(r30)
+	andis. r7, r7, 0x0F00
+	or r4, r4, r7
+	li r7, 0x0
+	blr
+
+.global TEX_Foo_Pass_to_Cloud2
+TEX_Foo_Pass_to_Cloud2:
+	lwz r7, 0x4(r28)
+	andis. r7, r7, 0x0F00
+	or r4, r4, r7
+	li r7, 0x0
+	blr
+
+.global TEX_Foo_Cloud
+TEX_Foo_Cloud:
+	lwz r29, 0x4(r15)
+	srwi r29, r29, 24
+	andi. r29, r29, 0xF
+	cmpwi r29, 1
+	blt- TEX_Foo_Cloud_Normal
+	bgt- TEX_Foo_Cloud_Ice
+
+TEX_Foo_Cloud_Death:
+	li r29, 0x00
+	stb r29, 0x30(r1)
+	stb r29, 0x31(r1)
+	stb r29, 0x32(r1)
+
+	cmpwi r0, 1
+	blr
+
+TEX_Foo_Cloud_Normal:
+	li r29, 0xFF
+	stb r29, 0x30(r1)
+	stb r29, 0x31(r1)
+	stb r29, 0x32(r1)
+
+	cmpwi r0, 1
+	blr
+
+TEX_Foo_Cloud_Ice:
+	li r29, 0x00
+	stb r29, 0x30(r1)
+	li r29, 0xFF
+	stb r29, 0x31(r1)
+	stb r29, 0x32(r1)
+
+	cmpwi r0, 1
+	blr
+
+
+.global TEX_Foo_Cloud2
+TEX_Foo_Cloud2:
+	lwz r29, 0x4(r15)
+	srwi r29, r29, 24
+	andi. r29, r29, 0xF
+	cmpwi r29, 1
+	blt- TEX_Foo_Cloud2_Normal
+	bgt- TEX_Foo_Cloud2_Ice
+
+TEX_Foo_Cloud2_Death:
+	li r29, 0x80
+	stb r29, 0x30(r1)
+	stb r29, 0x32(r1)
+	li r29, 0x00
+	stb r29, 0x31(r1)
+
+	cmpwi r17, 0x96
+	blr
+
+
+TEX_Foo_Cloud2_Normal:
+	li r29, 0xC7
+	stb r29, 0x30(r1)
+	li r29, 0xCF
+	stb r29, 0x31(r1)
+	li r29, 0xFF
+	stb r29, 0x32(r1)
+
+	cmpwi r17, 0x96
+	blr
+
+TEX_Foo_Cloud2_Ice:
+	li r29, 0xFF
+	stb r29, 0x30(r1)
+	stb r29, 0x31(r1)
+	stb r29, 0x32(r1)
+
+	cmpwi r17, 0x96
+	blr
+
+
+.extern collisionCheck__FP13dStageActor_cff
+.extern returnToFooCloud
+
+.global fooFix
+fooFix:
+	stwu sp, -0x80 (sp) #Push stack, make space for 29 registers
+	stmw r3, 0x8 (sp)
+
+	mr r3, r15
+	fmr f2, f0
+	bl collisionCheck__FP13dStageActor_cff
+
+	lmw r3, 0x8 (sp)
+	addi sp, sp, 0x80 #Pop stack
+
+	cmpwi r3, 0x2
+	b returnToFooCloud
+
+
 .global TEX_Palm
 TEX_Palm:
 .global TEX_Foo

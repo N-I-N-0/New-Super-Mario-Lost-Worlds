@@ -2541,6 +2541,7 @@ class daPlBase_c : public dStageActor_c {
 		REF_NINTENDO_STATE(Quake);
 		REF_NINTENDO_STATE(Jump);
 		REF_NINTENDO_STATE(DemoInWaterTank);
+		REF_NINTENDO_STATE(IceDamage);
 		DECLARE_STATE(ShellConnect);
 };
 
