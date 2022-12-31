@@ -339,6 +339,7 @@ int daPoihana_c::onCreate() {
 	this->resFile.data = getResource("cataquack", "g3d/cataquack.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("poihana");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
+	SetupTextures_Enemy(&bodyModel, 0);
 
 	// Animations start here
 	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("walk");

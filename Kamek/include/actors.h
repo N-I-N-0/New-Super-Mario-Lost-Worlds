@@ -885,6 +885,7 @@ enum Actors {
 	CloudSpawner, //868
 	Scuttlebug, // 869
 	FlyingBook, // 870
+	Teren, //871
 
 };
 

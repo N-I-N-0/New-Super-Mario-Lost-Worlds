@@ -4655,5 +4655,12 @@
     <checkbox nybble="12.4" title="Start on ground" />
     <value nybble="9-10" title="Direction for burst" requirednybble="12.4" requiredval="1"/>
   </sprite> <!-- #591: Flying Book -->
+
+  <sprite id="592" name="Peepa" asmhacks="True" notes="A Peepa!">
+    <value nybble="11-12" title="Path ID" />
+    <value nybble="9-10" title="currentNodeNum" comment="Start Node" />
+
+    <value nybble="8" title="Speed" comment="Don't use speed 0!" />
+  </sprite> <!-- #592: Peepa -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

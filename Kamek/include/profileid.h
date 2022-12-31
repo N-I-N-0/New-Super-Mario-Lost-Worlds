@@ -614,6 +614,7 @@ enum
 	CloudSpawner = 589,
 	Scuttlebug = 590,
 	FlyingBook = 591,
+	Teren = 592,
 
 	Num
 };
@@ -1506,6 +1507,7 @@ enum
 	CloudSpawner, //868
 	Scuttlebug, //869
 	FlyingBook, // 870
+	Teren, // 871
 
 	Num
 };

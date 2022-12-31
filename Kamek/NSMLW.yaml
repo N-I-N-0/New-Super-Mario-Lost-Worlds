@@ -161,6 +161,7 @@ modules:
   - processed/tikiAirship.yaml
   - processed/mummyMe.yaml
   - processed/tenten.yaml
+  - processed/teren.yaml
  # - processed/darkStar.yaml
   - processed/eggblock.yaml
   - processed/soundtest.yaml
