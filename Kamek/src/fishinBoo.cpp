@@ -42,7 +42,9 @@ public:
 	u64 eventFlag;
 
 	u32 hookNodeID;
-	dActor_c* obj;
+	dStageActor_c* obj;
+	bool updatePos;
+	Vec ropePos;
 
 	void dieFall_Execute();
 	static dActor_c *build();
@@ -64,10 +66,6 @@ public:
 
 	USING_STATES(daFishinBoo_c);
 	DECLARE_STATE(Follow);
-	DECLARE_STATE(Swoop);
-	DECLARE_STATE(Spiral);
-	DECLARE_STATE(Spit);
-	DECLARE_STATE(Spin);
 	DECLARE_STATE(Wait);
 };
 
@@ -83,10 +81,6 @@ Profile FishingBooProfile(&daFishinBoo_c::build, SpriteId::FishingBoo, &FishingB
 
 
 CREATE_STATE(daFishinBoo_c, Follow);
-CREATE_STATE(daFishinBoo_c, Swoop);
-CREATE_STATE(daFishinBoo_c, Spiral);
-CREATE_STATE(daFishinBoo_c, Spit);
-CREATE_STATE(daFishinBoo_c, Spin);
 CREATE_STATE(daFishinBoo_c, Wait);
 
 #define ACTIVATE	1
@@ -199,7 +193,7 @@ int daFishinBoo_c::onCreate() {
 	this->resFile.data = getResource("FishingBoo", "g3d/FishingBoo.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("FishingBoo");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	//SetupTextures_Map(&bodyModel, 0);
+	SetupTextures_Enemy(&bodyModel, 0);
 	
 	nw4r::g3d::ResNode hook = mdl.GetResNode("PowerUp");
 	hookNodeID = hook.GetID();
@@ -211,7 +205,7 @@ int daFishinBoo_c::onCreate() {
 	
 	bindAnimChr_and_setUpdateRate("test_short_12deg", 1, 0.0, 1.0);
 
-	this->scale = (Vec){10, 10, 10};
+	this->scale = (Vec){3, 3, 3};
 
 	this->Baseline = this->pos.y;
 	this->SwoopSlope = 0.0;
@@ -225,22 +219,13 @@ int daFishinBoo_c::onCreate() {
 	this->sunDying = 0;
 	this->killFlag = 0;
 	
-	if (this->settings == 1)
-		this->pos.z = 6000.0f; // moon
-	else
-		this->pos.z = 5750.0f; // sun
+	this->pos.z = -4000.0f;
 
 
 	char eventNum	= (this->settings >> 16) & 0xFF;
 
 	this->eventFlag = (u64)1 << (eventNum - 1);
 
-
-	
-	doStateChange(&StateID_Follow);
-	
-	
-	Vec ropePos;
 	Actors content = EN_ITEM;
 	u32 set = 0;
 	switch(this->settings & 0xFF) {
@@ -313,13 +298,16 @@ int daFishinBoo_c::onCreate() {
 			break;
 	}
 	
+	Vec tempPos = (Vec){this->pos.x, this->pos.y, this->pos.z};
+	//bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
+	this->obj = CreateActor(content, set, tempPos, 0, 0);
+	//this->obj = (dActor_c*)dStageActor_c::create(content, set, &ropePos, 0, 0);
 	
-	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
-	this->obj = (dActor_c*)CreateActor(content, set, ropePos, 0, 0);
 	
 	
+	doStateChange(&StateID_Follow);
 
-	// this->onExecute();
+	this->onExecute();
 	return true;
 }
 
@@ -331,13 +319,15 @@ int daFishinBoo_c::onExecute() {
 	acState.execute();
 	updateModelMatrices();
 	bodyModel._vf1C();
-	
-	//Vec ropePos;
-	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &this->obj->pos/*&ropePos*/);
-	//this->obj->pos = ropePos;
-	//(dActor_c*)CreateActor(EN_COIN, 0, ropePos, 0, 0);
-	
-	
+
+	OSReport("State: %s\n", ((dEn_c*)this->obj)->acState.getCurrentState()->getName());
+	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, /*&this->obj->pos*/&ropePos);
+	//OSReport("rope pos: %f, %f, %f, %d\n", ropePos.x, ropePos.y, ropePos.z, a);
+	//OSReport("boo  pos: %f, %f, %f\n", pos.x, pos.y, pos.z);
+	this->obj->pos.x = ropePos.x;
+	this->obj->pos.y = ropePos.y;
+	this->obj->pos.z = ropePos.z;
+
 	if (dFlagMgr_c::instance->flags & this->eventFlag) {
 		if (this->killFlag == 0 && acState.getCurrentState()->isNotEqual(&StateID_DieFall)) {
 			this->kill();
@@ -346,11 +336,11 @@ int daFishinBoo_c::onExecute() {
 			doStateChange(&StateID_DieFall);
 		}
 	}
-	
+
 	if(this->chrAnimation.isAnimationDone()) {
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
-		
+
 	return true;
 }
 
@@ -386,14 +376,11 @@ void daFishinBoo_c::beginState_Follow() {
 }
 void daFishinBoo_c::executeState_Follow() { 
 
-	if (this->timer > 200) { this->doStateChange(&StateID_Wait); }
+	//if (this->timer > 200) { this->doStateChange(&StateID_Wait); }
 
 	this->direction = dSprite_c__getXDirectionOfFurthestPlayerRelativeToVEC3(this, this->pos);
 	
-	float speedDelta;
-	if ((this->settings & 0xF) == 0) { speedDelta = 0.1; } // It's a sun
-	else { speedDelta = 0.15; } // It's a moon
-
+	float speedDelta = 0.15;
 
 	if (this->direction == 0) {
 		this->speed.x = this->speed.x + speedDelta;
@@ -426,266 +413,20 @@ void daFishinBoo_c::endState_Follow() {
 }
 
 
-// Swoop State
-
-void daFishinBoo_c::beginState_Swoop() { 
-	
-	// Not enough space to swoop, spit instead.
-	if (this->swoopTarget.y < (this->pos.y - 50)) { doStateChange(&StateID_Spit); }
-	if (((this->pos.x - 96) < this->swoopTarget.x) && (this->swoopTarget.x < (this->pos.x + 96))) { doStateChange(&StateID_Spit); }
-
-	if ((this->settings & 0xF) == 0) { 
-		this->swoopTarget.y = this->swoopTarget.y - 16;
-	} // It's a sun
-	
-	else { 
-		this->swoopTarget.y = this->swoopTarget.y - 4;
-	} // It's a moon	
-	
-	
-	float x1, x2, x3, y1, y2, y3;
-
-	x1 = this->pos.x - this->swoopTarget.x;
-	x2 = 0;
-	x3 = -x1;
-
-	y1 = this->pos.y - this->swoopTarget.y;
-	y2 = 0;
-	y3 = y1;
-	
-	float denominator = (x1 - x2) * (x1 - x3) * (x2 - x3);
-	this->swoopA      = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denominator;
-	this->swoopB      = (x3*x3 * (y1 - y2) + x2*x2 * (y3 - y1) + x1*x1 * (y2 - y3)) / denominator;
-	this->swoopC      = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denominator;
-
-	this->swoopSpeed = x3 * 2 / 75;
-	
-	
-	PlaySound(this, 284);
-	
-}
-void daFishinBoo_c::executeState_Swoop() { 
-
-	// Everything is calculated up top, just need to modify it.
-
-	this->pos.x = this->pos.x + this->swoopSpeed;
-
-	this->pos.y = ( this->swoopA*(this->pos.x - this->swoopTarget.x)*(this->pos.x - this->swoopTarget.x) + this->swoopB*(this->pos.x - this->swoopTarget.x) + this->swoopC ) + this->swoopTarget.y;
-
-	if (this->pos.y > this->Baseline) { doStateChange(&StateID_Follow); }
-
-}
-void daFishinBoo_c::endState_Swoop() { 
-	this->speed.y = 0;
-}
 
 
 
-// Spiral State
-
-void daFishinBoo_c::beginState_Spiral() { 
-
-	this->SpiralLoop = 0;
-	this->xSpiralOffset = this->pos.x;
-	this->ySpiralOffset = this->pos.y;
-
-	PlaySound(this, 284);
-}
-void daFishinBoo_c::executeState_Spiral() { 
-
-	float Loops;
-	float Magnitude;
-	float Period;
-
-	Loops = 6.0;
-	Magnitude = 11.0;
-
-	// Use a period of 0.1 for the moon
-	if ((this->settings & 0xF) == 0) { Period = 0.1; } // It's a sun
-	else { Period = 0.125; } // It's a moon	
-
-	this->pos.x = this->xSpiralOffset + Magnitude*((this->SpiralLoop * cos(this->SpiralLoop)));
-	this->pos.y = this->ySpiralOffset + Magnitude*((this->SpiralLoop * sin(this->SpiralLoop)));
-
-	this->SpiralLoop = this->SpiralLoop + Period;
-
-	if (this->SpiralLoop > (3.14 * Loops)) { doStateChange(&StateID_Follow); }
-
-}
-void daFishinBoo_c::endState_Spiral() { }
 
 
 
-// Spit State
-
-void daFishinBoo_c::beginState_Spit() { 
-
-	this->timer = 0;
-	this->spinStateOn = 1;
-
-}
-void daFishinBoo_c::executeState_Spit() { 
-	
-	if (this->timer == 10) {
-
-		PlaySound(this, 431);
-	
-		this->direction = dSprite_c__getXDirectionOfFurthestPlayerRelativeToVEC3(this, this->pos);
-		
-		float neg = -1.0;
-		if (this->direction == 0) { neg = 1.0; }
-		
-
-		if ((this->settings & 0xF) == 0) { 
-			dStageActor_c *spawner = CreateActor(106, 0, this->pos, 0, 0);
-			spawner->speed.x = 6.0 * neg;
-			spawner->speed.y = -2.5;
-			spawner->pos.z = 5550.0;
-			
-			spawner = CreateActor(106, 0, this->pos, 0, 0);
-			spawner->speed.x = 0.0 * neg;
-			spawner->speed.y = -6.0;
-			spawner->pos.z = 5550.0;
-		
-			spawner = CreateActor(106, 0, this->pos, 0, 0);
-			spawner->speed.x = 3.5 * neg;
-			spawner->speed.y = -6.0;
-			spawner->pos.z = 5550.0;
-		} // It's a sun
-		
-		
-		else { 
-			dStageActor_c *spawner = CreateActor(118, 0, this->pos, 0, 0);
-			spawner->speed.x = 6.0 * neg;
-			spawner->speed.y = -2.5;
-			spawner->pos.z = 5550.0;
-			*((u32 *) (((char *) spawner) + 0x3DC)) = this->id;
-			
-			spawner = CreateActor(118, 0, this->pos, 0, 0);
-			spawner->speed.x = 0.0 * neg;
-			spawner->speed.y = -6.0;
-			spawner->pos.z = 5550.0;
-			*((u32 *) (((char *) spawner) + 0x3DC)) = this->id;
-		
-			spawner = CreateActor(118, 0, this->pos, 0, 0);
-			spawner->speed.x = 3.5 * neg;
-			spawner->speed.y = -6.0;
-			spawner->pos.z = 5550.0;
-			*((u32 *) (((char *) spawner) + 0x3DC)) = this->id;
-		} // It's a moon	
-
-	}
-	
-	this->timer = this->timer + 1;
-
-	if (this->timer > 30) { doStateChange(&StateID_Follow); }
-
-}
-void daFishinBoo_c::endState_Spit() { 
-	this->spinStateOn = 0;
-}
 
 
 
-// Spin State
 
-void daFishinBoo_c::beginState_Spin() { 
-	this->spinReduceZ = 0;
-	this->spinReduceY = 0;
-}
-void daFishinBoo_c::executeState_Spin() { 
-	
-	PlaySound(this, 282);
-
-	this->direction = dSprite_c__getXDirectionOfFurthestPlayerRelativeToVEC3(this, this->pos);
-	
-	if (this->direction == 0) {
-		this->speed.x = this->speed.x + 0.2;
-
-		if (this->speed.x < 0) { this->speed.x = this->speed.x + (0.2 / 2); }
-		if (this->speed.x < 80.0) { this->speed.x = this->speed.x + (0.2 * 2); }
-	}
-	else {
-		this->speed.x = this->speed.x - 0.2;
-
-		if (this->speed.x > 0) { this->speed.x = this->speed.x - (0.2 / 2); }
-		if (this->speed.x > 80.0) { this->speed.x = this->speed.x - (0.2 * 2); }
-	}
-	
-	this->HandleXSpeed();
-	this->UpdateObjectPosBasedOnSpeedValuesReal();
-
-	this->timer = this->timer + 1;
-
-
-	float spitspeed;
-	if ((this->settings & 0xF) == 0) { spitspeed = 3.0; } // It's a sun
-	else { spitspeed = 4.0;  } // It's a moon	
-
-	int randomBall;
-	randomBall = GenerateRandomNumber(8);
-	if (randomBall == 1) {
-		int direction;
-		direction = GenerateRandomNumber(8);
-		
-		float xlaunch;
-		float ylaunch;
-		
-		if (direction == 0) { 
-			xlaunch = spitspeed;
-			ylaunch = 0.0; }
-		else if (direction == 1) { // SE
-			xlaunch = spitspeed;
-			ylaunch = spitspeed; }
-		else if (direction == 2) { // S
-			xlaunch = 0.0;
-			ylaunch = spitspeed; }
-		else if (direction == 3) { // SW
-			xlaunch = -spitspeed;
-			ylaunch = spitspeed; }
-		else if (direction == 4) {	// W
-			xlaunch = -spitspeed;
-			ylaunch = 0.0; }
-		else if (direction == 5) {	// NW
-			xlaunch = -spitspeed;
-			ylaunch = -spitspeed; }
-		else if (direction == 6) {	// N
-			xlaunch = 0.0;
-			ylaunch = -spitspeed; }
-		else if (direction == 7) {	// NE
-			xlaunch = spitspeed;
-			ylaunch = -spitspeed; }
-		
-		PlaySound(this, 431);
-
-		if ((this->settings & 0xF) == 0) { 
-			dStageActor_c *spawner = CreateActor(106, 0, this->pos, 0, 0);
-			spawner->speed.x = xlaunch;
-			spawner->speed.y = ylaunch;
-			spawner->pos.z = 5550.0;
-		} // It's a sun
-
-		else { 
-			dStageActor_c *spawner = CreateActor(118, 0, this->pos, 0, 0);
-			spawner->speed.x = xlaunch;
-			spawner->speed.y = ylaunch;
-			spawner->pos.z = 5550.0;
-			
-			*((u32 *) (((char *) spawner) + 0x3DC)) = this->id;			
-		} // It's a moon	
-	}
-
-	if (this->timer > 120) { this->doStateChange(&StateID_Follow); }
-	
-}
-void daFishinBoo_c::endState_Spin() { 
-	this->speed.x = 0;
-}
 
 
 
 // Wait State
-
 void daFishinBoo_c::beginState_Wait() {
 
 
