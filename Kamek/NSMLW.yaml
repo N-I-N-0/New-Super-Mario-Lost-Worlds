@@ -222,3 +222,4 @@ modules:
   - processed/cloudSpawner.yaml
   - processed/scuttlebug.yaml
   - processed/flyingBook.yaml
+  - processed/titlescreen.yaml

@@ -275,13 +275,15 @@ public:
 		u8 hint_movie_bought[70];	// 0x6FC
 
 		struct {
-			// ALL Newer additions should go here
+			// ALL additions should go here
 			// This array has been verified as safe to replace
 			u8 secretGems;						//0x6FC
 			u8 new_powerups_available[14];		//0x6FD
 			u8 new_toad_level_idx[24];			//0x70B
 			
-			char additional[31];				//0x723
+			u8 titleScreenLevel; // 0x723
+			
+			char additional[30];				//0x724
 			
 
 
@@ -3103,6 +3105,8 @@ public:
 		public:
 			m3d::mdl_c body, head;
 	};
+
+	void setSoftLight(m3d::mdl_c*); // 800d5c80
 
 	virtual int _vf0C();						// 800D6DA0
 	virtual void prepare();					// 800D5720

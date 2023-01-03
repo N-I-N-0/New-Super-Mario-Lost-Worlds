@@ -31,15 +31,6 @@ hooks:
     addr_pal: 0x809CB118
     data: '2C1C0003'
 
-  # - name: TitleReplayLevels
-    # type: patch
-    # addr_pal: 0x802F4CD0
-    # data: '0002 0002 0002 0002 0002 0002 0002 0002 0002 0002 0002 0002 0002 0002 0002'
-
-  # - name: NoTitleScreenMovie
-    # type: nop_insn
-    # area_pal: 0x80781FB8
-
  # - name: MPPauseFix1
    # type: branch_insn
    # branch_type: bl
