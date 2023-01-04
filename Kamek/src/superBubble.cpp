@@ -2,6 +2,8 @@
 #include <game.h>
 #include <profile.h>
 
+#include "daEnItem_c.h"
+
 const char* SuperBubbleFileList[] = { "frogM", "PoisonMushroom", 0 };
 
 
@@ -238,6 +240,12 @@ int daSuperBubble_c::onCreate() {
 	}
 	if (actorID != EN_COIN && actorID != AC_YOSHI_EGG) {
 		content = CreateActor(actorID, set, tempPos, 0, 0);
+	}
+
+	if (actorID == EN_ITEM) {
+		daEnItem_c* item = ((daEnItem_c*)content);
+		item->doStateChange(&daEnItem_c::StateID_Wait);
+		item->AddPhysics();
 	}
 
 	// Model creation

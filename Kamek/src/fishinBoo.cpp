@@ -2,7 +2,7 @@
 #include <game.h>
 #include <g3dhax.h>
 
-#include "boss.h"
+#include "daEnItem_c.h"
 
 const char* FishingBooFileList [] = { "FishingBoo", NULL };
 
@@ -18,55 +18,21 @@ public:
 	m3d::mdl_c bodyModel;
 	m3d::anmChr_c chrAnimation;
 
-	float Baseline;
-	float SwoopSlope;
-	float SpiralLoop;
-	float yThreshold;
-	float yAccel;
-	Vec	swoopTarget;
-	u32 timer;
-	float xSpiralOffset;
-	float ySpiralOffset;
-	float swoopA;
-	float swoopB;
-	float swoopC;
-	float swoopSpeed;
-	float glowPos;
-	short spinReduceZ;
-	short spinReduceY;
-	float spinStateOn;
-	int dying;
-	char sunDying;
-	char killFlag;
-
-	u64 eventFlag;
-
 	u32 hookNodeID;
 	dStageActor_c* obj;
 	bool updatePos;
 	Vec ropePos;
+	u32 objID;
+	float ySpeed;
 
-	void dieFall_Execute();
 	static dActor_c *build();
 
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
 	void updateModelMatrices();
 
-	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther);
-	bool collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther);
-
 	USING_STATES(daFishinBoo_c);
 	DECLARE_STATE(Follow);
-	DECLARE_STATE(Wait);
+	DECLARE_STATE(FlyAway);
 };
 
 dActor_c *daFishinBoo_c::build() {
@@ -81,110 +47,8 @@ Profile FishingBooProfile(&daFishinBoo_c::build, SpriteId::FishingBoo, &FishingB
 
 
 CREATE_STATE(daFishinBoo_c, Follow);
-CREATE_STATE(daFishinBoo_c, Wait);
+CREATE_STATE(daFishinBoo_c, FlyAway);
 
-#define ACTIVATE	1
-#define DEACTIVATE	0
-
-
-
-
-void daFishinBoo_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) {  DamagePlayer(this, apThis, apOther); }
-
-bool daFishinBoo_c::collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, ActivePhysics *apOther) {
-	return true;
-}
-bool daFishinBoo_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics *apThis, ActivePhysics *apOther) { 
-	
-	if (this->settings == 1) {  // It's a moon
-		if (apOther->owner->name == 0x76) { // BROS_ICEBALL
-			return true; 
-			}
-	}
-	return false;
-}
-bool daFishinBoo_c::collisionCat9_RollingObject(ActivePhysics *apThis, ActivePhysics *apOther) { 
-	this->timer = 0; 
-	PlaySound(this, SE_EMY_DOWN);
-	doStateChange(&StateID_DieFall);
-	return true;
-}
-bool daFishinBoo_c::collisionCat13_Hammer(ActivePhysics *apThis, ActivePhysics *apOther) { 
-	this->timer = 0;
-	PlaySound(this, SE_EMY_DOWN);
-	doStateChange(&StateID_DieFall);
-	return true;
-}
-bool daFishinBoo_c::collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther) { 
-	this->timer = 0; 
-	PlaySound(this, SE_EMY_DOWN);
-	doStateChange(&StateID_DieFall);
-	return true;
-}
-bool daFishinBoo_c::collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther) {
-	DamagePlayer(this, apThis, apOther);
-	return true;
-}
-bool daFishinBoo_c::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
-	DamagePlayer(this, apThis, apOther);
-	return true;
-}
-bool daFishinBoo_c::collisionCat7_GroundPoundYoshi(ActivePhysics *apThis, ActivePhysics *apOther) {
-	DamagePlayer(this, apThis, apOther);
-	return true;
-}
-bool daFishinBoo_c::collisionCatA_PenguinMario(ActivePhysics *apThis, ActivePhysics *apOther) {
-	DamagePlayer(this, apThis, apOther);
-	return true;
-}
-bool daFishinBoo_c::collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther) {
-	DamagePlayer(this, apThis, apOther);
-	return true;
-}
-
-
-void daFishinBoo_c::dieFall_Execute() {
-	
-	if (this->killFlag == 1) { return; }
-
-	this->timer = this->timer + 1;
-	 
-	this->dying = this->dying + 0.15;
-	
-	this->pos.x = this->pos.x + 0.15;
-	this->pos.y = this->pos.y - ((-0.2 * (this->dying*this->dying)) + 5);
-	
-	this->dEn_c::dieFall_Execute();
-		
-	if (this->timer > 450) {
-		
-		if ((this->settings >> 28) > 0) { 		
-			this->kill();
-			this->pos.y = this->pos.y + 800.0; 
-			this->killFlag = 1;
-			return;
-		}
-		
-		dStageActor_c *Player = GetSpecificPlayerActor(0);
-		if (Player == 0) { Player = GetSpecificPlayerActor(1); }
-		if (Player == 0) { Player = GetSpecificPlayerActor(2); }
-		if (Player == 0) { Player = GetSpecificPlayerActor(3); }
-		
-	
-		if (Player == 0) { 
-			this->pos.x = 0;
-			doStateChange(&StateID_Follow); }
-		else {
-			Player->pos;
-			this->pos.x = Player->pos.x - 300;
-		}
-				
-		this->pos.y = this->Baseline; 
-		
-		this->aPhysics.addToList();
-		doStateChange(&StateID_Follow);
-	}
-}
 
 
 int daFishinBoo_c::onCreate() {
@@ -207,24 +71,9 @@ int daFishinBoo_c::onCreate() {
 
 	this->scale = (Vec){3, 3, 3};
 
-	this->Baseline = this->pos.y;
-	this->SwoopSlope = 0.0;
-	this->SpiralLoop = 0;
-	this->yThreshold = 15.0;
-	this->yAccel = 0.2;
-	this->timer = 0;
-	this->xSpiralOffset = 0.0;
-	this->ySpiralOffset = 0.0;
-	this->dying = -5;
-	this->sunDying = 0;
-	this->killFlag = 0;
-	
 	this->pos.z = -4000.0f;
 
-
-	char eventNum	= (this->settings >> 16) & 0xFF;
-
-	this->eventFlag = (u64)1 << (eventNum - 1);
+	this->rot.y = -0x800;
 
 	Actors content = EN_ITEM;
 	u32 set = 0;
@@ -279,32 +128,27 @@ int daFishinBoo_c::onCreate() {
 			set = 0x0B000012;
 			break;
 		case 17:
-			content = AC_YOSHI_EGG;
-			//set = 0x008003cc04060000;
-			break;
-		case 18:
-			content = EN_COIN_JUMP;
-			//set = 0x008003cc04060000;
-			break;
-		case 19:
 			//spawnPos.y += 10;
 			content = PoisonShroom;
 			//set = 0x008003cc04060000;
 			break;
-		/*case 148:
-			set = 0x008003cc04060000;
-			break;*/
 		default:
 			break;
 	}
-	
+
 	Vec tempPos = (Vec){this->pos.x, this->pos.y, this->pos.z};
 	//bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
 	this->obj = CreateActor(content, set, tempPos, 0, 0);
 	//this->obj = (dActor_c*)dStageActor_c::create(content, set, &ropePos, 0, 0);
-	
-	
-	
+
+	this->objID = this->obj->id;
+
+	if (content == EN_ITEM) {
+		daEnItem_c* item = ((daEnItem_c*)this->obj);
+		item->doStateChange(&daEnItem_c::StateID_Wait);
+		item->AddPhysics();
+	}
+
 	doStateChange(&StateID_Follow);
 
 	this->onExecute();
@@ -320,20 +164,20 @@ int daFishinBoo_c::onExecute() {
 	updateModelMatrices();
 	bodyModel._vf1C();
 
-	OSReport("State: %s\n", ((dEn_c*)this->obj)->acState.getCurrentState()->getName());
-	bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, /*&this->obj->pos*/&ropePos);
-	//OSReport("rope pos: %f, %f, %f, %d\n", ropePos.x, ropePos.y, ropePos.z, a);
-	//OSReport("boo  pos: %f, %f, %f\n", pos.x, pos.y, pos.z);
-	this->obj->pos.x = ropePos.x;
-	this->obj->pos.y = ropePos.y;
-	this->obj->pos.z = ropePos.z;
+	this->obj = (dStageActor_c*)fBase_c::search(this->objID);
+	if(this->obj) {
 
-	if (dFlagMgr_c::instance->flags & this->eventFlag) {
-		if (this->killFlag == 0 && acState.getCurrentState()->isNotEqual(&StateID_DieFall)) {
-			this->kill();
-			this->pos.y = this->pos.y + 800.0; 
-			this->killFlag = 1;
-			doStateChange(&StateID_DieFall);
+		//OSReport("State: %s\n", ((dEn_c*)this->obj)->acState.getCurrentState()->getName());
+		bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, /*&this->obj->pos*/&ropePos);
+		//OSReport("rope pos: %f, %f, %f, %d\n", ropePos.x, ropePos.y, ropePos.z, a);
+		//OSReport("boo  pos: %f, %f, %f\n", pos.x, pos.y, pos.z);
+		this->obj->pos.x = ropePos.x;
+		this->obj->pos.y = ropePos.y;
+		this->obj->pos.z = ropePos.z;
+
+	} else {
+		if (this->acState.getCurrentState() != &StateID_FlyAway) {
+			doStateChange(&StateID_FlyAway);
 		}
 	}
 
@@ -371,100 +215,67 @@ void daFishinBoo_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, flo
 
 // Follow State
 
-void daFishinBoo_c::beginState_Follow() { 
-	this->timer = 0;
-}
+void daFishinBoo_c::beginState_Follow() {}
 void daFishinBoo_c::executeState_Follow() { 
-
-	//if (this->timer > 200) { this->doStateChange(&StateID_Wait); }
-
-	this->direction = dSprite_c__getXDirectionOfFurthestPlayerRelativeToVEC3(this, this->pos);
-	
 	float speedDelta = 0.15;
 
-	if (this->direction == 0) {
-		this->speed.x = this->speed.x + speedDelta;
-		
-		if (this->speed.x < 0) { this->speed.x = this->speed.x + (speedDelta / 2); }
-		if (this->speed.x < 6.0) { this->speed.x = this->speed.x + (speedDelta); }
-	}
-	else {
-		this->speed.x = this->speed.x - speedDelta;
+	this->speed.x = this->speed.x + speedDelta;
 
-		if (this->speed.x > 0) { this->speed.x = this->speed.x - (speedDelta / 2); }
-		if (this->speed.x > 6.0) { this->speed.x = this->speed.x - (speedDelta); }
-	}
-	
+	if (this->speed.x > 0) { this->speed.x -= (speedDelta / 2); }
+	if (this->speed.x > 2.0) { this->speed.x -= (speedDelta); }
+
 	this->HandleXSpeed();
-	
-	
-	float yDiff;
-	yDiff = (this->Baseline - this->pos.y) / 8;
-	this->speed.y = yDiff;
-		
+
+
+	this->speed.y = 0.0f;
+
+	this->HandleYSpeed();
+
+	this->UpdateObjectPosBasedOnSpeedValuesReal();
+}
+void daFishinBoo_c::endState_Follow() {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// FlyAway State
+void daFishinBoo_c::beginState_FlyAway() {
+	this->ySpeed = 1.0f;
+}
+void daFishinBoo_c::executeState_FlyAway() {
+	float speedDelta = 0.15;
+
+	this->speed.x = this->speed.x + speedDelta;
+
+	if (this->speed.x > 0) { this->speed.x -= (speedDelta / 2); }
+	if (this->speed.x > 2.0) { this->speed.x -= (speedDelta); }
+
+	this->HandleXSpeed();
+
+
+	ySpeed += speedDelta;
+	this->speed.y = ySpeed;
+
 	this->HandleYSpeed();
 
 	this->UpdateObjectPosBasedOnSpeedValuesReal();
 
-	this->timer = this->timer + 1;
 }
-void daFishinBoo_c::endState_Follow() { 
-	this->speed.y = 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Wait State
-void daFishinBoo_c::beginState_Wait() {
-
-
-	this->timer = 0;
-	this->speed.x = 0.0;
-
-	dStageActor_c *Player = GetSpecificPlayerActor(0);
-	if (Player == 0) { Player = GetSpecificPlayerActor(1); }
-	if (Player == 0) { Player = GetSpecificPlayerActor(2); }
-	if (Player == 0) { Player = GetSpecificPlayerActor(3); }
-	if (Player == 0) { doStateChange(&StateID_Follow); }
-	
-	this->swoopTarget = Player->pos;
-}
-void daFishinBoo_c::executeState_Wait() { 
-	int Choice;
-	int TimerMax;
-	
-	if ((this->settings & 0xF) == 0) { TimerMax = 60; } // It's a sun
-	else { TimerMax = 30; } // It's a moon	
-	
-	if (this->timer > TimerMax) {
-
-		Choice = GenerateRandomNumber(9);
-
-
-		/*if (Choice == 0) { doStateChange(&StateID_Spit); }
-		else if (Choice == 1) { doStateChange(&StateID_Spit); }
-		else if (Choice == 2) { doStateChange(&StateID_Spin); }
-		else if (Choice == 3) { doStateChange(&StateID_Spiral); }
-		else { doStateChange(&StateID_Swoop); }*/
-		
-	}
-
-	this->timer = this->timer + 1;
-}
-void daFishinBoo_c::endState_Wait() {
-	this->timer = 0;
-}
+void daFishinBoo_c::endState_FlyAway() {}
 
 

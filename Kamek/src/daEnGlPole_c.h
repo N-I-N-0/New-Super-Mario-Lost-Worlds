@@ -1,3 +1,6 @@
+#ifndef __GL_POLE_H
+#define __GL_POLE_H
+
 #include <game.h>
 
 class daEnGlpole_c : public dEn_c {
@@ -26,3 +29,4 @@ public:
     char field_0xaae;
     char field_0xaaf;
 };
+#endif

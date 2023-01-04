@@ -1,4 +1,11 @@
 SECTIONS {
+	StateID_Wait__10daEnItem_c = 0x80b16698;
+	AddPhysics__10daEnItem_cFv = 0x80a28b90;
+
+	returnTodPlayerMdl_c__playFix = 0x800d3a34;
+	setSoftLight__18dPlayerModelBase_cFPQ23m3d5mdl_c = 0x800d5c80;
+	dPlayerMdl_c__createPlayerModel = 0x800d3474;
+
 	returnToFooCloud = 0x809dd710;
 	StateID_IceDamage__10daPlBase_c = 0x80376770;
 	returnToAfterIceBallSound = 0x807d50a4;

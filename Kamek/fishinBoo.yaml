@@ -1,5 +1,5 @@
 source_files: [../src/fishinBoo.cpp]
-hooks:
-  - name: DontDespawnItemsPlease
-    type: nop_insn
-    area_pal: 0x80a274bc
+hooks: []
+#  - name: DontDespawnItemsPlease
+#    type: nop_insn
+#    area_pal: 0x80a274bc
