@@ -2357,6 +2357,7 @@ SECTIONS {
 	bind__Q23m3d8anmClr_cFPQ23m3d5mdl_cQ34nw4r3g3d9ResAnmClrii = 0x80166110;
 	setup__Q23m3d8anmClr_cFQ34nw4r3g3d6ResMdlQ34nw4r3g3d9ResAnmClrP12mAllocator_cPUii = 0x80165D70;
 	getFrameForEntry__Q23m3d8anmClr_cFv = 0x80166420;
+	getFrameForEntry__Q23m3d8anmClr_cFi = 0x80166420;
 	setFrameForEntry__Q23m3d8anmClrFfi = 0x80166430;
 	setFrameForEntry__Q23m3d8anmClr_cFfi = 0x80166430;
 	getUpdateRateForEntry__Q23m3d8anmClr_cFv = 0x80166440;

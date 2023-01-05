@@ -217,7 +217,7 @@ int daEnTeren_c::onCreate() {
 	this->wDistance = settings >> 20 & 0b11111111;
 	this->wSpeed = settings >> 16 & 0b1111;
 
-	this->scale = (Vec){0.4, 0.4, 0.4};
+	this->scale = (Vec){1.0, 1.0, 1.0};
 
 	this->rot.x = 0;
 	this->rot.y = 0;

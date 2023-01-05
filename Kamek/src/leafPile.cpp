@@ -8,8 +8,10 @@ class daEnLeafPile_c : public dEn_c {
 public:
 	int onCreate();
 	int onExecute();
-	int onDelete();
+	//int onDelete();
 	int onDraw();
+
+	void collect();
 
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile resFile;
@@ -20,6 +22,8 @@ public:
 	int counter;
 
 	int destroyType;
+
+	//int type;
 
 	static dActor_c* build();
 
@@ -41,8 +45,15 @@ public:
 	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
 
-	int type;
+	USING_STATES(daEnLeafPile_c);
+	DECLARE_STATE(Appear);
+	DECLARE_STATE(Wait);
+	DECLARE_STATE(WaitForRespawn);
 };
+
+CREATE_STATE(daEnLeafPile_c, Appear);
+CREATE_STATE(daEnLeafPile_c, Wait);
+CREATE_STATE(daEnLeafPile_c, WaitForRespawn);
 
 const SpriteData LeafPileSpriteData = { ProfileId::LeafPile, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 Profile LeafPileProfile(&daEnLeafPile_c::build, SpriteId::LeafPile, &LeafPileSpriteData, ProfileId::LeafPile, ProfileId::LeafPile, "LeafPile", LeafPileFileList);
@@ -53,7 +64,7 @@ u8 hijackMusicWithSongName(const char* songName, int themeID, bool hasFast, int 
 
 void daEnLeafPile_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 }
 
 void daEnLeafPile_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -62,49 +73,49 @@ void daEnLeafPile_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOthe
 
 bool daEnLeafPile_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 1;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
 bool daEnLeafPile_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
@@ -116,7 +127,7 @@ bool daEnLeafPile_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysi
 
 bool daEnLeafPile_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->destroyType = 0;
-	this->Delete(1);
+	this->collect();
 	return true;
 }
 
@@ -132,7 +143,7 @@ dActor_c* daEnLeafPile_c::build() {
 extern int getNybbleValue(u32 settings, int fromNybble, int toNybble);
 
 int daEnLeafPile_c::onCreate() {
-	this->type = this->settings >> 28 & 0xF;
+	//this->type = this->settings >> 28 & 0xF;
 
 	this->deleteForever = false;
 	this->destroyType = 2;
@@ -148,20 +159,14 @@ int daEnLeafPile_c::onCreate() {
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("karehayama");
 	bodyModel.setup(mdl, &allocator, 0x128, 1, 0);
 	//SetupTextures_Player(&bodyModel, 0);
-	
-	/*OSReport("1\n");
+
 	anmClr = this->resFile.GetResAnmClr("karehayama");
-	OSReport("2\n");
 	this->clrAnimation.setup(mdl, anmClr, &this->allocator, 0, 1);
-	OSReport("3\n");
-	this->clrAnimation.bind(&this->bodyModel, &anmClr, 0, 1);
-	OSReport("4\n");
-	this->clrAnimation.setFrameForEntry(0.0f, 0);
-	OSReport("5\n");
-	this->clrAnimation.setUpdateRateForEntry(1.0f, 0);
-	OSReport("6\n");
+	this->clrAnimation.bind(&this->bodyModel, anmClr, 0, 0);
 	this->bodyModel.bindAnim(&this->clrAnimation);
-	OSReport("7\n");*/
+	this->clrAnimation.setFrameForEntry(80.0f, 0);
+	this->clrAnimation.setUpdateRateForEntry(1.0f, 0);
+
 
 	allocator.unlink();
 
@@ -195,12 +200,20 @@ int daEnLeafPile_c::onCreate() {
 	//this->pos.y -= 4;
 	this->pos.z = 0;
 
+	doStateChange(&StateID_Wait);
+
 	this->onExecute();
 	return true;
 }
 
 
-int daEnLeafPile_c::onDelete() {
+//int daEnLeafPile_c::onDelete() {
+//	return true;
+//}
+
+void daEnLeafPile_c::collect() {
+	doStateChange(&StateID_WaitForRespawn);
+
 	S16Vec nullRot = {0,0,0};
 	Vec efScale = {0.05f, 0.05f, 0.05f};
 	Vec oneVec = {1.0f, 1.0f, 1.0f};
@@ -219,26 +232,12 @@ int daEnLeafPile_c::onDelete() {
 			break;
 	}
 
-	//dStageActorMgr_c::instance->_BCA = true;
-	//WLClass::instance->demoControlAllPlayers();
-	//BalloonRelatedClass::instance->_20 = 1;
-	
-	/*for (int i = 0; i < 4; i++) {
-		daPlBase_c *player = GetPlayerOrYoshi(i);
-		if (player) {
-			//player->setFlag(0x71);
-			player->setFlag(0x3);
-			
-			OSReport("\nSetFlag\n");
-		}
-	}*/
-
 	Actors content = EN_ITEM;
 	u32 set;
 	Vec spawnPos = pos;
 	switch(this->settings & 0xFF) {
 		case 0:
-			return true;
+			return;
 		case 1:
 			break;
 		case 2:
@@ -306,19 +305,41 @@ int daEnLeafPile_c::onDelete() {
 			break;
 	}
 
-    //u32 set = 0x008003cc04060000;
 	CreateActor(content, set, &spawnPos, 0, this->currentLayerID);
-	return true;
 }
-/*Flags:
-0x3: disable jumping
-0x71: sth. about demo mode
-0x72: kill what the player holds (?)
 
 
+void daEnLeafPile_c::beginState_Wait() {}
+void daEnLeafPile_c::executeState_Wait() {}
+void daEnLeafPile_c::endState_Wait() {}
 
-*/
+void daEnLeafPile_c::beginState_WaitForRespawn() {
+	this->counter = 0;
+	this->clrAnimation.setFrameForEntry(0.0f, 0);
+	this->aPhysics.removeFromList();
+}
+void daEnLeafPile_c::executeState_WaitForRespawn() {
+	if(this->counter >= 600) {
+		doStateChange(&StateID_Appear);
+	} else {
+		this->counter++;
+	}
+}
+void daEnLeafPile_c::endState_WaitForRespawn() {}
 
+
+void daEnLeafPile_c::beginState_Appear() {
+	this->aPhysics.addToList();
+}
+void daEnLeafPile_c::executeState_Appear() {
+	//OSReport("clr: %f\n", this->clrAnimation.getFrameForEntry(0));
+	if (this->clrAnimation.getFrameForEntry(0) != 79.0f) {
+		this->clrAnimation.process();
+	} else {
+		doStateChange(&StateID_Wait);
+	}
+}
+void daEnLeafPile_c::endState_Appear() {}
 
 
 
@@ -341,26 +362,10 @@ int daEnLeafPile_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
-	/*counter++;
-	OSReport("counter: %d\n", counter);
-	if(counter == 180) {
-		this->clrAnimation.setUpdateRateForEntry(1.0f, 0);
-		this->clrAnimation.setFrameForEntry(counter % 80, 0);
-	}*/
+	this->acState.execute();
 
-	/*if(counter%15==0) {
-		for (int i = 0; i < 4; i++) {
-			daPlBase_c *player = GetPlayerOrYoshi(i);
-			if (player) {
-				//player->setFlag(0x71);
-				player->clearFlag((counter/15)-1);
-				player->setFlag(counter/15);
-				
-				OSReport("SetFlag%d\n", counter/15);
-			}
-		}
-	}
-	counter++;*/
+	//OSReport("LeafPile State: %s\n", this->acState.getCurrentState()->getName());
+	//OSReport("counter: %d\n", counter);
 
 	return true;
 }
