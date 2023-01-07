@@ -1,4 +1,8 @@
 SECTIONS {
+	returnFromSelectCorrectPlayerAnimation1 = 0x808c5c0c;
+	returnFromSelectCorrectPlayerAnimation2 = 0x808c67c0;
+	returnFromSelectCorrectPlayerAnimation3 = 0x808c6160;
+
 	StateID_Wait__10daEnItem_c = 0x80b16698;
 	AddPhysics__10daEnItem_cFv = 0x80a28b90;
 
@@ -2854,6 +2858,7 @@ SECTIONS {
 
 	instance__22dCourseSelectManager_c = 0x809A2370;
 	StateID_KeyWait__22dCourseSelectManager_c = 0x809A2440;
+	StateID_StockItemSelectWait__22dCourseSelectManager_c = 0x809a2500;
 	sub_80931170__22dCourseSelectManager_cFv = 0x80931170;
 	sub_809310F0__22dCourseSelectManager_cFv = 0x809310F0;
 	sub_80931090__22dCourseSelectManager_cFv = 0x80931090;

@@ -1,0 +1,20 @@
+---
+source_files: [../src/worldmapMenuAnimations.cpp, ../src/worldmapMenuAnimations.S]
+hooks:
+  - name: selectCorrectPlayerAnimation1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808c5c08
+    target_func: 'selectCorrectPlayerAnimation1'
+
+  - name: selectCorrectPlayerAnimation2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808c67bc
+    target_func: 'selectCorrectPlayerAnimation2'
+
+  - name: selectCorrectPlayerAnimation3
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x808c615c
+    target_func: 'selectCorrectPlayerAnimation3'

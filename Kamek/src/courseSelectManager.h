@@ -96,6 +96,7 @@ public:
 	
 	USING_STATES(dCourseSelectManager_c);
 	REF_NINTENDO_STATE(KeyWait);
+	REF_NINTENDO_STATE(StockItemSelectWait);
 	DECLARE_STATE(ShopWait);
 	DECLARE_STATE(CreatorInfoWait);
 

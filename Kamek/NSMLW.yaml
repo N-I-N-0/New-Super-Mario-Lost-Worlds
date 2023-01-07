@@ -132,6 +132,7 @@ modules:
   - processed/worldmapCobCourse.yaml
   - processed/worldmapManager.yaml
   - processed/courseSelectManager.yaml
+  - processed/worldmapMenuAnimations.yaml
   - processed/worldmapParatroopa.yaml
   - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
