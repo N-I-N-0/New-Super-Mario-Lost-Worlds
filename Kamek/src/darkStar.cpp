@@ -1,4 +1,4 @@
-const char* DarkStarFileList [] = { "shroobUfo", NULL };
+const char* DarkStarFileList [] = { "I_ztar", NULL };
 
 class daDarkStar_c : public dEn_c {
 public:
@@ -13,9 +13,12 @@ public:
 
 	static dActor_c* build();
 
+	bool spitOut(void *other);
+	void addActivePhysics();
+
 	//void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 
-	//bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther); 
+	bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther); 
 	//bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther); 
 	//bool collisionCatD_Drill(ActivePhysics *apThis, ActivePhysics *apOther); 
 	//bool collisionCat8_FencePunch(ActivePhysics *apThis, ActivePhysics *apOther); 
@@ -38,8 +41,14 @@ public:
 	u16 unk2;	//0xdd8
 	int unk3;	//0xd88
 
+
+	mEf::es2 effect;
+	bool readdActivePhysicsNext;
+	u8 timer;
+
 	USING_STATES(daDarkStar_c);
 	DECLARE_STATE(StarMove);
+	DECLARE_STATE(DieStar);
 	
 	bool FUN_80a290c0();
 	void FUN_80a288d0();
@@ -47,6 +56,7 @@ public:
 };
 
 CREATE_STATE(daDarkStar_c, StarMove);
+CREATE_STATE(daDarkStar_c, DieStar);
 
 void daDarkStar_c::updateModelMatrices() {
 	matrix.translation(pos.x, pos.y, pos.z);
@@ -55,6 +65,47 @@ void daDarkStar_c::updateModelMatrices() {
 	bodyModel.setDrawMatrix(matrix);
 	bodyModel.setScale(&scale);
 	bodyModel.calcWorld(false);
+}
+
+bool daDarkStar_c::collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther) {
+	((dEn_c*)apThis->owner)->acState.setState(&daDarkStar_c::StateID_DieStar);
+}
+
+void daDarkStar_c::beginState_DieStar() {
+	this->aPhysics.removeFromList();
+	this->timer = 0;
+}
+void daDarkStar_c::executeState_DieStar() {
+/*
+	if(timer >= 120) {
+		this->Delete(1);
+	} else if (timer >= 60) {
+		float newScale = 1-((timer-60.0)/60.0);
+		this->scale = (Vec){newScale, newScale, newScale};
+	} else {
+		this->pos.y += timer / 50;
+	}
+*/
+	if(timer >= 60) {
+		this->Delete(1);
+	} else {
+		float newScale = 1-(timer/60.0);
+		this->scale = (Vec){newScale, newScale, newScale};
+		this->rot.y += 0x1000 + timer*0x10;
+		timer++;
+	}
+}
+void daDarkStar_c::endState_DieStar() {}
+
+
+
+bool daDarkStar_c::spitOut(void *other) {
+	this->direction = ((dStageActor_c*)other)->direction;
+	this->acState.setState(&StateID_StarMove);
+	timer = 0;
+	readdActivePhysicsNext = true;
+	this->scale = (Vec){1, 1, 1};
+	return true;
 }
 
 
@@ -77,40 +128,55 @@ Profile DarkStarProfile(&daDarkStar_c::build, SpriteId::DarkStar, &DarkStarSprit
 int daDarkStar_c::onCreate() {
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
-	resFile.data = getResource("shroobUfo", "g3d/shroobUfo.brres");
-	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("shroobUfo");
+	resFile.data = getResource("I_ztar", "g3d/I_ztar.brres");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("I_ztar");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	SetupTextures_Enemy(&bodyModel, 0);
-	//nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("FlyNoTurret");
-	//this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("wait");
+	this->animationChr.setup(mdl, anmChr, &this->allocator, 0);
 
 	allocator.unlink(); 
 
-	ActivePhysics::Info HitMeBaby; 
-	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 0.0; 
-	HitMeBaby.xDistToEdge = 0.0; 
-	HitMeBaby.yDistToEdge = 0.0; 
-	HitMeBaby.category1 = 0x3; 
-	HitMeBaby.category2 = 0x0; 
-	HitMeBaby.bitfield1 = 0x4F; 
-	HitMeBaby.bitfield2 = 0xFFFFFFFF; 
-	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
-	this->aPhysics.initWithStruct(this, &HitMeBaby); 
-	this->aPhysics.addToList(); 
+	addActivePhysics();
 
-	this->scale = (Vec){0.1, 0.1, 0.1};
+
+	static const lineSensor_s below(-5<<12, 5<<12, 0<<12);
+	static const pointSensor_s above(0<<12, 12<<12);
+	static const lineSensor_s adjacent(3<<12, 6<<12, 6<<12);
+
+	collMgr.init(this, &below, &above, &adjacent);
+	collMgr.calculateBelowCollisionWithSmokeEffect();
+
+	this->scale = (Vec){1, 1, 1};
 	
-	this->rot.y = -0x2000;
+	//this->rot.y = -0x2000;
 	
 	//this->disableEatIn();
 
 	//MakeMarioEnterDemoMode();
 
+	this->eatenState = 0;
+	this->edible = 1;
+
 	doStateChange(&StateID_StarMove);
 
 	return true;
+}
+
+void daDarkStar_c::addActivePhysics() {
+	ActivePhysics::Info HitMeBaby;
+	HitMeBaby.xDistToCenter = 0.0;
+	HitMeBaby.yDistToCenter = 7.5;
+	HitMeBaby.xDistToEdge = 7.5;
+	HitMeBaby.yDistToEdge = 7.5;
+	HitMeBaby.category1 = 0x3;
+	HitMeBaby.category2 = 0x0;
+	HitMeBaby.bitfield1 = 0x6F;
+	HitMeBaby.bitfield2 = 0xFFC18000;
+	HitMeBaby.unkShort1C = 0;
+	HitMeBaby.callback = &dEn_c::collisionCallback;
+	this->aPhysics.initWithStruct(this, &HitMeBaby);
+	this->aPhysics.addToList();
 }
 
 int daDarkStar_c::onExecute() {
@@ -122,6 +188,16 @@ int daDarkStar_c::onExecute() {
 	/*if (this->animationChr.isAnimationDone()) {
 		this->animationChr.setCurrentFrame(0.0);
 	}*/
+
+	if (readdActivePhysicsNext) {
+		if(timer < 45) {
+			timer++;
+		} else {
+			readdActivePhysicsNext = false;
+			this->addActivePhysics();
+		}
+	}
+
 
 	return true;
 }
@@ -200,7 +276,9 @@ void daDarkStar_c::executeState_StarMove(){
   bool bVar5;
   int iVar4;
   float fVar6;
-  
+
+  effect.spawn("Wm_ob_startail", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+
   this->HandleYSpeed();
   this->doSpriteMovement();
   this->FUN_80a288d0();
@@ -217,7 +295,7 @@ void daDarkStar_c::executeState_StarMove(){
         }
         FUN_80a28d10(this);
         this->FUN_80a29280();
-		Vec2 soundPos;
+        Vec2 soundPos;
         ConvertStagePositionToScreenPosition(&soundPos,&this->pos);
         SoundPlayingClass::instance2->PlaySoundAtPosition(SE_OBJ_STAR_BOUND,&soundPos,0);
       }
@@ -242,12 +320,14 @@ void daDarkStar_c::executeState_StarMove(){
     }
   }
   
-  this->pos.z = EnItem_GetZPosToUse(this);
-  iVar4 = 0;//FUN_80a282f0(this);
+  this->pos.z = 600.0f;//EnItem_GetZPosToUse(this);
+/*
+  iVar4 = FUN_80a282f0(this);
   if (iVar4 == 0) {
-    //FUN_80a28770(this);
+    FUN_80a28770(this);
   }
-  //FUN_80a28230(this);
+  FUN_80a28230(this);
+*/
   return;
 }
 

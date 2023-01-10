@@ -1,27 +1,27 @@
 ---
 source_files: [../src/darkStar.cpp]
-hooks:
-  - name: removeStarCalls1
-    type: nop_insn
-    area_pal: 0x80a2a43c
+hooks: []
+#  - name: removeStarCalls1
+#    type: nop_insn
+#    area_pal: 0x80a2a43c
 
-  - name: removeStarCalls2
-    type: nop_insn
-    area_pal: 0x80a2a44c
+#  - name: removeStarCalls2
+#    type: nop_insn
+#    area_pal: 0x80a2a44c
 
-  - name: removeStarCalls3
-    type: nop_insn
-    area_pal: 0x80a2a320
+#  - name: removeStarCalls3
+#    type: nop_insn
+#    area_pal: 0x80a2a320
 
-  - name: removeStarCalls4
-    type: nop_insn
-    area_pal: 0x80a2a40c
+#  - name: removeStarCalls4
+#    type: nop_insn
+#    area_pal: 0x80a2a40c
 
-  - name: removeStarCalls5
-    type: nop_insn
-    area_pal: 0x80a2a424
+#  - name: removeStarCalls5
+#    type: nop_insn
+#    area_pal: 0x80a2a424
 
-  - name: removeStarCalls6
-    type: nop_insn
-    area_pal: 0x80a2a414
+#  - name: removeStarCalls6
+#    type: nop_insn
+#    area_pal: 0x80a2a414
 
