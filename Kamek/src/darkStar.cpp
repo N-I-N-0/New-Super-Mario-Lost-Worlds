@@ -91,7 +91,7 @@ void daDarkStar_c::executeState_DieStar() {
 	if(timer >= 20) {
 		this->Delete(1);
 	} else {
-		float newScale = 1.1-(1.1*timer/20.0);
+		float newScale = 1-(timer/20.0);
 		this->scale = (Vec){newScale, newScale, newScale};
 		this->rot.y += 0x1000 + timer*0x30;
 		timer++;
@@ -106,7 +106,8 @@ bool daDarkStar_c::spitOut(void *other) {
 	this->acState.setState(&StateID_StarMove);
 	timer = 0;
 	readdActivePhysicsNext = true;
-	this->scale = (Vec){1.1, 1.1, 1.1};
+	this->scale = (Vec){1, 1, 1};
+	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
 	return true;
 }
 
@@ -149,7 +150,7 @@ int daDarkStar_c::onCreate() {
 	collMgr.init(this, &below, &above, &adjacent);
 	collMgr.calculateBelowCollisionWithSmokeEffect();
 
-	this->scale = (Vec){1.1, 1.1, 1.1};
+	this->scale = (Vec){1, 1, 1};
 	
 	//this->rot.y = -0x2000;
 	
@@ -159,6 +160,8 @@ int daDarkStar_c::onCreate() {
 
 	this->eatenState = 0;
 	this->edible = 1;
+
+	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
 
 	doStateChange(&StateID_StarMove);
 
@@ -187,9 +190,9 @@ int daDarkStar_c::onExecute() {
 	updateModelMatrices();
 	bodyModel._vf1C();
 
-	/*if (this->animationChr.isAnimationDone()) {
+	if (this->animationChr.isAnimationDone()) {
 		this->animationChr.setCurrentFrame(0.0);
-	}*/
+	}
 
 	if (readdActivePhysicsNext) {
 		if(timer < 45) {
