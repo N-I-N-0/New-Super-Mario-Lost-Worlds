@@ -4619,7 +4619,7 @@ class dAcPy_c : public daPlBase_c {
 		int onDraw(); // 80145BA0
 		void ChangePowerupWithAnimation(int powerup); // 80145C00
 		u32 _vf3D8(); // 80145C90
-		u32 _vf3DC(); // 80145D90
+		void endStar(); // 80145D90
 		void sub_80145E00(); // 80145E00
 		u32 _vf3E0(); // 80145F30
 		void sub_80145F80(); // 80145F80

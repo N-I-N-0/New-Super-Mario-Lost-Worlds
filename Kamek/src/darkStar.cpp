@@ -69,6 +69,8 @@ void daDarkStar_c::updateModelMatrices() {
 
 bool daDarkStar_c::collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther) {
 	((dEn_c*)apThis->owner)->acState.setState(&daDarkStar_c::StateID_DieStar);
+	((dAcPy_c*)apOther->owner)->endStar();
+	SpawnEffect("Wm_ob_itemget", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 }
 
 void daDarkStar_c::beginState_DieStar() {
@@ -86,12 +88,12 @@ void daDarkStar_c::executeState_DieStar() {
 		this->pos.y += timer / 50;
 	}
 */
-	if(timer >= 60) {
+	if(timer >= 20) {
 		this->Delete(1);
 	} else {
-		float newScale = 1-(timer/60.0);
+		float newScale = 1.1-(1.1*timer/20.0);
 		this->scale = (Vec){newScale, newScale, newScale};
-		this->rot.y += 0x1000 + timer*0x10;
+		this->rot.y += 0x1000 + timer*0x30;
 		timer++;
 	}
 }
@@ -104,7 +106,7 @@ bool daDarkStar_c::spitOut(void *other) {
 	this->acState.setState(&StateID_StarMove);
 	timer = 0;
 	readdActivePhysicsNext = true;
-	this->scale = (Vec){1, 1, 1};
+	this->scale = (Vec){1.1, 1.1, 1.1};
 	return true;
 }
 
@@ -147,7 +149,7 @@ int daDarkStar_c::onCreate() {
 	collMgr.init(this, &below, &above, &adjacent);
 	collMgr.calculateBelowCollisionWithSmokeEffect();
 
-	this->scale = (Vec){1, 1, 1};
+	this->scale = (Vec){1.1, 1.1, 1.1};
 	
 	//this->rot.y = -0x2000;
 	

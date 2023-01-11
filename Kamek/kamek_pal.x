@@ -1,4 +1,6 @@
 SECTIONS {
+	endStar__7dAcPy_cFv = 0x80145d90;
+
 	returnFromSelectCorrectPlayerAnimation1 = 0x808c5c0c;
 	returnFromSelectCorrectPlayerAnimation2 = 0x808c67c0;
 	returnFromSelectCorrectPlayerAnimation3 = 0x808c6160;
