@@ -986,7 +986,8 @@ TEX_CloudBounce:
 	b GetTexFilenameForR5
 
 
-
+.global TEX_LiftHuriko
+TEX_LiftHuriko:
 .global TEX_Firepillar
 TEX_Firepillar:
 .global TEX_Fuzzy
@@ -1065,7 +1066,8 @@ TEX_PenguinSpawner:
 
 
 
-
+.global TEX_LiftHuriko2
+TEX_LiftHuriko2:
 .global TEX_Wanwan2
 TEX_Wanwan2:
 .global TEX_Penguin

@@ -18,3 +18,8 @@ hooks:
     branch_type: b
     src_addr_pal: 0x808c615c
     target_func: 'selectCorrectPlayerAnimation3'
+
+  - name: CastleDoorChangeWaitAnimation
+    type: patch
+    data: '388000a9' #use animation 169 instead
+    addr_pal: 0x8013f56c

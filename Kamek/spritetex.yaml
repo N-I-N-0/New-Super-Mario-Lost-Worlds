@@ -1387,3 +1387,15 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x801119f8
     target_func: 'SpriteTex_Bubble'
+
+  - name: TEX_LiftHuriko
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8083850c
+    target_func: 'TEX_LiftHuriko'
+
+  - name: TEX_LiftHuriko2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x808393a0
+    target_func: 'TEX_LiftHuriko2'

@@ -3282,6 +3282,26 @@
     <checkbox nybble="12.4" title="Remove Grass/Rocks" comment="When enabled, this will remove the decoration from the bottom of the Shell Cave."/>
   </sprite> <!-- #341: Giant Turtle Shell Cave -->
 
+<!-- Test Place Behind Other Sprites with Chainlink Fence fun stuff -->
+  <sprite id="346" name="Rotation Controlled Hanging Chain Platform" notes="A rotation controlled platform that has two hanging hooks on it. These hooks will automatically create chains that lead directly to the rotation point that is used.">
+    <dependency notes="Placement of this platform is flexible, but it is recommended that it be placed directly below the rotation controller. Additionally, the platform will generate two chains leading to the rotation controller it is paired with. A [345] Hanging Chain Holder should be placed directly on top of the rotation controller.">
+      <suggested sprite="345"/>
+      <suggested sprite="96"/>
+      <suggested sprite="149"/>
+    </dependency>
+    <list nybble="10.3-10.4" title="Width">
+      <entry value="0">Short</entry>
+      <entry value="1">Medium</entry>
+      <entry value="2">Long</entry>
+    </list>
+    <checkbox nybble="9.4" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Platform placing it further behind other sprites."/>
+    <value nybble="11-12" title="Rotation ID" comment="This pairs the platform to a matching rotation controller." idtype="Rotation"/>
+    <list nybble="6" title="SpriteTex">
+      <entry value="0">Original</entry>
+      <entry value="1">Bone</entry>
+    </list>
+  </sprite> <!-- #346: Rotation Controlled Hanging Chain Platform -->
+
   <sprite id="350" name="Fireball Laser" asmhacks="True" notes="A controller that creates a constant stream of fireballs in a specific direction. These fireballs will not pass through terrain. They spawn at the top left corner of the sprite's placement.">
     <value nybble="7-8" title="Triggering Event ID" comment="While this Event ID is activated, the controller will create fireballs." idtype="Triggering Event"/>
     <list nybble="12" title="Direction" comment="This determines which direction the fireballs will fire in.">
