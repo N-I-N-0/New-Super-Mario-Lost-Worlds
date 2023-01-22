@@ -1,4 +1,28 @@
 SECTIONS {
+	doneWithBounceShell = 0x8003B9B4;
+	doneWithDoCloudBounceAnim = 0x80A5CA88;
+	actuallyDoCloudBounceAnim = 0x80A5CA98;
+	doneWithSpringboardShell = 0x80038924;
+
+	doneWithNoPlayerGP = 0x801268D0;
+	doneWithNoPlayerGP2 = 0x80126854;
+	doneWithNoPlayerFire = 0x8011B068;
+	doneWithNoPlayerIce = 0x80124708;
+	doneWithNoPlayerSpin = 0x801472E8;
+	doneWithNoPlayerSpin2 = 0x80147370;
+	doneWithNoPlayerSlide = 0x8012D67C;
+	doneWithNoPlayerSlide2 = 0x8012D6A4;
+	doneWithGPSlide = 0x80039BF4;
+	doGPSlide = 0x80038D4C;
+	unk_80353CD8 = 0x80353CD8;
+
+	NextStageActorDisableFlags = 0x80429FD8;
+
+	ShellSlideState = 0x80353d64;
+
+	doBGMStuff = 0x8019CB40;
+	doBGMStuff2 = 0x8019CDB0;
+
 	endStar__7dAcPy_cFv = 0x80145d90;
 
 	returnFromSelectCorrectPlayerAnimation1 = 0x808c5c0c;

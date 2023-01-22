@@ -108,7 +108,7 @@ modules:
   - processed/AnimFrames.yaml
   - processed/smw_throws.yaml
   - processed/zement_goalpole.yaml
-  - processed/DebugMenu.yaml
+  #- processed/DebugMenu.yaml
   - processed/icefix.yaml
   - processed/yoshi.yaml
   #- processed/UpsideDown.yaml
@@ -224,3 +224,4 @@ modules:
   - processed/scuttlebug.yaml
   - processed/flyingBook.yaml
   - processed/titlescreen.yaml
+  - processed/chimpChallenges.yaml

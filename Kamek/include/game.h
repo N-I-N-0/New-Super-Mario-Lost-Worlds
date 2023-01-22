@@ -229,6 +229,15 @@ bool IsWideScreen();
 #define SAVE_BIT_NO_SUPER_GUIDE 0x40
 
 
+
+#define SAVE_CHIMP_VISITED 0x1
+#define SAVE_CHIMP_ITEMBOWLING 0x2
+#define SAVE_CHIMP_PENGUINSLIDE 0x4
+#define SAVE_CHIMP_SANDSLIDE 0x8
+#define SAVE_CHIMP_GEARMO 0x10
+#define SAVE_CHIMP_BULLETBILLPARKOUR 0x20
+
+
 class SaveFirstBlock {
 public:
 	char titleID[4];			// 0x00

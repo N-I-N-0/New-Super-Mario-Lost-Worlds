@@ -1138,12 +1138,6 @@
       <entry value="8">Pokey (SMG)</entry>
     </list>
   </sprite> <!-- #105: Pokey -->
-  
-  <sprite id="107" name="Message Box Controller" asmhacks="True" notes="This controller is required for all Message Boxes to function correctly. It must be placed in every Zone that uses a Message Box.">
-    <dependency notes="This is used alongside [152] Message Box to produce blocks capable of spawning a pop-up Message Box.">
-      <suggested sprite="152"/>
-    </dependency>
-  </sprite> <!-- #107: Message Box Controller -->
 
   <sprite id="111" name="Blooper" notes="An underwater enemy that will chase the player.">
     <dependency notes="Because the Bloopers can be used without Water, if they are placed in anything but an Underwater style level, they will appear to fly rather than swim and not be confined to Location Water, etc."/>
@@ -1154,8 +1148,8 @@
       <entry value="2">Shoots Up and Right</entry>
     </list>
     <dualbox nybble="12.4" title1="Moves Towards Player" title2="Moves Direction Player is Facing"/>
-	<value nybble="3-4" title="Triggering Event ID" comment="The Blooper will appear once this event is triggered." idtype="Triggering Event"/>
-	<list nybble="6" title="SpriteTex">
+    <value nybble="3-4" title="Triggering Event ID" comment="The Blooper will appear once this event is triggered." idtype="Triggering Event"/>
+    <list nybble="6" title="SpriteTex">
       <entry value="0">Original</entry>
       <entry value="1">Blue</entry>
       <entry value="2">Green</entry>
@@ -1469,13 +1463,9 @@
     </list>
   </sprite> <!-- #151: Porcupuffer -->
 
-  <sprite id="152" name="Message Box" notes="A block that the player can hit which will display a custom message. Messages are defined in Message.py.">
-    <dependency notes="The Message Box Controller must be included in each Zone for Message Boxes to function correctly.">
-      <required sprite="107"/>
-    </dependency>
-    <value nybble="9-12" title="Message ID" comment="Messages defined in Message.py. Add 256 to the value shown in the Newer Message Editor program. (01/10/18)" idtype="Message"/>
-  </sprite> <!-- 152: Message Box -->
-  
+  <sprite id="152" name="Chimp NPC" asmhacks="True">
+  </sprite> <!-- #152: Chimp NPC -->
+
   <sprite id="153" name="(Unused) &quot;?&quot; Switch (Orange)" asmhacks="True" sizehacks="True" notes="An exact duplicate of the normal &quot;?&quot; Switch (Orange).">
     <dependency notes="The game will crash unless a normal orange switch is placed somewhere in the level. It does not have to be within an area that is actually used.">
       <required sprite="40"/>
@@ -3138,8 +3128,9 @@
     <value nybble="9" title="Unknown Value 9" advanced="True" advancedcomment="ASM shows Nybble 9 might affect something."/>
   </sprite> <!-- #311: Mega Icicle -->
 
-  <!--<sprite id="319" name="Flip Block" asmhacks="True" notes="A yellow block with two eyes that cannot be destroyed. When struck, it will spin, allowing passage through it for a limited time.">-->
-  <!--</sprite> #319: Flip Block -->
+  <sprite id="319" name="Chimp House Minigame - Item Bowling" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" >
+    <value nybble="11-12" title="Room Length" comment="This determines the length of the room"/>
+  </sprite> <!-- #319: Chimp House Minigame - Item Bowling -->
 
   <!-- Graphical resources for the editor are missing. -->
   <!-- Research "Nybble 4" -->
@@ -3181,27 +3172,23 @@
     </list> <!-- Appears only if [Chestnut Contains] == Star Coin -->
     <checkbox nybble="4.4" title="Unknown Flag 4 (1)" advanced="True" advancedcomment="Not used in Newer, function unclear. Wha??"/>
   </sprite> <!-- #320: Falling Chestnut -->
-  
-  <sprite id="322" name="World-2 Boss: Mega Thwomp" asmhacks="True" notes="A large Thwomp boss used by NewerSMBW. It can be defeated by having it fall through crushable terrain at least 4 blocks wide.">
-    <dependency notes="The Mega Thwomp should be placed at ground level on the opposite end of the room from the player's entrance. Also, Kamek and his controller must be included in the Area.">
-      <required sprite="427"/> <!-- Kamek -->
-      <required sprite="383"/> <!-- Kamek Controller -->
-    </dependency>
-    <value nybble="5-6" title="Left Buffer" comment="This defines the empty space the Mega Thwomp will be allowed to move through from the left side of the sprite's placement, calculated in half-blocks."/>
-    <value nybble="7-8" title="Right Buffer" comment="This defines the empty space the Mega Thwomp will be allowed to move through from the right side of the sprite's placement, calculated in half-blocks."/>
-    <value nybble="9-10" title="Top Buffer" comment="This defines the empty space the Mega Thwomp will be allowed to move upwards from the sprite's placement, calculated in half-blocks."/>
-  </sprite> <!-- #322: World-2 Boss: Mega Thwomp -->
-  
-  <sprite id="324" name="World-5 Boss: Podouble" asmhacks="True" notes="A pair of large Podoboo bosses used in NewerSMBW. It can only be defeated by using fire or ice attacks against the correct half, and spawns a Yoshi for each player to assist them.">
-    <dependency notes="Both an Ice Podouble and a Fire Podouble are required for this boss fight. The Podouble grows 300% in an upwards direction from the base of the sprite. They can only be damaged by the opposite elemental attack, and a Yoshi is provided automatically to help with this.">
-      <required sprite=""/> <!-- Kamek -->
-      <required sprite=""/> <!-- Kamek Controller -->
-      <required sprite=""/> <!-- ??? -->
-    </dependency>
-    <dualbox nybble="5.4" title1="Ice Podouble" title2="Fire Podouble" comment="This determines which half of the Podouble duo the sprite is." comment2="Fire will always face right, and Ice will always face left."/>
-    <value nybble="11-12" title="Falling Offset" comment="This determines the bottom of the Podouble's jump relative to the sprite's placement, calculated in half-blocks."/>
-  </sprite> <!-- #324: World-5 Boss: Podouble -->
-  
+
+  <sprite id="322" name="Chimp House Minigame - Item Balloon" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
+    <list nybble="12" title="Item" comment="This determines which item does the balloon correspond to.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Fire Flower</entry>
+      <entry value="2">Propeller</entry>
+      <entry value="3">Penguin</entry>
+      <entry value="4">Mini Shroom</entry>
+      <entry value="5">Ice Flower</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Hammer [Incomplete]</entry>
+    </list>
+  </sprite> <!-- #322: Item Bowling Minigame - Item Balloon -->
+
+  <sprite id="324" name="Chimp Shell Wrapper" asmhack="true" >
+  </sprite> <!-- #324: Chimp Shell Wrapper -->
+
   <!-- Add a page within the level editor where the full list of effects and sounds can be referenced. Additionally, clean up the list so it's not littered with German. :P -->
   <sprite id="332" name="Sound/Graphic Effects Spawner" asmhacks="True" phonebook="Effects" notes="Enables event-driven spawning of Sound Effects and Graphic Effects.&lt;br&gt;&lt;u&gt;Limitations&lt;/u&gt;&lt;br&gt; 1) Do not use 1000 or more sounds/effects per area.&lt;br&gt; 2) A single Event ID can only trigger one sound/effect per area&lt;br&gt; 3) Only a specific number of sounds/effects can be active at the same time&lt;br&gt; 4) Only two BRSTMs can be active at the same time." advancednotes="If spawning a Sound Efect, the placement of the sprite is crucial, as the sound is emitted from that position. If the player is ~3 screens away from the sprite, then they won't hear it anymore. Placing multiple sprites with the same settings at different locations is possible.">
       <value nybble="5-6" title="Triggering Event ID" comment="When this Event ID is activated, the associated sound or affect will be played." idtype="Triggering Event"/>

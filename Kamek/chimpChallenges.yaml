@@ -1,0 +1,145 @@
+---
+source_files: 
+  # General
+  - ../src/chimpChallenges.S
+  - ../src/chimpChallenges.cpp
+  - ../src/chimpNPC.cpp
+  - ../src/chimpTextBoxMgr.cpp
+  # Item Bowling
+  - ../src/itemBowlingMgr.cpp
+  - ../src/itemBalloon.cpp
+  - ../src/shellWarper.cpp
+  # Penguin Slide
+  # Sand Slide
+  # Gearmo
+  # Bullet Bill Parkour
+
+hooks:
+  # General
+
+  - name: ChimpNPCBuild #Replaces Actor 603 EN_BLUR (Sprite 152)
+    type: add_func_pointer
+    src_addr_pal: 0x80ADD890
+    target_func: 'dChimpNPC_c::build(void)'
+
+  - name: ChimpNPCSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031adac
+    target_func: 'CNPCarcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: UpdateChimpNPCSpriteInfo
+    type: patch
+    # 0x8030A340 + sprite num * 0x28 == offset
+    addr_pal: 0x8030bb00
+    #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+    data: '025B 0000  00000000 00000000  00000000 00000000 00000000 00000000  0000 0000 0000 0000  0000 0000'
+
+  - name: ChimpTextBoxMgrBuild
+    type: add_func_pointer
+    src_addr_pal: 0x80AFA9C8
+    target_func: 'dChimpTBMgr_c::build(void)'
+
+  # Bouncing stuff
+
+  - name: BounceShell
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8003B9B0
+    target_func: 'BounceShell'
+
+  - name: SpringboardShell
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80038920
+    target_func: 'SpringboardShell'
+
+  - name: BounceGoomba
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x800320A8
+    target_func: 'BounceGoomba'
+
+  - name: ExpandCloudPlatformSize
+    type: patch
+    addr_pal: 0x80A5C6D8
+    data: '3860054C' # Orig: 38600548
+
+  - name: DoCloudBounceAnim
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80A5CA84
+    target_func: 'DoCloudBounceAnim'
+
+  # Item Bowling
+
+  - name: ItemBowlingMgrBuild #Replaces Actor 208 REMO_DOOR (Sprite 319)
+    type: add_func_pointer
+    src_addr_pal: 0x809789C8
+    target_func: 'dItemBowlingMgr_c::build(void)'
+
+  - name: UpdateItemBowlingMgrSpriteInfo
+    type: patch
+    # 0x8030A340 + sprite num * 0x28 == offset
+    addr_pal: 0x8030d518
+    #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+    data: '00D0 0000  00000000 00000000  FFFFF000 00000000 00001000 00000000  0000 0000 0000 0000  0002 0000'
+
+  - name: ItemBalloonBuild #Replaces Actor 137 EN_GHOST_JUGEM (Sprite 322)
+    type: add_func_pointer
+    src_addr_pal: 0x80AEBDA0
+    target_func: 'dItemBalloon_c::build(void)'
+
+  - name: UpdateItemBalloonSpriteInfo
+    type: patch
+    # 0x8030A340 + sprite num * 0x28 == offset
+    addr_pal: 0x8030d590
+    #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+    data: '0089 0000  00000000 00000000  FFFFFFF0 00000000 00000010 00000000  0000 0000 0000 0000  0002 0000'
+
+  - name: ItemBalloonSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031b054
+    target_func: 'IBarcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset
+
+  - name: ShellWarperBuild #Replaces Actor 370 SHIP_WINDOW (Sprite 324)
+    type: add_func_pointer
+    src_addr_pal: 0x8097B0D0
+    target_func: 'dShellWarper_c::build(void)'
+
+  # - name: NoPlayerGP
+  #   type: branch_insn
+  #   branch_type: b
+  #   src_addr_pal: 0x80126850
+  #   target_func: 'NoPlayerGP'
+
+  - name: NoPlayerFire
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8011B064
+    target_func: 'NoPlayerFire'
+
+  - name: NoPlayerIce
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80124704
+    target_func: 'NoPlayerIce'
+
+  - name: NoPlayerSpin
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801472E4
+    target_func: 'NoPlayerSpin'
+
+  - name: NoPlayerSlide
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8012D674
+    target_func: 'NoPlayerSlide'
+
+  - name: GPSlide
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80039BF0
+    target_func: 'GPSlide'
