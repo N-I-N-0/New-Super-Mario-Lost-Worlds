@@ -142,6 +142,9 @@ class dGameDisplay_c : dBase_c {
         int cleanDisplay();
         void doGlobalCoin();
         void refreshPurpleCoins(); //New
+		
+		USING_STATES(dGameDisplay_c);
+		REF_NINTENDO_STATE(ProcGoalEnd);
 };
 
 

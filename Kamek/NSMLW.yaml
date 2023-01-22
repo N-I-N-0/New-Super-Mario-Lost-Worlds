@@ -219,7 +219,7 @@ modules:
   - processed/boos.yaml
  # - processed/shield-fix.yaml
   - processed/ropeBlock.yaml
-  - processed/coinFountain.yaml
+#  - processed/coinFountain.yaml
   - processed/cloudSpawner.yaml
   - processed/scuttlebug.yaml
   - processed/flyingBook.yaml
