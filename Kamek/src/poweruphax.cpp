@@ -364,3 +364,81 @@ void dStockItem_c::setScalesOfSomeThings() {
 int BlkItemSpawn::doStupidOSReport() {
     OSReport("itemType = %d\n", this->itemType);
 }
+
+
+
+
+
+
+
+
+dPlayerModelBase_c::ModelThing additionalModels[4][2];
+mHeapAllocator_c additionalModelsAllocators[4];
+
+dPlayerModelBase_c::ModelThing* getCurrentModel(dPlayerModel_c* self) {
+	//if(self->player_id_2 == 1)
+	//	return &additionalModels[1][0];
+	
+	
+	
+	if (self->currentPlayerModelID < 4) {
+		return &self->models[self->currentPlayerModelID];
+	} else {
+		return &additionalModels[self->player_id_2][self->currentPlayerModelID-4];
+	}
+}
+
+
+
+
+extern "C" void createPlayerModelOrig(dPlayerModel_c*);
+
+void initializeAdditionalModels(dPlayerModel_c* self) {
+	if(self->player_id_2 == 1) {
+
+		additionalModelsAllocators[self->player_id_2].link(-1, GameHeaps[0], 0, 0x20);
+
+		nw4r::g3d::ResMdl mdl1 = self->modelResFile.GetResMdl("FRB_model");
+		additionalModels[self->player_id_2][0].body.setup(mdl1, &additionalModelsAllocators, 0x93b, 1, 0);
+		SetupTextures_Player(&additionalModels[self->player_id_2][0].body, 0);
+
+		nw4r::g3d::ResMdl mdl2 = self->modelResFile.GetResMdl("FRH_model");
+		additionalModels[self->player_id_2][0].head.setup(mdl2, &additionalModelsAllocators, 0x97b, 1, 0);
+		SetupTextures_Player(&additionalModels[self->player_id_2][0].head, 0);
+
+
+	/*	nw4r::g3d::ResMdl mdl3 = self->modelResFile.GetResMdl("GOB_model");
+		additionalModels[self->player_id_2][1].body.setup(mdl3, &additionalModelsAllocators, 0x93b, 1, 0);
+		SetupTextures_Player(&additionalModels[self->player_id_2][1].body, 0);
+
+		nw4r::g3d::ResMdl mdl4 = self->modelResFile.GetResMdl("GOH_model");
+		additionalModels[self->player_id_2][1].head.setup(mdl4, &additionalModelsAllocators, 0x97b, 1, 0);
+		SetupTextures_Player(&additionalModels[self->player_id_2][1].head, 0);*/
+
+		additionalModelsAllocators[self->player_id_2].unlink();
+
+	}
+
+	createPlayerModelOrig(self);
+}
+
+
+
+
+void dPlayerMdl__draw(dPlayerModel_c* self) {
+	dPlayerModelBase_c::ModelThing* model = getCurrentModel(self);
+	model->body.scheduleForDrawing();
+	model->head.scheduleForDrawing();
+	self->setSoftLight(&model->body);
+	self->setSoftLight(&model->head);
+}
+
+
+
+
+
+
+
+
+
+

@@ -4,15 +4,15 @@
 
 source_files: [../src/boomeranghax.cpp, ../src/boomeranghax.S]
 hooks:
-  - name: BoomerangHaxBuild
-    type: add_func_pointer
-    src_addr_pal: 0x8097FE80
-    target_func: 'daBoomerangHax_c::build(void)'
+#  - name: BoomerangHaxBuild
+#    type: add_func_pointer
+#    src_addr_pal: 0x8097FE80
+#    target_func: 'daBoomerangHax_c::build(void)'
 
-  - name: GABON_ROCK_replace
-    type: add_func_pointer
-    src_addr_pal: 0x8095C740
-    target_func: 'daGabonRock_c::getsettings(void)'
+#  - name: GABON_ROCK_replace
+#    type: add_func_pointer
+#    src_addr_pal: 0x8095C740
+#    target_func: 'daGabonRock_c::getsettings(void)'
     
   - name: ExpandGDisplayStruct
     type: patch
@@ -34,16 +34,6 @@ hooks:
     type: add_func_pointer
     src_addr_pal: 0x80327A40
     target_func: 'dGameDisplay_c::cleanDisplay(void)'
-
-  - name: BOMB_PLAYERCOLLISION_replace
-    type: add_func_pointer
-    src_addr_pal: 0x80ADDC90
-    target_func: 'daEnBomhei_c::newPlayerCollision(ActivePhysics *, ActivePhysics *)'
-
-  - name: BOMB_SPRITECOLLISION_replace
-    type: add_func_pointer
-    src_addr_pal: 0x80ADDC8C
-    target_func: 'daEnBomhei_c::newSpriteCollision(ActivePhysics *, ActivePhysics *)'
 
   #Frog-related
 

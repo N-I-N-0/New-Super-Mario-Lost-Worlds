@@ -77,6 +77,29 @@ return_0:
 	blr
 
 
+.extern returnFromFrogPenguinMove1
+.extern returnFromFrogPenguinMove2
+.global frogPenguinMove1
+frogPenguinMove1:
+	cmpwi r0, 0xe
+	bne tryFrogInstead1
+	b returnFromFrogPenguinMove1
+tryFrogInstead1:
+	cmpwi r0, 0x9
+	b returnFromFrogPenguinMove1
+
+
+
+.global frogPenguinMove2
+frogPenguinMove2:
+	cmpwi r0, 0xe
+	bne tryFrogInstead2
+	b returnFromFrogPenguinMove2
+tryFrogInstead2:
+	cmpwi r0, 0x9
+	b returnFromFrogPenguinMove2
+
+
 .global FukidashiFix
 FukidashiFix:
 	lis r7, ZeroFloat@h
@@ -1024,14 +1047,15 @@ DoHammer:	#Basically, spawning a hammer
 	bctrl
 	b ReturnFromThrowHammer
 
+#include <asm_profiles.S>
 DoBoomerang:	#Basically, spawning a boomerang
 	mr r3, r30
 	li r4, 498
 	li r5, 0
 	bl PlayPlayerSound
-	
 
-	li r3, 0x176			# Custom Boomerang
+
+	li r3, BoomerangHax			# Custom Boomerang
 
 	lwz r4, 0x38D(r30)		# Settings => dStageActor_c->associatedPlayerID (in nybble 6 for some reasons) + 2 (in nybble 12 because yes)
 	addi r4, r4, 2
@@ -1039,31 +1063,14 @@ DoBoomerang:	#Basically, spawning a boomerang
 	addi r5, sp, 0x2C		# Position
 	li r6, 0				# Rotation
 	lbz r7, 0x38F(r30)		# Layer
+
 	bl CreateActor
 
-	
-	# Store player ID
-	lwz r4, 0(r30)
-	stw r4, 0x450(r3)
-	
-	# store player number, but add 0x100 to differentiate it from 0
-	lbz r4, 0x38D(r30)
-	addi r4, r4, 0x100
-	stw r4, 0x458(r3)
-	
-	# Fix scale
-	lis r4, OneFloat@h
-	ori r4, r4, OneFloat@l
-	lfs f0, 0(r4)
-	stfs f0, 0xDC(r3)
-	stfs f0, 0xE0(r3)
-	stfs f0, 0xE4(r3)
-	
-	mr r4, r30
-	lwz r12, 0x60(r3)
-	lwz r12, 0x8C(r12)
-	mtctr r12
-	bctrl
+	#mr r4, r30
+	#lwz r12, 0x60(r3)
+	#lwz r12, 0x8C(r12)
+	#mtctr r12
+	#bctrl
 	b ReturnFromThrowHammer
 
 DoSpike:	#Basically, spawning a spikeball
@@ -1073,7 +1080,7 @@ DoSpike:	#Basically, spawning a spikeball
 	bl PlayPlayerSound
 
 	
-	li r3, 0x176			# Custom Spikeball
+	li r3, BoomerangHax			# Custom Spikeball
 
 	lwz r4, 0x38D(r30)		# Settings => dStageActor_c->associatedPlayerID (in nybble 6 for some reasons) + 2 (in nybble 12 because yes) + 1 (in nybble 11)
 	addi r4, r4, 18
@@ -1083,28 +1090,11 @@ DoSpike:	#Basically, spawning a spikeball
 	lbz r7, 0x38F(r30)		# Layer
 	bl CreateActor
 	
-	# Store player ID
-	lwz r4, 0(r30)
-	stw r4, 0x450(r3)
-	
-	# store player number, but add 0x100 to differentiate it from 0
-	lbz r4, 0x38D(r30)
-	addi r4, r4, 0x100
-	stw r4, 0x458(r3)
-	
-	# Fix scale
-	lis r4, OneFloat@h
-	ori r4, r4, OneFloat@l
-	lfs f0, 0(r4)
-	stfs f0, 0xDC(r3)
-	stfs f0, 0xE0(r3)
-	stfs f0, 0xE4(r3)
-	
-	mr r4, r30
-	lwz r12, 0x60(r3)
-	lwz r12, 0x8C(r12)
-	mtctr r12
-	bctrl
+	#mr r4, r30
+	#lwz r12, 0x60(r3)
+	#lwz r12, 0x8C(r12)
+	#mtctr r12
+	#bctrl
 	b ReturnFromThrowHammer
 
 DoWand:	#Basically, i didn't make it yet	
@@ -1114,7 +1104,7 @@ DoWand:	#Basically, i didn't make it yet
 	bl PlayPlayerSound
 	
 
-	li r3, 0x176			# Custom Shit
+	li r3, BoomerangHax			# Custom Shit
 
 	lwz r4, 0x38D(r30)		# Settings => dStageActor_c->associatedPlayerID (in nybble 6 for some reasons) + 2 (in nybble 12 because yes) + 2 (in nybble 11)
 	addi r4, r4, 34
@@ -1123,24 +1113,6 @@ DoWand:	#Basically, i didn't make it yet
 	li r6, 0				# Rotation
 	lbz r7, 0x38F(r30)		# Layer
 	bl CreateActor
-
-	
-	# Store player ID
-	lwz r4, 0(r30)
-	stw r4, 0x450(r3)
-	
-	# store player number, but add 0x100 to differentiate it from 0
-	lbz r4, 0x38D(r30)
-	addi r4, r4, 0x100
-	stw r4, 0x458(r3)
-	
-	# Fix scale
-	lis r4, OneFloat@h
-	ori r4, r4, OneFloat@l
-	lfs f0, 0(r4)
-	stfs f0, 0xDC(r3)
-	stfs f0, 0xE0(r3)
-	stfs f0, 0xE4(r3)
 	
 	mr r4, r30
 	lwz r12, 0x60(r3)
@@ -1156,7 +1128,7 @@ DoFrog:	#Basically, spawning a bubble
 	bl PlayPlayerSound
 	
 
-	li r3, 0x176			# Custom Bubble
+	li r3, BoomerangHax			# Custom Bubble
 
 	lwz r4, 0x38D(r30)		# Settings => dStageActor_c->associatedPlayerID (in nybble 6 for some reasons) + 2 (in nybble 12 because yes) + 3 (in nybble 11)
 	addi r4, r4, 50
@@ -1165,30 +1137,12 @@ DoFrog:	#Basically, spawning a bubble
 	li r6, 0				# Rotation
 	lbz r7, 0x38F(r30)		# Layer
 	bl CreateActor
-
 	
-	# Store player ID
-	lwz r4, 0(r30)
-	stw r4, 0x450(r3)
-	
-	# store player number, but add 0x100 to differentiate it from 0
-	lbz r4, 0x38D(r30)
-	addi r4, r4, 0x100
-	stw r4, 0x458(r3)
-	
-	# Fix scale
-	lis r4, OneFloat@h
-	ori r4, r4, OneFloat@l
-	lfs f0, 0(r4)
-	stfs f0, 0xDC(r3)
-	stfs f0, 0xE0(r3)
-	stfs f0, 0xE4(r3)
-	
-	mr r4, r30
-	lwz r12, 0x60(r3)
-	lwz r12, 0x8C(r12)
-	mtctr r12
-	bctrl
+	#mr r4, r30
+	#lwz r12, 0x60(r3)
+	#lwz r12, 0x8C(r12)
+	#mtctr r12
+	#bctrl
 	b ReturnFromThrowHammer
 
 DoGold:	#Basically, whatever
@@ -1272,13 +1226,13 @@ ProjectileShootCheck_Fix:
 	cmplwi r3, 7			#If it's 7 (hammer), then do the hammer checking
 	beq DoHammerFromProjectileShootCheck_Fix
 
-	cmplwi r3, 8			#If it's 8 (gold), then do the boomerang checking
+	cmplwi r3, 8			#If it's 8 (gold), then do the gold checking
 	beq _DoGoldFromProjectileShootCheck_Fix
 
 	cmplwi r3, 9			#If it's 9 (spike), then do the spike checking
 	beq DoBoomerangFromProjectileShootCheck_Fix
 
-	cmplwi r3, 10			#If it's 10 (boomerang), then do the bob-omb checking
+	cmplwi r3, 10			#If it's 10 (boomerang), then do the boomerang checking
 	beq DoBoomerangFromProjectileShootCheck_Fix
 
 	cmplwi r3, 11			#If it's 11 (frog), then do the frog checking
@@ -1286,7 +1240,7 @@ ProjectileShootCheck_Fix:
 
 	#No need of the cloud
 
-	cmplwi r3, 13			#If it's 13 (wand), then do the thunder checking
+	cmplwi r3, 13			#If it's 13 (wand), then do the wand checking
 	beq DoBoomerangFromProjectileShootCheck_Fix
 
 	blr
@@ -1383,8 +1337,13 @@ gotHammerStatus:
 	blr
 
 
+.data
+.align 4
+.global doWait
+doWait: .byte 0x0, 0x0, 0x0, 0x0
 
-
+.text
+.align 4
 .global CheckBoomerangLimit
 CheckBoomerangLimit:
 	stwu sp, -0x10(sp)
@@ -1393,36 +1352,12 @@ CheckBoomerangLimit:
 	stw r31, 0xC(sp)
 	stw r30, 0x8(sp)
 	
-	# r30 = player number
-	mr r30, r3
-	addi r30, r30, 0x100
-	
-	# r31 = Boomerang count so far
-	li r31, 0
-	
-	# search for every Boomerang
-	
-	li r3, 0
-	b startOrContinueLoopBoomerang
-loopBoomerang:
-	
-	lwz r4, 0x458(r3)
-	cmpw r4, r30
-	bne startOrContinueLoopBoomerang
-	
-	addi r31, r31, 1
-	
-.extern doWait
-startOrContinueLoopBoomerang:
-	mr r4, r3
-	li r3, 0x22B
-	bl Actor_SearchByName #I let that here even if i don't use it just because i am afraid that i get a crash
-	
-	cmpwi r3, 0
-	bne loopBoomerang
+	# r3 = player number
 
-	lis r4, doWait@ha
-	lwz r4, doWait@l(r4) #store doWait in r4
+	lis r4, doWait@h
+	ori r4, r4, doWait@l
+	add r4, r4, r3
+	lbz r4, 0(r4) #store doWait[player number] in r4
 	
 	# now if the frames to wait are > 0, return 0
 	# otherwise return 1
@@ -1770,7 +1705,7 @@ HammerCallbackGabonRockOverride:
 	bne continueHCGRO
 
 	lhz r3, 8(r30) #objOther
-	cmpwi r3, 374 #GABON_ROCK
+	cmpwi r3, BoomerangHax
 	bne continueHCGRO
 
 	b forceHCGROPushBack
@@ -3710,6 +3645,12 @@ doFireFlowerMdl0:
 .global HammerFoo
 HammerFoo:
 	b callFooDeath
+
+.extern dPlayerMdl_c__createPlayerModel
+.global createPlayerModelOrig
+createPlayerModelOrig:
+	stwu r1, -0x70(r1)
+	b dPlayerMdl_c__createPlayerModel
 
 .data
 FireflowerFileName: .string "g3d/I_fireflower.brres"

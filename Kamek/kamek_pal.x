@@ -1,4 +1,7 @@
 SECTIONS {
+	returnFromFrogPenguinMove1 = 0x80a29e44;
+	returnFromFrogPenguinMove2 = 0x80a27b78;
+
 	doneWithBounceShell = 0x8003B9B4;
 	doneWithDoCloudBounceAnim = 0x80A5CA88;
 	actuallyDoCloudBounceAnim = 0x80A5CA98;

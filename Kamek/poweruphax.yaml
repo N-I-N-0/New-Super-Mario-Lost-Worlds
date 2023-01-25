@@ -81,13 +81,26 @@ hooks:
 
 #==========================================================#
 
-#====================make spike a shroom===================#
+#=====================powerup movements====================#
 
   - name: makeSpikeAShroom
     type: branch_insn
     branch_type: b
     src_addr_pal: 0x80a2c0e8
     target_func: 'spikeAShroom'
+
+  - name: frogPenguinMove1
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80a29e40
+    target_func: 'frogPenguinMove1'
+
+  - name: frogPenguinMove2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80a27b74
+    target_func: 'frogPenguinMove2'
+
 
 #==========================================================#
 
@@ -1623,3 +1636,32 @@ hooks:
 #  - name: dontSetWrongScale!
 #    type: nop_insn
 #    area_pal: [0x80926fdc]
+
+
+
+
+
+#  - name: newGetCurrentModel
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800bd140
+#    target_func: 'getCurrentModel(dPlayerModel_c *)'
+
+#  - name: dPlayerMdl_c__playFix
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800d3a20
+#    target_func: 'dPlayerMdl_c__playFix'
+
+#  - name: newdPlayerMdlDraw
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800d3b20
+#    target_func: 'dPlayerMdl__draw(dPlayerModel_c *)'
+
+#  - name: initializeAdditionalModels
+#    type: branch_insn
+#    branch_type: b
+#    src_addr_pal: 0x800d3470
+#    target_func: 'initializeAdditionalModels(dPlayerModel_c *)'
+

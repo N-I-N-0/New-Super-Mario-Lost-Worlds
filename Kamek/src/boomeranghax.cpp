@@ -5,7 +5,7 @@
 #include "boomeranghax.h"
 #include "fileload.h"
 
-int doWait = 0;
+extern u8 doWait[4];
 bool imDoneDoingVisibility;
 u8 cloudSpawned[4];
 u8 wandsUsed[4];
@@ -84,7 +84,7 @@ public:
 
 	void destroyBubble();
 
-	static daBoomerangHax_c *build();
+	static dActor_c *build();
 
 	void updateModelMatrices();
 	bool calculateTileCollisions();
@@ -115,10 +115,13 @@ public:
 	DECLARE_STATE(Cloud_Thrown);
 };
 
-daBoomerangHax_c *daBoomerangHax_c::build() {
+dActor_c *daBoomerangHax_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daBoomerangHax_c));
 	return new(buffer) daBoomerangHax_c;
 }
+
+const char* EmptyBoomerangHaxList[] = {NULL};
+Profile BoomerangHaxProfile(&daBoomerangHax_c::build, ProfileId::BoomerangHax, NULL, ProfileId::BoomerangHax, ProfileId::BoomerangHax, "BoomerangHax", EmptyBoomerangHaxList);
 
 void daBoomerangHax_c::dieFall_Begin() {
 }
@@ -286,14 +289,14 @@ bool daBoomerangHax_c::customCollision(ActivePhysics *apThis, ActivePhysics *apO
 	}
 
 
-	void daBoomerangHax_c::destroyBubble() {
-		PlaySound(this, SE_OBJ_CMN_BALLOON_BREAK);
-		Vec efPos = {this->pos.x, this->pos.y, this->pos.z};
-		S16Vec nullRot = {0,0,0};
-		Vec oneVec = {1.0f, 1.0f, 1.0f};
-		SpawnEffect("Wm_mr_balloonburst", 0, &efPos, &nullRot, &oneVec);
-		this->Delete(1);
-	}
+void daBoomerangHax_c::destroyBubble() {
+	PlaySound(this, SE_OBJ_CMN_BALLOON_BREAK);
+	Vec efPos = {this->pos.x, this->pos.y, this->pos.z};
+	S16Vec nullRot = {0,0,0};
+	Vec oneVec = {1.0f, 1.0f, 1.0f};
+	SpawnEffect("Wm_mr_balloonburst", 0, &efPos, &nullRot, &oneVec);
+	this->Delete(1);
+}
 
 	void daBoomerangHax_c::yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 		if(this->variation == 0) {
@@ -445,10 +448,35 @@ void daBoomerangHax_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, 
 }
 
 int daBoomerangHax_c::onCreate() {
+	int playerID = getNybbleValue(this->settings, 6, 6);
+	dAcPy_c *player = dAcPy_c::findByID(playerID);
+	int variation2 = getNybbleValue(this->settings, 11, 11);
+	if(variation2 < 2) {
+		if(variation2 == 1) { //Spike
+			nw4r::snd::SoundHandle spikyHandle;
+			PlaySoundWithFunctionB4(SoundRelatedClass, &spikyHandle, SE_EMY_GABON_ROCK_THROW, 1);
+		} //else boomerang
+		this->settings = 0 | (playerID << 4) | (player->direction << 8) | (variation2 << 12);
+		//CreateActor(555, settings, player->pos, 0, 0);
+		doWait[playerID] = 60;
+	} else if(variation2 == 2) { //Wand
+		doWait[playerID] = 60;
+	} else if(variation2 == 3) { //Frog
+		nw4r::snd::SoundHandle froggyHandle;
+		PlaySoundWithFunctionB4(SoundRelatedClass, &froggyHandle, SE_EMY_KANIBO_THROW, 1);
+		this->pos = (Vec){player->pos.x + ((player->direction == 1) ? -10 : 10), player->pos.y + 16, player->pos.z};
+		this->settings = 0 | (playerID << 4) | (player->direction << 8) | (variation2 << 12);
+		//CreateActor(555, bubbleSettings, actorpos, 0, 0);
+		doWait[playerID] = 30;
+	} else if (variation2 == 4) { // cloud
+		this->settings = 0 | (player->direction << 8) | (variation2 << 12);
+	}
+	
+	
+	
 	this->alreadyOnTop = 0;
 	this->canI = false;
 	this->variation = (this->settings >> 12) & 0xF;
-	OSReport("daBoomerangHax_c::onCreate()!!!\n");
 	if(this->variation == 0) { //Boomerang
 		this->deleteForever = true;
 
@@ -524,7 +552,7 @@ int daBoomerangHax_c::onCreate() {
 		nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("iron_ball");       //get the mdl0
 		bodyModel.setup(mdl, &allocator, 0x224, 1, 0);                      //setup it
 		SetupTextures_MapObj(&bodyModel, 0);                                //setup shaders
-		OSReport("IRON BALL!!!");
+		//OSReport("IRON BALL!!!");
 
 
 		allocator.unlink();                                                 //allocator unlinking
@@ -597,6 +625,8 @@ int daBoomerangHax_c::onCreate() {
 
 		doStateChange(&StateID_Spike_Walk);                                //switch to the walk state (even if it's not really walking but shut up)
 
+		//OSReport("IRON BALL!!!");
+		
 		this->onExecute();
 		return true;
 	}
@@ -981,7 +1011,7 @@ bool daBoomerangHax_c::calculateTileCollisions() {
 		PlaySound(this, SE_OBJ_WOOD_BOX_BREAK);  //Play SFX
 		Vec2 nyeh = {this->pos.x, this->pos.y};  //Get the current position as a Vec2
 		this->spawnHitEffectAtPosition(nyeh);    //Spawn Hit Effect at this position (duh)
-		doWait = 0;                              //doWait is now 0
+		doWait[(this->settings >> 4) & 0xF] = 0;                              //doWait is now 0
 		this->Delete(this->deleteForever);       //DELETE FOREVAAAAAAAH
 	}
 	void daBoomerangHax_c::endState_Spike_Die() { }
@@ -1064,87 +1094,6 @@ void daBoomerangHax_c::endState_Cloud_Thrown() {
 
 
 
-
-/*****************************************************/
-/**************Gabon Rock replacing shit**************/
-/*Don't ask me how does it work, because i don't know*/
-/*****************************************************/
-
-int daGabonRock_c::getsettings() {									 //I know bleh bleh bleh that's not optimised, but lemme ask you something: Do I care ? The answer is no.
-	int orig_val = this->onCreate_orig();
-	if(getNybbleValue(this->settings, 12, 12) > 1) {
-		int playerID = getNybbleValue(this->settings, 6, 6);
-		dAcPy_c *player = dAcPy_c::findByID(playerID);
-		int variation = getNybbleValue(this->settings, 11, 11);
-		if(variation < 2) {
-			if(variation == 1) { //Spike
-				nw4r::snd::SoundHandle spikyHandle;
-				PlaySoundWithFunctionB4(SoundRelatedClass, &spikyHandle, SE_EMY_GABON_ROCK_THROW, 1);
-			}
-			int settings = 0 | (playerID << 4) | (player->direction << 8) | (variation << 12);
-			CreateActor(555, settings, player->pos, 0, 0);
-			doWait = 60;
-		}
-		if(variation == 2) { //Wand
-
-			doWait = 60;
-		}
-		if(variation == 3) { //Frog
-			nw4r::snd::SoundHandle froggyHandle;
-			PlaySoundWithFunctionB4(SoundRelatedClass, &froggyHandle, SE_EMY_KANIBO_THROW, 1);
-			VEC3 actorpos = {player->pos.x + ((player->direction == 1) ? -10 : 10), player->pos.y + 16, player->pos.z};
-			int bubbleSettings = 0 | (playerID << 4) | (player->direction << 8) | (variation << 12);
-			CreateActor(555, bubbleSettings, actorpos, 0, 0);
-			doWait = 30;
-		}
-		if(variation == 5) { //Gold
-
-			doWait = 180;
-		}
-	}
-	return orig_val;
-}
-
-void daEnBomhei_c::doThrowing() {
-	this->isBurning = 180;
-	this->speed.x = 3 * ((this->direction == 1) ? -1 : 1);
-	this->speed.y = 3;
-	this->amIthrown = 1;
-	doStateChange(&daEnBomhei_c::StateID_Sleep);
-}
-
-void daEnBomhei_c::newPlayerCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
-	if(this->amIthrown != 1) {
-		this->playerCollision_orig(apThis, apOther);
-		OSReport("i'm not thrown, go ahead\n");
-	}
-	else {
-		OSReport("i'm thrown, go away\n");
-	}
-}
-
-void daEnBomhei_c::newSpriteCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
-	if(amIthrown == 1) {
-		u16 name = ((dEn_c*)apOther->owner)->name;
-		if (name == EN_COIN || name == EN_EATCOIN || name == AC_BLOCK_COIN || name == EN_COIN_JUGEM || name == EN_COIN_ANGLE
-			|| name == EN_COIN_JUMP || name == EN_COIN_FLOOR || name == EN_COIN_VOLT || name == EN_COIN_WIND
-			|| name == EN_BLUE_COIN || name == EN_COIN_WATER || name == EN_REDCOIN || name == EN_GREENCOIN
-			|| name == EN_JUMPDAI || name == EN_ITEM || name == EN_STAR_COIN) { //this list will probably be updated in the future if I find other sprites that unfortunatly don't have to EXXXXPLOOOOODE
-			this->spriteCollision_orig(apThis, apOther);
-		}
-		else {
-			if(((daEnBomhei_c *)apOther->owner)->amIthrown == 1) {
-				this->spriteCollision_orig(apThis, apOther);
-			}
-			else {
-				this->isBurning = 0;
-			}
-		}
-	}
-	else {
-		this->spriteCollision_orig(apThis, apOther);
-	}
-}
 
 
 class placeholder {
@@ -1263,8 +1212,10 @@ void setPowerupBars(u8 count, nw4r::lyt::Picture* oneActive, nw4r::lyt::Picture*
 
 int dGameDisplay_c::doWaitCheck() {
 	int orig_val = this->onExecute_orig();
-	if(doWait > 0) {
-		doWait--;
+	for (int i = 0; i < 4; i++) {
+		if(doWait[i] > 0) {
+			doWait[i]--;
+		}
 	}
 	// OSReport("globalIceShoot = %d\n", globalIceShoot);
 	// OSReport("globalPropeller = %d\n", globalPropeller);
@@ -1278,21 +1229,21 @@ int dGameDisplay_c::doWaitCheck() {
 	/*******/
 	/*Cloud*/
 	/*******/
-	if(p == 12 && doWait == 0) {
+	if(p == 12 && doWait[0] == 0) {
 		if (player->input.areWeShaking() && cloudSpawned[0] < 3) {
 			int isPlayerMoving = 1;
 			if(!(player->input.heldButtons & WPAD_LEFT) && !(player->input.heldButtons & WPAD_RIGHT) && (player->collMgr.isOnTopOfTile())) {
 				isPlayerMoving = 0;
 			}
-			int settings = 0 | (0 << 4) | (player->direction << 8) | (4 << 12);
 			VEC3 actualPos = {player->pos.x + ((isPlayerMoving == 1) ? ((player->direction == 1) ? -24 : 24) : 0), player->pos.y - ((isPlayerMoving == 1) ? 25 : 5), player->pos.z};
+			int settings = 0 << 24 | 4 << 4;
 			// VEC3 actualPos = {player->pos.x, player->pos.y - 20, player->pos.z};
-			dStageActor_c *cloud = CreateActor(555, settings, actualPos, 0, 0);
+			dStageActor_c *cloud = CreateActor(ProfileId::BoomerangHax, settings, actualPos, 0, 0);
 			cloudSpawned[0]++;
 			player->speed.x = 0;
 			player->speed.y = 0;
 			imDoneDoingVisibility = false;
-			doWait = 30;
+			doWait[0] = 30;
 		}
 	}
 	
@@ -1326,20 +1277,20 @@ int dGameDisplay_c::doWaitCheck() {
 	
 	for(int i=1; i<4; i++) {
 		dAcPy_c *player = dAcPy_c::findByID(i);
-		if (CheckExistingPowerup(player) == 12 && player->input.areWeShaking() && cloudSpawned[i] < 3) {
+		if (CheckExistingPowerup(player) == 12 && player->input.areWeShaking() && cloudSpawned[i] < 3 && doWait[i] == 0) {
 			int isPlayerMoving = 1;
 			if(!(player->input.heldButtons & WPAD_LEFT) && !(player->input.heldButtons & WPAD_RIGHT) && (player->collMgr.isOnTopOfTile())) {
 				isPlayerMoving = 0;
 			}
-			int settings = 0 | (0 << 4) | (player->direction << 8) | (4 << 12);
+			int settings = i << 24 | 4 << 4;
 			VEC3 actualPos = {player->pos.x + ((isPlayerMoving == 1) ? ((player->direction == 1) ? -24 : 24) : 0), player->pos.y - ((isPlayerMoving == 1) ? 25 : 5), player->pos.z};
 			// VEC3 actualPos = {player->pos.x, player->pos.y - 20, player->pos.z};
-			dStageActor_c *cloud = CreateActor(555, settings, actualPos, 0, 0);
+			dStageActor_c *cloud = CreateActor(ProfileId::BoomerangHax, settings, actualPos, 0, 0);
 			cloudSpawned[i]++;
 			player->speed.x = 0;
 			player->speed.y = 0;
 			imDoneDoingVisibility = false;
-			doWait = 30;
+			doWait[i] = 30;
 		}
 	}
 	
