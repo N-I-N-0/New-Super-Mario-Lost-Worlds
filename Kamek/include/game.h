@@ -475,7 +475,7 @@ void SaveGame(void *classDoesntMatter, bool isQuick);
 #include <actors.h>
 void *CreateParentedObject(short classID, void *parent, int settings, char something);
 void *CreateChildObject(short classID, void *parent, int settings, int unk1, int unk2);
-
+void *CreateObject(short classID, int settings, char something);
 
 #define WIPE_FADE 0
 #define WIPE_CIRCLE 1

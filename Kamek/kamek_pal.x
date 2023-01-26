@@ -1,4 +1,11 @@
 SECTIONS {
+	doneWithChangeRemoconID = 0x8005316C;
+	doneWithChangeRemoconID2 = 0x80145160;
+	CreateObject__Fsic = 0x80162C60;
+	onCreate_orig__13dScWorldMap_cFv = 0x809275C0;
+
+	isPartialBlockOrBlockSolidAtPos__14collisionMgr_cFffUc = 0x80070b10;
+
 	returnFromFrogPenguinMove1 = 0x80a29e44;
 	returnFromFrogPenguinMove2 = 0x80a27b78;
 

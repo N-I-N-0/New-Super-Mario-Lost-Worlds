@@ -144,8 +144,19 @@ void LoadPregameStyleNameAndNumber(m2d::EmbedLayout_c *layout) {
 	}
 }
 
+
+extern bool playerFuckeryEnabled;
+extern u32 realPlayer;
 #include "fileload.h"
 void PregameLytHandler::hijack_loadLevelNumber() {
+	if(playerFuckeryEnabled) {
+		Player_Active[0] = 1;
+		Player_Active[1] = 0;
+		Player_Active[2] = 0;
+		Player_Active[3] = 0;
+		Player_ID[0] = Player_ID[realPlayer];
+	}
+	
 	LoadPregameStyleNameAndNumber(&layout);
 
 	nw4r::lyt::Picture *LevelSample;

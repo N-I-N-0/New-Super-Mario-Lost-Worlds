@@ -1,0 +1,18 @@
+---
+source_files: [../src/multiChooser.cpp]
+hooks:
+#  - name: MultiChooserBuild
+#    type: add_func_pointer
+#    src_addr_pal: 0x80982F34
+#    target_func: 'daMultiChooser_c::build(void)'
+
+  - name: WMCreate
+    type: add_func_pointer
+    src_addr_pal: 0x8098E230
+    target_func: 'dScWorldMap_c::newOnCreate(void)'
+
+  - name: newStartLevel
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8090CF58
+    target_func: 'newStartLevel(GameMgr *, StartLevelInfo *)'

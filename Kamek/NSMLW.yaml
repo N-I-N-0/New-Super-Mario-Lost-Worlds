@@ -132,7 +132,7 @@ modules:
   - processed/worldmapCobCourse.yaml
   - processed/worldmapManager.yaml
   - processed/courseSelectManager.yaml
-  - processed/worldmapMenuAnimations.yaml
+#  - processed/worldmapMenuAnimations.yaml
   - processed/worldmapParatroopa.yaml
   - processed/removeMapHardcodes.yaml
   - processed/sceneLight.yaml
@@ -225,3 +225,5 @@ modules:
   - processed/flyingBook.yaml
   - processed/titlescreen.yaml
   - processed/chimpChallenges.yaml
+  - processed/multiChooser.yaml
+  - processed/singleplayer.yaml

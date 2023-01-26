@@ -886,6 +886,7 @@ enum Actors {
 	Scuttlebug, // 869
 	FlyingBook, // 870
 	Teren, //871
+	MultiChooser, //872
 
 };
 

@@ -1,0 +1,23 @@
+---
+
+
+source_files: [../src/singleplayer.cpp, ../src/singleplayer.S]
+hooks:
+  # - name: PlayerCreate
+  #   type: add_func_pointer
+  #   src_addr_pal: 0x80325770
+  #   target_func: 'dAcPy_c::newOnCreate()'
+
+  - name: ChangeRemoconID
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80053168
+    target_func: 'ChangeRemoconID'
+
+  - name: ChangeRemoconID2
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x8014515C
+    target_func: 'ChangeRemoconID2'
+
+    
