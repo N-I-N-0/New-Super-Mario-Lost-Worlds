@@ -4,57 +4,25 @@
 
 bool isFastFoe;
 
-class daObjCenter_c : public dStageActor_c {
-public:
-	u16 field_392;
-	u16 offset;
-	u16 rotDisplacement;
-	u16 swingArc;
-	u8 isReversed;
-	u8 counter;
-	u8 rotationID;
-
-	u8 unk[2];
-
-	u8 field_39F;
-
-	int onExecute_orig();
-	int newOnExecute();
-};
-
-int daObjCenter_c::newOnExecute() {
-	int orig_val = this->onExecute_orig();
-
-	// OSReport("CenterState: %s\n", this->acState.getCurrentState()->getName());
-	// if(this->settings == 0x20511003 || this->settings == 0x20D11003) {
-	// 	OSReport("-------\nSets: %08X\n", this->settings);
-	// 	OSReport("field_392: %d\n", this->field_392);
-	// 	OSReport("offset: %X\n", this->offset);
-	// 	OSReport("rotDisplacement: %d\n", this->rotDisplacement);
-	// 	OSReport("swingArc: %d\n", this->swingArc);
-	// 	OSReport("isReversed: %d\n", this->isReversed);
-	// 	OSReport("counter: %d\n", this->counter);
-	// 	OSReport("rotationID: %d\n", this->rotationID);
-	// 	OSReport("unk1: %d\n", this->unk[0]);
-	// 	OSReport("unk2: %d\n", this->unk[1]);
-	// 	OSReport("field_39F: %d\n", this->field_39F);
-	// }
-
-	return orig_val;
-}
-
 extern bool isFastFoe;
-u16 globalWhitelist[] =  {51, 52, 54, 55, 56, // Goomba, Paragoomba, Koopa, Parakoopa, Buzzy Beetle
-							87, 57, 58, 163, // Spike Top, Spiny, UD Spiny, Dry Bones
-							241, 242, 243, 244, 245, 246, 247, 21, // Koopalings & Controller
-							270, 271, 272, 273, 268, 255, 267, 24, // CKoopalings & CController
-							578, 579, // Moving Pipe Up, Moving Pipe Down
-							470, 471, 556, // Bill Blaster, Banzai Bill Blaser, Rising/Falling Bill Blaster
-							127, 128, 129, 130, // Bullet Bill, Red Bullet Bill, Banzai Bill, Red Banzai Bill
-							80, // Podoboo
-							91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, // Piranha Plants
-							235, // Checkpoint
-							457, 432, 459, 473, // Vertical Moving Platform, Horizontal Moving Platform, Fall-when-on Platform, LineC Platform
+u16 globalWhitelist[] =  {EN_KURIBO, EN_PATA_KURIBO, EN_NOKONOKO, EN_PATAPATA, EN_MET, // Goomba, Paragoomba, Koopa, Parakoopa, Buzzy Beetle
+							EN_TOGEMET, EN_TOGEZO, EN_SAKASA_TOGEZO, EN_KARON, // Spike Top, Spiny, UD Spiny, Dry Bones
+							EN_BOSS_LARRY, EN_BOSS_WENDY, EN_BOSS_IGGY, EN_BOSS_LEMMY, EN_BOSS_MORTON, EN_BOSS_ROY, EN_BOSS_LUDWIG, TORIDE_KOKOOPA_DEMO, // Koopalings & Controller
+							OBJ_MORTON, OBJ_ROY, OBJ_LARRY, OBJ_WENDY, OBJ_IGGY_SLED, OBJ_LUDWIG, CASTLE_LEMMY_THROW_BALL, CASTLE_KOKOOPA_DEMO_1ST, // CKoopalings & CController
+							ZOOM_PIPE, ZOOM_PIPE_DOWN, // Moving Pipe Up, Moving Pipe Down
+							EN_KILLER_HOUDAI, EN_MAGNUM_KILLER_HOUDAI, EN_KILLER_HOUDAI_SLIDE, // Bill Blaster, Banzai Bill Blaser, Rising/Falling Bill Blaster
+							EN_KILLER, EN_SEARCH_KILLER, EN_MAGNUM_KILLER, EN_SEARCH_MAGNUM_KILLER, // Bullet Bill, Red Bullet Bill, Banzai Bill, Red Banzai Bill
+							EN_BUBBLE, // Podoboo
+							EN_UP_DOKAN_PAKKUN, EN_DOWN_DOKAN_PAKKUN, EN_RIGHT_DOKAN_PAKKUN, EN_LEFT_DOKAN_PAKKUN, EN_UP_DOKAN_FPAKKUN, EN_DOWN_DOKAN_FPAKKUN, EN_RIGHT_DOKAN_FPAKKUN, EN_LEFT_DOKAN_FPAKKUN, EN_JIMEN_PAKKUN, EN_JIMEN_BIG_PAKKUN, EN_JIMEN_FPAKKUN, EN_JIMEN_BIG_FPAKKUN, // Piranha Plants
+							CHUKAN_POINT, // Checkpoint
+							AC_LIFT_RIDE_VMOVE, AC_LIFT_RIDE_HMOVE, AC_LIFT_FALL, AC_LINE_LIFT, // Vertical Moving Platform, Horizontal Moving Platform, Fall-when-on Platform, LineC Platform
+						
+							//EN_ITEM, PoisonShroom, CloudSpawner, DarkStar, SuperBubble, SecretGem,
+							FishingBoo, ShyGuy, ShyGuyGiant, Topman, MiniSidestepper, GoombaTower,
+							BusuBusu, Poihana, Byugo, WingTenten, ParaBones, Kyasarin, KyasarinEgg,
+							Frogoon, ThunderCloud, Twister, CheepCheepModel, CheepCheepController,
+							PokeyHead, ScreamingPillar, ThornyFlower, Octo, OctoBullet, Scuttlebug,
+							FlyingBook, Teren,
 						};
 // u16 xWhitelist[0] = {};
 // u16 yWhitelist[0] = {};

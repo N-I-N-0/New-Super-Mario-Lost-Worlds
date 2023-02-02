@@ -30,11 +30,6 @@ hooks:
     branch_type: b
     target_func: 'TowerBlockDelay'
 
-  - name: CenterExecute
-    type: add_func_pointer
-    src_addr_pal: 0x80971EBC
-    target_func: 'daObjCenter_c::newOnExecute(void)'
-
   - name: CenterSpeed1
     type: branch_insn
     src_addr_pal: 0x80874564
