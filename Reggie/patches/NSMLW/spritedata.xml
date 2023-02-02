@@ -4669,5 +4669,11 @@
 
     <value nybble="8" title="Speed" comment="Don't use speed 0!" />
   </sprite> <!-- #592: Peepa -->
+
+  <sprite id="593" name="Rocket Barrel" asmhacks="True" >
+  </sprite> <!-- #593: Rocket Barrel -->
+
+  <sprite id="594" name="Snake" asmhacks="True" >
+  </sprite> <!-- #594: Snake -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

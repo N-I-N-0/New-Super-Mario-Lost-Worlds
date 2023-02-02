@@ -43,3 +43,33 @@ bool shouldDeactivate(dActor_c* iceball) {
     else
         return 0;
 }
+
+
+void FireSnakePlayerCollision(dEn_c* snake, ActivePhysics* apThis, ActivePhysics* apOther) {
+    if ((snake->settings >> 24 & 0xF) == 1) {
+        dAcPy_c* player = (dAcPy_c*)apOther->owner;
+        if (player->states2.getCurrentState() != &daPlBase_c::StateID_IceDamage) {
+            CreateActor(BROS_ICEBALL, 0x10000000, player->pos, 0, 0);
+        }
+    } else {
+        snake->dEn_c::playerCollision(apThis, apOther);
+    }
+}
+
+extern "C" bool origFireSnakeIceballCollision(dEn_c* snake, ActivePhysics* apThis, ActivePhysics* apOther);
+
+bool FireSnakeIceballCollision(dEn_c* snake, ActivePhysics* apThis, ActivePhysics* apOther) {
+    if ((snake->settings >> 24 & 0xF) == 1) {
+		snake->dEn_c::iceballInvalid(apThis, apOther);
+	} else {
+		origFireSnakeIceballCollision(snake, apThis, apOther);
+	}
+}
+
+bool FireSnakeFireCollision(dEn_c* snake, ActivePhysics* apThis, ActivePhysics* apOther) {
+    if ((snake->settings >> 24 & 0xF) == 1) {
+		origFireSnakeIceballCollision(snake, apThis, apOther);
+	} else {
+		snake->dEn_c::fireballInvalid(apThis, apOther);
+	}
+}

@@ -438,7 +438,7 @@ void newStartLevel(GameMgr *gameMgr, StartLevelInfo *level) {
 	//if((lvl->vignette == 5 || level->level1 == 26 || level->level1 == 28) && GetActivePlayerCount() > 1) {
 		daMultiChooser_c* chooser = (daMultiChooser_c*)CreateObject(ProfileId::MultiChooser, 0, 0); //WM_GRID
 		chooser->gameMgr = gameMgr;
-	//	chooser->lvl = *level;
+		chooser->lvl = *level;
 	//}
 	//else {
 	//	DoStartLevel(gameMgr, level);

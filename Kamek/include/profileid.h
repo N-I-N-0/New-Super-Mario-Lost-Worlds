@@ -615,6 +615,8 @@ enum
 	Scuttlebug = 590,
 	FlyingBook = 591,
 	Teren = 592,
+	RocketBarrel = 593,
+	Snake = 594,
 
 	Num
 };
@@ -1509,6 +1511,8 @@ enum
 	FlyingBook, // 870
 	Teren, // 871
 	MultiChooser, // 872
+	RocketBarrel, // 873
+	Snake, // 874
 
 	Num
 };

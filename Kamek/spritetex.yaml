@@ -1083,6 +1083,33 @@ hooks:
     src_addr_pal: 0x809FA298
     target_func: 'TEX_FireSnake'
 
+  - name: FireSnakePlayerCollision
+    type: add_func_pointer
+    src_addr_pal: 0x80ae96c8
+    target_func: 'FireSnakePlayerCollision(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+  - name: FireSnakeIceballCollision
+    type: add_func_pointer
+    src_addr_pal: 0x80ae9714
+    target_func: 'FireSnakeIceballCollision(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+  - name: FireSnakeFireCollision
+    type: add_func_pointer
+    src_addr_pal: 0x80ae9710
+    target_func: 'FireSnakeFireCollision(dEn_c *, ActivePhysics *, ActivePhysics *)'
+
+  - name: FireSnakeEffect1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809fae24
+    target_func: 'FireSnakeEffect1'
+
+  - name: FireSnakeEffect2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809fa520
+    target_func: 'FireSnakeEffect2'
+
   - name: TEX_FireSnake2
     type: branch_insn
     branch_type: bl

@@ -826,6 +826,55 @@ TEX_FireSnake:
 	andi. r5, r5, 0xF
 	b GetTexFilenameForR5
 
+.global FireSnakeEffect1
+FireSnakeEffect1:
+	lwz r4, 4(r30)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	cmpwi r4, 1
+	beq doIceSnakeEffect1
+	lis r4, snakeSpark1@h
+	ori r4, r4, snakeSpark1@l
+	blr
+doIceSnakeEffect1:
+	lis r4, snakeSparkIce1@h
+	ori r4, r4, snakeSparkIce1@l
+	blr
+
+.global FireSnakeEffect2
+FireSnakeEffect2:
+	mulli r5, r30, 0x260
+	sub r4, r31, r5
+	subi r4, r4, 0x7b8
+	lwz r4, 4(r4)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	cmpwi r4, 1
+	beq doIceSnakeEffect2
+	lis r4, snakeSpark2@h
+	ori r4, r4, snakeSpark2@l
+	blr
+doIceSnakeEffect2:
+	lis r4, snakeSparkIce2@h
+	ori r4, r4, snakeSparkIce2@l
+	blr
+
+.data
+snakeSpark1:
+	.string "Wm_en_firesnkspark01"
+
+snakeSpark2:
+	.string "Wm_en_firesnkspark02"
+
+snakeSparkIce1:
+	.string "Wm_mr_foot_ice"
+
+snakeSparkIce2:
+	.string "Wm_en_burst_water02"
+
+
+.text
+.align 4
 
 
 .global TEX_Foo_Pass_to_Cloud

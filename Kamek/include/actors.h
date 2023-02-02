@@ -887,6 +887,8 @@ enum Actors {
 	FlyingBook, // 870
 	Teren, //871
 	MultiChooser, //872
+	RocketBarrel, //873
+	Snake, //874
 
 };
 

@@ -1,4 +1,6 @@
 SECTIONS {
+	origFireSnakeIceballCollision = 0x809fb410;
+
 	doneWithChangeRemoconID = 0x8005316C;
 	doneWithChangeRemoconID2 = 0x80145160;
 	CreateObject__Fsic = 0x80162C60;
