@@ -36,19 +36,16 @@ public:
 
 	void updateModelMatrices();
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
-	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
+//	void yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 
-	/*bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
-
-	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
-	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);*/
 
 	//setDeathInfo_IceBreak -> what should be done when in an iceblock and crashes a wall -> normally the sprite should die
 	void _vf148();
@@ -69,69 +66,92 @@ Profile TerenProfile(&daEnTeren_c::build, SpriteId::Teren, &TerenSpriteData, Pro
 
 u8 hijackMusicWithSongName(const char* songName, int themeID, bool hasFast, int channelCount, int trackCount, int* wantRealStreamID);
 
+
 void daEnTeren_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
-	char hitType;
-	hitType = usedForDeterminingStatePress_or_playerCollision(this, apThis, apOther, 0);
-
-	if(hitType == 1) {	// regular jump
-		apOther->someFlagByte |= 2;
-		this->Delete(1);
+	dAcPy_c* player = (dAcPy_c *)apOther->owner;
+	if (!player->isNoDamage()) {
+		player->setDamage(this, 0);
 	}
-	else if(hitType == 3) {	// spinning jump or whatever?
-		apOther->someFlagByte |= 2;
-		this->Delete(1);
-	}
-	else if(hitType == 0) {
-		EN_LandbarrelPlayerCollision(this, apThis, apOther);
-		DamagePlayer(this, apThis, apOther);
-	} else {
-		DamagePlayer(this, apThis, apOther);
-	}
+	return;
 }
-void daEnTeren_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+
+#include <dMultiMng_c.h>
+bool daEnTeren_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
+	u32 playerId;
+	int comboCount;
+	dAcPy_c *player;
+
+	SpawnEffect("Wm_en_teresavanish", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+
+	player = (dAcPy_c*)(apOther->owner);
+	playerId = *(player->getPlrNo());
+	u32 starCount = player->daPlBase_c::getStarCount();
+	player->playKameHitSound(starCount, 0);
+	comboCount = player->getComboCount(); //8009f630
+	dScoreMng_c::instance->dScoreMng_c::sub_800E2190(this, 0.0, 24.0, comboCount, playerId);
+	if (playerId != -1) {
+		dMultiMng_c::instance->dMultiMng_c::incEnemyDown(playerId);
+	}
+
+	PlaySoundAsync(this, SE_EMY_TERESA_DEAD);
+	this->Delete(1);
+	return true;
+}
+
+
+
+bool daEnTeren_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
 	this->playerCollision(apThis, apOther);
+	return false;
 }
 
-/*bool daEnTeren_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
-	bool ret = dEn_c::collisionCat7_GroundPound(apThis, apOther);
-	if (ret)
-		this->kill();
-	return ret;
+bool daEnTeren_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
+	return false;
 }
 bool daEnTeren_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCat7_GroundPoundYoshi(apThis, apOther);
-}
-bool daEnTeren_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCatD_Drill(apThis, apOther);
-}
-bool daEnTeren_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCatA_PenguinMario(apThis, apOther);
+	this->playerCollision(apThis, apOther);
+	return false;
 }
 
-bool daEnTeren_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
-	CDPrintCurrentAddress();
-	bool ret = dEn_c::collisionCat1_Fireball_E_Explosion(apThis, apOther);
-	if (ret)
-		this->kill();
-	return ret;
-}
-//bool daEnTeren_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
-//	return false;
-//}
+
 bool daEnTeren_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
 	return dEn_c::collisionCat9_RollingObject(apThis, apOther);
 }
+
+bool daEnTeren_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->dEn_c::fireballInvalid(apThis, apOther);
+	return false;
+}
+
+bool daEnTeren_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->dEn_c::iceballInvalid(apThis, apOther);
+	return false;
+}
+
 bool daEnTeren_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCat13_Hammer(apThis, apOther);
-}
-bool daEnTeren_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCat14_YoshiFire(apThis, apOther);
-}
+	u32 playerId;
+	int comboCount;
+	dAcPy_c *player;
+	dStageActor_c* hammer;
 
-bool daEnTeren_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
-	return dEn_c::collisionCat3_StarPower(apThis, apOther);
-}*/
+	SpawnEffect("Wm_en_teresavanish", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 
+	hammer = (dStageActor_c*)(apOther->owner);
+	playerId = *(hammer->getPlrNo());
+	player = dAcPy_c::findByID(playerId);
+	u32 starCount = player->daPlBase_c::getStarCount();
+	player->playKameHitSound(starCount, 0);
+	comboCount = player->getComboCount(); //8009f630
+	dScoreMng_c::instance->dScoreMng_c::sub_800E2190(this, 0.0, 24.0, comboCount, playerId);
+	if (playerId != -1) {
+		dMultiMng_c::instance->dMultiMng_c::incEnemyDown(playerId);
+	}
+
+	PlaySoundAsync(this, SE_EMY_TERESA_DEAD);
+	this->Delete(1);
+	return true;
+}
 
 void daEnTeren_c::_vf148() {
 	dEn_c::_vf148();
@@ -205,9 +225,9 @@ int daEnTeren_c::onCreate() {
 
 	HitMeBaby.category1 = 0x3;
 	HitMeBaby.category2 = 0x0;
-	HitMeBaby.bitfield1 = 0x6F;
-	HitMeBaby.bitfield2 = 0xffbafffe;
-	HitMeBaby.unkShort1C = 0;
+	HitMeBaby.bitfield1 = 0x47;
+	HitMeBaby.bitfield2 = 0x0008A80E;
+	HitMeBaby.unkShort1C = 0x2002;
 	HitMeBaby.callback = &dEn_c::collisionCallback;
 
 	this->aPhysics.initWithStruct(this, &HitMeBaby);

@@ -2355,10 +2355,12 @@ public:
 
 	const char *GetExplanationString();
 
+	void playKameHitSound(u32 comboCount, u32 unk); // 80065b80
+
 	virtual bool isOutOfView(); // does stuff with BG_GM
 	virtual void kill(); // nullsub here, defined in StageActor. probably no params
 	virtual int _vf68(); // params unknown. return (1) might be bool
-	virtual u8 *_vf6C(); // returns byte 0x38D
+	virtual s8* getPlrNo(); // returns byte 0x38D
 	virtual Vec2 _vf70(); // returns Vec Actor.pos + Vec Actor.field_D0
 	virtual int _vf74(); // params unknown. return (1) might be bool
 	virtual void itemPickedUp(); // params unknown. nullsub
@@ -2547,7 +2549,9 @@ class daPlBase_c : public dStageActor_c {
 
 		static daPlBase_c *findByID(int id);
 		void newHipAttackStage4();
-		
+
+		int getStarCount(); // 8002d970
+
 		USING_STATES(daPlBase_c);
 		REF_NINTENDO_STATE(Quake);
 		REF_NINTENDO_STATE(Jump);
@@ -4516,6 +4520,7 @@ class dAcPy_c : public daPlBase_c {
 		void sub_80054280(); // 80054280
 		static dAcPy_c *findByID(int id); // 8005F900 (Actually it's GetSpecificPlayerActor)
 		u32 _vf120(); // 8006C400
+		int getComboCount(); // 8009f630
 		void getConnectedSizeInfo(); // 800E2640
 		u32 _vf408(); // 80126650
 		void playsSoundForHipAttack_and_things(); // 80126770
@@ -4633,8 +4638,8 @@ class dAcPy_c : public daPlBase_c {
 		u32 _vf3E0(); // 80145F30
 		void sub_80145F80(); // 80145F80
 		void playSomeJumpSound(); // 80145FD0
-		u32 _vf3F0(); // 801461A0
-		void hurtPlayer_maybe(); // 80146230
+		u32 isNoDamage(); // 801461A0
+		void setDamage(dActor_c *Actor, int damageType); // 80146230
 		void throwBack(dActor_c *Actor, int unk); // 80146310
 		u32 _vf450(); // 801463E0
 		void getCurrentSizeID(); // 801466C0

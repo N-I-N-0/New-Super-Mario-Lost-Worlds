@@ -1,4 +1,17 @@
 SECTIONS {
+	isNoDamage__7dAcPy_cFv = 0x801461A0;
+	setDamage__7dAcPy_cFP8dActor_ci = 0x80146230;
+
+	getStarCount__10daPlBase_cFv = 0x8002d970;
+	playKameHitSound__13dStageActor_cFUiUi = 0x80065b80;
+	getComboCount__7dAcPy_cFv = 0x8009f630;
+	instance__11dScoreMng_c = 0x8042a330;
+	sub_800E2190__11dScoreMng_cFP5dEn_cffii = 0x800E2190;
+	instance__11dMultiMng_c = 0x8042a290;
+	incEnemyDown__11dMultiMng_cFUi = 0x800ceb10;
+	getPlrNo__13dStageActor_cFv = 0x8001D200;
+
+
 	origFireSnakeIceballCollision = 0x809fb410;
 
 	doneWithChangeRemoconID = 0x8005316C;
@@ -1534,7 +1547,6 @@ SECTIONS {
 	isOutOfView__13dStageActor_cFv = 0x80065080;
 	kill__13dStageActor_cFv = 0x80065650;
 	_vf68__13dStageActor_cFv = 0x8001D210;
-	_vf6C__13dStageActor_cFv = 0x8001D200;
 	_vf70__13dStageActor_cFv = 0x80065620;
 	_vf74__13dStageActor_cFv = 0x8001D1F0;
 	itemPickedUp__13dStageActor_cFv = 0x80065820;

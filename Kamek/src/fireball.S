@@ -28,7 +28,7 @@
 .extern isOutOfView__13dStageActor_cFv
 .extern kill__13dStageActor_cFv
 .extern _vf68__13dStageActor_cFv
-.extern _vf6C__13dStageActor_cFv
+.extern getPlrNo__13dStageActor_cFv
 .extern _vf70__13dStageActor_cFv
 .extern _vf74__13dStageActor_cFv
 .extern itemPickedUp__13dStageActor_cFv
@@ -449,7 +449,7 @@ newgoldvtable:
 	.long isOutOfView__13dStageActor_cFv
 	.long kill__13dStageActor_cFv
 	.long _vf68__13dStageActor_cFv
-	.long _vf6C__13dStageActor_cFv
+	.long getPlrNo__13dStageActor_cFv
 	.long _vf70__13dStageActor_cFv
 	.long _vf74__13dStageActor_cFv
 	.long itemPickedUp__13dStageActor_cFv

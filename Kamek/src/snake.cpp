@@ -5,11 +5,17 @@
 
 const char* SnakeNameList [] = { "snake", NULL };
 
+#define maxNumberOfSnakes 15
+
 class daSnake_c : public dEn_c {
 	int onCreate();
 	int onDelete();
 	int onExecute();
 	int onDraw();
+
+
+	static u32 numberOfSnakes;
+
 
 	mHeapAllocator_c allocator;
 	nw4r::g3d::ResFile resFile;
@@ -57,11 +63,14 @@ class daSnake_c : public dEn_c {
 
 	USING_STATES(daSnake_c);
 	DECLARE_STATE(Walk);
+	DECLARE_STATE(Spit);
 	DECLARE_STATE(Turn);
 	DECLARE_STATE(Wait);
 	DECLARE_STATE(KnockBack);
 	DECLARE_STATE(Die);
 };
+
+u32 daSnake_c::numberOfSnakes;
 
 const SpriteData SnakeSpriteData = { ProfileId::Snake, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
 Profile SnakeProfile(&daSnake_c::build, SpriteId::Snake, &SnakeSpriteData, ProfileId::Snake, ProfileId::Snake, "Snake", SnakeNameList);
@@ -82,6 +91,7 @@ dActor_c *daSnake_c::build() {
 
 
 	CREATE_STATE(daSnake_c, Walk);
+	CREATE_STATE(daSnake_c, Spit);
 	CREATE_STATE(daSnake_c, Turn);
 	CREATE_STATE(daSnake_c, Wait);
 	CREATE_STATE(daSnake_c, KnockBack);
@@ -297,6 +307,7 @@ void daSnake_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float u
 }
 
 int daSnake_c::onCreate() {
+	numberOfSnakes++;
 
 	this->deleteForever = true;
 	
@@ -306,7 +317,7 @@ int daSnake_c::onCreate() {
 	this->resFile.data = getResource("snake", "g3d/snake.brres");
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("snake");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	SetupTextures_Map(&bodyModel, 0);
+	SetupTextures_Enemy(&bodyModel, 0);
 
 
 	// Animations start here
@@ -316,7 +327,7 @@ int daSnake_c::onCreate() {
 	allocator.unlink();
 
 	// Stuff I do understand
-	this->scale = (Vec){0.2, 0.2, 0.2};
+	this->scale = (Vec){0.125, 0.125, 0.125};
 
 	// this->pos.y = this->pos.y + 30.0; // X is vertical axis
 	this->rot.x = 0; // X is vertical axis
@@ -388,6 +399,7 @@ int daSnake_c::onCreate() {
 }
 
 int daSnake_c::onDelete() {
+	numberOfSnakes--;
 	return true;
 }
 
@@ -410,7 +422,7 @@ int daSnake_c::onDraw() {
 }
 
 void daSnake_c::updateModelMatrices() {
-	matrix.translation(pos.x, pos.y - 2.0, pos.z);
+	matrix.translation(pos.x + (this->direction ? -20.0 : 16.0), pos.y + 2.0, pos.z);
 	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
 
 	bodyModel.setDrawMatrix(matrix);
@@ -422,141 +434,167 @@ void daSnake_c::updateModelMatrices() {
 ///////////////
 // Walk State
 ///////////////
-	void daSnake_c::beginState_Walk() {
-		this->max_speed.x = (this->direction) ? -this->XSpeed : this->XSpeed;
-		this->speed.x = (direction) ? -0.8f : 0.8f;
+void daSnake_c::beginState_Walk() {
+	this->max_speed.x = (this->direction) ? -this->XSpeed : this->XSpeed;
+	this->speed.x = (direction) ? -0.8f : 0.8f;
 
-		this->max_speed.y = (this->isInSpace) ? -2.0 : -4.0;
-		this->speed.y = 	(this->isInSpace) ? -2.0 : -4.0;
-		this->y_speed_inc = (this->isInSpace) ? -0.09375 : -0.1875;
+	this->max_speed.y = (this->isInSpace) ? -2.0 : -4.0;
+	this->speed.y = 	(this->isInSpace) ? -2.0 : -4.0;
+	this->y_speed_inc = (this->isInSpace) ? -0.09375 : -0.1875;
+}
+void daSnake_c::executeState_Walk() { 
+
+	if (!this->isOutOfView()) {
+		nw4r::snd::SoundHandle *handle = PlaySound(this, SE_BOSS_JR_CROWN_JR_RIDE);
+		if (handle)
+			handle->SetVolume(0.5f, 0); 
 	}
-	void daSnake_c::executeState_Walk() { 
 
-		if (!this->isOutOfView()) {
-			nw4r::snd::SoundHandle *handle = PlaySound(this, SE_BOSS_JR_CROWN_JR_RIDE);
-			if (handle)
-				handle->SetVolume(0.5f, 0); 
-		}
-	
-		bool ret = calculateTileCollisions();
-		if (ret) {
-			doStateChange(&StateID_Turn);
-		}
-		bodyModel._vf1C();
+	bool ret = calculateTileCollisions();
+	if (ret) {
+		doStateChange(&StateID_Turn);
+	}
+	bodyModel._vf1C();
 
-		if(this->chrAnimation.isAnimationDone()) {
+	if(this->chrAnimation.isAnimationDone()) {
+		if(numberOfSnakes < maxNumberOfSnakes && GenerateRandomNumber(17) == 1) {
+			doStateChange(&StateID_Spit);
+		} else {
 			this->chrAnimation.setCurrentFrame(0.0);
 		}
 	}
-	void daSnake_c::endState_Walk() { this->timer += 1; }
+}
+void daSnake_c::endState_Walk() { this->timer += 1; }
+
+///////////////
+// Spit State
+///////////////
+void daSnake_c::beginState_Spit() {
+	this->max_speed.x = 0;
+	this->speed.x = 0;
+
+	this->max_speed.y = -4.0;
+	this->speed.y = -4.0;
+	this->y_speed_inc = -0.1875;
+
+	bindAnimChr_and_setUpdateRate("spit_forward", 1, 0.0, 1.0); 
+}
+void daSnake_c::executeState_Spit() {
+	bodyModel._vf1C();
+
+	if(this->chrAnimation.isAnimationDone()) {
+		doStateChange(&StateID_Walk);
+	}
+}
+void daSnake_c::endState_Spit() {
+	dEn_c* snake = (dEn_c*)CreateActor(Snake, this->settings, &this->pos, 0, this->currentLayerID);
+	snake->direction = this->direction^1;
+	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0);
+}
 
 
 ///////////////
 // Turn State
 ///////////////
-	void daSnake_c::beginState_Turn() {
-		this->direction ^= 1;
-		this->speed.x = 0.0;
+void daSnake_c::beginState_Turn() {
+	this->direction ^= 1;
+	this->speed.x = 0.0;
+}
+void daSnake_c::executeState_Turn() {
+	bodyModel._vf1C();
+	if(this->chrAnimation.isAnimationDone()) {
+		this->chrAnimation.setCurrentFrame(0.0);
 	}
-	void daSnake_c::executeState_Turn() { 
 
-		bodyModel._vf1C();
-		if(this->chrAnimation.isAnimationDone()) {
-			this->chrAnimation.setCurrentFrame(0.0);
-		}
+	u16 amt = (this->direction == 0) ? 0x2800 : 0xD800;
+	int done = SmoothRotation(&this->rot.y, amt, 0x800);
 
-		u16 amt = (this->direction == 0) ? 0x2800 : 0xD800;
-		int done = SmoothRotation(&this->rot.y, amt, 0x800);
-
-		if(done) {
-			this->doStateChange(&StateID_Walk);
-		}
+	if(done) {
+		this->doStateChange(&StateID_Walk);
 	}
-	void daSnake_c::endState_Turn() { }
+}
+void daSnake_c::endState_Turn() { }
 
 
 ///////////////
 // Wait State
 ///////////////
-	void daSnake_c::beginState_Wait() {
-		this->max_speed.x = 0;
-		this->speed.x = 0;
+void daSnake_c::beginState_Wait() {
+	this->max_speed.x = 0;
+	this->speed.x = 0;
 
-		this->max_speed.y = (this->isInSpace) ? -2.0 : -4.0;
-		this->speed.y = 	(this->isInSpace) ? -2.0 : -4.0;
-		this->y_speed_inc = (this->isInSpace) ? -0.09375 : -0.1875;
+	this->max_speed.y = (this->isInSpace) ? -2.0 : -4.0;
+	this->speed.y = 	(this->isInSpace) ? -2.0 : -4.0;
+	this->y_speed_inc = (this->isInSpace) ? -0.09375 : -0.1875;
+}
+void daSnake_c::executeState_Wait() { 
+
+	if (!this->isOutOfView()) {
+		nw4r::snd::SoundHandle *handle = PlaySound(this, SE_BOSS_JR_CROWN_JR_RIDE);
+		if (handle)
+			handle->SetVolume(0.5f, 0); 
 	}
-	void daSnake_c::executeState_Wait() { 
 
-		if (!this->isOutOfView()) {
-			nw4r::snd::SoundHandle *handle = PlaySound(this, SE_BOSS_JR_CROWN_JR_RIDE);
-			if (handle)
-				handle->SetVolume(0.5f, 0); 
-		}
-	
-		bool ret = calculateTileCollisions();
-		if (ret) {
-			doStateChange(&StateID_Turn);
-		}
-
-		bodyModel._vf1C();
-		if(this->chrAnimation.isAnimationDone()) {
-			this->chrAnimation.setCurrentFrame(0.0);
-		}
+	bool ret = calculateTileCollisions();
+	if (ret) {
+		doStateChange(&StateID_Turn);
 	}
-	void daSnake_c::endState_Wait() { }
+
+	bodyModel._vf1C();
+	if(this->chrAnimation.isAnimationDone()) {
+		this->chrAnimation.setCurrentFrame(0.0);
+	}
+}
+void daSnake_c::endState_Wait() { }
 
 
 ///////////////
 // Die State
 ///////////////
-	void daSnake_c::beginState_Die() {
-		dEn_c::dieFall_Begin();
+void daSnake_c::beginState_Die() {
+	dEn_c::dieFall_Begin();
 
-		bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0); 
-		this->timer = 0;
+	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0); 
+	this->timer = 0;
+}
+void daSnake_c::executeState_Die() {
+	bodyModel._vf1C();
+
+	PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
+	if(this->chrAnimation.isAnimationDone()) {
+		this->kill();
+		this->Delete(this->deleteForever);
 	}
-	void daSnake_c::executeState_Die() { 
-
-		bodyModel._vf1C();
-
-		PlaySound(this, SE_EMY_MECHAKOOPA_DAMAGE);
-		if(this->chrAnimation.isAnimationDone()) {
-			this->kill();
-			this->Delete(this->deleteForever);
-		}
-	}
-	void daSnake_c::endState_Die() { }
+}
+void daSnake_c::endState_Die() { }
 
 
 ///////////////
 // Knockback State
 ///////////////
-	void daSnake_c::beginState_KnockBack() {
-		bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 0.75); 
+void daSnake_c::beginState_KnockBack() {
+	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 0.75); 
 
-		directionStore = direction;
-		speed.x = (backFire) ? XSpeed*5.0f : XSpeed*-5.0f;
-		max_speed.x = speed.x;
+	directionStore = direction;
+	speed.x = (backFire) ? XSpeed*5.0f : XSpeed*-5.0f;
+	max_speed.x = speed.x;
+}
+void daSnake_c::executeState_KnockBack() { 
+	bool ret = calculateTileCollisions();
+	this->speed.x = this->speed.x / 1.1;
+
+	bodyModel._vf1C();
+	if(this->chrAnimation.isAnimationDone()) {
+		if (this->isWaiting == 0) {
+			OSReport("Done being knocked back, going back to Walk state\n");
+			doStateChange(&StateID_Walk); }
+		else {
+			OSReport("Done being knocked back, going back to Wait state\n");
+			doStateChange(&StateID_Wait); }
 	}
-	void daSnake_c::executeState_KnockBack() { 
+}
+void daSnake_c::endState_KnockBack() { 
+	direction = directionStore;
+	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0); 
+}
 
-		bool ret = calculateTileCollisions();
-		this->speed.x = this->speed.x / 1.1;
-
-		bodyModel._vf1C();
-		if(this->chrAnimation.isAnimationDone()) {
-			if (this->isWaiting == 0) {
-				OSReport("Done being knocked back, going back to Walk state\n");
-				doStateChange(&StateID_Walk); }
-			else {
-				OSReport("Done being knocked back, going back to Wait state\n");
-				doStateChange(&StateID_Wait); }
-		}
-
-	}
-	void daSnake_c::endState_KnockBack() { 
-		direction = directionStore;
-		bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0); 
-	}
-	

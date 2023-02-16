@@ -136,7 +136,7 @@ void daPlBase_c::beginState_ShellConnect() {
 void daPlBase_c::executeState_ShellConnect(){
 	daEnShell_c* shell = (daEnShell_c*)fBase_c::search(blueShells[this->settings % 4]);
 	if (shell == 0) {
-		((dAcPy_c*)this)->hurtPlayer_maybe(); //not sure whether this works - ghidra says this should get 2 more arguments
+		((dAcPy_c*)this)->setDamage(0, 0);
 		this->states2.setState(&daPlBase_c::StateID_Jump);
 		return;
 	}

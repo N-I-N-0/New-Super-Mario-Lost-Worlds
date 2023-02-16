@@ -1,18 +1,37 @@
 #include <common.h>
 #include <game.h>
 #include <g3dhax.h>
-
+#include <dMultiMng_c.h>
 
 void ThwompHammer(dEn_c *thwomp, ActivePhysics *apThis, ActivePhysics *apOther) {
-	if (thwomp->name == 0x51) {
+	if (thwomp->name == EN_DOSUN) {
 		thwomp->dEn_c::collisionCat13_Hammer(apThis, apOther);
 	}
 	return;
 }
 
 void BooHammer(dEn_c *boo, ActivePhysics *apThis, ActivePhysics *apOther) {
-	if (boo->name == 0xB0) {
-		boo->dEn_c::collisionCat13_Hammer(apThis, apOther);
+	if (boo->name == EN_TERESA) {
+		u32 playerId;
+		int comboCount;
+		dAcPy_c *player;
+		dStageActor_c* hammer;
+
+		SpawnEffect("Wm_en_teresavanish", 0, &boo->pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+
+		hammer = (dStageActor_c*)(apOther->owner);
+		playerId = *(hammer->getPlrNo());
+		player = dAcPy_c::findByID(playerId);
+		u32 starCount = player->daPlBase_c::getStarCount();
+		player->playKameHitSound(starCount, 0);
+		comboCount = player->getComboCount(); //8009f630
+		dScoreMng_c::instance->dScoreMng_c::sub_800E2190(boo, 0.0, 24.0, comboCount, playerId);
+		if (playerId != -1) {
+			dMultiMng_c::instance->dMultiMng_c::incEnemyDown(playerId);
+		}
+
+		PlaySoundAsync(boo, SE_EMY_TERESA_DEAD);
+		boo->Delete(1);
 	}
 	return;
 }
