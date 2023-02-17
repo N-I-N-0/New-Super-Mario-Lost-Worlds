@@ -1,5 +1,5 @@
 ---
-source_files: [../src/toadBlock.cpp, ../src/toadBlock.S]
+source_files: [../src/toadBlock.cpp, ../src/toadBlock.S, ../src/toadRescueModel.cpp, ../src/toadRescueModel.S]
 hooks:
   - name: checkToadBlockNoToad
     type: branch_insn
@@ -12,3 +12,19 @@ hooks:
     branch_type: b
     src_addr_pal: 0x809c3030
     target_func: 'toadBlockEdits'
+
+  - name: changeToadModelInfo
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800bcc5c
+    target_func: 'changeToadModelInfo'
+
+  - name: loadToadModelQBlock
+    type: add_func_pointer
+    src_addr_pal: 0x8031b1e4
+    target_func: 'ToadRescueFileList'
+
+  - name: loadToadModelBrickBlock
+    type: add_func_pointer
+    src_addr_pal: 0x8031b1e8
+    target_func: 'ToadRescueFileList'

@@ -1,4 +1,16 @@
 SECTIONS {
+	aKinopio = 0x80427ee0;
+	aK_rcha = 0x80427ee8;
+	aKb_model = 0x80315f98;
+	aSkb_model = 0x80315fa4;
+	aPlkb_model = 0x80315fb0;
+	aPkb_model = 0x80315fbc;
+	aKh_model = 0x80315fc8;
+	aSkh_model = 0x80315fd4;
+	aPlkh_model = 0x80315fe0;
+	aPkh_model = 0x80315fec;
+	ToadModelInfo = 0x802f1080;
+
 	isNoDamage__7dAcPy_cFv = 0x801461A0;
 	setDamage__7dAcPy_cFP8dActor_ci = 0x80146230;
 

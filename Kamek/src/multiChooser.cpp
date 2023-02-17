@@ -436,11 +436,11 @@ int dScWorldMap_c::newOnCreate() {
 void newStartLevel(GameMgr *gameMgr, StartLevelInfo *level) {
 	//dLevelInfo_c::entry_s *lvl = dLevelInfo_c::s_info.searchBySlot(level->world1, level->level1);
 	//if((lvl->vignette == 5 || level->level1 == 26 || level->level1 == 28) && GetActivePlayerCount() > 1) {
+	if(false) {
 		daMultiChooser_c* chooser = (daMultiChooser_c*)CreateObject(ProfileId::MultiChooser, 0, 0); //WM_GRID
 		chooser->gameMgr = gameMgr;
 		chooser->lvl = *level;
-	//}
-	//else {
-	//	DoStartLevel(gameMgr, level);
-	//}
+	} else {
+		DoStartLevel(gameMgr, level);
+	}
 }
