@@ -310,7 +310,8 @@ int daSnake_c::onCreate() {
 	numberOfSnakes++;
 
 	this->deleteForever = true;
-	
+
+
 	// Model creation	
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
@@ -487,8 +488,7 @@ void daSnake_c::executeState_Spit() {
 	}
 }
 void daSnake_c::endState_Spit() {
-	dEn_c* snake = (dEn_c*)CreateActor(Snake, this->settings, &this->pos, 0, this->currentLayerID);
-	snake->direction = this->direction^1;
+	dEn_c* snakeEgg = (dEn_c*)CreateActor(SnakeEgg, this->settings, &this->pos, 0, this->currentLayerID);
 	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0);
 }
 
@@ -598,3 +598,251 @@ void daSnake_c::endState_KnockBack() {
 	bindAnimChr_and_setUpdateRate("walk", 1, 0.0, 1.0); 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class daSnakeEgg_c : public dEn_c {
+	int onCreate();
+	int onDelete();
+	int onExecute();
+	int onDraw();
+
+	mHeapAllocator_c allocator;
+	nw4r::g3d::ResFile resFile;
+	m3d::mdl_c bodyModel;
+	m3d::anmChr_c chrAnimation;
+
+	u32 cmgr_returnValue;
+	int timer;
+
+	public: static dActor_c *build();
+
+	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate);
+	void updateModelMatrices();
+	bool calculateTileCollisions();
+
+	USING_STATES(daSnakeEgg_c);
+	DECLARE_STATE(Appear);
+	DECLARE_STATE(Shake);
+	DECLARE_STATE(Break);
+};
+
+const char* EmptySnakeEggFileList[] = {NULL};
+Profile SnakeEggProfile(&daSnakeEgg_c::build, ProfileId::SnakeEgg, NULL, ProfileId::SnakeEgg, ProfileId::SnakeEgg, "Snake Egg", EmptySnakeEggFileList);
+
+dActor_c *daSnakeEgg_c::build() {
+	void *buffer = AllocFromGameHeap1(sizeof(daSnakeEgg_c));
+	return new(buffer) daSnakeEgg_c;
+}
+
+
+
+CREATE_STATE(daSnakeEgg_c, Appear);
+CREATE_STATE(daSnakeEgg_c, Shake);
+CREATE_STATE(daSnakeEgg_c, Break);
+
+
+
+
+
+bool daSnakeEgg_c::calculateTileCollisions() {
+	// Returns true if sprite should turn, false if not.
+
+	HandleXSpeed();
+	HandleYSpeed();
+	doSpriteMovement();
+
+	cmgr_returnValue = collMgr.isOnTopOfTile();
+	collMgr.calculateBelowCollisionWithSmokeEffect();
+
+
+
+	float xDelta = pos.x - last_pos.x;
+	if (xDelta >= 0.0f)
+		direction = 0;
+	else
+		direction = 1;
+
+	if (collMgr.isOnTopOfTile()) {
+		// Walking into a tile branch
+
+		if (speed.x != 0.0f) {
+			//playWmEnIronEffect();
+		}
+
+		speed.y = 0.0f;
+
+		// u32 blah = collMgr.s_80070760();
+		// u8 one = (blah & 0xFF);
+		// static const float incs[5] = {0.00390625f, 0.0078125f, 0.015625f, 0.0234375f, 0.03125f};
+		// x_speed_inc = incs[one];
+		max_speed.x = (direction == 1) ? -0.8f : 0.8f;
+	} else {
+		x_speed_inc = 0.0f;
+	}
+
+	// Bouncing checks
+	if (_34A & 4) {
+		Vec v = (Vec){0.0f, 1.0f, 0.0f};
+		collMgr.pSpeed = &v;
+
+		if (collMgr.calculateAboveCollision(collMgr.outputMaybe))
+			speed.y = 0.0f;
+
+		collMgr.pSpeed = &speed;
+
+	} else {
+		if (collMgr.calculateAboveCollision(collMgr.outputMaybe))
+			speed.y = 0.0f;
+	}
+
+	collMgr.calculateAdjacentCollision(0);
+
+	// Switch Direction
+	if (collMgr.outputMaybe & (0x15 << direction)) {
+		return true;
+	}
+	return false;
+}
+
+void daSnakeEgg_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate) {
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr(name);
+	this->chrAnimation.bind(&this->bodyModel, anmChr, unk);
+	this->bodyModel.bindAnim(&this->chrAnimation, unk2);
+	this->chrAnimation.setUpdateRate(rate);
+}
+
+int daSnakeEgg_c::onCreate() {
+	this->deleteForever = true;
+
+	// Model creation	
+	allocator.link(-1, GameHeaps[0], 0, 0x20);
+
+	this->resFile.data = getResource("snake", "g3d/snakeEgg.brres");
+	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("snakeEgg");
+	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
+	SetupTextures_Enemy(&bodyModel, 0);
+
+
+	// Animations start here
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("wait");
+	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
+
+	allocator.unlink();
+
+	// Stuff I do understand
+
+
+
+	// Tile collider
+
+	// These rects do something for the tile rect
+	spriteSomeRectX = 16.0f;
+	spriteSomeRectY = 16.0f;
+	_320 = 0.0f;
+	_324 = 16.0f;
+
+	static const lineSensor_s below(12<<12, 4<<12, 0<<12);
+	static const pointSensor_s above(0<<12, 12<<12);
+	static const lineSensor_s adjacent(6<<12, 9<<12, 14<<12);
+
+	collMgr.init(this, &below, &above, &adjacent);
+
+	doStateChange(&StateID_Appear);
+
+	this->onExecute();
+	return true;
+}
+
+int daSnakeEgg_c::onDelete() {
+	return true;
+}
+
+int daSnakeEgg_c::onExecute() {
+	acState.execute();
+	updateModelMatrices();
+
+	float rect[] = {0.0, 0.0, 38.0, 38.0};
+	int ret = this->outOfZone(this->pos, (float*)&rect, this->currentZoneID);
+	if(ret) {
+		this->Delete(1);
+	}
+	return true;
+}
+
+int daSnakeEgg_c::onDraw() {
+	bodyModel.scheduleForDrawing();
+
+	return true;
+}
+
+void daSnakeEgg_c::updateModelMatrices() {
+	matrix.translation(pos.x, pos.y, pos.z);
+	matrix.applyRotationYXZ(&rot.x, &rot.y, &rot.z);
+
+	bodyModel.setDrawMatrix(matrix);
+	bodyModel.setScale(&scale);
+	bodyModel.calcWorld(false);
+}
+
+
+void daSnakeEgg_c::beginState_Appear() {
+	this->timer = 0;
+	this->scale = (Vec){0.0, 0.0, 0.0};
+}
+void daSnakeEgg_c::executeState_Appear() {
+	if (timer < 10) {
+		timer++;
+		float s = 1.0*timer/10;
+		this->scale = (Vec){s, s, s};
+	} else {
+		doStateChange(&StateID_Shake);
+	}
+}
+void daSnakeEgg_c::endState_Appear() {}
+
+void daSnakeEgg_c::beginState_Shake() {
+	bindAnimChr_and_setUpdateRate("wait", 1, 0.0, 1.0);
+}
+void daSnakeEgg_c::executeState_Shake() {
+	if(this->chrAnimation.isAnimationDone()) {
+		doStateChange(&StateID_Break);
+	}
+	bodyModel._vf1C();
+}
+void daSnakeEgg_c::endState_Shake() {}
+
+void daSnakeEgg_c::beginState_Break() {
+	SpawnEffect("Wm_ob_eggbreak_snake", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	dEn_c* snake = (dEn_c*)CreateActor(Snake, this->settings, &this->pos, 0, this->currentLayerID);
+	this->Delete(1);
+}
+void daSnakeEgg_c::executeState_Break() {}
+void daSnakeEgg_c::endState_Break() {}

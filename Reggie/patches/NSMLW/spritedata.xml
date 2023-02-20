@@ -1283,7 +1283,8 @@
   <sprite id="134" name="Crowber Crow" sizehacks="True" notes="A purple crow enemy called a Crowber that will fly around in the skies above the player.">
     <list nybble="6" title="&lt;b&gt;&lt;font color=&quot;blue&quot;&gt;NewerGEM: &lt;/font&gt;&lt;/b&gt; SpriteTex" comment="Changes the crow's model.">
       <entry value="0">Original</entry>
-      <entry value="1">Green (Weland1234)</entry>
+      <entry value="1">Parrot (Weland1234)</entry>
+      <entry value="2">Seagull</entry>
     </list>
   </sprite> <!-- #134: Crowber Crow -->
 

@@ -1,4 +1,6 @@
 SECTIONS {
+	returnFromCrowEffects5 = 0x809eed3c;
+
 	aKinopio = 0x80427ee0;
 	aK_rcha = 0x80427ee8;
 	aKb_model = 0x80315f98;

@@ -889,6 +889,7 @@ enum Actors {
 	MultiChooser, //872
 	RocketBarrel, //873
 	Snake, //874
+	SnakeEgg, //875
 
 };
 

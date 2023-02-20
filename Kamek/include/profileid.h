@@ -1513,6 +1513,7 @@ enum
 	MultiChooser, // 872
 	RocketBarrel, // 873
 	Snake, // 874
+	SnakeEgg, //875
 
 	Num
 };

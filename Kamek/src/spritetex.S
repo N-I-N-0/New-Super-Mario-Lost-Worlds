@@ -2309,6 +2309,81 @@ TogeMetIceSpecial:
 	li r3, 1
 	blr
 
+
+
+.global TEX_CrowEffects1
+TEX_CrowEffects1:
+	lis r3, Wm_en_crowattack_Strings@h
+	ori r3, r3, Wm_en_crowattack_Strings@l
+
+	lwz r4, 4(r25)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	mulli r4, r4, 8
+	add r3, r3, r4
+
+	lwzx r3, r3, r0
+	blr
+
+
+.global TEX_CrowEffects2
+TEX_CrowEffects2:
+	lis r4, Wm_en_crowfly_Strings@h
+	ori r4, r4, Wm_en_crowfly_Strings@l
+
+	lwz r5, 4(r31)
+	srwi r5, r5, 24
+	andi. r5, r5, 0xF
+	mulli r5, r5, 4
+
+	lwzx r4, r4, r5
+	blr
+
+.global TEX_CrowEffects3
+TEX_CrowEffects3:
+	lis r3, Wm_en_crowhit_Strings@h
+	ori r3, r3, Wm_en_crowhit_Strings@l
+
+	lwz r4, 4(r25)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	mulli r4, r4, 4
+
+	lwzx r3, r3, r4
+	blr
+
+.global TEX_CrowEffects4
+TEX_CrowEffects4:
+	lis r3, Wm_en_crowattack_Strings@h
+	ori r3, r3, Wm_en_crowattack_Strings@l
+
+	lwz r4, 4(r27)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	mulli r4, r4, 8
+	add r3, r3, r4
+
+	lwzx r3, r3, r0
+	blr
+
+.extern returnFromCrowEffects5 #809eed3c
+.global TEX_CrowEffects5
+TEX_CrowEffects5:
+	lis r3, Wm_en_crowhit_Strings@h
+	ori r3, r3, Wm_en_crowhit_Strings@l
+
+	lwz r4, 4(r5)
+	srwi r4, r4, 24
+	andi. r4, r4, 0xF
+	mulli r4, r4, 4
+
+	lwzx r3, r3, r4
+	b returnFromCrowEffects5
+
+
+
+
+
 .data
 .align 4
 BomombDir:
@@ -2319,6 +2394,56 @@ TexFilenameBuffer:
 
 TexFormatString:
 	.string "g3d/t%02d.brres"
+
+
+
+
+Wm_en_crowattack_r:
+	.string "Wm_en_crowattack_r"
+Wm_en_crowattack_l:
+	.string "Wm_en_crowattack_l"
+Wm_en_crowfly:
+	.string "Wm_en_crowfly"
+Wm_en_crowhit:
+	.string "Wm_en_crowhit"
+
+Wm_en_crowattack_r2:
+	.string "Wm_en_crowattack_r2"
+Wm_en_crowattack_l2:
+	.string "Wm_en_crowattack_l2"
+Wm_en_crowfly2:
+	.string "Wm_en_crowfly2"
+Wm_en_crowhit2:
+	.string "Wm_en_crowhit2"
+
+Wm_en_crowattack_r3:
+	.string "Wm_en_crowattack_r3"
+Wm_en_crowattack_l3:
+	.string "Wm_en_crowattack_l3"
+Wm_en_crowfly3:
+	.string "Wm_en_crowfly3"
+Wm_en_crowhit3:
+	.string "Wm_en_crowhit3"
+
+.align 4
+Wm_en_crowattack_Strings:
+	.long Wm_en_crowattack_r
+	.long Wm_en_crowattack_l
+	.long Wm_en_crowattack_r2
+	.long Wm_en_crowattack_l2
+	.long Wm_en_crowattack_r3
+	.long Wm_en_crowattack_l3
+
+Wm_en_crowfly_Strings:
+	.long Wm_en_crowfly
+	.long Wm_en_crowfly2
+	.long Wm_en_crowfly3
+
+Wm_en_crowhit_Strings:
+	.long Wm_en_crowhit
+	.long Wm_en_crowhit2
+	.long Wm_en_crowhit3
+
 
 .align 4
 .global TEX_FlakeArcs

@@ -1121,8 +1121,38 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x809ED5B4
     target_func: 'TEX_Crow'
-    
-    
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809ed978
+    target_func: 'TEX_CrowEffects1'
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809ed720
+    target_func: 'TEX_CrowEffects2'
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809eda1c
+    target_func: 'TEX_CrowEffects3'
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x809edb24
+    target_func: 'TEX_CrowEffects4'
+
+  - name: TEX_Crow
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x809eed38
+    target_func: 'TEX_CrowEffects5'
+
+
 #####################
   - name: TEX_WalkPakkun
     type: branch_insn
