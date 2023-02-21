@@ -1,4 +1,10 @@
 SECTIONS {
+	switchOnCreate = 0x80a197b0;
+	iceSetSpinLiftUpActor = 0x80121ef0;
+	StateID_CarryUp__13daEnJumpdai_c = 0x80b17118;
+	StateID_Carry__13dEnemyCarry_c = 0x80357e34;
+	getCarryPos__7dAcPy_cFP7Point3dP7dAcPy_c = 0x8012dfc0;
+
 	returnFromCrowEffects5 = 0x809eed3c;
 
 	aKinopio = 0x80427ee0;

@@ -1,0 +1,23 @@
+---
+source_files: [../src/carryableSwitches.cpp]
+hooks:
+  - name: switchNewOnCreate
+    type: add_func_pointer
+    src_addr_pal: 0x80aeed38
+    target_func: 'switchNewOnCreate(dEn_c *)'
+
+  - name: switchNewSetSpinLiftUpActor
+    type: add_func_pointer
+    src_addr_pal: 0x80aeeda8
+    target_func: 'switchNewSetSpinLiftUpActor(dEn_c *, dStageActor_c *)'
+
+  - name: switchNewFinalUpdate
+    type: add_func_pointer
+    src_addr_pal: 0x80aeed8c
+    target_func: 'switchNewFinalUpdate(dEn_c *)'
+
+  - name: noMoreSwitchPlayerCollision
+    type: add_func_pointer
+    src_addr_pal: 0x80aeee28
+    target_func: 'noMoreSwitchPlayerCollision(dEn_c *, ActivePhysics *, ActivePhysics *)'
+

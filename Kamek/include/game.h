@@ -2819,6 +2819,25 @@ public:
 };
 
 
+class dEnemyCarry_c : public dEn_c {
+public:
+	u8 someFlag;
+	u8 useFasterThrowSpeed;
+
+	//States
+	USING_STATES(dEnemyCarry_c);
+	REF_NINTENDO_STATE(Carry);
+	REF_NINTENDO_STATE(Trow);
+};
+
+class daEnJumpdai_c : public dEn_c {
+public:
+	//States
+	USING_STATES(daEnJumpdai_c);
+	REF_NINTENDO_STATE(CarryUp);
+	REF_NINTENDO_STATE(TrowUp);
+};
+
 class daEnBlockMain_c : public dEn_c {
 public:
 	u32 _534, _528, _52C, _530;
@@ -4548,6 +4567,7 @@ class dAcPy_c : public daPlBase_c {
 		u32 _vf3CC(); // 8012DE50
 		bool areWeHoldingMiniMario(); // 8012DEB0
 		u32 _vf3D0(); // 8012DEF0
+		static void getCarryPos(Vec* pos, dAcPy_c* player); //8012dfc0
 		void dropObject(); // 8012E650
 		void dropObjectWereHolding(); // 8012E6E0
 		void stopBeingCarried(); // 8012E790
