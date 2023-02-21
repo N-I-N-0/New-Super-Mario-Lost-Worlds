@@ -2836,6 +2836,15 @@ public:
 	USING_STATES(daEnJumpdai_c);
 	REF_NINTENDO_STATE(CarryUp);
 	REF_NINTENDO_STATE(TrowUp);
+	REF_NINTENDO_STATE(Move);
+};
+
+class daEnHnSwich_c : public dEn_c {
+public:
+	//States
+	USING_STATES(daEnHnSwich_c);
+	REF_NINTENDO_STATE(Wait);
+	REF_NINTENDO_STATE(PushWait);
 };
 
 class daEnBlockMain_c : public dEn_c {
