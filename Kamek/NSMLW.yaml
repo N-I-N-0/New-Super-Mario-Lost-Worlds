@@ -223,9 +223,10 @@ modules:
   - processed/cloudSpawner.yaml
   - processed/scuttlebug.yaml
   - processed/flyingBook.yaml
-  - processed/titlescreen.yaml
+#  - processed/titlescreen.yaml
   - processed/chimpChallenges.yaml
   - processed/multiChooser.yaml
   - processed/singleplayer.yaml
   - processed/rocketBarrel.yaml
   - processed/snake.yaml
+  - processed/carryableSwitches.yaml

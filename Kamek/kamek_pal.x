@@ -1,4 +1,7 @@
 SECTIONS {
+	getMissSpinAngle__7dAcPy_cFv = 0x80129a50;
+	dropObject__7dAcPy_cFP13dStageActor_c = 0x8012E650;
+	setRide__5dRc_cFP13BasicCollider = 0x800d99e0;
 	FUN_80a1a650 = 0x80a1a650;
 	FUN_80a1a1e0 = 0x80a1a1e0;
 	FUN_80a1a320 = 0x80a1a320;
@@ -1415,8 +1418,8 @@ SECTIONS {
 	
 	__ct__5dEn_cFv = 0x80094E80;
 	__dt__5dEn_cFv = 0x80095130;
-	sub_80097050__5dEn_cFv = 0x80097050;
-	manageBelowCollision__5dEn_cFv = 0x80096F60;
+	EnBgCheckWall__5dEn_cFv = 0x80097050;
+	EnBgCheckFoot__5dEn_cFv = 0x80096F60;
 	EnWaterFlagCheck__5dEn_cFP7Point3d = 0x80097700;
 	afterCreate__5dEn_cFi = 0x800951D0;
 	beforeExecute__5dEn_cFv = 0x80095240;

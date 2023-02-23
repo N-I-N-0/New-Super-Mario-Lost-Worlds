@@ -2299,6 +2299,38 @@ public:
 	static dActor_c* create(Actors type, u32 settings, VEC3 *pos, void *rot);
 };
 
+
+class BasicCollider;
+class collisionMgr_c;
+
+class dRc_c {
+	public:
+		void* vtable;
+
+		dActor_c* owner;
+		VEC3* ownerPos;
+
+		dRc_c* next;
+
+		BasicCollider* ride[2];
+		collisionMgr_c* collMgr;
+
+		float _1C;
+		float _20;
+		float _24;
+		float _28;
+
+		s16 rotation;
+		u8 chainlinkMode;
+		u8 rideType; // 0 = dRideRoll_c, 2 = dRide2Point_c, 4 = dRideCircle_c
+		u8 flags; // &1 = ??, &2 = ??, &4 = set on player when riding Lakitu Clouds/Clown Cars
+		u8 _31; // bool maybe?
+		u8 layer;
+		u8 pad;// 1 byte padding
+
+		void setRide(BasicCollider*);
+};
+
 class dStageActor_c : public dActor_c {
 public:
 	enum StageActorType {
@@ -2306,12 +2338,19 @@ public:
 	};
 
 	u8 _125;
-	u32 _128, _12C, directionForCarry, _134, _138, _13C;
+	u32 _128;
+	union {
+		u32 _12C;
+		u32 carryingFlags;
+	};
+	u8 directionForCarry;
+	u8 _131[3]; //pad
+	u32 _134, _138, _13C;
 	float _140;
 	u32 _144;
 	ActivePhysics aPhysics;
 	collisionMgr_c collMgr;
-	u8 classAt2DC[0x34];
+	dRc_c rCollDetector;
 	float _310, _314;
 	float spriteSomeRectX, spriteSomeRectY;
 	float _320, _324, _328, _32C, _330, _334, _338, _33C, _340, _344;
@@ -2625,7 +2664,13 @@ class dEn_c : public dActorMultiState_c {
 public:
 	EntityDeathInfo deathInfo;
 	u32 _434;
-	u16 _438;
+	union {
+		u16 _438; //padding
+		struct {
+			bool carryBool; //repurposed for carryable switches
+			bool carryBool2;
+		};
+	};
 	u32 _43C;
 	Vec velocity1, velocity2;
 	u8 _458, _459, _45A, _45B, isOnQuickSand, isImmersedInLiquid_maybe, isOnIce;
@@ -2802,7 +2847,10 @@ public:
 	void killByDieFall(dStageActor_c *killedBy);
 
 	bool EnWaterFlagCheck(Vec* pos);
-	
+
+	u32 EnBgCheckWall();
+	u32 EnBgCheckFoot();
+
 	void fireballInvalid(ActivePhysics *apThis, ActivePhysics *apOther);
 	void iceballInvalid(ActivePhysics *apThis, ActivePhysics *apOther);
 
@@ -2842,9 +2890,12 @@ public:
 class daEnHnSwich_c : public dEn_c {
 public:
 	//States
+	void rotateIfCarryBool2Set();
 	USING_STATES(daEnHnSwich_c);
 	REF_NINTENDO_STATE(Wait);
 	REF_NINTENDO_STATE(PushWait);
+	DECLARE_STATE(CarryUp);
+	DECLARE_STATE(CarryUpThrow);
 };
 
 class daEnBlockMain_c : public dEn_c {
@@ -4555,6 +4606,7 @@ class dAcPy_c : public daPlBase_c {
 		bool areWeCarryingAnything(); // 801268F0
 		void playsHipatAnim(); // 80126910
 		u32 GetMaxYSpeed_Maybe(); // 801275B0
+		s16 getMissSpinAngle();
 		void sub_80129AF0(); // 80129AF0
 		void sub_80129B00(); // 80129B00
 		void startSlipping(); // 8012AB70
@@ -4577,6 +4629,7 @@ class dAcPy_c : public daPlBase_c {
 		bool areWeHoldingMiniMario(); // 8012DEB0
 		u32 _vf3D0(); // 8012DEF0
 		static void getCarryPos(Vec* pos, dAcPy_c* player); //8012dfc0
+		void dropObject(dStageActor_c*); // 8012E650
 		void dropObject(); // 8012E650
 		void dropObjectWereHolding(); // 8012E6E0
 		void stopBeingCarried(); // 8012E790

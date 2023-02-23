@@ -647,7 +647,7 @@
     <list nybble="6" title="Style" comment="This determines the style of the Spiked Ball.">
       <entry value="0">Normal</entry>
       <entry value="1">Snowball</entry>
-      <entry value="2">Groll</entry>
+      <entry value="2">Grrrol</entry>
       <entry value="3">Chain Chomp</entry>
       <entry value="4">Chain Chomp (Golden)</entry>
       <entry value="5">Chain Chomp (Shroob)</entry>
@@ -1030,7 +1030,7 @@
     <list nybble="6" title="Style" comment="This determines the style of the Giant Spiked Ball.">
       <entry value="0">Normal</entry>
       <entry value="1">Snowball</entry>
-      <entry value="2">Groll</entry>
+      <entry value="2">Grrrol</entry>
       <entry value="3">Chain Chomp</entry>
       <entry value="4">Chain Chomp (Golden)</entry>
       <entry value="5">Chain Chomp (Shroob)</entry>
