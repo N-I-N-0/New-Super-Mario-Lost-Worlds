@@ -59,9 +59,6 @@ void switchNewFinalUpdate(dEn_c* self) {
 		Physics* physics = (Physics*)((u32)self+0x754);
 		physics->somePlayer = NULL;
 	}
-	
-	
-	OSReport("state: %s\n", self->acState.getCurrentState()->getName());
 }
 
 void noMoreSwitchPlayerCollision(dEn_c* self, ActivePhysics* apThis, ActivePhysics* apOther) {
@@ -128,6 +125,8 @@ void daEnHnSwich_c::beginState_CarryUpThrow() {
 }
 
 void daEnHnSwich_c::executeState_CarryUpThrow() {
+	FUN_80a1a650(this);
+
 	this->dActor_c::HandleYSpeed();
 	this->dEn_c::doSpriteMovement();
 	this->daEnHnSwich_c::rotateIfCarryBool2Set();
@@ -185,11 +184,16 @@ void daEnHnSwich_c::executeState_CarryUp() {
 	dStateBase_c* currentState;
 	bool isCarryUpThrow;
 
+
+	FUN_80a1a650(this);
+
+
+	//OSReport("directionForCarry: %d\n", this->directionForCarry);
+
 	player = dAcPy_c::findByID(this->which_player);
 	isCarryUpThrow = player->daPlBase_c::testFlag(4);
 	if ((this->carryingFlags & 2 || this->carryingFlags & 1) || isCarryUpThrow) {
 		this->direction = this->directionForCarry;
-		for(;;)
 		this->y_speed_inc = -0.1875;
 		this->doStateChange(&daEnHnSwich_c::StateID_CarryUpThrow);
 	} else {
