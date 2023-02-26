@@ -1,0 +1,14 @@
+--- # By Synel
+
+source_files: [../src/muncher.cpp]
+hooks:
+  - name: MuncherBuild
+    type: add_func_pointer
+    src_addr_pal: 0x80ADAC28
+    target_func: 'dMuncher_c::build(void)'
+
+  - name: MuncherSpriteFileInfo
+    type: add_func_pointer
+    src_addr_pal: 0x8031b0a4
+    target_func: 'MuncherArcNameList'
+    # 0x8031AB4C + sprite num * 0x4 == offset

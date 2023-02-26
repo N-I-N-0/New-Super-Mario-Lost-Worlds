@@ -3278,6 +3278,53 @@
     <checkbox nybble="12.4" title="Remove Grass/Rocks" comment="When enabled, this will remove the decoration from the bottom of the Shell Cave."/>
   </sprite> <!-- #341: Giant Turtle Shell Cave -->
 
+<sprite id="342" name="Muncher" yoshinotes="Like in SMW, if Yoshi touches a Muncher, he will walk on them. Note that Yoshi won't like any other slope than the gentle one (the player will take damage), due to how the game handle collisions." notes="Improved version of the Muncher.">
+  <list nybble="5" title="Color" comment="This determines which color the muncher will be.">
+    <entry value="0">Normal</entry>
+  </list>
+  <list nybble="6.3-6.4" title="Gravity" comment="This determines is the muncher must fall or not.">
+    <entry value="1">No Gravity</entry>
+    <entry value="0">Fall</entry>
+  </list>
+  <checkbox nybble="6.1" title="Big" comment="When enabled, the Muncher will be 2 blocks wide and 2 blocks tall instead of 1x1."/>
+  <checkbox nybble="6.2" title="Wide collision" comment="When enabled, the Muncher will have a slightly bigger collision to prevent the player to fall between Munchers on slopes. The thing is, the player can still fall between them when moving super slowly but it makes it harder."/>
+  <checkbox nybble="8.1" title="Move slightly horizontally (up to 0.125 tiles)" comment="When enabled, the Muncher will spawn up to 0.125 tile lower depending on its rotation. Usefull for spawning Munchers correctly on walls."/>
+  <checkbox nybble="8.2" title="Move slightly up (0.25 tiles)" comment="When enabled, the Muncher will spawn 0.25 tile higher. Usefull for spawning Munchers correctly on a sloping ceilings."/>
+  <checkbox nybble="8.3" title="Freezable" comment="When enabled, the Muncher can be frozen using an ice flower."/>
+  <checkbox nybble="8.4" title="Frozen" comment="When enabled, the Muncher will be frozen. It can be thawed with a fireball. The ice collision matches with off-grid frozen Munchers until they are melted."/>
+  <value nybble="9-12" title="Rotation" comment="This determines which angle the muncher will have."/>
+  <list nybble="9-12" title="Rotation Preset" comment="This determines which angle the muncher will have.">
+    <entry value="0">0° / Facing Up</entry>
+    <entry value="2477">Gentle Downslope (Facing Up)</entry>
+    <entry value="4747">Downslope (Facing Up)</entry>
+    <entry value="4095">22.5°</entry>
+    <entry value="8190">45° / Steep Downslope (Facing Up)</entry>
+    <entry value="11633">Super Steep Downslope (Facing Up)</entry>
+    <entry value="12285">67.5°</entry>
+    <entry value="16380">90° / Facing Right</entry>
+    <entry value="20475">112.5°</entry>
+    <entry value="21127">Super Steep Upslope (Facing Down)</entry>
+    <entry value="24570">135° / Steep Upslope (Facing Down)</entry>
+    <entry value="28013">Upslope (Facing Down)</entry>
+    <entry value="28665">157.5°</entry>
+    <entry value="30283">Gentle Upslope (Facing Down)</entry>
+    <entry value="32760">180° / Facing Down</entry>
+    <entry value="35237">Gentle Downslope (Facing Down)</entry>
+    <entry value="36855">202.5°</entry>
+    <entry value="37507">Downslope (Facing Down)</entry>
+    <entry value="40950">225° / Steep Downslope (Facing Down)</entry>
+    <entry value="44393">Super Steep Downslope (Facing Down)</entry>
+    <entry value="45045">247.5°</entry>
+    <entry value="49140">270° / Facing Left</entry>
+    <entry value="53235">292.5°</entry>
+    <entry value="53887">Super Steep Upslope (Facing Up)</entry>
+    <entry value="57330">315° / Steep Upslope (Facing Up)</entry>
+    <entry value="60773">Upslope (Facing Up)</entry>
+    <entry value="61425">337.5°</entry>
+    <entry value="63043">Gentle Upslope (Facing Up)</entry>
+  </list>
+</sprite> <!-- #342: Muncher -->
+
 <!-- Test Place Behind Other Sprites with Chainlink Fence fun stuff -->
   <sprite id="346" name="Rotation Controlled Hanging Chain Platform" notes="A rotation controlled platform that has two hanging hooks on it. These hooks will automatically create chains that lead directly to the rotation point that is used.">
     <dependency notes="Placement of this platform is flexible, but it is recommended that it be placed directly below the rotation controller. Additionally, the platform will generate two chains leading to the rotation controller it is paired with. A [345] Hanging Chain Holder should be placed directly on top of the rotation controller.">

@@ -204,6 +204,8 @@ class dScStage_c : public dScene_c {     //The dScStage_c class, handles things 
         u8 field_1213;
         u32 uselessPTMFIndex;
 
+        static u32 exeFrame;
+
         int onExecute_orig(); //80925A60
         int newOnExecute();
 };

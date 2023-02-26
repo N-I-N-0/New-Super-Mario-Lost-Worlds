@@ -230,3 +230,4 @@ modules:
   - processed/rocketBarrel.yaml
   - processed/snake.yaml
   - processed/carryableSwitches.yaml
+  - processed/muncher.yaml

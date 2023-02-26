@@ -312,7 +312,7 @@ namespace m3d {
 			bool querySomething(float value);
 
 			// 28 might be Max Frame?
-			float _28, _2C, currentFrame;
+			float numFrames, startFrame, currentFrame;
 			u8 playState;		// animation group??
 	};
 

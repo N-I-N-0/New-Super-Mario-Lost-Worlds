@@ -1,4 +1,6 @@
 SECTIONS {
+	exeFrame__10dScStage_c = 0x8042a4e0;
+
 	getMissSpinAngle__7dAcPy_cFv = 0x80129a50;
 	dropObject__7dAcPy_cFP13dStageActor_c = 0x8012E650;
 	setRide__5dRc_cFP13BasicCollider = 0x800d99e0;

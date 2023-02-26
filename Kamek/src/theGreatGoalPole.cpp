@@ -336,7 +336,7 @@ int daGreatGoalPole_c::onExecute() {
 			this->anmWing.setCurrentFrame(0.0);
 		}
 	} else {
-		this->anmWing.setCurrentFrame(anmWing._28);
+		this->anmWing.setCurrentFrame(anmWing.numFrames);
 	}
 	
 	this->flagSrt.process();
