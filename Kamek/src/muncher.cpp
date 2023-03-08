@@ -25,7 +25,7 @@ class dMuncher_c : public dEn_c {
 	nw4r::g3d::ResFile iceResFile;
 	m3d::mdl_c iceModel;
 	Vec iceScale;
-	float xIceScaleOffset;
+	float xIceScaleOffset, iceScaleMultiplier;
 
 	int timer;
 	int maxTimer;
@@ -33,14 +33,15 @@ class dMuncher_c : public dEn_c {
 	u32 cmgr_returnValue;
 	bool isBouncing;
 
-	int color, rotation, gravity;
-	bool isFrozen, wideCollision, isFreezable, isBig;
+	int color, rotation;
+	bool isFrozen, wideCollision, isFreezable, isBig, disableGravity, disableAnimSync;
 	s16 colRot;
 
 	Vec effectOffset;
 	Vec effectScale;
 
 	Physics::Info physicsInfo;
+	float topPhysicsPos, frozenTopPhysicsPos;
 	Physics physics;
 
 	static dMuncher_c *build();
@@ -241,6 +242,11 @@ void dMuncher_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, float 
 	this->chrAnimation.bind(&this->bodyModel, anmChr, unk);
 	this->bodyModel.bindAnim(&this->chrAnimation, unk2);
 	this->chrAnimation.setUpdateRate(rate);
+
+	if (!this->disableAnimSync) {
+		float frame = dScStage_c::exeFrame % int(this->chrAnimation.numFrames);
+		this->chrAnimation.setCurrentFrame(frame);
+	}
 }
 
 int dMuncher_c::onCreate() {
@@ -252,7 +258,8 @@ int dMuncher_c::onCreate() {
 	int nybble5 = this->settings >> 24 & 0xF;
 	this->isBig = nybble5 & 0b1000;
 	this->wideCollision = nybble5 & 0b100;
-	this->gravity = nybble5 & 0b11;
+	this->disableAnimSync = nybble5 & 0b10;
+	this->disableGravity = nybble5 & 0b1;
 
 	int nybble8 = this->settings >> 16 & 0xF;
 	bool moveSlightlyHorizontally = nybble8 & 0b1000;
@@ -275,7 +282,7 @@ int dMuncher_c::onCreate() {
 
 
 	// Animations start here
-	static const nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("attack");
+	nw4r::g3d::ResAnmChr anmChr = this->resFile.GetResAnmChr("attack");
 	this->chrAnimation.setup(mdl, anmChr, &this->allocator, 0);
 
 	allocator.unlink();
@@ -286,7 +293,7 @@ int dMuncher_c::onCreate() {
 
 	iceResFile.data = getResource("ice", "g3d/ice.brres");
 	nw4r::g3d::ResMdl icemdl = this->iceResFile.GetResMdl("ice_A1");
-	iceModel.setup(icemdl, &iceAllocator, 0x224, 1, 0);
+	iceModel.setup(icemdl, &iceAllocator, 0x23, 1, 0);
 	SetupTextures_MapObj(&iceModel, 0);
 
 	iceAllocator.unlink();
@@ -295,7 +302,8 @@ int dMuncher_c::onCreate() {
 	// Stuff I do understand
 	this->scale = (Vec){1.0, 1.0, 1.0};
 	if (this->isBig) this->scale = (Vec){2.0, 2.0, 2.0};
-	this->iceScale = (Vec){.8 * this->scale.x, .8 * this->scale.y, .8 * this->scale.z};
+	this->iceScaleMultiplier = 0.89;
+	this->iceScale = (Vec){this->iceScaleMultiplier * this->scale.x, this->iceScaleMultiplier * this->scale.y, this->iceScaleMultiplier * this->scale.z};
 
 	// rotation / 0xF * 0xFFFF == rotation * 0x1111
 	// BUT 0x1111 doesn't work with some high values for some reason so I'm using 0xFFF
@@ -319,19 +327,22 @@ int dMuncher_c::onCreate() {
 	float colBalance = 0.0;
 	if (this->wideCollision) colBalance = (1.0 - (abs(rotationBalance.x) + abs(rotationBalance.y) - 1.0)) / 2.0; // Because yoshi falls between two munchers when there is an angle
 
-	physicsInfo.x1 = (-8 * this->scale.x) - colBalance;
-	physicsInfo.y1 = 16.0 * this->scale.y;
-	physicsInfo.x2 = (8 * this->scale.x) + colBalance;
-	physicsInfo.y2 = 0.0;
+	this->physicsInfo.x1 = (-8 * this->scale.x) - colBalance;
+	this->physicsInfo.y1 = 16.0 * 0.89 * this->scale.y; // 0.89 is the scale of the default frozen muncher
+	this->physicsInfo.x2 = (8 * this->scale.x) + colBalance;
+	this->physicsInfo.y2 = 0.0;
+
+	this->topPhysicsPos = this->physicsInfo.y1;
+	this->frozenTopPhysicsPos = 16.0 * 1.09 * this->scale.y; // 1.09 bc you still take damage with 1.0
 
 	this->xIceScaleOffset = colBalance / 2.0;
 	this->iceScale.x += this->xIceScaleOffset;
 
-	physicsInfo.otherCallback1 = &MuncherPhysCB1;
-	physicsInfo.otherCallback2 = &MuncherPhysCB2;
-	physicsInfo.otherCallback3 = &MuncherPhysCB3;
+	this->physicsInfo.otherCallback1 = &MuncherPhysCB1;
+	this->physicsInfo.otherCallback2 = &MuncherPhysCB2;
+	this->physicsInfo.otherCallback3 = &MuncherPhysCB3;
 
-	physics.setup(this, &physicsInfo, 3, currentLayerID);
+	physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 	physics.flagsMaybe = 0x260;
 	physics.callback1 = &MuncherPhysCB4;
 	physics.callback2 = &MuncherPhysCB5;
@@ -377,7 +388,7 @@ int dMuncher_c::onCreate() {
 
 
 	// State Changers
-	bindAnimChr_and_setUpdateRate("attack", 0, 0.0, 1.0);
+	bindAnimChr_and_setUpdateRate("attack", 1, 0.0, 1.0);
 	if (this->isFrozen) this->doStateChange(&StateID_Frozen);
 	else this->doStateChange(&StateID_Wait);
 
@@ -432,29 +443,25 @@ void dMuncher_c::beginState_Wait() {
 	this->max_speed.x = 0;
 	this->speed.x = 0;
 
-	switch (this->gravity) {
-		case 1:
-			this->max_speed.y = 0.0;
-			this->speed.y = 0.0;
-			this->y_speed_inc = 0.0;
-			break;
-
-		default:
-			this->max_speed.y = -4.0;
-			this->speed.y = -4.0;
-			this->y_speed_inc = -0.1875;
-			break;
+	if (this->disableGravity) {
+		this->max_speed.y = 0.0;
+		this->speed.y = 0.0;
+		this->y_speed_inc = 0.0;
+	} else {
+		this->max_speed.y = -4.0;
+		this->speed.y = -4.0;
+		this->y_speed_inc = -0.1875;
 	}
 
-	bindAnimChr_and_setUpdateRate("attack", 1, 1.0, 1.0);
-	float frame = dScStage_c::exeFrame % int(this->chrAnimation.numFrames);;
-	this->chrAnimation.setCurrentFrame(frame);
+	bindAnimChr_and_setUpdateRate("attack", 1, 0.0, 1.0);
+
+	this->isFrozen = false;
+	this->physics.flagsMaybe = 0x260;
+	this->physicsInfo.y1 = this->topPhysicsPos;
+	this->physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 }
 void dMuncher_c::executeState_Wait() {
-	if (this->gravity != 1) bool ret = calculateTileCollisions();
-	// if (ret) {
-	// 	doStateChange(&StateID_Turn);
-	// }
+	if (!this->disableGravity) bool ret = calculateTileCollisions();
 
 	bodyModel._vf1C();
 
@@ -476,19 +483,17 @@ void dMuncher_c::beginState_Frozen() {
 	this->speed.y = 0.0;
 	this->y_speed_inc = 0.0;
 
-	bindAnimChr_and_setUpdateRate("attack", 1, 1.0, 0.0);
-
 	this->isFrozen = true;
 	this->physics.flagsMaybe = 0x268;
+	this->physicsInfo.y1 = this->frozenTopPhysicsPos;
+	this->physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 
-	this->iceScale = (Vec){.8 * this->scale.x + this->xIceScaleOffset, .8 * this->scale.y, .8 * this->scale.z};
+	this->iceScale = (Vec){this->iceScaleMultiplier * this->scale.x + this->xIceScaleOffset, this->iceScaleMultiplier * this->scale.y, this->iceScaleMultiplier * this->scale.z};
 }
-void dMuncher_c::executeState_Frozen() {
-	bodyModel._vf1C();
-}
+void dMuncher_c::executeState_Frozen() {}
 void dMuncher_c::endState_Frozen() {
-	this->isFrozen = false;
-	this->physics.flagsMaybe = 0x260;
+	// this->isFrozen = false;
+	// this->physics.flagsMaybe = 0x260;
 }
 
 
@@ -503,10 +508,12 @@ void dMuncher_c::beginState_Freeze() {
 	this->speed.y = 0.0;
 	this->y_speed_inc = 0.0;
 
-	bindAnimChr_and_setUpdateRate("attack", 1, 1.0, 0.0);
+	bindAnimChr_and_setUpdateRate("attack", 1, 0.0, 0.0);
 
 	this->isFrozen = true;
 	this->physics.flagsMaybe = 0x268;
+	this->physicsInfo.y1 = this->frozenTopPhysicsPos;
+	this->physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 
 	this->iceScale = (Vec){0, 0, 0};
 	this->timer = 0;
@@ -525,12 +532,10 @@ void dMuncher_c::beginState_Freeze() {
 void dMuncher_c::executeState_Freeze() {
 	this->timer++;
 
-	float scale = .8 * ((float)this->timer / (float)this->maxTimer) * this->scale.x;
+	float scale = this->iceScaleMultiplier * ((float)this->timer / (float)this->maxTimer) * this->scale.x;
 	this->iceScale = (Vec){scale + this->xIceScaleOffset, scale, scale};
 
 	if (this->timer >= this->maxTimer) this->doStateChange(&StateID_Frozen);
-
-	bodyModel._vf1C();
 }
 void dMuncher_c::endState_Freeze() {}
 
@@ -546,12 +551,12 @@ void dMuncher_c::beginState_Unfreeze() {
 	this->speed.y = 0.0;
 	this->y_speed_inc = 0.0;
 
-	//bindAnimChr_and_setUpdateRate("attack", 1, 1.0, 0.0);
-
 	this->isFrozen = true;
 	this->physics.flagsMaybe = 0x268;
+	this->physicsInfo.y1 = this->frozenTopPhysicsPos;
+	this->physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 
-	this->iceScale = (Vec){.8 * this->scale.x + this->xIceScaleOffset, .8 * this->scale.y, .8 * this->scale.z};
+	this->iceScale = (Vec){this->iceScaleMultiplier * this->scale.x + this->xIceScaleOffset, this->iceScaleMultiplier * this->scale.y, this->iceScaleMultiplier * this->scale.z};
 	this->timer = 30;
 	this->maxTimer = this->timer;
 
@@ -564,15 +569,15 @@ void dMuncher_c::beginState_Unfreeze() {
 void dMuncher_c::executeState_Unfreeze() {
 	this->timer--;
 
-	float scale = .8 * ((float)this->timer / (float)this->maxTimer) * this->scale.x;
+	float scale = this->iceScaleMultiplier * ((float)this->timer / (float)this->maxTimer) * this->scale.x;
 	this->iceScale = (Vec){scale + this->xIceScaleOffset, scale, scale};
 
 	if (this->timer <= 0) this->doStateChange(&StateID_Wait);
-
-	bodyModel._vf1C();
 }
 void dMuncher_c::endState_Unfreeze() {
 	this->isFrozen = false;
 	this->physics.flagsMaybe = 0x260;
+	this->physicsInfo.y1 = this->topPhysicsPos;
+	this->physics.setup(this, &this->physicsInfo, 3, currentLayerID);
 }
 

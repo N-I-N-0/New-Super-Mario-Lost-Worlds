@@ -4731,5 +4731,8 @@
 
   <sprite id="594" name="Snake" asmhacks="True" >
   </sprite> <!-- #594: Snake -->
+
+  <sprite id="595" name="Fence" asmhacks="True" >
+  </sprite> <!-- #595: Fence -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

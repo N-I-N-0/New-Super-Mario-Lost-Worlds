@@ -22,8 +22,8 @@ extern "C" void PlaySoundWithFunctionB4(void *spc, nw4r::snd::SoundHandle *handl
 
 class daExclamationBlock_c : public daEnBlockMain_c {
 public:
-	TileRenderer tile;
-	TileRenderer tileList[16];
+	TileRenderer tile[4];
+	TileRenderer tileList[4][16];
 	Physics::Info physicsInfo;
 	Physics physicsList[16];
 	Physics::Info physicsInfoList[16];
@@ -73,7 +73,9 @@ CREATE_STATE(daExclamationBlock_c, Wait);
 void daExclamationBlock_c::activateOne() {
 	if (activatedLength < maxLength) {
 		TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
-		list->add(&tileList[activatedLength]);
+		for (int i = 0; i<4; i++) {
+			list->add(&tileList[i][activatedLength]);
+		}
 		physicsList[activatedLength].addToList();
 		activatedLength += 1;
 	} else {
@@ -86,7 +88,9 @@ void daExclamationBlock_c::activateOne() {
 void daExclamationBlock_c::deactivate() {
 	TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
 	for (int i = 0; i < activatedLength; i++) {
-		list->remove(&tileList[i]);
+		for (int j = 0; j<4; j++) {
+			list->remove(&tileList[j][i]);
+		}
 		physicsList[i].removeFromList();
 	}
 	activatedLength = 0;
@@ -126,28 +130,28 @@ int daExclamationBlock_c::onCreate() {
 	for (int i = 0; i < maxLength; i++) {
 		physicsInfoList[i].x1 = -8;
 		physicsInfoList[i].y1 = 16;
-		physicsInfoList[i].x2 = 8;
-		physicsInfoList[i].y2 = 0;
+		physicsInfoList[i].x2 = 24;
+		physicsInfoList[i].y2 = -16;
 
 		switch(direction) {
 			case 0:
-				physicsInfoList[i].x1 += (i+1)*16;
-				physicsInfoList[i].x2 += (i+1)*16;
+				physicsInfoList[i].x1 += (i+1)*32;
+				physicsInfoList[i].x2 += (i+1)*32;
 				break;
 			case 1:
-				physicsInfoList[i].y1 -= (i+1)*16;
-				physicsInfoList[i].y2 -= (i+1)*16;
+				physicsInfoList[i].y1 -= (i+1)*32;
+				physicsInfoList[i].y2 -= (i+1)*32;
 				break;
 			case 2:
-				physicsInfoList[i].x1 -= (i+1)*16;
-				physicsInfoList[i].x2 -= (i+1)*16;
+				physicsInfoList[i].x1 -= (i+1)*32;
+				physicsInfoList[i].x2 -= (i+1)*32;
 				break;
 			case 3:
-				physicsInfoList[i].y1 += (i+1)*16;
-				physicsInfoList[i].y2 += (i+1)*16;
+				physicsInfoList[i].y1 += (i+1)*32;
+				physicsInfoList[i].y2 += (i+1)*32;
 				break;
 			default:
-				break;			
+				break;
 		}
 
 		physicsInfoList[i].otherCallback1 = (void*)&PhysCB1;
@@ -169,8 +173,13 @@ int daExclamationBlock_c::onCreate() {
 	this->wasIHit = 0.0f;
 	this->pos.z = 200.0f;
 
-	tile.x = pos.x - 8;
-	tile.y = -(16 + pos.y);
+	static float translationsX[] = {-8, 8, -8, 8};
+	static float translationsY[] = {-16, -16, 0, 0};
+
+	for(int i = 0; i<4; i++) {
+		tile[i].x = pos.x + translationsX[i];
+		tile[i].y = -pos.y + translationsY[i];
+	}
 	/*if((this->settings >> 24 & 0xF) == 0) {
 		tile.tileNumber = 0x0; //0x0 is invisible, 0x30 is brick and 0x31 is question
 	}
@@ -185,13 +194,16 @@ int daExclamationBlock_c::onCreate() {
 		this->_68B = 1;
 		physics._D8 &= ~0b00101000;
 
-		tile.tileNumber = 0x31;
-		list->add(&tile);
+		static u32 tileNumsExc[] = {0x9C, 0x9D, 0xAC, 0xAD};
+		for (int j = 0; j < 4; j++) {
+			tile[j].tileNumber = tileNumsExc[j];
+			list->add(&tile[j]);
+		}
 		
 		physicsInfo.x1 = -8;
 		physicsInfo.y1 = 16;
-		physicsInfo.x2 = 8;
-		physicsInfo.y2 = 0;
+		physicsInfo.x2 = 24;
+		physicsInfo.y2 = -16;
 
 		physicsInfo.otherCallback1 = &daEnBlockMain_c::OPhysicsCallback1;
 		physicsInfo.otherCallback2 = &daEnBlockMain_c::OPhysicsCallback2;
@@ -204,27 +216,30 @@ int daExclamationBlock_c::onCreate() {
 		physics.callback3 = &daEnBlockMain_c::PhysicsCallback3;
 		physics.addToList();
 	}
-	
+
+	static u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
 	for (int i = 0; i < maxLength; i++) {
-		tileList[i].x = pos.x - 8;
-		tileList[i].y = -(16 + pos.y);
-		tileList[i].tileNumber = 0x32;
-		
-		switch(direction) {
-			case 0:
-				tileList[i].x += (i+1)*16;
-				break;
-			case 1:
-				tileList[i].y += (i+1)*16;
-				break;
-			case 2:
-				tileList[i].x -= (i+1)*16;
-				break;
-			case 3:
-				tileList[i].y -= (i+1)*16;
-				break;
-			default:
-				break;
+		for (int j = 0; j < 4; j++) {
+			tileList[j][i].x = pos.x + translationsX[j];
+			tileList[j][i].y = -pos.y + translationsY[j];
+			tileList[j][i].tileNumber = tileNums[j];
+			
+			switch(direction) {
+				case 0:
+					tileList[j][i].x += (i+1)*32;
+					break;
+				case 1:
+					tileList[j][i].y += (i+1)*32;
+					break;
+				case 2:
+					tileList[j][i].x -= (i+1)*32;
+					break;
+				case 3:
+					tileList[j][i].y -= (i+1)*32;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 	
@@ -248,9 +263,13 @@ int daExclamationBlock_c::onCreate() {
 
 int daExclamationBlock_c::onDelete() {
 	TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
-	list->remove(&tile);
+	for (int j = 0; j < 4; j++) {
+		list->remove(&tile[j]);
+	}
 	for (int i = 0; i < activatedLength; i++) {
-		list->remove(&tileList[i]);
+		for (int j = 0; j < 4; j++) {
+			list->remove(&tileList[j][i]);
+		}
 		physicsList[i].removeFromList();
 	}
 
@@ -281,20 +300,30 @@ void daExclamationBlock_c::switchMainPhysics(bool activate) {
 
 int daExclamationBlock_c::onExecute() {
 	acState.execute();
-	physics.update();
 	blockUpdate();
 
-	tile.setPosition(pos.x-8, -(16+pos.y), pos.z);
-	tile.setVars(scale.x);
+	static float translationsX[] = {-8, 8, -8, 8};
+	static float translationsY[] = {-16, -16, 0, 0};
+	bool test1 = testOne();
+	if (test1) {
+		for(int i = 0; i<4; i++) {
+			tile[i].setPosition(pos.x + translationsX[i], -pos.y+translationsY[i], pos.z);
+			tile[i].setVars(scale.x);
+			physics.update();
+		}
+	}
 
 	if(subId == 0 && activateEntirely) {
 		if(activateEntirelyDelay < 2) {
 			activateEntirelyDelay++;
 		} else {
-			if(testOne()) {
+			if(test1) {
 				activateOne();
 			} else {
-				tile.tileNumber = 0x32;
+				static const u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
+				for(int i = 0; i<4; i++) {
+					tile[i].tileNumber = tileNums[i];
+				}
 				activateEntirely = false;
 				
 				switchMainPhysics(false);
@@ -304,10 +333,13 @@ int daExclamationBlock_c::onExecute() {
 	}
 
 
-	if (subId == 0 && activatedLength != 0) {		
+	if (subId == 0 && activatedLength != 0) {
 		if (counter >= 600) {
 			deactivate();
-			tile.tileNumber = 0x31;
+			static u32 tileNumsExc[] = {0x9C, 0x9D, 0xAC, 0xAD};
+			for(int i = 0; i<4; i++) {
+				tile[i].tileNumber = tileNumsExc[i];
+			}
 			switchMainPhysics(true);
 			counter = 0;
 		} else {
@@ -345,7 +377,10 @@ void daExclamationBlock_c::blockWasHit(bool isDown) {
 	
 	activateOne();
 	if (!testOne()) {
-		tile.tileNumber = 0x32;
+		static u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
+		for(int i = 0; i<4; i++) {
+			tile[i].tileNumber = tileNums[i];
+		}
 	}
 
 

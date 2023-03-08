@@ -231,3 +231,4 @@ modules:
   - processed/snake.yaml
   - processed/carryableSwitches.yaml
   - processed/muncher.yaml
+  - processed/fence.yaml

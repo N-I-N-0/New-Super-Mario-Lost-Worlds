@@ -617,6 +617,7 @@ enum
 	Teren = 592,
 	RocketBarrel = 593,
 	Snake = 594,
+	fence = 595,
 
 	Num
 };
@@ -1514,6 +1515,7 @@ enum
 	RocketBarrel, // 873
 	Snake, // 874
 	SnakeEgg, //875
+	fence, //876
 
 	Num
 };

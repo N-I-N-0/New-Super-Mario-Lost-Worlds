@@ -890,6 +890,7 @@ enum Actors {
 	RocketBarrel, //873
 	Snake, //874
 	SnakeEgg, //875
+	fence, //876
 
 };
 
