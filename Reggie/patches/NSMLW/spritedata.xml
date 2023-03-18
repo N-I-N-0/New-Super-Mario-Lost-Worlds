@@ -4309,8 +4309,10 @@
   </sprite> <!-- #533: Cataquack -->
   
   <sprite id="534" name="Flip Swap Panel" asmhacks="True" notes="A SMG Flip Swap Panel!" >
-    <dualbox nybble="12.4" title1="Start Left" title2="Start Right" />
+    <dualbox nybble="12.4" title1="Start left" title2="Start right" />
+    <dualbox nybble="12.3" title1="Blue left" title2="Blue right" />
   </sprite> <!-- #534: Flip Swap Panel -->
+
   
   <sprite id="535" name="Ty-Foo" asmhacks="True" notes="A Ty-Foo!" >
     <value nybble="16.3-16.4" title="Layer" comment="Set this to 2!"/>

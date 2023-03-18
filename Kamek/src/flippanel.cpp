@@ -19,7 +19,6 @@ public:
 	m3d::mdl_c model;
 	m3d::anmChr_c chrAnimation;
 
-	s16 frame;
 	bool flipClockWise;
 	void bindAnimChr_and_setUpdateRate(const char* name, int unk, float unk2, float rate, int frame);
 	void flipThisPanel();
@@ -62,27 +61,10 @@ void daEnFlipPanel_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, f
 
 void daEnFlipPanel_c::flipThisPanel() {
 	if(acState.getCurrentState() == &StateID_Wait) {
-		if(frame <= 0) {
-			frame = 0;
-			flipClockWise = false;
-		}
-		if(frame >= 59) {
-			frame = 59;
-			flipClockWise = true;
-		}
-		if(flipClockWise) {
-			bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 0);
-		} else {
-			bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 0);
-		}
+		bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, flipClockWise ? -1.0f : 1.0f, flipClockWise ? 59 : 0);
 		doStateChange(&StateID_Flipping);
 	} else {
-		flipClockWise = !flipClockWise;
-		if(flipClockWise) {
-			bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59-frame);
-		} else {
-			bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, frame);
-		}
+		chrAnimation.setUpdateRate(chrAnimation.getUpdateRate()*-1.0f);
 	}
 }
 
@@ -92,14 +74,14 @@ void daEnFlipPanel_c::endState_Wait() {}
 
 void daEnFlipPanel_c::beginState_Flipping() {}
 void daEnFlipPanel_c::executeState_Flipping() {
-	if(frame < 0 || frame > 59) {
+	if(chrAnimation.isAnimationDone()) {
 		doStateChange(&StateID_Wait);
 	} else {
-		physics.setPtrToRotation(&flipPanelRotations[frame]);
-		if(flipClockWise) {
-			frame--;
+		flipClockWise = chrAnimation.getUpdateRate() > 0;
+		if(this->settings & 2) {
+			physics.setPtrToRotation(&flipPanelRotations[int(chrAnimation.currentFrame)]);
 		} else {
-			frame++;
+			physics.setPtrToRotation(&flipPanelRotations[59-int(chrAnimation.currentFrame)]);
 		}
 	}
 }
@@ -137,15 +119,23 @@ int daEnFlipPanel_c::onCreate() {
 	physics.callback3 = (void*)&PhysCB6;
 	physics.addToList();
 
+
+	if(this->settings & 2) {
+		this->rot.y = 0x8000;
+		this->settings ^= 1;
+	}
+
 	if(this->settings & 1) {	//bit 48: dual box start left or start right
 		OSReport("Start right\n");
-		bindAnimChr_and_setUpdateRate("rotatePlateCounterL-R", 1, 0.0, 1.0f, 59);
-		frame = 59;
-		flipClockWise = true;
-		physics.setPtrToRotation(&flipPanelRotations[frame]);
+		bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 0.0f, 0);
+		physics.setPtrToRotation(&flipPanelRotations[(this->settings & 2) ? 0 : 59]);
 	} else {
-		bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 1.0f, 59);
+		flipClockWise = true;
+		bindAnimChr_and_setUpdateRate("rotatePlateClockR-L", 1, 0.0, 0.0f, 59);
+		physics.setPtrToRotation(&flipPanelRotations[(this->settings & 2) ? 59 : 0]);
 	}
+
+
 
 	doStateChange(&daEnFlipPanel_c::StateID_Wait);
 
