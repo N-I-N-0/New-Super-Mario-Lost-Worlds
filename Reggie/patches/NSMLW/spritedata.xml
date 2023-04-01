@@ -1717,6 +1717,13 @@
     </list>
   </sprite> <!-- #176: Roulette Block -->
 
+  <sprite id="180" name="Cheep-Chomp" notes="A rather large Cheep enemy that is capable of swallowing the player whole, killing them instantly regardless of their power-up state. Star excluded, of course.">
+    <list nybble="6" title="SpriteTex" >
+      <entry value="0">Original</entry>
+      <entry value="1">Wario Apparition (Microtransagolor)</entry>
+    </list>
+  </sprite> <!-- #180: Cheep-Chomp -->
+
   <sprite id="183" name="Meteor" asmhacks="True" notes="A floating, spinning, usually safe to stand on Meteor.">
     <value nybble="9-10" title="Size" comment="This determines how large the Meteor is." comment2="A setting of 0 is the same as a setting of 5. 1-255 provide general scaling from 20% to 5100% scaling."/>
     <checkbox nybble="11.4" title="Electrified" comment="When enabled, the Meteor will be electrified, and will hurt any player that touches it."/>
