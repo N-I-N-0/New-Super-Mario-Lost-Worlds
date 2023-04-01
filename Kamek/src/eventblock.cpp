@@ -68,7 +68,7 @@ int daEnEventBlock_c::onCreate() {
 
 	tile.x = pos.x - 8;
 	tile.y = -(16 + pos.y);
-	tile.tileNumber = 0x97;
+	tile.tileNumber = 0x8F;
 
 	mode = (Mode)((settings >> 16) & 0xF);
 	event1 = ((settings >> 8) & 0xFF) - 1;
@@ -104,7 +104,7 @@ int daEnEventBlock_c::onExecute() {
 
 	bool isActive = dFlagMgr_c::instance->active(event2);
 
-	tile.tileNumber = (isActive ? 0x96 : 0x97);
+	tile.tileNumber = (isActive ? 0x7F : 0x8F);
 
 	// now check zone bounds based on state
 	if (acState.getCurrentState()->isEqual(&StateID_Wait)) {

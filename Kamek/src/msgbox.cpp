@@ -235,8 +235,13 @@ class daEnMsgBlock_c : public daEnBlockMain_c {
 	USING_STATES(daEnMsgBlock_c);
 	DECLARE_STATE(Wait);
 
-	static daEnMsgBlock_c *build();
+	static dActor_c *build();
 };
+
+
+const char *MessageBoxFileList[] = {0};
+const SpriteData MessageBoxSpriteData = { ProfileId::MessageBox, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+Profile MessageBoxProfile(&daEnMsgBlock_c::build, SpriteId::MessageBox, &MessageBoxSpriteData, ProfileId::MessageBox, ProfileId::MessageBox, "MessageBox", MessageBoxFileList);
 
 
 CREATE_STATE(daEnMsgBlock_c, Wait);
@@ -273,7 +278,7 @@ int daEnMsgBlock_c::onCreate() {
 
 	tile.x = pos.x - 8;
 	tile.y = -(16 + pos.y);
-	tile.tileNumber = 0x98;
+	tile.tileNumber = 0x6F;
 
 	doStateChange(&daEnMsgBlock_c::StateID_Wait);
 
@@ -311,7 +316,7 @@ int daEnMsgBlock_c::onExecute() {
 }
 
 
-daEnMsgBlock_c *daEnMsgBlock_c::build() {
+dActor_c *daEnMsgBlock_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daEnMsgBlock_c));
 	return new(buffer) daEnMsgBlock_c;
 }

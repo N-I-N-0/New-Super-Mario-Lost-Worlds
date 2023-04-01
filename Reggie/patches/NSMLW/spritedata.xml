@@ -1147,6 +1147,12 @@
     </list>
   </sprite> <!-- #105: Pokey -->
 
+  <sprite id="107" name="Message Box Controller" notes="This controller is required for all Message Boxes to function correctly. It must be placed in every Zone that uses a Message Box.">
+    <dependency notes="This is used alongside [152] Message Box to produce blocks capable of spawning a pop-up Message Box.">
+      <suggested sprite="152"/>
+    </dependency>
+  </sprite> <!-- #107: Message Box Controller -->
+
   <sprite id="111" name="Blooper" notes="An underwater enemy that will chase the player.">
     <dependency notes="Because the Bloopers can be used without Water, if they are placed in anything but an Underwater style level, they will appear to fly rather than swim and not be confined to Location Water, etc."/>
     <list nybble="5.3-5.4" title="Hiding In Wait" comment="When this is set to an option other than the default, the Blooper will wait for the player to approach before shooting out from behind the terrain.">
@@ -1472,8 +1478,12 @@
     </list>
   </sprite> <!-- #151: Porcupuffer -->
 
-  <sprite id="152" name="Chimp NPC" asmhacks="True">
-  </sprite> <!-- #152: Chimp NPC -->
+  <sprite id="152" name="Message Box" notes="A block that the player can hit which will display a custom message. Messages are defined in Messages.bin.">
+    <dependency notes="The Message Box Controller must be included in each Zone for Message Boxes to function correctly.">
+      <required sprite="107"/>
+    </dependency>
+    <value nybble="9-12" title="Message ID" comment="Messages defined in Messages.bin. Add 256 to the ID of the message in the Newer Messages Editor program." idtype="Message"/>
+  </sprite> <!-- 152: Message Box -->
 
   <sprite id="153" name="(Unused) &quot;?&quot; Switch (Orange)" asmhacks="True" sizehacks="True" notes="An exact duplicate of the normal &quot;?&quot; Switch (Orange).">
     <dependency notes="The game will crash unless a normal orange switch is placed somewhere in the level. It does not have to be within an area that is actually used.">
@@ -2370,7 +2380,7 @@
       <entry value="2">Ice</entry>
     </list>
   </sprite> <!-- #229: Sand/Water/Ice Pillar -->
-  
+
   <sprite id="230" name="Bramball" asmhacks="True" noyoshi="True" notes="A long-legged enemy with a ball for a body that will flip itself around as it traverses terrain with proper spacing. Rumor has it that if it is struck from below with a Pipe Cannon, a large amount of coins will appear. Kaching!">
     <dependency notes="For a Bramball to want to move, he must have solid terrain exactly 4 blocks from his legs."/>
     <list nybble="6" title="Style" comment="This determines the color and style of the Bramball.">
@@ -2383,7 +2393,7 @@
     <dualbox nybble="11.4" title1="Slow Movement" title2="Fast Movement" comment="This determines how quickly the Bramball will traverse platforms."/>
     <dualbox nybble="12.4" title1="Moves Left First" title2="Moves Right First" comment="This determines which direction the Bramball will attempt to move first."/>
   </sprite> <!-- #230: Bramball -->
-  
+
   <!-- Test Upwards Lift for minimum and maximum value. Used values: 0, 2 -->
   <!-- Test Upwards Lift for any overrides by Tilt Amount. Notes suggested that Tilt above 2 causes Upwards Lift to not function. -->
   <!-- Test Tilts Left First vs Tilts Right First -->
@@ -2431,6 +2441,13 @@
       <entry value="3">6 Blocks</entry>
     </list>
   </sprite> <!-- 231: Wiggling Mushroom Platform -->
+
+  <sprite id="232" name="Mecha-Koopa" noyoshi="True" notes="A mechanical wind-up Koopa that can be picked up after being stomped on and carried around like a shell.">
+    <list nybble="6" title="Type" >
+      <entry value="0">Original</entry>
+      <entry value="1">SMG</entry>
+    </list>
+  </sprite> <!-- #232: Mecha-Koopa -->
 
   <sprite id="234" name="Effect - Cloud Area" notes="This adds decorative patchs of cloud cover with different properties. Most modes required a Location ID, but some do not.">
     <list nybble="11" title="Cloud Type" comment="This determines which type of cloud will be spawned. See the extra comment for details." comment2="Normal: A light patch of clouds spawns in the Location ID. It is denser than [446].&lt;br&gt;Dense: A dense patch of clouds spawns in the Location ID.&lt;br&gt;Death Clouds: - A dense patch of purple clouds that will instantly kill the player spawns in the Location ID. They can be cleared away with spin jumps.&lt;br&gt;Drifting Death Clouds: A dense patch of purple clouds that spawns around a specific Location ID, that proceeds to drifts to the right across the entire stage. It cannot be cleared away with a spin jump like other Death Clouds, and it will generate a rumbling sound effect when the player is close to it. (A Location ID may not actually be required.)&lt;br&gt;Falling Clouds: Clouds fall in the background across the entire stage." advancedcomment="1, 3: Used by Foo and cannot be placed.&lt;br&gt;6, 9-15: No clouds spawn.">
@@ -4312,7 +4329,6 @@
     <dualbox nybble="12.4" title1="Start left" title2="Start right" />
     <dualbox nybble="12.3" title1="Blue left" title2="Blue right" />
   </sprite> <!-- #534: Flip Swap Panel -->
-
   
   <sprite id="535" name="Ty-Foo" asmhacks="True" notes="A Ty-Foo!" >
     <value nybble="16.3-16.4" title="Layer" comment="Set this to 2!"/>
@@ -4735,6 +4751,10 @@
   </sprite> <!-- #594: Snake -->
 
   <sprite id="595" name="Fence" asmhacks="True" >
+    <value nybble="3.2-4.4" title="Triggering Event ID" idtype="Triggering Event" />
   </sprite> <!-- #595: Fence -->
+
+  <sprite id="596" name="Chimp NPC" asmhacks="True">
+  </sprite> <!-- #596: Chimp NPC -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

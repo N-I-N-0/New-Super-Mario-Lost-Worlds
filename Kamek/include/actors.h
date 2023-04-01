@@ -891,6 +891,7 @@ enum Actors {
 	Snake, //874
 	SnakeEgg, //875
 	fence, //876
+	MessageBox, //877
 
 };
 

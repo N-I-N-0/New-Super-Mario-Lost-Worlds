@@ -66,21 +66,21 @@ int daEnTripleBlock_c::onCreate() {
 
 	tileRight.x = pos.x + 8;
 	tileRight.y = -(16 + pos.y);
-	tileRight.tileNumber = 0x9B;
+	tileRight.tileNumber = 0x99;
 
 	//Middle
 	list->add(&tileMiddle);
 
 	tileMiddle.x = pos.x - 8;
 	tileMiddle.y = -(16 + pos.y);
-	tileMiddle.tileNumber = 0x9A;
+	tileMiddle.tileNumber = 0x98;
 
 	//Left
 	list->add(&tileLeft);
 
 	tileLeft.x = pos.x - 24;
 	tileLeft.y = -(16 + pos.y);
-	tileLeft.tileNumber = 0x99;
+	tileLeft.tileNumber = 0x97;
 
 	this->wasIHit = 0.0f;
 	this->pos.z = 200.0f;
@@ -228,9 +228,10 @@ void daEnTripleBlock_c::executeState_Wait() {
 		}
 	}
 	if(this->wasIHit > 0.9f && this->doOneTime == 0) { //Was already hit ? Change the tiles.
-		tileRight.tileNumber = 0xA8;
-		tileMiddle.tileNumber = 0xA7;
-		tileLeft.tileNumber = 0xA6;
+		tileRight.tileNumber = 0xA9;
+		tileMiddle.tileNumber = 0xA8;
+		tileLeft.tileNumber = 0xA7;
+		this->_68D = 1;
 		this->doOneTime++;
 	}
 }

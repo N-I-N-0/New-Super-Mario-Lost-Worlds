@@ -618,6 +618,7 @@ enum
 	RocketBarrel = 593,
 	Snake = 594,
 	fence = 595,
+	MessageBox = 596,
 
 	Num
 };
@@ -1516,6 +1517,7 @@ enum
 	Snake, // 874
 	SnakeEgg, //875
 	fence, //876
+	MessageBox, //877
 
 	Num
 };

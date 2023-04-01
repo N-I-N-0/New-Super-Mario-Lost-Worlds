@@ -36,6 +36,8 @@ public:
 	u8 activatedLength;
 	daExclamationBlock_c* next;
 
+	Vec efPos[16];
+
 	bool ranOnce;
 
 	int wasIHit;
@@ -59,6 +61,7 @@ public:
 	bool testOne();
 	void deactivate();
 	void switchMainPhysics(bool activate);
+	void warning(int);
 
 	USING_STATES(daExclamationBlock_c);
 	DECLARE_STATE(Wait);
@@ -71,9 +74,11 @@ CREATE_STATE(daExclamationBlock_c, Wait);
 
 
 void daExclamationBlock_c::activateOne() {
+	static const u32 tileNums[] = {0x9C, 0x9D, 0xAC, 0xAD};
 	if (activatedLength < maxLength) {
 		TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
 		for (int i = 0; i<4; i++) {
+			tileList[i][activatedLength].tileNumber = tileNums[i];
 			list->add(&tileList[i][activatedLength]);
 		}
 		physicsList[activatedLength].addToList();
@@ -87,7 +92,15 @@ void daExclamationBlock_c::activateOne() {
 
 void daExclamationBlock_c::deactivate() {
 	TileRenderer::List *list = dBgGm_c::instance->getTileRendererList(0);
+	if(subId == 0 && activatedLength > 0) {
+		PlaySoundAsync(this, SE_OBJ_BLOCK_BREAK);
+	}
 	for (int i = 0; i < activatedLength; i++) {
+		efPos[i].x =  tileList[0][i].x + 16;
+		efPos[i].y = -tileList[0][i].y - 16;
+		efPos[i].z = 5500.0;
+
+		SpawnEffect("Wm_en_burst_s", 0, &efPos[i], 0, 0);
 		for (int j = 0; j<4; j++) {
 			list->remove(&tileList[j][i]);
 		}
@@ -194,7 +207,7 @@ int daExclamationBlock_c::onCreate() {
 		this->_68B = 1;
 		physics._D8 &= ~0b00101000;
 
-		static u32 tileNumsExc[] = {0x9C, 0x9D, 0xAC, 0xAD};
+		static u32 tileNumsExc[] = {0x9A, 0x9B, 0xAA, 0xAB};
 		for (int j = 0; j < 4; j++) {
 			tile[j].tileNumber = tileNumsExc[j];
 			list->add(&tile[j]);
@@ -217,7 +230,7 @@ int daExclamationBlock_c::onCreate() {
 		physics.addToList();
 	}
 
-	static u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
+	static u32 tileNums[] = {0x9C, 0x9D, 0xAC, 0xAD};
 	for (int i = 0; i < maxLength; i++) {
 		for (int j = 0; j < 4; j++) {
 			tileList[j][i].x = pos.x + translationsX[j];
@@ -300,16 +313,21 @@ void daExclamationBlock_c::switchMainPhysics(bool activate) {
 
 int daExclamationBlock_c::onExecute() {
 	acState.execute();
-	blockUpdate();
 
-	static float translationsX[] = {-8, 8, -8, 8};
-	static float translationsY[] = {-16, -16, 0, 0};
-	bool test1 = testOne();
-	if (test1) {
-		for(int i = 0; i<4; i++) {
-			tile[i].setPosition(pos.x + translationsX[i], -pos.y+translationsY[i], pos.z);
-			tile[i].setVars(scale.x);
-			physics.update();
+	bool test1;
+
+	if(this->subId == 0) {
+		blockUpdate();
+
+		static float translationsX[] = {-8, 8, -8, 8};
+		static float translationsY[] = {-16, -16, 0, 0};
+		test1 = testOne();
+		if (test1) {
+			for(int i = 0; i<4; i++) {
+				tile[i].setPosition(pos.x + translationsX[i], -pos.y+translationsY[i], pos.z);
+				tile[i].setVars(scale.x);
+				physics.update();
+			}
 		}
 	}
 
@@ -320,7 +338,7 @@ int daExclamationBlock_c::onExecute() {
 			if(test1) {
 				activateOne();
 			} else {
-				static const u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
+				static u32 tileNums[] = {0x9C, 0x9D, 0xAC, 0xAD};
 				for(int i = 0; i<4; i++) {
 					tile[i].tileNumber = tileNums[i];
 				}
@@ -334,9 +352,12 @@ int daExclamationBlock_c::onExecute() {
 
 
 	if (subId == 0 && activatedLength != 0) {
+		if (counter >= 450) {
+			this->warning(counter);
+		}
 		if (counter >= 600) {
 			deactivate();
-			static u32 tileNumsExc[] = {0x9C, 0x9D, 0xAC, 0xAD};
+			static u32 tileNumsExc[] = {0x9A, 0x9B, 0xAA, 0xAB};
 			for(int i = 0; i<4; i++) {
 				tile[i].tileNumber = tileNumsExc[i];
 			}
@@ -377,7 +398,7 @@ void daExclamationBlock_c::blockWasHit(bool isDown) {
 	
 	activateOne();
 	if (!testOne()) {
-		static u32 tileNums[] = {0x9E, 0x9F, 0xAE, 0xAF};
+		static u32 tileNums[] = {0x9C, 0x9D, 0xAC, 0xAD};
 		for(int i = 0; i<4; i++) {
 			tile[i].tileNumber = tileNums[i];
 		}
@@ -438,5 +459,37 @@ void daExclamationBlock_c::executeState_Wait() {
 			//_660 = 8;
 		//	waitUntilNextDownMove = 6;
 		//}
+	}
+}
+
+void daExclamationBlock_c::warning(int timer) {
+	static const u32 tileNums[] = {0x9C, 0x9D, 0xAC, 0xAD};
+	static const u32 tileNumsWarn[] = {0x9E, 0x9F, 0xAE, 0xAF};
+	if(timer % 30 < 15) {
+		for(int i = 0; i<4; i++) {
+			if((this->subId == 0) && !testOne()) {
+				tile[i].tileNumber = tileNumsWarn[i];
+			}
+			for(int j = 0; j < maxLength; j++) {
+				tileList[i][j].tileNumber = tileNumsWarn[i];
+			}
+		}
+		if(subId == 0 && timer <= 570 && timer % 30 == 0) {
+			nw4r::snd::SoundHandle *handle = PlaySound(this, SE_EMY_KANIBO_THROW);
+			if (handle)
+				handle->SetVolume(0.3f, 0);
+		}
+	} else {
+		for(int i = 0; i<4; i++) {
+			if((this->subId == 0) && !testOne()) {
+				tile[i].tileNumber = tileNums[i];
+			}
+			for(int j = 0; j < maxLength; j++) {
+				tileList[i][j].tileNumber = tileNums[i];
+			}
+		}
+	}
+	if (next) {
+		next->warning(timer);
 	}
 }

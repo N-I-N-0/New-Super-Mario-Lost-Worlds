@@ -1099,6 +1099,8 @@ TEX_GhostDoor:
 TEX_BlooperNanny:
 .global TEX_IgaPuku
 TEX_IgaPuku:
+.global TEX_MechaKoopa
+TEX_MechaKoopa:
 	lwz r5, 4(r29)
 	srwi r5, r5, 24
 	andi. r5, r5, 0xF

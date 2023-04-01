@@ -8,6 +8,8 @@ public:
 	nw4r::g3d::ResFile resFile;
 	m3d::mdl_c bodyModel;
 
+	m3d::anmTexSrt_c srtAnm;
+
 	bool isVisible;
 
 	void appear();
@@ -38,6 +40,11 @@ int daEnFence_c::onCreate() {
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("fence");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
 	//SetupTextures_Enemy(&bodyModel, 0);
+
+	nw4r::g3d::ResAnmTexSrt anmRes = this->resFile.GetResAnmTexSrt("magic");
+	this->srtAnm.setup(mdl, anmRes, &this->allocator, 0, 1);
+	this->srtAnm.bindEntry(&this->bodyModel, anmRes, 0, 0);
+	this->bodyModel.bindAnim(&this->srtAnm, 0.0);
 
 	allocator.unlink();
 
@@ -83,6 +90,7 @@ int daEnFence_c::onExecute() {
 
 int daEnFence_c::onDraw() {
 	if(isVisible) {
+		this->srtAnm.process();
 		bodyModel.scheduleForDrawing();
 	}
 }

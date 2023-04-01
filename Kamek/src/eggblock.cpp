@@ -75,52 +75,10 @@ int daEggBlock_c::onCreate() {
 	if((this->settings >> 24 & 0xF) == 2) {
 		tile.tileNumber = 0x31; //0x0 is invisible, 0x30 is brick and 0x31 is question
 	}*/
-	switch(this->settings & 0xF) {
-		case 0:
-			tile.tileNumber = 0x8C;		//light blue
-			break;
-
-		case 1:
-			tile.tileNumber = 0x8D;		//pink
-			break;
-
-		case 2:
-			tile.tileNumber = 0x8E;		//yellow
-			break;
-
-		case 3:
-			tile.tileNumber = 0x9C;		//green
-			break;
-
-		case 4:
-			tile.tileNumber = 0x9D;		//blue
-			break;
-
-		case 5:
-			tile.tileNumber = 0x9E;		//red
-			break;
-
-		case 6:
-			tile.tileNumber = 0x9F;		//orange
-			break;
-
-		case 7:
-			tile.tileNumber = 0xAC;		//brown
-			break;
-
-		case 8:
-			tile.tileNumber = 0xAD;		//white
-			break;
-
-		case 9:
-			tile.tileNumber = 0xAE;		//purple
-			break;
-
-		case 10:
-		default:
-			tile.tileNumber = 0xAF;		//all - rainbow
-			break;
-	}
+	
+	static u8 tileNumbers[] = {0xB6, 0xC4, 0xB7, 0xB5, 0xC5, 0xC7, 0xC6, 0xD5, 0xD6, 0xD4, 0xD7};
+	
+	tile.tileNumber = tileNumbers[this->settings & 0xF];
 
 	this->spriteSomeRectX = 6000.0f;
 

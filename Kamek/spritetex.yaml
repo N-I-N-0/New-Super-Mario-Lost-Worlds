@@ -58,6 +58,12 @@ hooks:
 #    src_addr_pal: 0x80aa6b9c
 #    target_func: 'TEX_SnakeBlock'
 
+  - name: TEX_MechaKoopa
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x80a643c0
+    target_func: 'TEX_MechaKoopa'
+
   - name: TEX_RiverPiranha
     type: branch_insn
     branch_type: bl
