@@ -146,7 +146,7 @@ modules:
   - processed/cloudPlattform.yaml
   - processed/goombaTower.yaml
   - processed/busuBusu.yaml
-#  - processed/tiki.yaml
+  - processed/tiki.yaml
   - processed/fireball.yaml
   - processed/newSfx.yaml
   - processed/poihana.yaml
@@ -232,3 +232,4 @@ modules:
   - processed/carryableSwitches.yaml
   - processed/muncher.yaml
   - processed/fence.yaml
+#  - processed/generalTextBoxMgr.yaml

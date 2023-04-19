@@ -892,6 +892,14 @@ enum Actors {
 	SnakeEgg, //875
 	fence, //876
 	MessageBox, //877
+	GeneralTBMgr, //878
+	Banjo, //879
+	Cordian, //880
+	Gong, //881
+	Goon, //882
+	Kalimba, //883
+	WackyPipes, //884
+	Xylobone, //885
 
 };
 

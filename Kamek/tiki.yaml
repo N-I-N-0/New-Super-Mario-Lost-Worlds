@@ -1,3 +1,3 @@
 ---
-source_files: [../src/tong.cpp]
+source_files: [../src/tong.cpp, ../src/tikis.cpp]
 hooks: []

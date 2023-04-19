@@ -619,6 +619,14 @@ enum
 	Snake = 594,
 	fence = 595,
 	MessageBox = 596,
+	GeneralTBMgr = 597,
+	Banjo = 598,
+	Cordian = 599,
+	Gong = 600,
+	Goon = 601,
+	Kalimba = 602,
+	WackyPipes = 603,
+	Xylobone = 604,
 
 	Num
 };
@@ -1518,6 +1526,14 @@ enum
 	SnakeEgg, //875
 	fence, //876
 	MessageBox, //877
+	GeneralTBMgr, //878
+	Banjo, //879
+	Cordian, //880
+	Gong, //881
+	Goon, //882
+	Kalimba, //883
+	WackyPipes, //884
+	Xylobone, //885
 
 	Num
 };

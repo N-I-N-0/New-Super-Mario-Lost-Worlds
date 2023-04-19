@@ -71,7 +71,6 @@ const SpriteData TikiTongHandSpriteData = { ProfileId::TikiTongHand, 0, 0, 0, 0,
 Profile TikiTongHandProfile(&daTikiTongHand_c::build, SpriteId::TikiTongHand, &TikiTongHandSpriteData, ProfileId::TikiTongHand, ProfileId::TikiTongHand, "TikiTongHand", TikiTongList);
 
 
-
 class daTikiTongCrown_c : public dEn_c {
 public:
 
@@ -118,7 +117,7 @@ dActor_c* daTikiTongCrown_c::build() {
 }
 
 const SpriteData TikiTongCrownSpriteData = { ProfileId::TikiTongCrown, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TikiTongCrownProfile(&daTikiTongCrown_c::build, SpriteId::TikiTongCrown, TikiTongCrownSpriteData, ProfileId::TikiTongCrown, ProfileId::TikiTongCrown, "TikiTongCrown", TikiTongList);
+Profile TikiTongCrownProfile(&daTikiTongCrown_c::build, SpriteId::TikiTongCrown, &TikiTongCrownSpriteData, ProfileId::TikiTongCrown, ProfileId::TikiTongCrown, "TikiTongCrown", TikiTongList);
 
 
 
@@ -174,7 +173,7 @@ dActor_c* daTikiTongBody_c::build() {
 }
 
 const SpriteData TikiTongBodySpriteData = { ProfileId::TikiTongBody, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
-Profile TikiTongBodyProfile(&daTikiTongBody_c::build, SpriteId::TikiTongBody, TikiTongBodySpriteData, ProfileId::TikiTongBody, ProfileId::TikiTongBody, "TikiTongBody", TikiTongList);
+Profile TikiTongBodyProfile(&daTikiTongBody_c::build, SpriteId::TikiTongBody, &TikiTongBodySpriteData, ProfileId::TikiTongBody, ProfileId::TikiTongBody, "TikiTongBody", TikiTongList);
 
 
 int daTikiTongBody_c::onCreate() {
