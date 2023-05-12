@@ -2553,19 +2553,40 @@ class dPlayerInput_c {
 
 class daPlBase_c : public dStageActor_c {
 	public:
+		struct GravityData {
+			float ground_pound_accel;
+			float thresholds[5];
+			float fall_strengths[6];
+			float jump_strengths[6];
+		};
+		enum Powerup {
+			SmallMario = 0,
+			BigMario = 1,
+			FireMario = 2,
+			MiniMario = 3,
+			PropellerMario = 4,
+			PenguinMario = 5,
+			IceMario = 6,
+			HammerMario = 7
+		};
 		// Can't be assed to build full headers right now
 		u8 data[0x45C - 0x394];
 		float demoMoveSpeed;
 		u8 data3[0xEA4 - 0x460];
 		dPlayerInput_c input;
 		// We're at 0x1008 now
-		u8 data2[0x1418 - 0x1008];
+		//u8 data2[0x1418 - 0x1008];
+		u8 data2[0x1068 - 0x1008];
+		GravityData* gravityData;
+		u8 data5[0x1090 - 0x106C];
+		
+		u8 data4[0x1418 - 0x1094];
 		dStateWrapper_c<daPlBase_c> demoStates;
 		u32 demoStateParam;
 		u32 _1458, _145C;
 		u8 _1460;
 		dStateWrapper_c<daPlBase_c> states2;
-		
+		Powerup powerup;
 		u8 data6[0x14D4 - 0x14A0];
 
 		void useDemoControl();
@@ -4728,7 +4749,7 @@ class dAcPy_c : public daPlBase_c {
 		void sub_80146710(); // 80146710
 		void setVisibleArea(); // 80146810
 		void setModeGravity(); // 80146880
-		float* getGravityData(); // 801468B0
+		GravityData* getGravityData(); // 801468B0
 		u32 setPowerup_orig(u32 powerup_id); // 801468F0
 		u32 patch_thing(u32 powerup_id); // Over setPowerup
 		u32 _vf3FC(); // 80146A10
