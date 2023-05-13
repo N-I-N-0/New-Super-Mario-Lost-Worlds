@@ -2560,14 +2560,20 @@ class daPlBase_c : public dStageActor_c {
 			float jump_strengths[6];
 		};
 		enum Powerup {
-			SmallMario = 0,
-			BigMario = 1,
-			FireMario = 2,
-			MiniMario = 3,
-			PropellerMario = 4,
-			PenguinMario = 5,
-			IceMario = 6,
-			HammerMario = 7
+			Small = 0,
+			Big = 1,
+			Fire = 2,
+			Mini = 3,
+			Propeller = 4,
+			Penguin = 5,
+			Ice = 6,
+			Hammer = 7,
+			Gold = 8,
+			Spike = 9,
+			Boomerang = 10,
+			Frog = 11,
+			Cloud = 12,
+			Wand = 13
 		};
 		// Can't be assed to build full headers right now
 		u8 data[0x45C - 0x394];
@@ -2579,14 +2585,13 @@ class daPlBase_c : public dStageActor_c {
 		u8 data2[0x1068 - 0x1008];
 		GravityData* gravityData;
 		u8 data5[0x1090 - 0x106C];
-		
+		Powerup powerup;
 		u8 data4[0x1418 - 0x1094];
 		dStateWrapper_c<daPlBase_c> demoStates;
 		u32 demoStateParam;
 		u32 _1458, _145C;
 		u8 _1460;
 		dStateWrapper_c<daPlBase_c> states2;
-		Powerup powerup;
 		u8 data6[0x14D4 - 0x14A0];
 
 		void useDemoControl();
