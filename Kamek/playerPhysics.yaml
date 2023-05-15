@@ -1,0 +1,14 @@
+---
+source_files: [../src/playerPhysics.cpp]
+hooks:
+  - name: Test
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80146880
+    target_func: 'dAcPy_c::setModeGravity(void)'
+
+  - name: Test
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801468b0
+    target_func: 'dAcPy_c::getGravityData(void)'
