@@ -1,9 +1,10 @@
 #include <game.h>
+#include "path.h"
 
 
 const char* TwisterFileList[] = { "twister", NULL };
 
-class daEnTwister_c : public dEn_c {
+class daEnTwister_c : public dEnPath_c {
 public:
 
 	int onCreate();
@@ -13,12 +14,13 @@ public:
 
 	void updateModelMatrices();
 	
-
+	mEf::es2 effects[2];
+	
 	static dActor_c* build();
 
-	//void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-	//void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
-	//void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	void playerCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	void spriteCollision(ActivePhysics *apThis, ActivePhysics *apOther);
+	void yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther);
 
 	//bool collisionCat3_StarPower(ActivePhysics *apThis, ActivePhysics *apOther); 
 	//bool collisionCat5_Mario(ActivePhysics *apThis, ActivePhysics *apOther); 
@@ -40,6 +42,32 @@ public:
 	nw4r::g3d::ResFile resFile;
 
 };
+
+
+void daEnTwister_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	playerCollides = true;
+
+	daPlBase_c* player = (daPlBase_c*)apOther->owner;
+
+	if (player->pos.y <= this->pos.y + 16) {
+		if(player->input.getPressedTwo() || player->input.getHeldTwo()) {
+			player->speed.y = 8.0f;
+		} else {
+			player->speed.y = 6.0f;
+		}
+	}
+}
+void daEnTwister_c::yoshiCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	playerCollision(apThis, apOther);
+}
+
+void daEnTwister_c::spriteCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	dStageActor_c* sprite = (dStageActor_c*)apOther->owner;
+
+	if (sprite->pos.y <= this->pos.y + 16) {
+		sprite->speed.y = 4;
+	}
+}
 
 
 void daEnTwister_c::updateModelMatrices() {
@@ -74,31 +102,36 @@ int daEnTwister_c::onCreate() {
 	this->scale.y = 0.15;
 	this->scale.z = 0.15;
 
-	ActivePhysics::Info HitMeBaby; 
-	HitMeBaby.xDistToCenter = 0.0; 
-	HitMeBaby.yDistToCenter = 0.0; 
-	HitMeBaby.xDistToEdge = 0.0; 
-	HitMeBaby.yDistToEdge = 0.0; 
-	HitMeBaby.category1 = 0x3; 
-	HitMeBaby.category2 = 0x0; 
-	HitMeBaby.bitfield1 = 0x4F; 
-	HitMeBaby.bitfield2 = 0xFFFFEEAE; 
-	HitMeBaby.unkShort1C = 0; 
-	HitMeBaby.callback = &dEn_c::collisionCallback; 
-	this->aPhysics.initWithStruct(this, &HitMeBaby); 
+	ActivePhysics::Info HitMeBaby;
+	HitMeBaby.xDistToCenter = 0.0;
+	HitMeBaby.yDistToCenter = 16.0;
+	HitMeBaby.xDistToEdge = 10.0;
+	HitMeBaby.yDistToEdge = 28.0;
+	HitMeBaby.category1 = 0x5;
+	HitMeBaby.category2 = 0x0;
+	HitMeBaby.bitfield1 = 0x4F;
+	HitMeBaby.bitfield2 = 0x0;
+	HitMeBaby.unkShort1C = 0;
+	HitMeBaby.callback = &dEn_c::collisionCallback;
+	this->aPhysics.initWithStruct(this, &HitMeBaby);
 	this->aPhysics.addToList();
-
-	SpawnEffect("Wm_en_spindamage_rg", 0, &(Vec){this->pos.x, this->pos.y + 24.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
-	SpawnEffect("Wm_en_spindamage_big_rg", 0, &(Vec){this->pos.x, this->pos.y + 48.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	
+	effects[0].spawn("Wm_en_spindamage_rg", 0, &(Vec){this->pos.x, this->pos.y + 24.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	effects[1].spawn("Wm_en_spindamage_big_rg", 0, &(Vec){this->pos.x, this->pos.y + 48.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	
+	doStateChange(&StateID_Init);
 	
 	return true;
 }
 
 int daEnTwister_c::onExecute() {
-	updateModelMatrices();
 	bodyModel._vf1C();
+	updateModelMatrices();
+	acState.execute();
 
-
+	effects[0].spawn("Wm_en_spindamage_rg", 0, &(Vec){this->pos.x, this->pos.y + 24.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	effects[1].spawn("Wm_en_spindamage_big_rg", 0, &(Vec){this->pos.x, this->pos.y + 48.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	
 	this->rot.y += 0x400;
 
 	return true;
@@ -109,7 +142,9 @@ int daEnTwister_c::onDelete() {
 }
 
 int daEnTwister_c::onDraw() {
+	pos.y += 4;
 	bodyModel.scheduleForDrawing();
+	pos.y -= 4;
 
 	return true;
 }

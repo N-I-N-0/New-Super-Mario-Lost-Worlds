@@ -755,6 +755,7 @@ SECTIONS {
 	detectGroundPound__14dPlayerInput_c = 0x8005E300;
 	_ZN14dPlayerInput_c17detectGroundPoundEv = 0x8005E300;/*addAnyway*/
 	getHeldTwo__14dPlayerInput_c = 0x8005E580;
+	getPressedTwo__14dPlayerInput_cFv = 0x8005E570;
 	getHeldTwo__14dPlayerInput_cFv = 0x8005E580;
 	_ZN14dPlayerInput_c10getHeldTwoEv = 0x8005E580;/*addAnyway*/
 
