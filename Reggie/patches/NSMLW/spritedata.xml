@@ -1717,7 +1717,7 @@
     </list>
   </sprite> <!-- #176: Roulette Block -->
 
-  <sprite id="180" name="Cheep-Chomp" notes="A rather large Cheep enemy that is capable of swallowing the player whole, killing them instantly regardless of their power-up state. Star excluded, of course.">
+  <sprite id="180" name="Cheep-Chomp / Wario Apparition" notes="A rather large Cheep enemy that is capable of swallowing the player whole, killing them instantly regardless of their power-up state. Star excluded, of course.">
     <list nybble="6" title="SpriteTex" >
       <entry value="0">Original</entry>
       <entry value="1">Wario Apparition (Microtransagolor)</entry>
@@ -3789,6 +3789,32 @@
     </list>
   </sprite> <!-- #447: Lighting - Underwater Lamp -->
 
+  <sprite id="459" name="Crowd Clapping Controller for Coin Collection #1" notes="A controller that generates a clapping sound when the player collects the listed number of coins of both types from the Collection ID group.">
+    <dependency notes="You cannot use tileset coins for this to function."/>
+      <suggested sprite="147"/>
+      <suggested sprite="237"/>
+    <value nybble="7-8" title="# of Blue Coins Required" comment="This determines the number of paired blue coins required to trigger the Crowd Clapper."/>
+    <value nybble="9-10" title="# of Yellow Coins Required" comment="This determines the number of paired standard coins required to trigger the Crowd Clapper."/>
+    <value nybble="5-6" title="# of Purple Coins Required" comment="This determines the number of paired purple coins required to trigger the Crowd Clapper. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
+    <value nybble="12" title="Collection ID" comment="This pairs matching Coins with the Crowd Clapper to track their collection." idtype="Collection"/>
+    <value nybble="1-2" title="Target Event ID" comment="When the Crowd Clapping Controller claps, this Event ID will be triggered. Leaving to 0 disables this function. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" idtype="Target Event"/>
+    <value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the Crowd Clapping Controller will clap. Leaving to 0 disables this function. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" idtype="Triggering Event"/>
+    <checkbox nybble="11.4" title="Disable SFX" comment="Prevents the Crowd Clapping sounds from being played. Useful if you only want to use the Event part. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
+  </sprite> <!-- #459: Crowd Clapping Controller for Coin Collection #1 -->
+
+  <sprite id="461" name="Crowd Clapping Controller for Coin Collection #2" notes="A controller that generates a clapping sound when the player collects the listed number of coins of both types from the Collection ID group. Seems to be identical to #1.">
+    <dependency notes="You cannot use tileset coins for this to function."/>
+      <suggested sprite="147"/>
+      <suggested sprite="237"/>
+    <value nybble="7-8" title="# of Blue Coins Required" comment="This determines the number of paired blue coins required to trigger the Crowd Clapper."/>
+    <value nybble="9-10" title="# of Yellow Coins Required" comment="This determines the number of paired standard coins required to trigger the Crowd Clapper."/>
+    <value nybble="5-6" title="# of Purple Coins Required" comment="This determines the number of paired purple coins required to trigger the Crowd Clapper. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
+    <value nybble="12" title="Collection ID" comment="This pairs matching Coins with the Crowd Clapper to track their collection." idtype="Collection"/>
+    <value nybble="1-2" title="Target Event ID" comment="When the Crowd Clapping Controller claps, this Event ID will be triggered. Leaving to 0 disables this function. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" idtype="Target Event"/>
+    <value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the Crowd Clapping Controller will clap. Leaving to 0 disables this function. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;" idtype="Triggering Event"/>
+    <checkbox nybble="11.4" title="Disable SFX" comment="Prevents the Crowd Clapping sounds from being played. Useful if you only want to use the Event part. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
+  </sprite> <!-- #461: Crowd Clapping Controller for Coin Collection #2 -->
+
   <sprite id="478" name="Bowser Switch (Small)" asmhacks="True" sizehacks="True" notes="This switch is nearly identical to the Red ! Switch, but it does not activate outlined Red Blocks. It may have additional bugs. Not recommended for use outside of the final Bowser Boss fight.">
     <dependency notes="This sprite has additional hardcoded behavior that may cause bugs when it is used outside of its intended boss fight.">
       <suggested sprite="431"/>
@@ -4265,7 +4291,7 @@
     <value nybble="9-10" title="currentNodeNum" comment="don't know why that exists" />
     <value nybble="11-12" title="Path ID" comment="ID" />
   </sprite> <!-- #523: Boshi -->
-  
+
   <sprite id="524" name="Cloud Plattform" asmhacks="True" >
     <value nybble="11-12" title="Path ID" />
     <value nybble="9-10" title="currentNodeNum" comment="Start Node" />
@@ -4276,11 +4302,11 @@
       <entry value="2">Wait for one player always to move</entry>
     </list>
   </sprite> <!-- #524: Cloud Plattform -->
-  
+
   <sprite id="525" name="Goomba Tower" asmhacks="True" notes="Where am I going">
     <value nybble="9" title="Goomba Tower Height" comment="How many additional goombas" />
   </sprite> <!-- #524: Goomba Tower -->
-  
+
   <sprite id="526" name="BusuBusu" asmhacks="True" notes="A bee!">
     <dualbox nybble="5.1" title1="Follow path" title2="Left &amp; right" />
 
@@ -4292,7 +4318,7 @@
 
     <value nybble="8" title="Speed" comment="Don't use speed 0!" />
   </sprite> <!-- #526: BusuBusu -->
-  
+
   <sprite id="527" name="Tiki Tong" asmhacks="True" >
   </sprite> <!-- #527: Tiki Tong -->  
 
@@ -4763,5 +4789,29 @@
 
   <sprite id="596" name="Chimp NPC" asmhacks="True">
   </sprite> <!-- #596: Chimp NPC -->
+
+  <sprite id="597" name="General Talk Balloon Manager" >
+  </sprite> <!-- #597: General Talk Balloon Manager -->
+
+  <sprite id="598" name="Banjo" asmhacks="True" notes="Tiki Tribe member: Banjo!">
+    <dualbox nybble="5.1" title1="Follow path" title2="Left &amp; right" />
+
+    <checkbox nybble="5.2" title="Face right" comment="Start to the right" requirednybble="5.1" requiredval="1" />
+    <value nybble="6-7" title="Flying distance" comment="How far should we fly?" requirednybble="5.1" requiredval="1" />
+    
+    <value nybble="11-12" title="Path ID" requirednybble="5.1" requiredval="0" />
+    <value nybble="9-10" title="currentNodeNum" comment="Start Node"  requirednybble="5.1" requiredval="0" />
+
+    <value nybble="8" title="Speed" comment="Don't use speed 0!" />
+  </sprite> <!-- #598: Banjo -->
+
+
+
+  <sprite id="605" name="Level Camera Preview" asmhacks="True" >
+    <value nybble="11-12" title="Path ID" requirednybble="5.1" requiredval="0" />
+    <value nybble="9-10" title="currentNodeNum" comment="Start Node"  requirednybble="5.1" requiredval="0" />
+
+    <value nybble="8" title="Speed" comment="Don't use speed 0!" />
+  </sprite> <!-- #605: Level Camera Preview -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

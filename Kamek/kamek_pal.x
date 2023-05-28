@@ -1,4 +1,8 @@
 SECTIONS {
+	doneWithCheckNewCounts = 0x808727D4;
+	doneWithCheckNewCounts2 = 0x80872770;
+	doneWithCheckNewCounts3 = 0x8087277C;
+
 	exeFrame__10dScStage_c = 0x8042a4e0;
 
 	getMissSpinAngle__7dAcPy_cFv = 0x80129a50;
@@ -94,6 +98,8 @@ SECTIONS {
 	returnTodPlayerMdl_c__playFix = 0x800d3a34;
 	setSoftLight__18dPlayerModelBase_cFPQ23m3d5mdl_c = 0x800d5c80;
 	dPlayerMdl_c__createPlayerModel = 0x800d3474;
+	dPlayerMdl_c__initializePlayerModel = 0x800d3374;
+	setCallback__Q23m3d5mdl_cFPv = 0x8016a140;
 
 	returnToFooCloud = 0x809dd710;
 	StateID_IceDamage__10daPlBase_c = 0x80376770;

@@ -66,7 +66,6 @@ modules:
   - processed/spritespawner.yaml
   - processed/spriteswapper.yaml
   - processed/compression.yaml
-  # - processed/crowdclapper.yaml
   # - processed/blocksnake.yaml
   # - processed/classic_controller.yaml
   - processed/topman.yaml
@@ -175,7 +174,7 @@ modules:
   - processed/worldmapAnimations.yaml
   - processed/kyasarin.yaml
   - processed/kyasarinegg.yaml
-#  - processed/playerPhysics.yaml
+  - processed/playerPhysics.yaml
   - processed/playerCurrentMultiplierMgr.yaml
   - processed/windColorMgr.yaml
   - processed/warpCannonFix.yaml
@@ -233,3 +232,5 @@ modules:
   - processed/muncher.yaml
   - processed/fence.yaml
 #  - processed/generalTextBoxMgr.yaml
+#  - processed/levelCameraPreview.yaml
+  - processed/crowdclapper.yaml

@@ -1,0 +1,25 @@
+---
+
+source_files: [../src/crowdClapper.cpp, ../src/crowdClapper.S]
+hooks:
+  - name: ExtendCrowdClapperClass
+    type: patch
+    addr_pal: 0x808724E8
+    data: '386003FC' # Orig: 386003F0
+
+  - name: ExtendCrowdClapperClass2
+    type: patch
+    addr_pal: 0x80872538
+    data: '386003F8' # Orig: 386003F0
+
+  - name: ParseNewCrowdSettings
+    type: branch_insn
+    src_addr_pal: 0x80872608
+    branch_type: bl
+    target_func: 'ParseNewCrowdSettings'
+
+  - name: CheckNewCounts
+    type: branch_insn
+    src_addr_pal: 0x80872718
+    branch_type: b
+    target_func: 'CheckNewCounts'
