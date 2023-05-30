@@ -3294,6 +3294,12 @@ class dPlayerModel_c : public dPlayerModelBase_c {
 		u32 currentPlayerModelID;
 		u32 lastPlayerModelID;
 		// tons of crap more, don't feel like fixing this up atm
+		void* modelInfo_ptr;
+		int someNodeID;
+		u16 unk1[2];
+		float unk2[4];
+		void* main_callback;
+		void* prop_callback;
 		
 		void enableMetalEffect();
 		void disableMetalEffect();

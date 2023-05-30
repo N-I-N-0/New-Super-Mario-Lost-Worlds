@@ -234,3 +234,4 @@ modules:
 #  - processed/generalTextBoxMgr.yaml
 #  - processed/levelCameraPreview.yaml
   - processed/crowdclapper.yaml
+  - processed/TPCActorSpawner.yaml

@@ -1244,22 +1244,40 @@ class SpriteImage_MidwayFlag(SLib.SpriteImage_StaticMultiple):  # 188
         if 'MidwayFlag0' in ImageCache: return
         transform30 = QtGui.QTransform()
         transform30.rotate(330)
-        for i in range(18):
-            ImageCache['MidwayFlag%d' % i] = SLib.GetImg('midway_flag_%d.png' % i)
+        for i in range(16):
+            ImageCache[f'MidwayFlag{i}'] = SLib.GetImg(f'midway_flag_{i}.png')
 
         midwayflag = SLib.GetImg('midway_flag_0.png', True)
         if midwayflag is None: return
-        ImageCache['MidwayFlag18'] = QtGui.QPixmap.fromImage(midwayflag.transformed(transform30))
 
     def dataChanged(self):
-        style = self.parent.spritedata[2] % 19
+        color = self.parent.spritedata[2] & 0xF
+        self.image = ImageCache[f'MidwayFlag{color}']
 
-        if 'MidwayFlag18' not in ImageCache: return
-        self.image = ImageCache['MidwayFlag%d' % style]
-        if style == 18:
-            self.offset = (-24, -42)
-        else:
-            self.offset = (0, -38)
+        rotation = ((self.parent.spritedata[4] & 0xFF) << 8) + (self.parent.spritedata[5] & 0xFF)
+
+        img_rotation = QtGui.QTransform()
+        angle = rotation / 65520 * 360
+        img_rotation.rotate(-angle)
+        angle -= 90
+        if angle < 0: angle += 360
+        x, y = math.cos(angle * math.pi / 180), math.sin(angle * math.pi / 180)
+
+        dimension = QtCore.QSize(self.image.width(), self.image.height())
+
+        self.image = self.image.transformed(img_rotation)
+        diff = QtCore.QSize(self.image.width() - dimension.width(), self.image.height() - dimension.height())
+        self.image = self.image.copy(
+            diff.width() // 2,
+            diff.height() // 2,
+            self.image.width() - (diff.width() // 2),
+            self.image.height() - (diff.height() // 2)
+        )
+
+        self.offset = (
+            -20 + (-27) * x,
+            -19 + 27 * y,
+        )
 
         super().dataChanged()
 

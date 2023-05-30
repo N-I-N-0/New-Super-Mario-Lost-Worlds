@@ -1,0 +1,5 @@
+---
+# New actor NEWER_ACTORSPAWNER
+
+source_files: [../src/TPCActorSpawner.cpp]
+hooks: []

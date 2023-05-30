@@ -900,6 +900,9 @@ enum Actors {
 	Kalimba, //883
 	WackyPipes, //884
 	Xylobone, //885
+	LevelCameraPreview, //886
+	EffectVideo, //887
+	TPCActorSpawner, //888
 
 };
 

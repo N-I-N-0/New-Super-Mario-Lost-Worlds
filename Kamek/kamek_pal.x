@@ -1,4 +1,9 @@
 SECTIONS {
+	midwayFlagOnCreate = 0x807e2130;
+	midwayFlagOnExecute = 0x807e2410;
+	StateID_Wait__15daChukanPoint_c = 0x80997d98;
+	StateID_SeaWait__15daChukanPoint_c = 0x80997e18;
+
 	doneWithCheckNewCounts = 0x808727D4;
 	doneWithCheckNewCounts2 = 0x80872770;
 	doneWithCheckNewCounts3 = 0x8087277C;

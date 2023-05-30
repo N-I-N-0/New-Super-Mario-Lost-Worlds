@@ -1,6 +1,29 @@
 ---
 source_files: [../src/midwayFlag.cpp]
 hooks:
+  - name: midwayFlagClassSize
+    type: patch
+    addr_pal: 0x807E2048
+    data: '3860050B' # 1248 + 1 + 1 + 8 + 32 + 1
+
+  - name: midwayFlagNewOnCreate
+    type: add_func_pointer
+    src_addr_pal: 0x80958518
+    target_func: 'midwayFlagNewOnCreate(daChukanPoint_c *)'
+
+  - name: midwayFlagNewOnExecute
+    type: add_func_pointer
+    src_addr_pal: 0x80958530
+    target_func: 'midwayFlagNewOnExecute(daChukanPoint_c *)'
+
+  - name: dontRemoveMyActivePhysics1
+    type: nop_insn
+    area_pal: 0x807E3000
+
+  - name: dontRemoveMyActivePhysics2
+    type: nop_insn
+    area_pal: 0x807E32A8
+
   - name: SetMidwayBoolTrue
     type: branch_insn
     src_addr_pal: 0x807e2e90

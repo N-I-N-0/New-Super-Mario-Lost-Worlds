@@ -1343,7 +1343,7 @@ TEX_CheepC:
 TEX_Midway:
 	lwz r5, 4(r29)
 	srwi r5, r5, 24
-	andi. r5, r5, 0xFF
+	andi. r5, r5, 0xF
 	b GetTexFilenameForR5
 
 

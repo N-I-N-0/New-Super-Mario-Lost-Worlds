@@ -506,8 +506,8 @@ enum
 
 	// Start of custom entries
 	PurpleCoin = 483,
-	FlipBlock = 484,
-	BonePiece = 485,
+	EffectVideo = 484,
+	TPCActorSpawner = 485,
 	EventBlock = 486,
 	ShyGuy = 487,
 	ShyGuyGiant = 488,
@@ -627,6 +627,10 @@ enum
 	Kalimba = 602,
 	WackyPipes = 603,
 	Xylobone = 604,
+	LevelCameraPreview = 605,
+	FlipBlock = 606,
+	BonePiece = 607,
+
 
 	Num
 };
@@ -1534,6 +1538,9 @@ enum
 	Kalimba, //883
 	WackyPipes, //884
 	Xylobone, //885
+	LevelCameraPreview, //886
+	EffectVideo, //887
+	TPCActorSpawner, //887
 
 	Num
 };
