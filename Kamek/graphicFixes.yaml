@@ -1,0 +1,26 @@
+---
+source_files: [../src/graphicFixes.S]
+hooks:
+# source: https://github.com/wiidev/usbloadergx/blob/bb21617dbaa59c1fd4d8691868dc76a7fa35b70f/source/patches/gamepatches.c
+  - name: deflicker_patch
+    type: patch
+    addr_pal: 0x801c61e0
+    data: '48000040'
+
+  - name: patch_width
+    type: patch
+    addr_pal: 0x801bd548
+    data: 'A0DE0004'
+
+  - name: patch_width
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801BD58C
+    target_func: 'patchWidth'
+
+  - name: fix480p
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801c01b4
+    target_func: 'fix480p'
+

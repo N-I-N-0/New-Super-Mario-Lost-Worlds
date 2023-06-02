@@ -38,3 +38,11 @@ hooks:
     src_addr_pal: 0x800B48F0
     branch_type: b
     target_func: 'ChangeSmallScore1UPColor2' 
+
+  #Pause Menu
+
+  - name: ChangePauseMenuColor
+    type: branch_insn
+    src_addr_pal: 0x800B3D84
+    branch_type: b
+    target_func: 'ChangePauseMenuColor'

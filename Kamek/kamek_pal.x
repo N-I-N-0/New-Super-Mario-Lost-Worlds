@@ -1,4 +1,7 @@
 SECTIONS {
+	returnFromPatchWidth = 0x801BD590;
+	returnFromfix480p = 0x801c01b8;
+
 	midwayFlagOnCreate = 0x807e2130;
 	midwayFlagOnExecute = 0x807e2410;
 	StateID_Wait__15daChukanPoint_c = 0x80997d98;
@@ -425,19 +428,20 @@ SECTIONS {
 	layerZPositionForByugoHack = 0x8042BC34;
 
 	continueNodeSetup = 0x808e81a0;
-	
+
 	continueFromChangeSmallScore100Color = 0x80015474;
 	continueFromChangeSmallScore1000Color1 = 0x80015344;
 	continueFromChangeSmallScore1000Color2 = 0x80015374;
 	continueFromChangeSmallScore1UPColor1 = 0x800B48C4;
 	continueFromChangeSmallScore1UPColor2 = 0x800B48F4;
+	continueFromChangePauseMenuColor = 0x800B3D88;
 
-    doneWithPatchAnimNameArray = 0x808CE2BC;
-    doneWithPatchAnimByte34Array = 0x808CE30C;
-    bindAnimCobCourse = 0x808CE8E0;
-    CurrentWorldNumForWorldMap = 0x8042A52D;
-    CurrentWorldNumForWorldMapSub = 0x8042A52E;
-	
+	doneWithPatchAnimNameArray = 0x808CE2BC;
+	doneWithPatchAnimByte34Array = 0x808CE30C;
+	bindAnimCobCourse = 0x808CE8E0;
+	CurrentWorldNumForWorldMap = 0x8042A52D;
+	CurrentWorldNumForWorldMapSub = 0x8042A52E;
+
 	disableDemoControl__10daPlBase_cFv = 0x80051ef0;
 	useDemoControl__10daPlBase_cFv = 0x80051e70;
 	stunPlayer__7dAcPy_cFv = 0x80137650;

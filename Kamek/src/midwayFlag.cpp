@@ -36,10 +36,7 @@ void midwayFlagCollisionCallback(ActivePhysics *one, ActivePhysics *two) {
 			break;
 	}
 
-	if (other->stageActorType == dStageActor_c::PlayerType && !self->activated) {
-		self->activePhysicsCallback(one, two);
-		self->activated = true;
-	}
+	self->activePhysicsCallback(one, two);
 }
 
 
@@ -65,8 +62,6 @@ bool midwayFlagNewOnCreate(daChukanPoint_c* self) {
 	self->aPhysics.info.bitfield1 = 0x4F;
 	// self->aPhysics.info.bitfield2 = 0xffbafffe;
 	self->aPhysics.info.unkShort1C = 0;
-
-	self->activated = false;
 
 
 	// Rotation stuff

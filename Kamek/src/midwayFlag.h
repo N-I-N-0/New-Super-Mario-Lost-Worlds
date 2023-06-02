@@ -52,7 +52,6 @@ class daChukanPoint_c : public dActorState_c {
         bool isBouncing, enableGravity;
         u8 liquid;
         ActivePhysics::Callback activePhysicsCallback;
-        bool activated;
 
         virtual void beginState_Wait();
         virtual void executeState_Wait();

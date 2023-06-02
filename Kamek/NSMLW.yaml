@@ -235,3 +235,4 @@ modules:
 #  - processed/levelCameraPreview.yaml
   - processed/crowdclapper.yaml
   - processed/TPCActorSpawner.yaml
+  - processed/graphicFixes.yaml
