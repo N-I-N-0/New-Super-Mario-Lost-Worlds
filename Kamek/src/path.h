@@ -284,7 +284,8 @@ public:
 	dCourse_c::railNode_s* nextNode;
 	int currentNodeNum;
 	int steps;
-	int speed;
+	float speed;
+	bool speedFromPath;
 
 	bool loop;
 	u8 waitForPlayer;
@@ -334,8 +335,7 @@ void dPath_c::beginState_Init() {
 	pathID = this->settings >> 0 & 0b11111111;                               //Bit 41-48
 
 	if (speed == 0) {
-		OSReport("WARNING: SPEED ZERO NOT POSSIBLE!\n");
-		changeToDone = true;
+		speedFromPath = true;
 	}
 
 	rail = GetRail(pathID);
@@ -345,6 +345,10 @@ void dPath_c::beginState_Init() {
 		course = dCourseFull_c::instance->get(GetAreaNum());
 		currentNode = &course->railNode[rail->startNode + currentNodeNum];
 		nextNode = &course->railNode[rail->startNode + 1 + currentNodeNum];
+
+		if(speedFromPath) {
+			this->speed = currentNode->speed;
+		}
 
 		if (rail->nodeCount < currentNodeNum + 1) {
 			OSReport("WARNING: SURPASED NODECOUNT\n");
@@ -410,6 +414,10 @@ void dPath_c::executeState_FollowPath() {
 			currentNodeNum++;
 			currentNode = nextNode;
 			nextNode = &course->railNode[rail->startNode + 1 + currentNodeNum];
+
+			if(speedFromPath) {
+				this->speed = currentNode->speed;
+			}
 
 			if (rail->nodeCount == currentNodeNum + 1) {
 				if (!loop) {

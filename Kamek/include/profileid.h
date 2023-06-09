@@ -630,7 +630,7 @@ enum
 	LevelCameraPreview = 605,
 	FlipBlock = 606,
 	BonePiece = 607,
-
+	GfxTest = 608,
 
 	Num
 };
@@ -1540,7 +1540,8 @@ enum
 	Xylobone, //885
 	LevelCameraPreview, //886
 	EffectVideo, //887
-	TPCActorSpawner, //887
+	TPCActorSpawner, //888
+	GfxTest, //889
 
 	Num
 };

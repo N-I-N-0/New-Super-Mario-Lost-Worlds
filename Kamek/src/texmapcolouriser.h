@@ -11,7 +11,7 @@ class dTexMapColouriser_c {
 		void resetAndClear();
 		void setTexMap(nw4r::lyt::TexMap *tm);
 		void applyAlso(nw4r::lyt::TexMap *tm);
-		void colourise(int h, int s, int l);
+		void colourise(int h, int s, int l, bool modified);
 
 	private:
 		nw4r::lyt::TexMap *texmap;

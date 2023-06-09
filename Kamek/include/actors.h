@@ -903,6 +903,7 @@ enum Actors {
 	LevelCameraPreview, //886
 	EffectVideo, //887
 	TPCActorSpawner, //888
+	GfxTest, //889
 
 };
 

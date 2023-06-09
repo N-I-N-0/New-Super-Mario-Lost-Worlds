@@ -116,7 +116,7 @@ int daEnTwister_c::onCreate() {
 	this->aPhysics.initWithStruct(this, &HitMeBaby);
 	this->aPhysics.addToList();
 	
-	effects[0].spawn("Wm_en_spindamage_rg", 0, &(Vec){this->pos.x, this->pos.y + 24.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	effects[0].spawn("Wm_mr_spindown", 0, &(Vec){this->pos.x, this->pos.y + 6, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	effects[1].spawn("Wm_en_spindamage_big_rg", 0, &(Vec){this->pos.x, this->pos.y + 48.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	
 	doStateChange(&StateID_Init);
@@ -129,10 +129,10 @@ int daEnTwister_c::onExecute() {
 	updateModelMatrices();
 	acState.execute();
 
-	effects[0].spawn("Wm_en_spindamage_rg", 0, &(Vec){this->pos.x, this->pos.y + 24.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+	effects[0].spawn("Wm_mr_spindown", 0, &(Vec){this->pos.x, this->pos.y + 6, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	effects[1].spawn("Wm_en_spindamage_big_rg", 0, &(Vec){this->pos.x, this->pos.y + 48.0, 0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	
-	this->rot.y += 0x400;
+	this->rot.y += 0x600;
 
 	return true;
 }

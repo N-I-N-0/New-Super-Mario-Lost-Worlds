@@ -62,7 +62,7 @@ inline static float hslValue(float n1, float n2, float hue) {
 		return n1;
 }
 
-void dTexMapColouriser_c::colourise(int h, int s, int l) {
+void dTexMapColouriser_c::colourise(int h, int s, int l, bool modified = true) {
 	if (!mine)
 		return;
 
@@ -85,7 +85,7 @@ void dTexMapColouriser_c::colourise(int h, int s, int l) {
 					u8 r, g, b;
 
 					// This is a hack
-					if (alpha < 250) {
+					if (!modified && alpha < 250) {
 						r = g = b = intensity;
 					} else {
 						// converting from GIMP's colourise code...

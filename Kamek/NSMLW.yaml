@@ -87,7 +87,6 @@ modules:
   - processed/meteor.yaml
   - processed/electricLine.yaml
   - processed/thundercloud.yaml
-  - processed/makeYourOwn.yaml
   # - processed/challengeStar.yaml
   # - processed/singAlong.yaml
   - processed/pumpkinGoomba.yaml
@@ -165,6 +164,7 @@ modules:
   - processed/darkStar.yaml
   - processed/eggblock.yaml
   - processed/soundtest.yaml
+  - processed/gfxtest.yaml
   - processed/parabones.yaml
   - processed/exclamationblock.yaml
   - processed/cloudpropeller.yaml
@@ -231,8 +231,9 @@ modules:
   - processed/carryableSwitches.yaml
   - processed/muncher.yaml
   - processed/fence.yaml
-#  - processed/generalTextBoxMgr.yaml
+  - processed/generalTextBoxMgr.yaml
 #  - processed/levelCameraPreview.yaml
   - processed/crowdclapper.yaml
   - processed/TPCActorSpawner.yaml
   - processed/graphicFixes.yaml
+  - processed/makeYourOwn.yaml
