@@ -19,6 +19,12 @@ hooks:
     type: nop_insn
     area_pal: 0x80068e0c            #changed from 0x80068dfc
 
+  - name: SpriteList_r5
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x800688e4
+    target_func: 'SpriteList_r5'
+
   - name: SpriteList_r3
     type: branch_insn
     branch_type: bl

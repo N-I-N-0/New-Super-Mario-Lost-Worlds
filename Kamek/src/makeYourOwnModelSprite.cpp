@@ -210,6 +210,8 @@ int dMakeYourOwn::onExecute() {
 			this->clrAnimation.setFrameForEntry(1.0, 0);
 	}
 
+	checkZoneBoundaries(0);
+
 	return true;
 }
 

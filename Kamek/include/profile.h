@@ -1,6 +1,12 @@
 #ifndef __KAMEK_PROFILE_H
 #define __KAMEK_PROFILE_H
 
+#if defined(REGION_K) || defined(REGION_W) || defined(REGION_C)
+	#define ORIGINAL_PROFILES 752
+#else
+	#define ORIGINAL_PROFILES 750
+#endif
+
 
 #include <game.h>
 #include <profileid.h>
@@ -8,9 +14,11 @@
 struct SpriteData
 {
     u16 profileId;
+	//u8 pad[2];
     s32 xoffs;
     s32 yoffs;
-    Quaternion spawnRange;
+    s32 spawnRangeOffset[2];
+    s32 spawnRangeSize[2];
     u16 _1C;
     u16 _1E;
     u16 _20;
@@ -20,6 +28,7 @@ struct SpriteData
     0x8: something with z-order
     0x10: grouped sprite */
     u16 flags;
+	//u8 pad2[2];
 };
 
 class Profile
@@ -47,7 +56,7 @@ public:
 extern "C" SpriteData originalSprites[483];
 extern "C" SpriteData sprites[];
 
-extern "C" Profile* originalProfiles[750];
+extern "C" Profile* originalProfiles[ORIGINAL_PROFILES];
 extern "C" Profile* profiles[];
 
 

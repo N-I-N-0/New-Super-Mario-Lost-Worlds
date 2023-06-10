@@ -18,6 +18,7 @@
 #endif
 
 .global SpriteList_r3
+.global SpriteList_r5
 .global SpriteList_r7
 .global SpriteList_r9
 .global SpriteList_r28
@@ -28,6 +29,11 @@
 SpriteList_r3:
     lis       r3, sprites@ha
     addi      r3, r3, sprites@l
+    blr
+
+SpriteList_r5:
+    lis       r5, sprites@ha
+    addi      r5, r5, sprites@l
     blr
 
 SpriteList_r7:
