@@ -893,6 +893,7 @@
       <entry value="5">Yellow Mushroom</entry>
       <entry value="6">Big Checkered Block</entry>
       <entry value="7">DK Bounce Flower</entry>
+      <entry value="8">DK Bounce Flower 2</entry>
     </list>
     <checkbox nybble="9.4" title="Larger Cloud" comment="When enabled, the Bouncy Cloud will be bigger."/>
   </sprite> <!-- #78: Bouncy Cloud -->
@@ -2862,7 +2863,7 @@
 	  <entry value="4">Bone (Microtransagolor)</entry>
     </list>
   </sprite> <!-- #272: Ice Bro -->
-  
+
   <sprite id="276" name="Ghost House Door" noyoshi="True" notes="A Ghost House door that can have an Entrance placed on it." advancednotes="The door can also be paired with a Rotation Controller, but the results are moderately glitchy with many combinations not functioning and several restrictions on getting them to work as actual doors.">
     <checkbox nybble="8.4" title="Fake Door" comment="When enabled, when the player attempt to enter the door, it will vanish and disperse into 4 harmless Boos."/>
     <list nybble="9.3-9.4" title="Orientation" comment="This determines which direction the door will be facing." comment2="A door can only be entered if it is upright." advancedcomment="As decoration, this is fine. Actually making it properly associate its corresponding Entrance is either impossible or very functionally strange.">
@@ -2877,9 +2878,11 @@
       <entry value="0">Original</entry>
       <entry value="1">NSMBU</entry>
       <entry value="2">Toad House</entry>
+      <entry value="3">Recolor</entry>
+      <entry value="4">Invisible</entry>
     </list>
   </sprite> <!-- #276: Ghose House Door -->
-  
+
   <sprite id="279" name="World-3 Boss: Balboa Wrench" asmhacks="True" noyoshi="True" notes="The giant Rocky Wrench boss used by NewerSMBW. He must be Ground-Pounded 3 times to be defeated. ">
     <dependency notes="Kamek and Kamek Controller can be placed in any area. They should be placed in an area on their own, though.">
       <required sprite="427"/> <!-- Kamek -->
@@ -4147,7 +4150,7 @@
   </sprite> <!-- #495: Launch Star -->
 
   <sprite id="496" name="Leaf Pile" asmhacks="True" notes="A leaf pile ported from MKW.">
-    <list nybble="12" title="Contains" >
+    <list nybble="11-12" title="Contains" >
       <entry value="0">Nothing</entry>
       <entry value="1">Random</entry>
       <entry value="2">Mushroom</entry>
@@ -4168,7 +4171,12 @@
       <entry value="17">Yoshi Egg</entry>
       <entry value="18">Coin</entry>
       <entry value="19">Poison Shroom</entry>
-      <!--<entry value="20">Dark Star</entry>-->
+      <entry value="20">Star Coin</entry>
+    </list>
+    <list nybble="10.3-10.4" title="Coin Number" comment="Multiple Star Coins with the same [Coin Number] can be placed. However, once one of them is collected, the duplicate entries will not load." requirednybble="11-12" requiredval="20">
+      <entry value="0">First Coin</entry>
+      <entry value="1">Second Coin</entry>
+      <entry value="2">Third Coin</entry>
     </list>
     <dualbox nybble="5.1" title1="Spawn Mode" title2="Normal" comment="High Jump" />
     <checkbox nybble="5.2" title="Respawn" comment="When enabled, the leaf pile will reappear after some time." />
@@ -4622,8 +4630,36 @@
     <dualbox nybble="5.1" title1="Left" title2="Right" comment="Only use this if you set Horizontal above." requirednybble="8.4" requiredval="0"/>
     <value nybble="10" title="Wind Speed" comment="This defines the speed of the wind for the player's clouds." comment2="Every cloud spriteCollision trigger, this->pos.x will gets added or subtracted the speed divided by 10"/>
   </sprite> <!-- #551: CloudPropeller -->
-  
+
   <sprite id="552" name="Fishin' Boo" asmhacks="True" notes="A Fishin' Boo!">
+      <list nybble="11-12" title="Contains" >
+      <entry value="0">Nothing</entry>
+      <entry value="1">Random</entry>
+      <entry value="2">Mushroom</entry>
+      <entry value="3">Fire Flower</entry>
+      <entry value="4">Propeller Shroom</entry>
+      <entry value="5">Ice Flower</entry>
+      <entry value="6">Penguin Suit</entry>
+      <entry value="7">Mini Shroom</entry>
+      <entry value="8">Power Star</entry>
+      <entry value="9">1-UP Shroom</entry>
+      <entry value="10">Hammer</entry>
+      <entry value="11">Gold Flower</entry>
+      <entry value="12">Spike Shroom</entry>
+      <entry value="13">Boomerang Flower</entry>
+      <entry value="14">Frog Suit</entry>
+      <entry value="15">Cloud Flower</entry>
+      <entry value="16">Rosalina's Wand</entry>
+      <entry value="17">Yoshi Egg</entry>
+      <entry value="18">Coin</entry>
+      <entry value="19">Poison Shroom</entry>
+      <entry value="20">Star Coin</entry>
+    </list>
+    <list nybble="10.3-10.4" title="Coin Number" comment="Multiple Star Coins with the same [Coin Number] can be placed. However, once one of them is collected, the duplicate entries will not load." requirednybble="11-12" requiredval="20">
+      <entry value="0">First Coin</entry>
+      <entry value="1">Second Coin</entry>
+      <entry value="2">Third Coin</entry>
+    </list>
   </sprite> <!-- #552: Fishin' Boo -->
 
   <sprite id="553" name="Naked Koopa" asmhacks="True" notes="A Koopa who lost his shell!">
@@ -4956,5 +4992,8 @@
 
   <sprite id="608" name="GFX Test" asmhacks="True" >
   </sprite> <!-- #608: GFX Test -->
+
+  <sprite id="609" name="Banana (Mario Kart)" asmhacks="True" >
+  </sprite> <!-- #609: Banana (Mario Kart) -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

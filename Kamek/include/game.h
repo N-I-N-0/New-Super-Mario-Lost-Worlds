@@ -2614,6 +2614,7 @@ class daPlBase_c : public dStageActor_c {
 
 		static daPlBase_c *findByID(int id);
 		void newHipAttackStage4();
+		bool shouldNotPlaySound(long unk); //80057e00
 
 		int getStarCount(); // 8002d970
 
@@ -2623,6 +2624,7 @@ class daPlBase_c : public dStageActor_c {
 		REF_NINTENDO_STATE(DemoInWaterTank);
 		REF_NINTENDO_STATE(IceDamage);
 		DECLARE_STATE(ShellConnect);
+		DECLARE_STATE(RidingMinecart);
 };
 
 

@@ -24,6 +24,7 @@ public:
 	Vec ropePos;
 	u32 objID;
 	float ySpeed;
+	u32 timer;
 
 	static dActor_c *build();
 
@@ -40,7 +41,7 @@ dActor_c *daFishinBoo_c::build() {
 	return new(buffer) daFishinBoo_c;
 }
 
-const SpriteData FishingBooSpriteData = { ProfileId::FishingBoo, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData FishingBooSpriteData = { ProfileId::FishingBoo, 8, -8, 0, 0, 0x10, 0x10, 0, 0, 0, 0, 0 };
 Profile FishingBooProfile(&daFishinBoo_c::build, SpriteId::FishingBoo, &FishingBooSpriteData, ProfileId::FishingBoo, ProfileId::FishingBoo, "Fishin' Boo", FishingBooFileList);
 
 
@@ -75,9 +76,16 @@ int daFishinBoo_c::onCreate() {
 
 	this->rot.y = -0x800;
 
+	this->timer = 30*(this->settings >> 16 & 0xFF);
+
 	Actors content = EN_ITEM;
 	u32 set = 0;
-	switch(this->settings & 0xFF) {
+	u32 selectedContent = this->settings & 0xFF;
+	OSReport("selectedContent: %d\n", selectedContent);
+	if(selectedContent == 1) {
+		selectedContent = GenerateRandomNumber(19);
+	}
+	switch(selectedContent) {
 		case 0:
 			return true;
 		case 1:
@@ -128,13 +136,28 @@ int daFishinBoo_c::onCreate() {
 			set = 0x0B000012;
 			break;
 		case 17:
+			content = AC_YOSHI_EGG;
+			u8 color = this->settings >> 8 & 0xF;	//0 = light blue; 1 = pink; 2 = yellow; 3 = green; 4 = blue; 5 = red; 6 = orange; 7 = brown; 8 = white; 9 = purple.
+			set = (color > 9 ? 0 : (u32)(1 << 21 | color));
+			break;
+		case 18:
+			content = EN_COIN;
+			break;
+		case 19:
 			//spawnPos.y += 10;
 			content = PoisonShroom;
 			//set = 0x008003cc04060000;
 			break;
+		case 20:
+			content = EN_STAR_COIN;
+			set = this->settings & 0x00000300;
+			break;
 		default:
 			break;
 	}
+
+	OSReport("selectedContent: %d\n", selectedContent);
+	OSReport("content: %d\n", content);
 
 	Vec tempPos = (Vec){this->pos.x, this->pos.y, this->pos.z};
 	//bodyModel.getNodeWorldMtxMultVecZero(hookNodeID, &ropePos);
@@ -185,6 +208,17 @@ int daFishinBoo_c::onExecute() {
 		this->chrAnimation.setCurrentFrame(0.0);
 	}
 
+	if(this->acState.getCurrentState() == &StateID_FlyAway) {
+		float rect[] = {this->_320, this->_324, this->spriteSomeRectX, this->spriteSomeRectY};
+		int ret = this->outOfZone(this->pos, (float*)&rect, this->currentZoneID);
+		if(ret) {
+			if(this->obj) {this->obj->Delete(1);}
+			this->Delete(1);
+		}
+	} else {
+		checkZoneBoundaries(0);
+	}
+
 	return true;
 }
 
@@ -226,12 +260,17 @@ void daFishinBoo_c::executeState_Follow() {
 
 	this->HandleXSpeed();
 
-
 	this->speed.y = 0.0f;
 
 	this->HandleYSpeed();
 
 	this->UpdateObjectPosBasedOnSpeedValuesReal();
+
+	if(this->timer == 0) {
+		doStateChange(&StateID_FlyAway);
+	} else {
+		this->timer--;
+	}
 }
 void daFishinBoo_c::endState_Follow() {}
 

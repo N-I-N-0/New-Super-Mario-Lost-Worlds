@@ -237,3 +237,5 @@ modules:
   - processed/TPCActorSpawner.yaml
   - processed/graphicFixes.yaml
   - processed/makeYourOwn.yaml
+  - processed/banana.yaml
+#  - processed/removeVoices.yaml

@@ -28,6 +28,8 @@ public:
 	// Checks if the new actor is alive.
 	bool newActorIsAlive();
 
+	float nearestPlayerDistance();
+
 	//===============================//
 	// Compatibility Mode Variables: //
 	//===============================//
@@ -107,7 +109,7 @@ dActor_c* dTPCActorSpawner_c::build() {
 }
 
 #include <profile.h>
-const SpriteData TPCActorSpawnerData = {ProfileId::TPCActorSpawner, 8, -8, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 2};
+const SpriteData TPCActorSpawnerData = {ProfileId::TPCActorSpawner, 8, -8, 0, 0, 0x20, 0x20, 0, 0, 0, 0, 2};
 Profile TPCActorSpawnerProfile = Profile(&dTPCActorSpawner_c::build, SpriteId::TPCActorSpawner, &TPCActorSpawnerData, ProfileId::TPCActorSpawner, ProfileId::TPCActorSpawner, "TPCActorSpawner", 0);
 
 
@@ -171,6 +173,21 @@ s32 dTPCActorSpawner_c::onCreate() {
 	return true;
 }
 
+float dTPCActorSpawner_c::nearestPlayerDistance() {
+	float bestSoFar = 10000.0f;
+
+	for (int i = 0; i < 4; i++) {
+		if (dAcPy_c *player = dAcPy_c::findByID(i)) {
+			if (strcmp(player->states2.getCurrentState()->getName(), "dAcPy_c::StateID_Balloon")) {
+				float thisDist = abs(player->pos.x - pos.x);
+				if (thisDist < bestSoFar)
+					bestSoFar = thisDist;
+			}
+		}
+	}
+
+	return bestSoFar;
+}
 
 s32 dTPCActorSpawner_c::onExecute() {
 
@@ -277,7 +294,7 @@ s32 dTPCActorSpawner_c::onExecute() {
 		// If automaticRespawn is on:
 		if (automaticRespawn == true) {
 			// Return if the actor is alive.
-			if ( this->newActorIsAlive() ) {return true;}
+			if ( this->newActorIsAlive() || nearestPlayerDistance() > 500.0f) {return true;}
 			// Otherwise, re-create the new actor.
 			this->newActor = this->spawnActor();
 		}

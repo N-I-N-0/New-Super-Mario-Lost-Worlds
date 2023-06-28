@@ -631,6 +631,7 @@ enum
 	FlipBlock = 606,
 	BonePiece = 607,
 	GfxTest = 608,
+	Banana = 609,
 
 	Num
 };
@@ -1542,6 +1543,7 @@ enum
 	EffectVideo, //887
 	TPCActorSpawner, //888
 	GfxTest, //889
+	Banana, //890
 
 	Num
 };

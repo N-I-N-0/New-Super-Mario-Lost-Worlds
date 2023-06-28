@@ -1,4 +1,9 @@
 SECTIONS {
+	openGhostDoorSfx = 0x80a75a00;
+	closeGhostDoorSfx = 0x80a759b0;
+
+	shouldNotPlaySound__10daPlBase_cFl = 0x80057e00;
+
 	returnFromPatchWidth = 0x801BD590;
 	returnFromfix480p = 0x801c01b8;
 

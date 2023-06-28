@@ -2027,10 +2027,12 @@ TEX_BlackFlakes:
 	andi. r6, r6, 1
 
 	cmpwi r6, 0
+	li r0, 0xD0
 	bne TEX_BlackFlakes_no_alpha_random
-	
-	li r3, 0xD0
+
+	li r3, 0xA0
 	bl GenerateRandomNumber
+	addi r3, r3, 0x30
 	mr r0, r3
 
 TEX_BlackFlakes_no_alpha_random:
@@ -2054,17 +2056,6 @@ TEX_BlackFlakes_no_alpha_random:
 	blr
 
 
-FlakeyStardustMauve:
-	li r5, 0xCC
-	li r4, 0x99
-	li r3, 0xD0
-	bl GenerateRandomNumber
-	mr r0, r3
-	li r3, 0xCC
-	blr
-	
-	
-	
 .global TEX_Flakes
 TEX_Flakes:
 	stwu sp, -0x10(sp)

@@ -1343,6 +1343,16 @@ hooks:
     src_addr_pal: 0x80a75788
     target_func: 'TEX_GhostDoor'
 
+  - name: noGhostDoorSfx1
+    type: add_func_pointer
+    src_addr_pal: 0x80afe718
+    target_func: 'noGhostDoorSfx1(dEn_c *)'
+
+  - name: noGhostDoorSfx2
+    type: add_func_pointer
+    src_addr_pal: 0x80afe720
+    target_func: 'noGhostDoorSfx2(dEn_c *)'
+
 
 
   - name: TEX_Boomerang

@@ -904,6 +904,7 @@ enum Actors {
 	EffectVideo, //887
 	TPCActorSpawner, //888
 	GfxTest, //889
+	Banana, //890
 
 };
 

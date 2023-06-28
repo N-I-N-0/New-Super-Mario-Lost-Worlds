@@ -73,3 +73,19 @@ bool FireSnakeFireCollision(dEn_c* snake, ActivePhysics* apThis, ActivePhysics* 
 		snake->dEn_c::fireballInvalid(apThis, apOther);
 	}
 }
+
+
+extern "C" void openGhostDoorSfx(dEn_c*);  //80a75a00
+extern "C" void closeGhostDoorSfx(dEn_c*); //80a759b0
+
+void noGhostDoorSfx1(dEn_c* self) {
+	if((self->settings >> 24 & 0xF) != 4) {
+		openGhostDoorSfx(self);
+	}
+}
+
+void noGhostDoorSfx2(dEn_c* self) {
+	if((self->settings >> 24 & 0xF) != 4) {
+		closeGhostDoorSfx(self);
+	}
+}
