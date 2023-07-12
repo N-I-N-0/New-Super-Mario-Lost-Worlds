@@ -905,6 +905,7 @@ enum Actors {
 	TPCActorSpawner, //888
 	GfxTest, //889
 	Banana, //890
+	Stretch, //891
 
 };
 

@@ -632,6 +632,7 @@ enum
 	BonePiece = 607,
 	GfxTest = 608,
 	Banana = 609,
+	Stretch = 610,
 
 	Num
 };
@@ -1544,6 +1545,7 @@ enum
 	TPCActorSpawner, //888
 	GfxTest, //889
 	Banana, //890
+	Stretch, //891
 
 	Num
 };

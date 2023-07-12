@@ -266,8 +266,13 @@ void daEnScreamingPillar_c::executeState_Fall() {
 		this->physicsInfo.y2-=10;
 		physics.setup(this, &physicsInfo, 3, currentLayerID);		
 		physicsWait++;
+	} else if(physicsWait == 73) {
+		ShakeScreen(StageScreen, 0, 1, 0, 0);
+		SpawnEffect("Wm_mr_sndlandsmk", 0, &(Vec){this->pos.x, this->pos.y + 4.0, this->pos.z + 5500.0}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
+		PlaySound(this, SE_BOSS_MORTON_GROUND_SHAKE);
+		physicsWait++;
 	}
-	
+
 	if (this->animationChr.isAnimationDone()) {
 		doStateChange(&StateID_Dead);
 	}

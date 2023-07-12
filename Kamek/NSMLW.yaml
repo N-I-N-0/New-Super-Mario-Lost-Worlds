@@ -239,3 +239,4 @@ modules:
   - processed/makeYourOwn.yaml
   - processed/banana.yaml
 #  - processed/removeVoices.yaml
+  - processed/stretch.yaml
