@@ -4481,7 +4481,7 @@
 
   <sprite id="537" name="Switch Layer" asmhacks="True" notes="Revert the Ty-Foo's Layer Switching!" >
     <value nybble="16.3-16.4" title="Layer" comment="Set this to 2!"/>
-    <value nybble="5-12" title="Width" />
+    <value nybble="5.1-12.4" title="Width" />
   </sprite> <!-- #537: Switch Layer -->
   
   <sprite id="538" name="Poison Mushroom" asmhacks="True">
@@ -4995,5 +4995,20 @@
 
   <sprite id="609" name="Banana (Mario Kart)" asmhacks="True" >
   </sprite> <!-- #609: Banana (Mario Kart) -->
+
+  <sprite id="610" name="Stretch" asmhacks="True" >
+  </sprite> <!-- #610: Stretch -->
+
+  <sprite id="611" name="Whomp" asmhacks="True" notes="An enemy from Super Mario 64 that looks like a walking rock tablet. He will walk off of platform edges and turn around at walls when its distance is not 0. Otherwise it will stay in place, waiting from a player to come.">
+    <list nybble="5" title="Color" comment="This determines which sprite will load.">
+      <entry value="0">Normal</entry>
+    </list>
+    <value nybble="6" title="Distance" comment="This is the distance the whomp will walk back and forth.&lt;br&gt;A distance of 0 will make it stay in place."/>
+    <checkbox nybble="7" title="Start Moving Right" comment="When enabled, the whomp will starts going to the right when spawned." requirednybble="6" requiredval="1-255"/>
+    <list nybble="8" title="Object Behind" comment="This determines which object will appear after the whomp falling.&lt;br&gt;&lt;font color=&quot;red&quot;&gt;This feature is incomplete so don't use it.&lt;/font&gt;">
+      <entry value="0">None</entry>
+    </list>
+    <checkbox nybble="9" title="Big" comment="When enabled, the whomp will be 2x bigger than normal."/>
+  </sprite> <!-- #611: Whomp -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
