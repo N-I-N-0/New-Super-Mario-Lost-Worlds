@@ -85,18 +85,13 @@ public:
 	void playerCollision(ActivePhysics* apThis, ActivePhysics* apOther);
 
 	bool collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat5_Mario(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat8_FencePunch(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat11_PipeCannon(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther);
-	//bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
+	bool collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther);
 	bool collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther);
-	bool collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther);
 
 
 	bool willWalkOntoSuitableGround();
@@ -126,115 +121,99 @@ void daEnStretch_c::bindAnimChr_and_setUpdateRate(const char* name, int unk, flo
 }
 
 
-// Extra collision conditions:
-
-void daEnStretch_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther)
-{
-	this->_vf220(apOther->owner);
+void daEnStretch_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOther) {
+	dAcPy_c* player = (dAcPy_c *)apOther->owner;
+	if (!player->isNoDamage()) {
+		player->setDamage(this, 0);
+	}
+	return;
 }
 
 bool daEnStretch_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhysics* apOther) {
-	PlaySound(this, SE_EMY_DOWN);
+	u32 playerId;
+	int comboCount;
+	dAcPy_c *player;
 
-	doStateChange(&StateID_Outro);
+	SpawnEffect("Wm_en_teresavanish", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 
-	return true;
-}
-bool daEnStretch_c::collisionCat5_Mario(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player collides using butt slide
-	playerCollision(apThis, apOther);
-	return true;
-}
-bool daEnStretch_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player drills with propeller
-	playerCollision(apThis, apOther);
-	return true;
-}
-bool daEnStretch_c::collisionCat8_FencePunch(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player punches fence behind
-	playerCollision(apThis, apOther);
-	return true;
-}
-bool daEnStretch_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player ground pounds
-	playerCollision(apThis, apOther);
-	return true;
-}
-bool daEnStretch_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player ground pounds with Yoshi
-	playerCollision(apThis, apOther);
-	return true;
-}
-bool daEnStretch_c::collisionCatA_PenguinMario(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player slides with penguin suit
-	PlaySound(this, SE_EMY_DOWN);
-
-	doStateChange(&StateID_Outro);
-
-	return true;
-}
-bool daEnStretch_c::collisionCat11_PipeCannon(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player shoots from pipe cannon
-	PlaySound(this, SE_EMY_DOWN);
-
-	doStateChange(&StateID_Outro);
-
-	return true;
-}
-bool daEnStretch_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When player throws object at sprite
-	if (bossFlag)
-	{
-		dActor_c *block = apOther->owner;
-		dEn_c* blah = (dEn_c*)block;
-
-		if (block->name == BLOCK_TARU)
-		{
-			destroyBarrel(blah);
-		}
+	player = (dAcPy_c*)(apOther->owner);
+	playerId = *(player->getPlrNo());
+	u32 starCount = player->daPlBase_c::getStarCount();
+	player->playKameHitSound(starCount, 0);
+	comboCount = player->getComboCount(); //8009f630
+	dScoreMng_c::instance->dScoreMng_c::sub_800E2190(this, 0.0, 24.0, comboCount, playerId);
+	if (playerId != -1) {
+		dMultiMng_c::instance->dMultiMng_c::incEnemyDown(playerId);
 	}
 
-	PlaySound(this, SE_EMY_DOWN);
-
-	doStateChange(&StateID_Outro);
-
+	PlaySoundAsync(this, SE_EMY_TERESA_DEAD);
+	this->Delete(1);
 	return true;
 }
+
+
+
+bool daEnStretch_c::collisionCatD_Drill(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
+	return false;
+}
+
+bool daEnStretch_c::collisionCat7_GroundPound(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
+	return false;
+}
+bool daEnStretch_c::collisionCat7_GroundPoundYoshi(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->playerCollision(apThis, apOther);
+	return false;
+}
+
+
+bool daEnStretch_c::collisionCat9_RollingObject(ActivePhysics* apThis, ActivePhysics* apOther) {
+	return dEn_c::collisionCat9_RollingObject(apThis, apOther);
+}
+
 bool daEnStretch_c::collisionCat1_Fireball_E_Explosion(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When collides with fireball
-	PlaySound(this, SE_EMY_DOWN);
-
-	doStateChange(&StateID_Outro);
-
-	return true;
+	this->dEn_c::fireballInvalid(apThis, apOther);
+	return false;
 }
+
+bool daEnStretch_c::collisionCat2_IceBall_15_YoshiIce(ActivePhysics* apThis, ActivePhysics* apOther) {
+	this->dEn_c::iceballInvalid(apThis, apOther);
+	return false;
+}
+
 bool daEnStretch_c::collisionCat13_Hammer(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When collides with hammer projectile
-	PlaySound(this, SE_EMY_DOWN);
+	u32 playerId;
+	int comboCount;
+	dAcPy_c *player;
+	dStageActor_c* hammer;
 
-	doStateChange(&StateID_Outro);
+	SpawnEffect("Wm_en_teresavanish", 0, &pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 
+	hammer = (dStageActor_c*)(apOther->owner);
+	playerId = *(hammer->getPlrNo());
+	player = dAcPy_c::findByID(playerId);
+	u32 starCount = player->daPlBase_c::getStarCount();
+	player->playKameHitSound(starCount, 0);
+	comboCount = player->getComboCount(); //8009f630
+	dScoreMng_c::instance->dScoreMng_c::sub_800E2190(this, 0.0, 24.0, comboCount, playerId);
+	if (playerId != -1) {
+		dMultiMng_c::instance->dMultiMng_c::incEnemyDown(playerId);
+	}
+
+	PlaySoundAsync(this, SE_EMY_TERESA_DEAD);
+	this->Delete(1);
 	return true;
 }
-bool daEnStretch_c::collisionCat14_YoshiFire(ActivePhysics* apThis, ActivePhysics* apOther) {
-	// When collides with Yoshi fire spit
-	PlaySound(this, SE_EMY_DOWN);
 
-	doStateChange(&StateID_Outro);
-
-	return true;
-}
-
-
-
-// These handle the ice crap
 void daEnStretch_c::_vf148() {
 	dEn_c::_vf148();
-	doStateChange(&StateID_Outro);
+	this->Delete(1);
 }
+
 void daEnStretch_c::_vf14C() {
 	dEn_c::_vf14C();
-	doStateChange(&StateID_Outro);
+	this->Delete(1);
 }
 
 extern "C" void sub_80024C20(void);
@@ -626,19 +605,16 @@ void daEnStretch_c::executeState_MoveSand()
 
 	if (this->timer == 60)
 	{
-
-		this->possand = (Vec){ pos.x, this->BaseLine, 0 };
-
+		whichpoint = GenerateRandomNumber(warpNodeCount);
 		//SpawnEffect("Wm_mr_sanddive_out", 0, &this->possand, &nullRot, &efScale);
 		//SpawnEffect("Wm_mr_sanddive_smk", 0, &this->possand, &nullRot, &efScale);
+		SpawnEffect("Wm_mr_sealandsmk_ss", 0, &(Vec){warpNodes[whichpoint]->xPos, -warpNodes[whichpoint]->yPos + 2, pos.z - 5500.0f}, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
 	}
 
-	if (this->timer == 120)
-	{
-		whichpoint = GenerateRandomNumber(warpNodeCount);
+	if (this->timer == 120) {
+		
 		pos.x = warpNodes[whichpoint]->xPos;
 		pos.y = -warpNodes[whichpoint]->yPos - 18.5f;
-
 		doStateChange(&StateID_BackUp);
 	}
 }
@@ -654,7 +630,7 @@ void daEnStretch_c::beginState_BackUp() {
 	BackUpEffect = (Vec){ pos.x, this->BaseLine, 0 };
 
 	this->savedPos.x = this->pos.x;
-	this->savedPos.y = this->pos.y;
+	this->savedPos.y = this->pos.y + 18.5f;
 	this->savedPos.z = this->pos.z;
 
 	//SpawnEffect("Wm_mr_sanddive_out", 0, &this->BackUpEffect, &nullRot, &efScale);

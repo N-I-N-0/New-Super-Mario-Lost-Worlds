@@ -138,12 +138,12 @@ bool daEnParaTenten_c::collisionCat3_StarPower(ActivePhysics* apThis, ActivePhys
 
 void daEnParaTenten_c::_vf148() {
 	dEn_c::_vf148();
-	this->Delete(1);
+//	this->Delete(1);
 }
 
 void daEnParaTenten_c::_vf14C() {
 	dEn_c::_vf14C();
-	this->Delete(1);
+//	this->Delete(1);
 }
 
 //this does weird shit, but it creates the iceblock around it
@@ -296,31 +296,35 @@ int daEnParaTenten_c::onExecute() {
 	bodyModel._vf1C();
 	updateModelMatrices();
 
+	acState.execute();
+
 	if(this->leftRight) {
-		if (this->facingRight) {
-			this->rot.y = 0x4000;
+		if(acState.getCurrentState() == &StateID_Wait) {
+			if (this->facingRight) {
+				this->rot.y = 0x4000;
 
-			this->pos.x += this->wSpeed;
-			this->stepCount += 1;
+				this->pos.x += this->wSpeed;
+				this->stepCount += 1;
 
-			if ((stepCount * wSpeed) > wDistance) {
-				this->facingRight = false;
-				this->stepCount = 0;
-			}
-		} else {
-			this->rot.y = 0x4000;
-			this->rot.y *= -1;
+				if ((stepCount * wSpeed) > wDistance) {
+					this->facingRight = false;
+					this->stepCount = 0;
+				}
+			} else {
+				this->rot.y = 0x4000;
+				this->rot.y *= -1;
 
-			this->pos.x -= this->wSpeed;
-			this->stepCount += 1;
+				this->pos.x -= this->wSpeed;
+				this->stepCount += 1;
 
-			if ((stepCount * wSpeed) > wDistance) {
-				this->facingRight = true;
-				this->stepCount = 0;
+				if ((stepCount * wSpeed) > wDistance) {
+					this->facingRight = true;
+					this->stepCount = 0;
+				}
 			}
 		}
 	} else {
-		acState.execute();
+		
 		if (this->stepsDone == this->stepCount) {
 			if (this->rotateNext) {
 				if (this->stepVector.x > 0) {

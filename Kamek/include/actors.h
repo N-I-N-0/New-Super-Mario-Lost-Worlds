@@ -906,6 +906,7 @@ enum Actors {
 	GfxTest, //889
 	Banana, //890
 	Stretch, //891
+	Battan, //892
 
 };
 

@@ -240,3 +240,4 @@ modules:
   - processed/banana.yaml
 #  - processed/removeVoices.yaml
   - processed/stretch.yaml
+  - processed/battan.yaml

@@ -633,6 +633,7 @@ enum
 	GfxTest = 608,
 	Banana = 609,
 	Stretch = 610,
+	Battan = 611,
 
 	Num
 };
@@ -1546,6 +1547,7 @@ enum
 	GfxTest, //889
 	Banana, //890
 	Stretch, //891
+	Battan, //892
 
 	Num
 };

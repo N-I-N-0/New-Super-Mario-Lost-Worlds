@@ -2396,6 +2396,46 @@ class SpriteImage_Muncher(SLib.SpriteImage_StaticMultiple):  # 342
         super().dataChanged()
 
 
+class SpriteImage_Whomp(SLib.SpriteImage_StaticMultiple):  # XXX
+    _SIDES = ['left', 'right']
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.aux.append(SLib.AuxiliaryTrackObject(parent, 0, 0, SLib.AuxiliaryTrackObject.Horizontal))
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('Whomp', 'whomp_front_0.png')
+        for i in range(1):
+            for j in ['front'] + SpriteImage_Whomp._SIDES:
+                ImageCache['Whomp_%s_%d' % (j, i)] = SLib.GetImg(f'whomp_{j}_{i}.png')
+
+    def dataChanged(self):
+        color = ((self.parent.spritedata[2] & 0xF0) % 15) % 1
+
+        distance = (self.parent.spritedata[2] & 0xF) * 8
+        start_going_right = bool(((self.parent.spritedata[3] & 0xF0) % 15) % 2)
+
+        objectBehing = self.parent.spritedata[3] & 0xF
+
+        scale = ((self.parent.spritedata[4] & 0xF0) % 15) % 2
+
+        self.scale = 1.5 - (scale * 0.75)
+
+        if not distance:
+            self.image = ImageCache['Whomp_front_%d' % (color)]
+            self.aux[0].setSize(0, 0)
+            self.aux[0].setPos(0, 0)
+        else:
+            self.image = ImageCache[f'Whomp_{SpriteImage_Whomp._SIDES[start_going_right]}_{color}']
+            self.aux[0].setSize(distance * 2 + 32, 8)
+            self.aux[0].setPos((-distance * 1.5) + (scale * 24), 18 + (scale * 32))
+
+        self.offset = (-8 + (scale * -16), -32 + (scale * -36))
+
+        super().dataChanged()
+
 ImageClasses = {
     12: SpriteImage_StarCollectable,
     13: SpriteImage_ClownCar,
@@ -2485,4 +2525,5 @@ ImageClasses = {
     525: SpriteImage_GoombaTower,
     563: SpriteImage_Thundercloud,
     573: SpriteImage_Octoomba,
+    611: SpriteImage_Whomp,
 }
