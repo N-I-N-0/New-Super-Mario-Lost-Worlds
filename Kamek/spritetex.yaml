@@ -416,6 +416,11 @@ hooks:
     src_addr_pal: 0x8085DAA8
     target_func: 'TEX_Manta'
 
+  - name: MantaZPos
+    type: patch
+    data: '4539A000' #2970.0f
+    addr_pal: 0x809396f8
+
 #  - name: TEX_MantaInherit
 #    type: branch_insn
 #    branch_type: bl

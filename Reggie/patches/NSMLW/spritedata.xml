@@ -2407,6 +2407,7 @@
       <entry value="7">Purple</entry>
       <entry value="8">Black</entry>
       <entry value="9">Gray</entry>
+      <entry value="10">Manta (Water)</entry>
     </list>
     <value nybble="8-9" title="Initial Delay?" comment="Definitely not measured in Mario seconds."/>
     <dualbox nybble="10.4" title1="Flies Left to Right" title2="Flies Right to Left" comment="This determines the direction the Jumbo Ray will travel across the screen."/>
@@ -3792,8 +3793,17 @@
 
   <sprite id="441" name="Mushroom Platform" asmhacks="True" notes="A mushroom platform with a solid-on-top collision representing the top segment of a large mushroom. The stem portion must be painted with tileset objects.">
     <dualbox nybble="11.4" title1="Skinny" title2="Thick" comment="This determines the thickness (style) of the mushroom platform."/>
-    <dualbox nybble="10.4" title1="Orange" title2="Blue" comment="This determines the color of the Skinny mushroom platform." requirednybble="11.4" requiredval="0"/> <!-- Appears if Skinny is set -->
-    <dualbox nybble="10.4" title1="Red" title2="Green" comment="This determines the color of the Thick mushroom platform." requirednybble="11.4"/> <!-- Appears if Thick is set -->
+    <list nybble="7" title="Color" >
+      <entry value="0">Variant 1</entry>
+      <entry value="1">Variant 2</entry>
+      <entry value="2">Variant 3</entry>
+    </list>
+    <dualbox nybble="10.4" title1="Orange" title2="Blue" comment="This determines the color of the Skinny mushroom platform." requirednybble="11.4,7" requiredval="0,0"/>
+    <dualbox nybble="10.4" title1="Red" title2="Green" comment="This determines the color of the Thick mushroom platform." requirednybble="11.4,7" requiredval="1,0"/>
+    <dualbox nybble="10.4" title1="Red" title2="Green" comment="This determines the color of the Skinny mushroom platform." requirednybble="11.4,7" requiredval="0,1"/>
+    <dualbox nybble="10.4" title1="Orange" title2="Blue" comment="This determines the color of the Thick mushroom platform." requirednybble="11.4,7" requiredval="1,1"/>
+    <dualbox nybble="10.4" title1="Purple" title2="Pink" comment="This determines the color of the Skinny mushroom platform." requirednybble="11.4,7" requiredval="0,2"/>
+    <dualbox nybble="10.4" title1="Purple" title2="Pink" comment="This determines the color of the Thick mushroom platform." requirednybble="11.4,7" requiredval="1,2"/>
     <value nybble="12" title="Width" comment="This determines the width of the mushroom platform."/>
     <dualbox nybble="5.4" title1="Horizontal Platform" title2="Angled Platform" comment="This determines if the mushroom platform is flat and horizontal, or if it is tilted at an angle."/>
     <dualbox nybble="6.1" title1="Angles Left" title2="Anlges Right" comment="This determines which direction the mushroom platform will be angled." requirednybble="5.4"/> <!-- Appears only if Angled is enabled -->
@@ -4997,6 +5007,7 @@
   </sprite> <!-- #609: Banana (Mario Kart) -->
 
   <sprite id="610" name="Stretch" asmhacks="True" >
+    <value nybble="11-12" title="Path ID" comment="The path nodes define the spawn points of the Stretch!"/>
   </sprite> <!-- #610: Stretch -->
 
   <sprite id="611" name="Whomp" asmhacks="True" notes="An enemy from Super Mario 64 that looks like a walking rock tablet. He will walk off of platform edges and turn around at walls when its distance is not 0. Otherwise it will stay in place, waiting from a player to come.">
