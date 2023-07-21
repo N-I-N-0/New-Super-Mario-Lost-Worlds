@@ -3,37 +3,23 @@
 #include <g3dhax.h>
 #include <sfx.h>
 
-const char* SoundEffects[] = {
-	"sfx/GoldFlower_hit",			//2000
-	"sfx/GoldFlower_out",			//2001
-	"sfx/GoldFlower_get",			//2002
-	"sfx/GoldFlower_throw",			//2003
-	"sfx/GoldFlower_get",			//2004
-	"sfx/FlipPanel"					//2005
-};
+void playSoundDistanceScreenPositionVec(nw4r::snd::SoundHandle handle, Vec2* pos, int id, float volume = 1.0, float pitch = 1.0, float distance = 500.0) {
+	float v = max<float>(0.0, (1.0 - (sqrtf(pos->x * pos->x + pos->y * pos->y) / distance)) * 1.0);
+	if (v <= 0.0) return;
+	else if (v > 1.0) v = 1.0;
 
-extern "C" void PlaySoundWithFunctionB4(void *spc, nw4r::snd::SoundHandle *handle, int id, int unk);
-static nw4r::snd::StrmSoundHandle handlee;
-
-u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int channelCount, int trackCount, int *wantRealStreamID, bool doTheResetThing);
-
-int NewSFXPlayer(int id, bool withFunctionB4 = false) {
-	if (handlee.Exists())
-		handlee.Stop(0);
-
-	int sID;
-	hijackMusicWithSongName(SoundEffects[id], -1, false, 2, 1, &sID, true);
-	OSReport("sID: %d\n", sID);
-	if(withFunctionB4) PlaySoundWithFunctionB4(SoundRelatedClass, &handlee, sID, 1);
-	return sID;
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, id, 1);
+	handle.SetVolume(volume * v, 1);
+	if (pitch != 1.0) handle.SetPitch(pitch);
 }
 
 void newPlaySoundFromPosition(SoundPlayingClass *pointer, int ID, Vec2 *pos, u32 flags) {
-	int sID = NewSFXPlayer(ID - 2000);
-	pointer->PlaySoundAtPosition(sID, pos, flags);
+	static nw4r::snd::SoundHandle handle_newPlaySoundFromPosition; // Sound Handle
+	playSoundDistanceScreenPositionVec(handle_newPlaySoundFromPosition, pos, ID);
 }
 
 void newPlaySoundFromPosition2(SoundPlayingClass *pointer, int ID, u32 dunno, u32 *handle) {
-	int sID = NewSFXPlayer(ID - 2000);
-	pointer->PlaySoundForSoundPlayingClass(sID, dunno, handle);
+	static nw4r::snd::SoundHandle handle_newPlaySoundFromPosition2; // Sound Handle
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle_newPlaySoundFromPosition2, ID, 1);
+	handle_newPlaySoundFromPosition2.SetVolume(1.0f, 1);
 }

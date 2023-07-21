@@ -146,7 +146,7 @@ modules:
   - processed/busuBusu.yaml
   - processed/tiki.yaml
   - processed/fireball.yaml
-#  - processed/newSfx.yaml
+  - processed/newSfx.yaml
   - processed/poihana.yaml
   - processed/snakeblock.yaml
   - processed/flippanel.yaml

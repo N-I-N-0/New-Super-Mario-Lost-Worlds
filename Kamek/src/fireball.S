@@ -387,6 +387,8 @@ _goldFireHitAdjacent:
 .extern ConvertStagePositionIntoScreenPosition__Maybe
 .extern PlaySoundAtPosition__17SoundPlayingClassFiP7Point2dUi
 
+#define SFX_GoldFlower_hit 2005
+
 .global replaceGoldHitSFX
 replaceGoldHitSFX:
 	lwz r4, 0x560(r30)
@@ -395,7 +397,7 @@ replaceGoldHitSFX:
 	li r4, 0x266 #SE_OBJ_FIREBALL_DISAPP
 	blr
 _useGoldHitSFX:
-	li r4, 2000
+	li r4, SFX_GoldFlower_hit
 	blr
 
 .global replaceGoldHitSFXEnemy
@@ -409,7 +411,7 @@ replaceGoldHitSFXEnemy:
 	bl ConvertStagePositionIntoScreenPosition__Maybe
 	mr r3, r31
 	addi r5, r1, 8
-	li r4, 2000
+	li r4, SFX_GoldFlower_hit
 	li r6, 0
 	bl PlaySoundAtPosition__17SoundPlayingClassFiP7Point2dUi
 _dontUseGoldHitSFXEnemy:

@@ -4,6 +4,8 @@
 
 const char *FlipPanelFileList[] = {"FlipSwapPanel", 0};
 
+#define SFX_FlipPanel 2009
+
 class daEnFlipPanel_c : public dEn_c {
 public:
 	int onCreate();
@@ -30,7 +32,7 @@ public:
 	static dActor_c *build();
 };
 
-const SpriteData flipPanelSpriteData = { ProfileId::FlipPanel, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData flipPanelSpriteData = { ProfileId::FlipPanel, 8, -8 , 0 , 0, 0x20, 0x20, 0, 0, 0, 0, 0 };
 Profile flipPanelProfile(&daEnFlipPanel_c::build, SpriteId::FlipPanel, &flipPanelSpriteData, ProfileId::FlipPanel, ProfileId::FlipPanel, "FlipPanel", FlipPanelFileList);
 
 
@@ -39,13 +41,15 @@ CREATE_STATE(daEnFlipPanel_c, Flipping);
 
 
 void flipAllPanels() {
+	static nw4r::snd::SoundHandle handle_flipAllPanels; // Sound Handle
 	daEnFlipPanel_c *panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, 0);
 	if(panel) {
 		panel->flipThisPanel();
 		while((panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, panel)) != 0) {
 			panel->flipThisPanel();
 		}
-		//NewSFXPlayer(5, true);
+		PlaySoundWithFunctionB4(SoundRelatedClass, &handle_flipAllPanels, SFX_FlipPanel, 1);
+		handle_flipAllPanels.SetVolume(1.0f, 1);
 	}
 }
 
@@ -135,7 +139,7 @@ int daEnFlipPanel_c::onCreate() {
 		physics.setPtrToRotation(&flipPanelRotations[(this->settings & 2) ? 59 : 0]);
 	}
 
-
+	this->pos.z = 5500.0f;
 
 	doStateChange(&daEnFlipPanel_c::StateID_Wait);
 
@@ -155,10 +159,7 @@ int daEnFlipPanel_c::onExecute() {
 	
 	physics.update();
 
-	// now check zone bounds based on state
-	/*if (acState.getCurrentState()->isEqual(&StateID_Wait)) {
-		checkZoneBoundaries(0);
-	}*/
+	checkZoneBoundaries(0);
 
 	return true;
 }

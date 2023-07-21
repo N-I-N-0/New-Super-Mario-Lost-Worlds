@@ -33,7 +33,12 @@ static const char* SFXNameList [] = {
 	"meragon_wing",				// 2002
 	"tenten_step_l",			// 2003
 	"tenten_step_r",			// 2004
-	NULL	
+	"GoldFlower_hit",			//2005
+	"GoldFlower_out",			//2006
+	"GoldFlower_get",			//2007
+	"GoldFlower_throw",			//2008
+	"FlipPanel",					//2009
+	NULL
 };
 
 #endif /* MUSIC_H */

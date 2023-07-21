@@ -20,70 +20,6 @@ struct Hijacker {
 
 
 
-const char* SongNameList [] = {
-	"new/AIRSHIP",
-	"new/BOSS_TOWER",
-	"new/MENU",
-	"new/UNDERWATER",
-	"new/ATHLETIC",
-	"new/CASTLE",
-	"new/MAIN",
-	"new/MOUNTAIN",
-	"new/TOWER",
-	"new/UNDERGROUND",
-	"new/DESERT",
-	"new/FIRE",
-	"new/FOREST",
-	"new/FREEZEFLAME",
-	"new/JAPAN",
-	"new/PUMPKIN",
-	"new/SEWER",
-	"new/SPACE",
-	"new/BOWSER",
-	"new/BONUS",	
-	"new/AMBUSH",	
-	"new/BRIDGE_DRUMS",	
-	"new/SNOW2",	
-	"new/MINIMEGA",	
-	"new/CLIFFS",
-	"new/AUTUMN",
-	"new/CRYSTALCAVES",
-	"new/GHOST_HOUSE",
-	"new/GRAVEYARD",
-	"new/JUNGLE",
-	"new/TROPICAL",
-	"new/SKY_CITY",
-	"new/SNOW",
-	"new/STAR_HAVEN",
-	"new/SINGALONG",
-	"new/FACTORY",
-	"new/TANK",
-	"new/TRAIN",
-	"new/YOSHIHOUSE",
-	"new/FACTORYB",
-	"new/CAVERN",
-	"new/SAND",
-	"new/SHYGUY",
-	"new/MINIGAME",
-	"new/BONUS_AREA",
-	"new/CHALLENGE",
-	"new/BOWSER_CASTLE",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"new/BOSS_CASTLE",
-	"new/BOSS_AIRSHIP",
-	NULL	
-};
-
-
-
 // Offsets are from the start of the INFO block, not the start of the brsar.
 // INFO begins at 0x212C0, so that has to be subtracted from absolute offsets
 // within the brsar.
@@ -116,10 +52,6 @@ inline char *BrsarInfoOffset(u32 offset) {
 void FixFilesize(u32 streamNameOffset);
 
 u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int channelCount, int trackCount, int *wantRealStreamID) {
-	hijackMusicWithSongName(songName, themeID, hasFast, channelCount, trackCount, wantRealStreamID, false);
-}
-
-u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int channelCount, int trackCount, int *wantRealStreamID, bool doTheResetThing) {
 	Hijacker *hj = &Hijackers[channelCount==4?1:0];
 
 	// do we already have this theme in this slot?
@@ -127,14 +59,11 @@ u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int 
 	// if we do, NSMBW will think it's a different song, and restart it ...
 	// but if it's just an area transition where both areas are using the same
 	// song, we don't want that
-	if(!doTheResetThing) {
-		if ((themeID >= 0) && hj->currentCustomTheme == themeID) {
-			return hj->stream[hj->currentStream].originalID;
-		}
-	}
+	if ((themeID >= 0) && hj->currentCustomTheme == themeID)
+		return hj->stream[hj->currentStream].originalID;
 
 	// which one do we use this time...?
-	int toUse = 0;//(hj->currentStream + 1) & 1;
+	int toUse = (hj->currentStream + 1) & 1;
 
 	hj->currentStream = toUse;
 	hj->currentCustomTheme = themeID;
@@ -151,8 +80,8 @@ u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int 
 		OSReport("It has been set to: channel count %d, track bitfield 0x%x\n", thing[0], thing[1]);
 	}
 
-	sprintf(BrsarInfoOffset(stream->stringOffset), "stream/%s.brstm", songName);
-	sprintf(BrsarInfoOffset(stream->stringOffsetFast), hasFast?"stream/%s_F.brstm":"stream/%s.brstm", songName);
+	sprintf(BrsarInfoOffset(stream->stringOffset), "new/%s.brstm", songName);
+	sprintf(BrsarInfoOffset(stream->stringOffsetFast), hasFast?"new/%s_F.brstm":"new/%s.brstm", songName);
 
 	// update filesizes
 	FixFilesize(stream->stringOffset);
@@ -168,7 +97,6 @@ u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int 
 
 //oh for fuck's sake
 #include "fileload.h"
-//#include <rvl/dvd.h>
 
 void FixFilesize(u32 streamNameOffset) {
 	char *streamName = BrsarInfoOffset(streamNameOffset);
@@ -195,8 +123,70 @@ extern "C" u8 after_course_getMusicForZone(u8 realThemeID) {
 		return realThemeID;
 
 	bool usesDrums = (realThemeID >= 200);
-	const char *name = SongNameList[realThemeID - (usesDrums ? 200 : 100)];
-	return hijackMusicWithSongName(name, realThemeID, true, usesDrums?4:2, usesDrums?2:1, 0);
+	return hijackMusicWithSongName(SongNameList[realThemeID-100], realThemeID, true, usesDrums?4:2, usesDrums?2:1, 0);
 }
 
 
+
+int currentSFX = -1;
+u32 *currentPtr = 0;
+
+extern void loadFileAtIndex(u32 *filePtr, u32 fileLength, u32* whereToPatch);
+
+extern "C" u32 NewSFXTable[];
+extern "C" u32 NewSFXIndexes;
+
+void loadAllSFXs() {
+	u32 currentIdx = (u32)&NewSFXIndexes;
+
+	FileHandle fhandle;
+	for(int sfxIndex = 0; sfxIndex < (sizeof(SFXNameList)-1)/sizeof(SFXNameList[0]); sfxIndex++) {
+		char nameWithSound[80];
+		snprintf(nameWithSound, 79, "/Sound/sfx/%s.rwav", SFXNameList[sfxIndex]);
+
+		u32 filePtr = (u32)LoadFile(&fhandle, nameWithSound);
+
+		NewSFXTable[sfxIndex] = currentIdx;
+		loadFileAtIndex((u32*)filePtr, fhandle.length, (u32*)currentIdx);
+		currentIdx += fhandle.length;
+		currentIdx += (currentIdx % 0x10);
+
+		FreeFile(&fhandle);
+	}
+}
+
+int hijackSFX(int SFXNum) {
+	int nameIndex = SFXNum - 1999;
+	if(currentSFX == nameIndex) {
+		return 189;
+	}
+
+	currentPtr = (u32*)NewSFXTable[nameIndex];
+
+	currentSFX = nameIndex;
+
+	return 189;
+}
+
+static nw4r::snd::StrmSoundHandle yoshiHandle;
+
+void fuckingYoshiStuff() {
+	PlaySoundWithFunctionB4(SoundRelatedClass, &yoshiHandle, 189, 1);
+}
+
+void playSoundDistance(nw4r::snd::SoundHandle handle, Vec3 pos, int id, float volume = 1.0, float pitch = 1.0, float distance = 500.0) {
+	ClassWithCameraInfo *cwci = ClassWithCameraInfo::instance;
+	if (cwci == 0) return;
+
+	Vec2 dist = {
+		cwci->screenCentreX - pos.x,
+		cwci->screenCentreY - pos.y
+	};
+	float v = max<float>(0.0, (1.0 - (sqrtf(dist.x * dist.x + dist.y * dist.y) / distance)) * 1.0);
+	if (v <= 0.0) return;
+	else if (v > 1.0) v = 1.0;
+
+	PlaySoundWithFunctionB4(SoundRelatedClass, &handle, id, 1);
+	handle.SetVolume(volume * v, 1);
+	if (pitch != 1.0) handle.SetPitch(pitch);
+}
