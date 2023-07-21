@@ -568,7 +568,7 @@ enum
 	BarrelCannon = 543,
 	TikiAirship = 544,
 	MummyMe = 545,
-	WingTenten = 546,
+	TentenWing = 546,
 	DarkStar = 547,
 	EggBlock = 548,
 	ParaBones = 549,
@@ -634,6 +634,9 @@ enum
 	Banana = 609,
 	Stretch = 610,
 	Battan = 611,
+	Meragon = 612,
+	Goombrat = 613,
+	Tenten = 614,
 
 	Num
 };
@@ -1468,7 +1471,7 @@ enum
 	BarrelCannon, //810
 	TikiAirship, //811
 	MummyMe, //812
-	WingTenten, //813
+	TentenWing, //813
 	DarkStar, //814
 	EggBlock, //815
 	ParaBones, //816
@@ -1548,6 +1551,9 @@ enum
 	Banana, //890
 	Stretch, //891
 	Battan, //892
+	Meragon, //893
+	Goombrat, //894
+	Tenten, //895
 
 	Num
 };

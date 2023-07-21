@@ -88,7 +88,7 @@ int dCreatorInfo_c::onCreate() {
 		AuthorNames = layout.findTextBoxByName("T_author_00");
 		AuthorQuote = layout.findTextBoxByName("T_quote_00");
 
-		WriteBMGToTextBox( layout.findTextBoxByName("T_guideViewC_00"), GetBMG(), 2, 29, 0);
+		//WriteBMGToTextBox( layout.findTextBoxByName("T_guideViewC_00"), GetBMG(), 2, 29, 0);
 
 		layout.enableNonLoopAnim(SHOW_ALL);
 

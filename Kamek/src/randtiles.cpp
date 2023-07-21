@@ -100,7 +100,7 @@ bool LoadLevelInfo() {
 	if (s_levelInfoLoaded)
 		return true;
 
-	void *data = s_levelInfoLoader.load("/NewerRes/LevelInfo.bin");
+	void *data = s_levelInfoLoader.load("/Code/LevelInfo.bin");
 	if (data) {
 		dLevelInfo_c::s_info.load(data);
 		s_levelInfoLoaded = true;
@@ -112,7 +112,7 @@ bool LoadLevelInfo() {
 
 extern "C" bool RandTileLoadHook() {
 	// OSReport("Trying to load...");
-	void *buf = RandTileLoader.load("/NewerRes/RandTiles.bin");
+	void *buf = RandTileLoader.load("/Code/RandTiles.bin");
 	bool LIresult = LoadLevelInfo();
 	if (buf == 0) {
 		// OSReport("Failed.\n");

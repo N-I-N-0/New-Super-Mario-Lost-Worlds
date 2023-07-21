@@ -677,8 +677,8 @@ void dWMShop_c::loadInfo() {
 	WriteNumberToTextBox(&scCount, CoinCountShadow, false);
 
 
-	WriteBMGToTextBox(BackText, GetBMG(), 2, 58, 0);
-	WriteBMGToTextBox(BuyText, GetBMG(), 302, 4, 0);
+	//WriteBMGToTextBox(BackText, GetBMG(), 2, 58, 0);
+	//WriteBMGToTextBox(BuyText, GetBMG(), 302, 4, 0);
 }
 
 

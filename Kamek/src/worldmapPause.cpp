@@ -133,7 +133,7 @@ int dSettings_c::onCreate() {
 			18,
 		};
 
-		layout.setLangStrings(bmgTextboxesNames, bmgTextboxesIDs, 0x3EA, 10);
+		//layout.setLangStrings(bmgTextboxesNames, bmgTextboxesIDs, 0x3EA, 10);
 
 		layout.resetAnim(0);
 		
@@ -211,8 +211,8 @@ void dSettings_c::executeState_InitWait() {
 		enabledButtons[i]->SetVisible(setting);
 		disabledButtons[i]->SetVisible(!setting);
 
-		WriteBMGToTextBox(buttonTextBoxes[i], GetBMG(), 0x3EA, 16+(!setting), 0);
-		WriteBMGToTextBox(buttonTextBoxesS[i], GetBMG(), 0x3EA, 16+(!setting), 0);
+		//WriteBMGToTextBox(buttonTextBoxes[i], GetBMG(), 0x3EA, 16+(!setting), 0);
+		//WriteBMGToTextBox(buttonTextBoxesS[i], GetBMG(), 0x3EA, 16+(!setting), 0);
 	}
 
 	layout.enableNonLoopAnim(0);
@@ -349,8 +349,8 @@ void dSettings_c::executeState_ButtonHit() {
 			enabledButtons[this->selectedLine]->SetVisible(!setting);
 			disabledButtons[this->selectedLine]->SetVisible(setting);
 
-			WriteBMGToTextBox(buttonTextBoxes[this->selectedLine], GetBMG(), 0x3EA, 16+(setting), 0);
-			WriteBMGToTextBox(buttonTextBoxesS[this->selectedLine], GetBMG(), 0x3EA, 16+(setting), 0);
+			//WriteBMGToTextBox(buttonTextBoxes[this->selectedLine], GetBMG(), 0x3EA, 16+(setting), 0);
+			//WriteBMGToTextBox(buttonTextBoxesS[this->selectedLine], GetBMG(), 0x3EA, 16+(setting), 0);
 		}
 	}
 

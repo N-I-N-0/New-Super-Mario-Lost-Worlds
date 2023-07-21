@@ -19,7 +19,7 @@ u16 globalWhitelist[] =  {EN_KURIBO, EN_PATA_KURIBO, EN_NOKONOKO, EN_PATAPATA, E
 						
 							//EN_ITEM, PoisonShroom, CloudSpawner, DarkStar, SuperBubble, SecretGem,
 							FishingBoo, ShyGuy, ShyGuyGiant, Topman, MiniSidestepper, GoombaTower,
-							BusuBusu, Poihana, Byugo, WingTenten, ParaBones, Kyasarin, KyasarinEgg,
+							BusuBusu, Poihana, Byugo, TentenWing, Tenten, ParaBones, Kyasarin, KyasarinEgg,
 							Frogoon, ThunderCloud, Twister, CheepCheepModel, CheepCheepController,
 							PokeyHead, ScreamingPillar, ThornyFlower, Octo, OctoBullet, Scuttlebug,
 							FlyingBook, Teren,

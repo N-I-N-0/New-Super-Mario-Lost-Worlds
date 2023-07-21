@@ -827,7 +827,7 @@ enum Actors {
 	BarrelCannon, //810
 	TikiAirship, //811
 	MummyMe, //812
-	WingTenten, //813
+	TentenWing, //813
 	DarkStar, //814
 	EggBlock, //815
 	ParaBones, //816
@@ -907,6 +907,9 @@ enum Actors {
 	Banana, //890
 	Stretch, //891
 	Battan, //892
+	Meragon, //893
+	Goombrat, //894
+	Tenten, //895
 
 };
 

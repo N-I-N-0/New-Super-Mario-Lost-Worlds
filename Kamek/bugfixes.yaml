@@ -1,6 +1,6 @@
 ---
 # The stuff that has been commented out can be reenabled at will
-source_files: [../src/randomcrap.S, ../src/music.cpp, ../src/fix38.S, ../src/nullsub.S]
+source_files: [../src/randomcrap.S, ../src/music.S, ../src/music.cpp, ../src/fix38.S, ../src/nullsub.S]
 hooks:
   - name: TryAndFixScoreGlitch
     type: branch_insn
@@ -381,3 +381,40 @@ hooks:
   # - name: DisableQuickSave
     # type: nop_insn
     # area_pal: 0x8077AA7C
+
+
+  - name: MusicHax
+    type: branch_insn
+    src_addr_pal: 0x8008E5E4
+    branch_type: b
+    target_func: 'after_course_getMusicForZone'
+
+  - name: SFXHax
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x801951D0
+    target_func: 'SFXHax'
+
+  - name: NewSFXHax
+    type: branch_insn
+    branch_type: b
+    src_addr_pal: 0x80283CE0
+    target_func: 'NewSFXHax'
+
+  - name: LoadAllSFXs
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x802D4D50
+    target_func: 'LoadAllSFXs'
+
+  - name: YoshiSFXFix1
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8014FBAC
+    target_func: 'fuckingYoshiStuff(void)'
+
+  - name: YoshiSFXFix2
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8014FC6C
+    target_func: 'fuckingYoshiStuff(void)'

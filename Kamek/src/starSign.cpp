@@ -54,7 +54,7 @@ int dStarSign_c::onCreate() {
 
 		rootPane = layout.getRootPane();
 
-		WriteBMGToTextBox(layout.findTextBoxByName("T_message_00"), GetBMG(), 0x3EC, 0, 0);
+		//WriteBMGToTextBox(layout.findTextBoxByName("T_message_00"), GetBMG(), 0x3EC, 0, 0);
 
 		layout.resetAnim(0);
 		

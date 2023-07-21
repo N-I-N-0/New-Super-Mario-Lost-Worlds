@@ -89,7 +89,7 @@ int dMsgBoxManager_c::onDelete() {
 CREATE_STATE_E(dMsgBoxManager_c, LoadRes);
 
 void dMsgBoxManager_c::executeState_LoadRes() {
-	if (msgDataLoader.load("/NewerRes/Messages.bin")) {
+	if (msgDataLoader.load("/Code/Messages.bin")) {
 		state.setState(&StateID_Wait);
 	} else {
 	}

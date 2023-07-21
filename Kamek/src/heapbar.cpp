@@ -74,10 +74,10 @@ float y_positions[] = {
 #define END_AT 80.0f
 
 u32 colours[] = {
-	-1,
+	0x00FF00FF,
 	0x0000ffff,
 	0xff0000ff,
-	0xffffffff,
+	0xffff00ff,
 };
 
 u32 col_5758[] = {

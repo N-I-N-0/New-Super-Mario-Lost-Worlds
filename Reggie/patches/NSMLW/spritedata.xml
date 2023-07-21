@@ -190,7 +190,7 @@
       <entry value="1">Gloomba</entry>
       <entry value="2">Cat Goomba (H1K0USEN)</entry>
       <entry value="3">Galoomba (H1K0USEN)</entry>
-      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="4">Pirate (abc255)</entry>
       <entry value="5">Jack O'Goomba (G4L)</entry>
       <entry value="6">Waddlewing (WTails358)</entry>
       <entry value="7">Santa (Newer)</entry>
@@ -214,7 +214,7 @@
       <entry value="1">Gloomba</entry>
       <entry value="2">Cat Goomba (H1K0USEN)</entry>
       <entry value="3">Galoomba (H1K0USEN)</entry>
-      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="4">Pirate (abc255)</entry>
       <entry value="5">Jack O'Goomba (G4L)</entry>
       <entry value="6">Waddlewing (WTails358)</entry>
       <entry value="7">Santa (Newer)</entry>
@@ -1056,7 +1056,7 @@
       <entry value="1">Gloomba</entry>
       <entry value="2">Cat Goomba (H1K0USEN)</entry>
       <entry value="3">Galoomba (H1K0USEN)</entry>
-      <entry value="4">Goombrat (Idontknow129)</entry>
+      <entry value="4">Pirate (abc255)</entry>
       <entry value="5">Jack O'Goomba (G4L)</entry>
       <entry value="6">Waddlewing (WTails358)</entry>
       <entry value="7">Santa (Newer)</entry>
@@ -4571,25 +4571,27 @@
   </sprite> <!-- #545: Mummy Me -->
 
   <sprite id="546" name="Para-Biddybud" asmhacks="True" notes="A Para-Biddybud!">
+    <list nybble="3" title="SpriteTex Color">
+      <entry value="0">Normal</entry>
+    </list>
     <list nybble="4" title="Color">
       <entry value="0">Red</entry>
-      <entry value="1">Blue</entry>
+      <entry value="1">Green</entry>
       <entry value="2">Yellow</entry>
-      <entry value="3">Green</entry>
+      <entry value="3">Blue</entry>
       <entry value="4">Pink</entry>
     </list>
-
-    <dualbox nybble="5.1" title1="Follow path" title2="Left &amp; right" />
-
-    <checkbox nybble="5.2" title="Face right" comment="Start to the right" requirednybble="5.1" requiredval="1" />
-    <value nybble="6-7" title="Flying distance" comment="How far should we fly?" requirednybble="5.1" requiredval="1" />
-    
-    <value nybble="11-12" title="Path ID" requirednybble="5.1" requiredval="0" />
-    <value nybble="9-10" title="currentNodeNum" comment="Start Node"  requirednybble="5.1" requiredval="0" />
-
+    <value nybble="5-6" title="Group ID" comment="This pairs the sprite to a matching Group Controller for spawn synchronization with other Group controlled sprites."/>
+    <dualbox nybble="2.1" title1="Follow path" title2="Linear Movement" />
+    <dualbox nybble="2.2" title1="Left &amp; Right" title2="Up &amp; Down" requirednybble="2.1" requiredval="1" />
+    <checkbox nybble="2.3" title="Start Moving Right" comment="Start moving right" requirednybble="2.1-2.2" requiredval="2" />
+    <checkbox nybble="2.3" title="Start Moving Up" comment="Start moving up" requirednybble="2.1-2.2" requiredval="3" />
+    <value nybble="7" title="Flying Distance" comment="How far should it fly?" requirednybble="2.1" requiredval="1" />
     <value nybble="8" title="Speed" comment="Don't use speed 0!" />
+    <value nybble="11-12" title="Path ID" requirednybble="2.1" requiredval="0" />
+    <value nybble="9-10" title="Start Node" comment="Current Node Num" requirednybble="2.1" requiredval="0" />
   </sprite> <!-- #546: Para-Biddybud -->
-  
+
   <sprite id="547" name="Dark Star" asmhacks="True" notes="A Dark Star removing the Power Star effect or making damage.">
   </sprite> <!-- #547: Dark Star -->
   
@@ -5021,5 +5023,44 @@
     </list>
     <checkbox nybble="9" title="Big" comment="When enabled, the whomp will be 2x bigger than normal."/>
   </sprite> <!-- #611: Whomp -->
+
+  <sprite id="612" name="Draglet" asmhacks="True" notes="A Draglet!">
+    <list nybble="6" title="Color">
+      <entry value="0">Normal</entry>
+    </list>
+    <list nybble="7" title="Projectile Ammo" comment="This determines how many projectiles the Draglet will shoot when following a player.">
+      <entry value="0">1 Projectile</entry>
+      <entry value="1">2 Projectiles</entry>
+      <entry value="2">3 Projectiles</entry>
+      <entry value="3">4 Projectiles</entry>
+      <entry value="4">5 Projectiles</entry>
+      <entry value="5">6 Projectiles</entry>
+      <entry value="6">7 Projectiles</entry>
+      <entry value="7">8 Projectiles</entry>
+    </list>
+  </sprite> <!-- #612: Draglet -->
+
+  <sprite id="613" name="Goombrat" asmhacks="True" notes="A goomba that turns around when it reaches a ledge.">
+    <list nybble="6" title="Color">
+      <entry value="0">Normal</entry>
+    </list>
+  </sprite> <!-- #613: Goombrat -->
+
+  <sprite id="614" name="Biddybud" asmhacks="True" notes="A Biddybud!">
+    <list nybble="3" title="SpriteTex Color">
+      <entry value="0">Normal</entry>
+    </list>
+    <list nybble="4" title="Color">
+      <entry value="0">Red</entry>
+      <entry value="1">Green</entry>
+      <entry value="2">Yellow</entry>
+      <entry value="3">Blue</entry>
+      <entry value="4">Pink</entry>
+    </list>
+    <value nybble="5-6" title="Group ID" comment="This pairs the sprite to a matching Group Controller for spawn synchronization with other Group controlled sprites."/>
+    <checkbox nybble="2.2" title="Face Right" comment="Start to the right" />
+    <value nybble="7-8" title="Walking Distance" comment="How far should it walk?" />
+    <value nybble="9" title="Speed" comment="Don't use speed 0!" />
+  </sprite> <!-- #614: Biddybud -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

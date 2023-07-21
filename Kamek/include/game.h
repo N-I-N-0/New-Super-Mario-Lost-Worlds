@@ -40,6 +40,7 @@ float ceil(float x);
 float floor(float x);
 
 float pow(float x, float y);
+float sqrt(float x) { return pow(x, 0.5f); }
 }
 
 float tan(float x) { return sin(x) / cos(x); }
@@ -2263,6 +2264,8 @@ public:
 	}
 };
 
+class dAcPy_c;
+
 class dActor_c : public dBase_c {
 public:
 	LinkListEntry link_actor;
@@ -2297,6 +2300,7 @@ public:
 	void HandleXSpeed();
 	void HandleYSpeed();
 	static dActor_c* create(Actors type, u32 settings, VEC3 *pos, void *rot);
+	dAcPy_c* doSearchNearPlayer(VEC2* distance, VEC2* relativePos);
 };
 
 

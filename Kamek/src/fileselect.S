@@ -67,14 +67,14 @@ DFNiceWorldName:
 	bl SetWorldNameForSaveFile
 
 	# World Name field is in r20
-	lwz r20, 0x2C(r1)
-	lwz r31, 0x20(r1)
+	#lwz r20, 0x2C(r1)
+	#lwz r31, 0x20(r1)
 
 	# Load hint colour
-	lwz r3, 0x71C(r31)
-	stw r3, 0xDC(r20)
-	lwz r3, 0x720(r31)
-	stw r3, 0xE0(r20)
+	#lwz r3, 0x71C(r31)
+	#stw r3, 0xDC(r20)
+	#lwz r3, 0x720(r31)
+	#stw r3, 0xE0(r20)
 
 	# Set hint color
 	#addi r3, r30, 0x74

@@ -35,11 +35,11 @@ hooks:
     branch_type: b
     target_func: 'ChangePicturePaneNames'
 
-  - name: AddSettingsBMG
-    type: branch_insn
-    src_addr_pal: 0x8077AC44
-    branch_type: b
-    target_func: 'AddSettingsBMG'
+#  - name: AddSettingsBMG
+#    type: branch_insn
+#    src_addr_pal: 0x8077AC44
+#    branch_type: b
+#    target_func: 'AddSettingsBMG'
 
   - name: ChangeSelectCursorStuff
     type: branch_insn

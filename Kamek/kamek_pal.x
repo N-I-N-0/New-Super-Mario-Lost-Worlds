@@ -1,4 +1,11 @@
 SECTIONS {
+	doSearchNearPlayer__8dActor_cFP7Point2dP7Point2d = 0x80064790;
+
+	NewSFXTable = 0x80450000;
+	NewSFXIndexes = 0x80460000;
+	doneWithNewSFXHax = 0x80283CE4;
+	PlaySoundWithFunctionB4_2 = 0x801951E4;
+
 	openGhostDoorSfx = 0x80a75a00;
 	closeGhostDoorSfx = 0x80a759b0;
 

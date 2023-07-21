@@ -40,7 +40,7 @@ int DoNames(int state) {
 			char *worldname = file + (wnum * 0x40);
 			char *levelname = file + 0x280 + (wnum * 0xA80) + (lnum * 0x40);*/
 			FileHandle fh;
-			void *info = LoadFile(&fh, "/NewerRes/LevelInfo.bin");
+			void *info = LoadFile(&fh, "/Code/LevelInfo.bin");
 			
 			OSReport("LevelInfo.bin loaded ...\n");
 			

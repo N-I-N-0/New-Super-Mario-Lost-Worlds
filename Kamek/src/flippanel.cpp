@@ -45,7 +45,7 @@ void flipAllPanels() {
 		while((panel = (daEnFlipPanel_c*)fBase_c::search(FlipPanel, panel)) != 0) {
 			panel->flipThisPanel();
 		}
-		NewSFXPlayer(5, true);
+		//NewSFXPlayer(5, true);
 	}
 }
 

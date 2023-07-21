@@ -20,7 +20,7 @@ FileHandle fh;
 void DoTiles(void* self) {
 	AnimDef_Header *header;
 	
-	header = (AnimDef_Header*)LoadFile(&fh, "/NewerRes/AnimTiles.bin");
+	header = (AnimDef_Header*)LoadFile(&fh, "/Code/AnimTiles.bin");
 	
 	if (!header) {
 		OSReport("anim load fail\n");
