@@ -125,6 +125,7 @@ void daEnStretch_c::playerCollision(ActivePhysics* apThis, ActivePhysics* apOthe
 	dAcPy_c* player = (dAcPy_c *)apOther->owner;
 	if (!player->isNoDamage()) {
 		player->setDamage(this, 0);
+		PlaySoundAsync(this, SE_EMY_CS_TERESA_BEAT_YOU);
 	}
 	return;
 }
@@ -562,6 +563,7 @@ void daEnStretch_c::endState_Walk()
 void daEnStretch_c::beginState_Bury()
 {
 	bindAnimChr_and_setUpdateRate("in", 1, 0.0, 1.0);
+	PlaySoundAsync(this, SE_EMY_CS_TERESA_BRING_IT);
 
 	this->timer = 0;
 
@@ -625,6 +627,7 @@ void daEnStretch_c::endState_MoveSand() {}
 void daEnStretch_c::beginState_BackUp() {
 	this->scale = (Vec){1.0f, 1.0f, 1.0f};
 	bindAnimChr_and_setUpdateRate("out", 1, 0.0, 1.0);
+	PlaySoundAsync(this, SE_EMY_CS_TERESA_BRING_IT);
 	this->timer = 0;
 
 	BackUpEffect = (Vec){ pos.x, this->BaseLine, 0 };
