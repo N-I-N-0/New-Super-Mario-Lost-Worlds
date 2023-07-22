@@ -96,44 +96,27 @@ int daGoldFireBall_c::checkForTriggerableBlock() {
 		return 1;
 	}
 
+	dataBank = 0;
+	dataBank2 = 0;
+	dataBank3 = 0;
+
     while (true) {
-		if(dataBank != (daEnBlockMain_c*)1) {
-			dataBank = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_HATENA_BLOCK, dataBank);
-		}
-		if(dataBank2 != (daEnBlockMain_c*)1) {
-			dataBank2 = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_RENGA_BLOCK, dataBank2);
-		}
-		if(dataBank3 != (daEnTripleBlock_c*)1) {
-			dataBank3 = (daEnTripleBlock_c*)fBase_c::search(TripleBlock, dataBank3);
-		}
+		dataBank = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_HATENA_BLOCK, dataBank);
+		dataBank2 = (daEnBlockMain_c*) fBase_c::search(EN_OBJ_RENGA_BLOCK, dataBank2);
+		dataBank3 = (daEnTripleBlock_c*)fBase_c::search(TripleBlock, dataBank3);
 
-		if(dataBank == 0) { dataBank = (daEnBlockMain_c*)1; }
-		if(dataBank2 == 0) { dataBank2 = (daEnBlockMain_c*)1; }
-		if(dataBank3 == 0) { dataBank3 = (daEnTripleBlock_c*)1; }
 
-		if (dataBank == (daEnBlockMain_c*)1 && dataBank2 == (daEnBlockMain_c*)1 && dataBank3 == (daEnBlockMain_c*)1) {
-			dataBank = 0;
-			dataBank2 = 0;
-			dataBank3 = 0;
+		if (!dataBank && !dataBank2 && !dataBank3) {
 			break;
 		}
 
-        if (dataBank->pos.x == roundedX && dataBank->pos.y == roundedY && dataBank->_68D == 0) {
-			dataBank = 0;
-			dataBank2 = 0;
-			dataBank3 = 0;
+        if (dataBank && dataBank->pos.x == roundedX && dataBank->pos.y == roundedY && dataBank->_68D == 0) {
+			return 1;
+        }
+        if (dataBank2 && dataBank2->pos.x == roundedX && dataBank2->pos.y == roundedY && dataBank2->_68D == 0) {
             return 1;
         }
-        if (dataBank2->pos.x == roundedX && dataBank2->pos.y == roundedY && dataBank2->_68D == 0) {
-			dataBank = 0;
-			dataBank2 = 0;
-			dataBank3 = 0;
-            return 1;
-        }
-		if (dataBank3->pos.x < roundedX+32 && dataBank3->pos.x >= roundedX && dataBank3->pos.y == roundedY && dataBank3->_68D == 0) {
-			dataBank = 0;
-			dataBank2 = 0;
-			dataBank3 = 0;
+		if (dataBank3 && dataBank3->pos.x < roundedX+32 && dataBank3->pos.x >= roundedX && dataBank3->pos.y == roundedY && dataBank3->_68D == 0) {
             return 1;
         }
     }  
@@ -290,11 +273,11 @@ int daGoldFireBall_c::onExecute() {
 				dataBank3 = 0;
 			}
 
-			if((((dataBank->pos.x-this->pos.x) * (dataBank->pos.x-this->pos.x)) + ((dataBank->pos.y-this->pos.y) * (dataBank->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
+			if(((u32)dataBank > 1) && (((dataBank->pos.x-this->pos.x) * (dataBank->pos.x-this->pos.x)) + ((dataBank->pos.y-this->pos.y) * (dataBank->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
 			{
 				dataBank->_67F = 1;
 			}
-			if((((dataBank2->pos.x-this->pos.x) * (dataBank2->pos.x-this->pos.x)) + ((dataBank2->pos.y-this->pos.y) * (dataBank2->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
+			if(((u32)dataBank2 > 1) && (((dataBank2->pos.x-this->pos.x) * (dataBank2->pos.x-this->pos.x)) + ((dataBank2->pos.y-this->pos.y) * (dataBank2->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
 			{
 				if(dataBank2->settings & 0xF != 0) {
 					dataBank2->_67F = 1;
@@ -307,7 +290,7 @@ int daGoldFireBall_c::onExecute() {
 				}
 			}
 			
-			if((((dataBank3->pos.x-this->pos.x) * (dataBank3->pos.x-this->pos.x)) + ((dataBank3->pos.y-this->pos.y) * (dataBank3->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
+			if(((u32)dataBank3 > 1) && (((dataBank3->pos.x-this->pos.x) * (dataBank3->pos.x-this->pos.x)) + ((dataBank3->pos.y-this->pos.y) * (dataBank3->pos.y-this->pos.y))) < (this->radius * this->radius)) //(x-center_x)^2 + (y - center_y)^2 < radius^2
 			{
 				dataBank3->_67F = 1;
 			}
