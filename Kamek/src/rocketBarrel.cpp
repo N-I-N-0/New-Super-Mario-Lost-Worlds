@@ -3,6 +3,11 @@
 
 const char *RocketBarrelFileList[] = {"rocket_barrel", 0};
 
+#define SFX_barrelFail    2010
+#define SFX_barrelFly     2011
+#define SFX_barrelIn      2012
+#define SFX_barrelStartUp 2013
+
 class dRocketBarrel_c : public dEn_c {
 public:
 	int onCreate();
@@ -19,6 +24,7 @@ public:
 	mEf::es2 smoke;
 	mEf::es2 flames;
 	int smTimer;
+	int sfxTimer;
 
 	u8 type;
 
@@ -79,6 +85,10 @@ void dRocketBarrel_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOt
 				this->players[i] = GetPlayerOrYoshi(i);
 			}
 		}
+
+		PlaySoundWithFunctionB4(SoundRelatedClass, &barrelSoundHandle, SFX_barrelIn, 1);
+		barrelSoundHandle.SetVolume(1.5f, 1);
+		barrelSoundHandle.SetPitch(1.0f);
 
 		doStateChange(&StateID_WaitForPress);
 		this->playersIn = true;
@@ -264,6 +274,8 @@ void dRocketBarrel_c::beginState_WaitForPress() {
 	pressTimer = 0;
 }
 
+
+
 void dRocketBarrel_c::executeState_WaitForPress() {
 	if(currentPress) {
 		pressTimer--;
@@ -271,6 +283,9 @@ void dRocketBarrel_c::executeState_WaitForPress() {
 		if(pressTimer == 0) {
 			currentPress = 0;
 			pressTimer = 120;
+			PlaySoundWithFunctionB4(SoundRelatedClass, &barrelSoundHandle, SFX_barrelFail, 1);
+			barrelSoundHandle.SetVolume(1.0f, 1);
+			barrelSoundHandle.SetPitch(1.0f);
 		}
 	}
 
@@ -280,8 +295,11 @@ void dRocketBarrel_c::executeState_WaitForPress() {
 		currentPress++;
 		pressTimer = 120;
 
-		if(barrelSoundHandle.Exists()) barrelSoundHandle.Stop(0);
-		PlaySoundWithFunctionB4(SoundRelatedClass, &barrelSoundHandle, 1999 + currentPress, 1);
+		PlaySoundWithFunctionB4(SoundRelatedClass, &barrelSoundHandle, SFX_barrelStartUp, 1);
+		float volume = 0.4 + 0.125f * currentPress;
+		float pitch = 1.0f + 0.1f * currentPress;
+		barrelSoundHandle.SetVolume(volume, 1);
+		barrelSoundHandle.SetPitch(pitch);
 	}
 
 	if(currentPress >= 5) {
@@ -308,6 +326,8 @@ void dRocketBarrel_c::beginState_StartFly() {
 	this->smTimer = 0;
 }
 
+
+
 void dRocketBarrel_c::executeState_StartFly() {
 	if(!this->isFlying && this->chrAnimation.isAnimationDone())  {
 		bindAnimChr_and_setUpdateRate("Fly", 1, 0.0, 1.0);
@@ -322,6 +342,13 @@ void dRocketBarrel_c::executeState_StartFly() {
 	smoke.spawn("Wm_en_rocketsmoke", 0, &efPos1, &nullRot, &efScale);
 	flames.spawn("Wm_en_rocketflames", 0, &efPos1, &nullRot, &efScale);
 
+	if(this->sfxTimer % 30 == 0) {
+		PlaySoundWithFunctionB4(SoundRelatedClass, &barrelSoundHandle, SFX_barrelFly, 1);
+		barrelSoundHandle.SetVolume(0.75f, 1);
+		barrelSoundHandle.SetPitch(1.0f);
+	}
+	this->sfxTimer++;
+
 	if(this->smTimer < 20) this->smTimer++;
 
 
@@ -332,7 +359,7 @@ void dRocketBarrel_c::executeState_StartFly() {
 		}
 
 		if(!this->isRoaring) {
-			PlaySoundWithFunctionB4(SoundRelatedClass, &roarSoundHandle, 2005, 1);
+			//PlaySoundWithFunctionB4(SoundRelatedClass, &roarSoundHandle, 2005, 1);
 			this->isRoaring = true;
 		}
 	}

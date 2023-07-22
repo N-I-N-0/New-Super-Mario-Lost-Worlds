@@ -4,7 +4,7 @@ modules:
   - processed/k_stdlib.yaml
   - processed/profile.yaml
   - processed/actorlog.yaml
-  - processed/anmlog.yaml
+ # - processed/anmlog.yaml
   - processed/worldmapFiles.yaml
   - processed/midwayFlag.yaml
   - processed/0.yaml
