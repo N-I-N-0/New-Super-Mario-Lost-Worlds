@@ -7,18 +7,18 @@
 extern void shyCollisionCallback(ActivePhysics *apThis, ActivePhysics *apOther);
 const char* SGGarcNameList [] = {
 	"shyguy",
-	NULL	
+	NULL
 };
 
 // Shy Guy Settings
-// 
+//
 // Nybble 5: Size
-//		0 - Big 	
+//		0 - Big
 //		1 - Mega
 //		2 - Giga
-// 
+//
 // Nybble 6: Colour
-//		0 - Red 
+//		0 - Red
 //		1 - Blue
 //		2 - Green
 //		3 - Cyan
@@ -101,13 +101,13 @@ class daShyGuyGiant : public dEn_c {
 	DECLARE_STATE(Die);
 };
 
-const SpriteData ShyGuyGiantSpriteData = {ProfileId::ShyGuyGiant, 0x5, -0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
+const SpriteData ShyGuyGiantSpriteData = {ProfileId::ShyGuyGiant, 6, 0x31, 0, 0x10, 0x10, 0x40, 0x40, 0x40, 0, 0, 0};
 // #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
 Profile ShyGuyGiantsProfile(&daShyGuyGiant::build, SpriteId::ShyGuyGiant, &ShyGuyGiantSpriteData, ProfileId::WM_TREASURESHIP, ProfileId::ShyGuyGiant, "ShyGuyGiant", SGGarcNameList);
 
 dActor_c *daShyGuyGiant::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daShyGuyGiant));
-	OSReport("Building Shy Guy");
+	//OSReport("Building Shy Guy");
 	return new(buffer) daShyGuyGiant;
 }
 
@@ -140,7 +140,7 @@ dActor_c *daShyGuyGiant::build() {
 // Collision Functions
 ////////////////////////
 
-	void daShyGuyGiant::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) { 
+	void daShyGuyGiant::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 		apOther->someFlagByte |= 2;
 
 		dStageActor_c *player = apOther->owner;
@@ -164,8 +164,8 @@ dActor_c *daShyGuyGiant::build() {
 				this->counter_504[apOther->owner->which_player] = 0xA;
 
 			}
-		} 
-	}			
+		}
+	}
 	void daShyGuyGiant::_vf278(void *other) {
 		PlaySound(this, SE_EMY_HANACHAN_STOMP);
 }
@@ -345,7 +345,7 @@ void daShyGuyGiant::bindAnimChr_and_setUpdateRate(const char* name, int unk, flo
 }
 
 int daShyGuyGiant::onCreate() {
-	OSReport("Spawning Shy Guy");
+	//OSReport("Spawning Shy Guy");
 	this->type = (this->settings >> 28) & 0xF;
 
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
@@ -386,7 +386,7 @@ int daShyGuyGiant::onCreate() {
 	this->rot.y = 0xD800; // Y is horizontal axis
 	this->rot.z = 0; // Z is ... an axis >.>
 	this->direction = 1; // Heading left.
-	
+
 	this->speed.x = 0.0;
 	this->speed.y = 0.0;
 	this->Baseline = this->pos.y;
@@ -436,7 +436,7 @@ int daShyGuyGiant::onCreate() {
 		HitMeBaby.yDistToEdge = 60.0;
 
 		this->XSpeed = 0.4;
-		anmSpeed = 0.25;	
+		anmSpeed = 0.25;
 
 		static const lineSensor_s below(12<<12, 4<<12, 0<<12);
 		static const lineSensor_s adjacent(42<<12, 9<<12, 42<<12);
@@ -463,7 +463,7 @@ int daShyGuyGiant::onCreate() {
 		isBouncing = true;
 
 	// State Changer
-	bindAnimChr_and_setUpdateRate("c18_EV_WIN_2_R", 1, 0.0, anmSpeed); 
+	bindAnimChr_and_setUpdateRate("c18_EV_WIN_2_R", 1, 0.0, anmSpeed);
 	doStateChange(&StateID_RealWalk);
 
 	this->onExecute();
@@ -514,7 +514,7 @@ void daShyGuyGiant::updateModelMatrices() {
 		this->speed.y = -4.0;
 		this->y_speed_inc = -0.1875;
 	}
-	void daShyGuyGiant::executeState_RealWalk() { 
+	void daShyGuyGiant::executeState_RealWalk() {
 		bodyModel._vf1C();
 
 		bool ret = calculateTileCollisions();
@@ -536,7 +536,7 @@ void daShyGuyGiant::updateModelMatrices() {
 		this->direction ^= 1;
 		this->speed.x = 0.0;
 	}
-	void daShyGuyGiant::executeState_RealTurn() { 
+	void daShyGuyGiant::executeState_RealTurn() {
 		bodyModel._vf1C();
 
 		if(this->chrAnimation.isAnimationDone()) {
@@ -560,14 +560,14 @@ void daShyGuyGiant::updateModelMatrices() {
 		// dEn_c::dieFall_Begin();
 		this->removeMyActivePhysics();
 
-		bindAnimChr_and_setUpdateRate("c18_C_BLOCK_BREAK_R", 1, 0.0, 2.0); 
+		bindAnimChr_and_setUpdateRate("c18_C_BLOCK_BREAK_R", 1, 0.0, 2.0);
 		this->timer = 0;
 		this->dying = -10.0;
 		this->Baseline = this->pos.y;
 		this->rot.y = 0;
 		this->rot.x = 0;
 	}
-	void daShyGuyGiant::executeState_Die() { 
+	void daShyGuyGiant::executeState_Die() {
 		bodyModel._vf1C();
 
 		if(this->chrAnimation.isAnimationDone()) {
@@ -575,12 +575,12 @@ void daShyGuyGiant::updateModelMatrices() {
 		}
 
 		this->timer += 1;
-		 		
-		// this->pos.x += 0.5; 
+
+		// this->pos.x += 0.5;
 		this->pos.y = Baseline + (-0.2 * dying * dying) + 20.0;
-		
+
 		this->dying += 0.5;
-			
+
 		if (this->timer > 450) {
 			this->kill();
 			this->Delete(this->deleteForever);

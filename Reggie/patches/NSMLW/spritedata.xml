@@ -1148,12 +1148,6 @@
     </list>
   </sprite> <!-- #105: Pokey -->
 
-  <sprite id="107" name="Message Box Controller" notes="This controller is required for all Message Boxes to function correctly. It must be placed in every Zone that uses a Message Box.">
-    <dependency notes="This is used alongside [152] Message Box to produce blocks capable of spawning a pop-up Message Box.">
-      <suggested sprite="152"/>
-    </dependency>
-  </sprite> <!-- #107: Message Box Controller -->
-
   <sprite id="111" name="Blooper" notes="An underwater enemy that will chase the player.">
     <dependency notes="Because the Bloopers can be used without Water, if they are placed in anything but an Underwater style level, they will appear to fly rather than swim and not be confined to Location Water, etc."/>
     <list nybble="5.3-5.4" title="Hiding In Wait" comment="When this is set to an option other than the default, the Blooper will wait for the player to approach before shooting out from behind the terrain.">
@@ -1479,13 +1473,6 @@
     </list>
   </sprite> <!-- #151: Porcupuffer -->
 
-  <sprite id="152" name="Message Box" notes="A block that the player can hit which will display a custom message. Messages are defined in Messages.bin.">
-    <dependency notes="The Message Box Controller must be included in each Zone for Message Boxes to function correctly.">
-      <required sprite="107"/>
-    </dependency>
-    <value nybble="9-12" title="Message ID" comment="Messages defined in Messages.bin. Add 256 to the ID of the message in the Newer Messages Editor program." idtype="Message"/>
-  </sprite> <!-- 152: Message Box -->
-
   <sprite id="153" name="(Unused) &quot;?&quot; Switch (Orange)" asmhacks="True" sizehacks="True" notes="An exact duplicate of the normal &quot;?&quot; Switch (Orange).">
     <dependency notes="The game will crash unless a normal orange switch is placed somewhere in the level. It does not have to be within an area that is actually used.">
       <required sprite="40"/>
@@ -1617,51 +1604,6 @@
     
   </sprite> <!-- #166: Snake Block (Ice) -->
 
-  <!-- Double check Moving Direction, value 0 with ASM. - Grop says Value 0 should be Right and the list should repeat. Why is 0 'Does Not Move'? -->
-  <sprite id="169" name="Magic Platform" asmhacks="True" notes="Magic Platforms are created by assigning tileset data on Layer 1 to an invisible block as a new texture, and moving that texture around. While it functions best as a moving platform, the Magic Platform does not have to move in order to perform its function. It can also simply create terrain chunks with a different type of collision than normal.">
-    <dependency notes="It should be noted that the Magic Platform can only create rectangular shapes. It cannot have slopes, and it cannot have 'unused space' within the location. All tiles will turn into solid blocks."/>
-    <value nybble="11-12" title="Location ID" comment="This determines what the Magic Platform looks like. It will clone the Layer 1 tiles as it sees them within the given Location. This Location does not have to be within the current Zone boundaries."/>
-    <list nybble="6" title="Collision" comment="This determines the type of collision.">
-      <entry value="0">Solid Block</entry>
-      <entry value="1">Permeable (Solid on Top)</entry>
-      <entry value="7">Fully Permeable (Layer 0)</entry>
-      <entry value="2">Fully Permeable (Layer 1)</entry>
-      <entry value="3">Collision Line on Right Side</entry>
-      <entry value="4">Collision Line on Left Side</entry>
-      <entry value="5">Collision Line on Top Edge</entry>
-      <entry value="6">Collision Line on Bottom Edge</entry>
-    </list>
-    <value nybble="5.1-5.3" title="Z-Order" comment="Changes the Z-Order of the Magic Platform to place it behind Layer 2." comment2="Higher values are further behind other Magic Platforms."/>
-    <value nybble="3-4" title="Triggering Event ID" comment="When this Event is activated, the Magic Platform will move as specified. When the Event is deactivated, the Magic Platform will return to its starting position." idtype="Triggering Event"/>
-    <list nybble="9.3-9.4" title="Direction" comment="This determines which direction the Magic Platform will move." requirednybble="2.4-4.4">
-      <entry value="0">Right</entry>
-      <entry value="1">Left</entry>
-      <entry value="2">Up</entry>
-      <entry value="3">Down</entry>
-    </list>
-    <value nybble="10" title="Speed" comment="This determines the speed at which the Magic Platform will move." comment2="The speed increases by a factor of .2 per increment. It must be set greater than 0 for the Magic Platform to move at all." requirednybble="2.4-4.4"/>
-    <checkbox nybble="5.4" title="Move Forever" comment="When enabled, the Magic Platform will move in the assigned direction while the Triggering Event is activated, and will move in the opposite direction while the Triggering Event is deactivated." requirednybble="2.4-4.4"/>
-    <list nybble="8" title="Distance" comment="This determines how far the Magic Platform will be moved when the Triggering Event is activated." requirednybble="2.4-4.4,5.4" requiredval="1-255, 0">
-      <entry value="0">1 Block</entry>
-      <entry value="1">2 Blocks</entry>
-      <entry value="2">3 Blocks</entry>
-      <entry value="3">4 Blocks</entry>
-      <entry value="4">5 Blocks</entry>
-      <entry value="5">6 Blocks</entry>
-      <entry value="6">7 Blocks</entry>
-      <entry value="7">8 Blocks</entry>
-      <entry value="8">9 Blocks</entry>
-      <entry value="9">10 Blocks</entry>
-      <entry value="10">11 Blocks</entry>
-      <entry value="11">12 Blocks</entry>
-      <entry value="12">13 Blocks</entry>
-      <entry value="13">14 Blocks</entry>
-      <entry value="14">15 Blocks</entry>
-      <entry value="15">16 Blocks</entry>
-    </list>
-    <checkbox nybble="7" title="Enable Iron Box Effect" comment="let's do some RSMHaxxxxxxx"/>
-  </sprite> <!-- #169: Magic Platform -->
-
   <sprite id="173" name="Giant Floating Log" noyoshi="True" yoshinotes="Yoshi can't jump off of the log, and instead rides it to the bottom. Also, he can eat the whole thing." notes="A very large log that will slowly try to dump the player into the liquid below.">
     <dependency notes="While this is not dependent on liquid in order to spawn, it should be noted that it only has collision along the top. While the player is along the top two blocks of the log, the log will generate spinning momentum and try to drop the player below it. Once the player passes those top two blocks, they will instantly fall no matter how fast the log is spinning."/>
     <list nybble="6" title="SpriteTex">
@@ -1724,19 +1666,6 @@
       <entry value="1">Wario Apparition (Microtransagolor)</entry>
     </list>
   </sprite> <!-- #180: Cheep-Chomp -->
-
-  <sprite id="183" name="Meteor" asmhacks="True" notes="A floating, spinning, usually safe to stand on Meteor.">
-    <value nybble="9-10" title="Size" comment="This determines how large the Meteor is." comment2="A setting of 0 is the same as a setting of 5. 1-255 provide general scaling from 20% to 5100% scaling."/>
-    <checkbox nybble="11.4" title="Electrified" comment="When enabled, the Meteor will be electrified, and will hurt any player that touches it."/>
-    <value nybble="7-8" title="Rotation Speed" comment="This determines how fast the Meteor will rotate, if at all."/>
-    <dualbox nybble="12.4" title1="Spins Counter-Clockwise" title2="Spins Clockwise" comment="This determines which direction the Meteor will spin." requirednybble="7-8"/> <!-- Appears if Rotation Speed > 0 -->
-    <list nybble="5" title="Spawn Item when Destroyed" comment="This determines if an item will appear when the Meteor is destroyed." comment2="The Meteor can only be destroyed by the Rideable Clowncar. The Mushroom Bubbles will float in from the right of the screen after the Meteor is destroyed.">
-      <entry value="0">Nothing</entry>
-      <!--<entry value="1">1 Coin</entry>-->
-      <entry value="2">Mushroom in Bubble</entry>
-    </list>
-    <value nybble="6" title="Z-Order" comment="This will adjust the Z-Order of the Meteors in relation to other objects." comment2="A higher value will place this sprite further towards the background."/>
-  </sprite> <!-- #183: Meteor -->
 
   <sprite id="185" name="Ambush - Toad Balloon" noyoshi="True" notes="Collecting 8 of these spawns a Toad House Chest. Any additional Toad Balloons are treated as the 8th Balloon. Requires an Ambush Level Controller for the balloons to spawn and function.">
     <dependency notes="The [454] Ambush Controller will allow the Toad Balloons to spawn. When 8 Toad Balloons have been collected, (most) enemies will be killed, and any [203] Item Chests set to spawn from Ambush Controllers will spawn.">
@@ -2901,13 +2830,7 @@
       <entry value="2">Spiked Ball</entry>
     </list>
   </sprite> <!-- #280: Giant Ice Block -->
-  
-  <sprite id="282" name="Angry Sun and Moon" asmhacks="True" notes="A recreation of the Angry Sun enemy from Super Mario Bros. 3 that will chase the player indefinitely unless the Triggering Event is activated.">
-    <dualbox nybble="12.4" title1="Angry Sun" title2="Angry Moon" comment="This determines which model the enemy will use."/>
-    <value nybble="7.2-8.4" title="Die on Triggering Event ID" comment="Disappears, when this Event ID is activated." idtype="Triggering Event"/>
-    <checkbox nybble="5.4" title="Never Respawns" comment="When enabled, the enemy will not respawn after being defeated or after leaving the screen." comment2="If this is not enabled, the enemy will continue to respawn once loaded until the Triggering Event is activated. One way to manage this with locations is to use an IF controller that deactivates the Triggering Event while a player is inside the specified location."/>
-  </sprite> <!-- #282: Angry Sun and Moon -->
-  
+
   <sprite id="283" name="World-1 Boss: Fuzzy Bear" asmhacks="True" noyoshi="True" notes="The giant Fuzzy boss that jumps around and occasionally rolls after the player. It can only be defeated by having grabbable items thrown at it.">
     <dependency notes="Kamek and his controller should be included in the Area.">
       <suggested sprite="391"/>
@@ -3219,47 +3142,6 @@
     <value nybble="11-12" title="Room Length" comment="This determines the length of the room"/>
   </sprite> <!-- #319: Chimp House Minigame - Item Bowling -->
 
-  <!-- Graphical resources for the editor are missing. -->
-  <!-- Research "Nybble 4" -->
-  <!-- Check if Nybble 6 can define the color of "Chestnut Contains", specifically the Goomba and Spiny. -->
-  <sprite id="320" name="Falling Chestnut" asmhacks="True" notes="A hanging Chestnut that can quickly falls upon the player's approach with various potential effects.">
-    <dualbox nybble="12.4" title1="Brown" title2="Golden" comment="This determines the color of the Chestnut."/>
-    <list nybble="11" title="Size" comment="This determines the size of the Chestnut." comment2="Large values will very likely look ugly alongside other level content.">
-      <entry value="0">1 Block</entry>
-      <entry value="1">2 Blocks</entry>
-      <entry value="2">3 Blocks</entry>
-      <entry value="3">4 Blocks</entry>
-      <entry value="4">5 Blocks</entry>
-      <entry value="5">6 Blocks</entry>
-      <entry value="6">7 Blocks</entry>
-      <entry value="7">8 Blocks</entry>
-      <entry value="8">9 Blocks</entry>
-      <entry value="9">10 Blocks</entry>
-      <entry value="10">11 Blocks</entry>
-      <entry value="11">12 Blocks</entry>
-      <entry value="12">13 Blocks</entry>
-      <entry value="13">14 Blocks</entry>
-      <entry value="14">15 Blocks</entry>
-      <entry value="15">16 Blocks</entry>
-    </list>
-    <list nybble="8.2-8.4" title="Chestnut Contains" comment="This determines what object is inside of the Chestnut.">
-      <entry value="0">Goomba</entry>
-      <entry value="1">Spiny</entry>
-      <entry value="2">1 Coin</entry>
-      <entry value="3">Fire Flower</entry>
-      <entry value="4">Star Coin</entry>
-    </list>
-    <checkbox nybble="9.2" title="Falls Earlier" comment="When enabled, the Chestnut will fall if the player is 3 blocks from the sprite placement, instead of directly under it." requirednybble="9.4" requiredval="0"/> <!-- Appears only if Falls only from POW is not set -->
-    <checkbox nybble="9.4" title="Falls only from POW" comment="When enabled, instead of falling from the approach of a player, the Chestnut will only fall if a POW is used."/>
-    <checkbox nybble="9.3" title="Breaks Blocks" comment="When enabled, the Chestnut will destroy certain types of blocks and tileset pieces."/>
-    <list nybble="10" title="Star Coin Number" comment="This determines which Star Coin will be credited by the coin inside the Chestnut." requirednybble="8.2">
-      <entry value="0">1st Star Coin</entry>
-      <entry value="1">2nd Star Coin</entry>
-      <entry value="2">3rd Star Coin</entry>
-    </list> <!-- Appears only if [Chestnut Contains] == Star Coin -->
-    <checkbox nybble="4.4" title="Unknown Flag 4 (1)" advanced="True" advancedcomment="Not used in Newer, function unclear. Wha??"/>
-  </sprite> <!-- #320: Falling Chestnut -->
-
   <sprite id="322" name="Chimp House Minigame - Item Balloon" notes="&lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;">
     <list nybble="12" title="Item" comment="This determines which item does the balloon correspond to.">
       <entry value="0">Mushroom</entry>
@@ -3422,20 +3304,6 @@
       <entry value="1">Bone</entry>
     </list>
   </sprite> <!-- #346: Rotation Controlled Hanging Chain Platform -->
-
-  <sprite id="350" name="Fireball Laser" asmhacks="True" notes="A controller that creates a constant stream of fireballs in a specific direction. These fireballs will not pass through terrain. They spawn at the top left corner of the sprite's placement.">
-    <value nybble="7-8" title="Triggering Event ID" comment="While this Event ID is activated, the controller will create fireballs." idtype="Triggering Event"/>
-    <list nybble="12" title="Direction" comment="This determines which direction the fireballs will fire in.">
-      <entry value="0">Right</entry>
-      <entry value="1">Up + Right</entry>
-      <entry value="2">Up</entry>
-      <entry value="3">Up + Left</entry>
-      <entry value="4">Left</entry>
-      <entry value="5">Down + Left</entry>
-      <entry value="6">Down</entry>
-      <entry value="7">Down + Right</entry>
-    </list>
-  </sprite> <!-- #350: Fireball Laser -->
 
   <sprite id="357" name="Yoshi Fruit" asmhacks="True" sizehacks="True" notes="An edible fruit that Yoshi can grab. Collecting five will cause Yoshi to lay an egg. What's inside the egg will change depending on the player's current power-up. Normal -&gt; Fire -&gt; Ice -&gt; Propeller -&gt; 1-Up.">
     <list nybble="12" title="Type" comment="This determines if the fruit is a standard berry, or if it is a special fruit that will instantly award a power-up egg.">
@@ -5062,5 +4930,140 @@
     <value nybble="7-8" title="Walking Distance" comment="How far should it walk?" />
     <value nybble="9" title="Speed" comment="Don't use speed 0!" />
   </sprite> <!-- #614: Biddybud -->
+
+  <sprite id="615" name="Factory Press" asmhacks="True" >
+  </sprite> <!-- #615: Factory Press -->
+
+  <sprite id="616" name="Fireball Laser" asmhacks="True" notes="A controller that creates a constant stream of fireballs in a specific direction. These fireballs will not pass through terrain. They spawn at the top left corner of the sprite's placement.">
+    <value nybble="7-8" title="Triggering Event ID" comment="While this Event ID is activated, the controller will create fireballs." idtype="Triggering Event"/>
+    <list nybble="12" title="Direction" comment="This determines which direction the fireballs will fire in.">
+      <entry value="0">Right</entry>
+      <entry value="1">Up + Right</entry>
+      <entry value="2">Up</entry>
+      <entry value="3">Up + Left</entry>
+      <entry value="4">Left</entry>
+      <entry value="5">Down + Left</entry>
+      <entry value="6">Down</entry>
+      <entry value="7">Down + Right</entry>
+    </list>
+  </sprite> <!-- #616: Fireball Laser -->
+
+  <sprite id="617" name="Message Box Controller" notes="This controller is required for all Message Boxes to function correctly. It must be placed in every Zone that uses a Message Box.">
+    <dependency notes="This is used alongside [618] Message Box to produce blocks capable of spawning a pop-up Message Box.">
+      <suggested sprite="618"/>
+    </dependency>
+  </sprite> <!-- #617: Message Box Controller -->
+
+  <sprite id="618" name="Message Box" notes="A block that the player can hit which will display a custom message. Messages are defined in Messages.bin.">
+    <dependency notes="The Message Box Controller must be included in each Zone for Message Boxes to function correctly.">
+      <required sprite="617"/>
+    </dependency>
+    <value nybble="9-12" title="Message ID" comment="Messages defined in Messages.bin. Add 256 to the ID of the message in the Newer Messages Editor program." idtype="Message"/>
+  </sprite> <!-- 618: Message Box -->
+
+  <sprite id="619" name="Meteor" asmhacks="True" notes="A floating, spinning, usually safe to stand on Meteor.">
+    <value nybble="9-10" title="Size" comment="This determines how large the Meteor is." comment2="A setting of 0 is the same as a setting of 5. 1-255 provide general scaling from 20% to 5100% scaling."/>
+    <checkbox nybble="11.4" title="Electrified" comment="When enabled, the Meteor will be electrified, and will hurt any player that touches it."/>
+    <value nybble="7-8" title="Rotation Speed" comment="This determines how fast the Meteor will rotate, if at all."/>
+    <dualbox nybble="12.4" title1="Spins Counter-Clockwise" title2="Spins Clockwise" comment="This determines which direction the Meteor will spin." requirednybble="7-8"/> <!-- Appears if Rotation Speed > 0 -->
+    <list nybble="5" title="Spawn Item when Destroyed" comment="This determines if an item will appear when the Meteor is destroyed." comment2="The Meteor can only be destroyed by the Rideable Clowncar. The Mushroom Bubbles will float in from the right of the screen after the Meteor is destroyed.">
+      <entry value="0">Nothing</entry>
+      <!--<entry value="1">1 Coin</entry>-->
+      <entry value="2">Mushroom in Bubble</entry>
+    </list>
+    <value nybble="6" title="Z-Order" comment="This will adjust the Z-Order of the Meteors in relation to other objects." comment2="A higher value will place this sprite further towards the background."/>
+  </sprite> <!-- #619: Meteor -->
+
+  <!-- Graphical resources for the editor are missing. -->
+  <!-- Research "Nybble 4" -->
+  <!-- Check if Nybble 6 can define the color of "Chestnut Contains", specifically the Goomba and Spiny. -->
+  <sprite id="620" name="Falling Chestnut" asmhacks="True" notes="A hanging Chestnut that can quickly falls upon the player's approach with various potential effects.">
+    <dualbox nybble="12.4" title1="Brown" title2="Golden" comment="This determines the color of the Chestnut."/>
+    <list nybble="11" title="Size" comment="This determines the size of the Chestnut." comment2="Large values will very likely look ugly alongside other level content.">
+      <entry value="0">1 Block</entry>
+      <entry value="1">2 Blocks</entry>
+      <entry value="2">3 Blocks</entry>
+      <entry value="3">4 Blocks</entry>
+      <entry value="4">5 Blocks</entry>
+      <entry value="5">6 Blocks</entry>
+      <entry value="6">7 Blocks</entry>
+      <entry value="7">8 Blocks</entry>
+      <entry value="8">9 Blocks</entry>
+      <entry value="9">10 Blocks</entry>
+      <entry value="10">11 Blocks</entry>
+      <entry value="11">12 Blocks</entry>
+      <entry value="12">13 Blocks</entry>
+      <entry value="13">14 Blocks</entry>
+      <entry value="14">15 Blocks</entry>
+      <entry value="15">16 Blocks</entry>
+    </list>
+    <list nybble="8.2-8.4" title="Chestnut Contains" comment="This determines what object is inside of the Chestnut.">
+      <entry value="0">Goomba</entry>
+      <entry value="1">Spiny</entry>
+      <entry value="2">1 Coin</entry>
+      <entry value="3">Fire Flower</entry>
+      <entry value="4">Star Coin</entry>
+    </list>
+    <checkbox nybble="9.2" title="Falls Earlier" comment="When enabled, the Chestnut will fall if the player is 3 blocks from the sprite placement, instead of directly under it." requirednybble="9.4" requiredval="0"/> <!-- Appears only if Falls only from POW is not set -->
+    <checkbox nybble="9.4" title="Falls only from POW" comment="When enabled, instead of falling from the approach of a player, the Chestnut will only fall if a POW is used."/>
+    <checkbox nybble="9.3" title="Breaks Blocks" comment="When enabled, the Chestnut will destroy certain types of blocks and tileset pieces."/>
+    <list nybble="10" title="Star Coin Number" comment="This determines which Star Coin will be credited by the coin inside the Chestnut." requirednybble="8.2">
+      <entry value="0">1st Star Coin</entry>
+      <entry value="1">2nd Star Coin</entry>
+      <entry value="2">3rd Star Coin</entry>
+    </list> <!-- Appears only if [Chestnut Contains] == Star Coin -->
+    <checkbox nybble="4.4" title="Unknown Flag 4 (1)" advanced="True" advancedcomment="Not used in Newer, function unclear. Wha??"/>
+  </sprite> <!-- #620: Falling Chestnut -->
+
+  <!-- Double check Moving Direction, value 0 with ASM. - Grop says Value 0 should be Right and the list should repeat. Why is 0 'Does Not Move'? -->
+  <sprite id="621" name="Magic Platform" asmhacks="True" notes="Magic Platforms are created by assigning tileset data on Layer 1 to an invisible block as a new texture, and moving that texture around. While it functions best as a moving platform, the Magic Platform does not have to move in order to perform its function. It can also simply create terrain chunks with a different type of collision than normal.">
+    <dependency notes="It should be noted that the Magic Platform can only create rectangular shapes. It cannot have slopes, and it cannot have 'unused space' within the location. All tiles will turn into solid blocks."/>
+    <value nybble="11-12" title="Location ID" comment="This determines what the Magic Platform looks like. It will clone the Layer 1 tiles as it sees them within the given Location. This Location does not have to be within the current Zone boundaries."/>
+    <list nybble="6" title="Collision" comment="This determines the type of collision.">
+      <entry value="0">Solid Block</entry>
+      <entry value="1">Permeable (Solid on Top)</entry>
+      <entry value="7">Fully Permeable (Layer 0)</entry>
+      <entry value="2">Fully Permeable (Layer 1)</entry>
+      <entry value="3">Collision Line on Right Side</entry>
+      <entry value="4">Collision Line on Left Side</entry>
+      <entry value="5">Collision Line on Top Edge</entry>
+      <entry value="6">Collision Line on Bottom Edge</entry>
+    </list>
+    <value nybble="5.1-5.3" title="Z-Order" comment="Changes the Z-Order of the Magic Platform to place it behind Layer 2." comment2="Higher values are further behind other Magic Platforms."/>
+    <value nybble="3-4" title="Triggering Event ID" comment="When this Event is activated, the Magic Platform will move as specified. When the Event is deactivated, the Magic Platform will return to its starting position." idtype="Triggering Event"/>
+    <list nybble="9.3-9.4" title="Direction" comment="This determines which direction the Magic Platform will move." requirednybble="2.4-4.4">
+      <entry value="0">Right</entry>
+      <entry value="1">Left</entry>
+      <entry value="2">Up</entry>
+      <entry value="3">Down</entry>
+    </list>
+    <value nybble="10" title="Speed" comment="This determines the speed at which the Magic Platform will move." comment2="The speed increases by a factor of .2 per increment. It must be set greater than 0 for the Magic Platform to move at all." requirednybble="2.4-4.4"/>
+    <checkbox nybble="5.4" title="Move Forever" comment="When enabled, the Magic Platform will move in the assigned direction while the Triggering Event is activated, and will move in the opposite direction while the Triggering Event is deactivated." requirednybble="2.4-4.4"/>
+    <list nybble="8" title="Distance" comment="This determines how far the Magic Platform will be moved when the Triggering Event is activated." requirednybble="2.4-4.4,5.4" requiredval="1-255, 0">
+      <entry value="0">1 Block</entry>
+      <entry value="1">2 Blocks</entry>
+      <entry value="2">3 Blocks</entry>
+      <entry value="3">4 Blocks</entry>
+      <entry value="4">5 Blocks</entry>
+      <entry value="5">6 Blocks</entry>
+      <entry value="6">7 Blocks</entry>
+      <entry value="7">8 Blocks</entry>
+      <entry value="8">9 Blocks</entry>
+      <entry value="9">10 Blocks</entry>
+      <entry value="10">11 Blocks</entry>
+      <entry value="11">12 Blocks</entry>
+      <entry value="12">13 Blocks</entry>
+      <entry value="13">14 Blocks</entry>
+      <entry value="14">15 Blocks</entry>
+      <entry value="15">16 Blocks</entry>
+    </list>
+    <checkbox nybble="7" title="Enable Iron Box Effect" comment="let's do some RSMHaxxxxxxx"/>
+  </sprite> <!-- #621: Magic Platform -->
+
+  <sprite id="622" name="Angry Sun and Moon" asmhacks="True" notes="A recreation of the Angry Sun enemy from Super Mario Bros. 3 that will chase the player indefinitely unless the Triggering Event is activated.">
+    <dualbox nybble="12.4" title1="Angry Sun" title2="Angry Moon" comment="This determines which model the enemy will use."/>
+    <value nybble="7.2-8.4" title="Die on Triggering Event ID" comment="Disappears, when this Event ID is activated." idtype="Triggering Event"/>
+    <checkbox nybble="5.4" title="Never Respawns" comment="When enabled, the enemy will not respawn after being defeated or after leaving the screen." comment2="If this is not enabled, the enemy will continue to respawn once loaded until the Triggering Event is activated. One way to manage this with locations is to use an IF controller that deactivates the Triggering Event while a player is inside the specified location."/>
+  </sprite> <!-- #622: Angry Sun and Moon -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

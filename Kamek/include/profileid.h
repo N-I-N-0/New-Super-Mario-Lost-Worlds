@@ -637,6 +637,14 @@ enum
 	Meragon = 612,
 	Goombrat = 613,
 	Tenten = 614,
+	Press = 615,
+	FireLaser = 616,
+	MSGBoxManager = 617,
+	MSGBox = 618,
+	Meteor = 619,
+	Chestnut = 620,
+	MagicPlatform = 621,
+	MrSun = 622,
 
 	Num
 };
@@ -1554,6 +1562,14 @@ enum
 	Meragon, //893
 	Goombrat, //894
 	Tenten, //895
+	Press, //896
+	FireLaser, //897
+	MSGBoxManager, //898
+	MSGBox, //899
+	Meteor, //900
+	Chestnut, //901
+	MagicPlatform, //902
+	MrSun, //903
 
 	Num
 };

@@ -67,7 +67,7 @@ modules:
   - processed/spriteswapper.yaml
   - processed/compression.yaml
   # - processed/blocksnake.yaml
-  # - processed/classic_controller.yaml
+  - processed/classic_controller.yaml
   - processed/topman.yaml
   - processed/bossMegaGoomba.yaml
   # - processed/bossFuzzyBear.yaml
@@ -243,3 +243,4 @@ modules:
   - processed/battan.yaml
   - processed/meragon.yaml
   - processed/goombrat.yaml
+  - processed/press.yaml

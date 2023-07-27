@@ -1,9 +1,10 @@
 #include <game.h>
 #include <dCourse.h>
+#include <profile.h>
 
 class daEnMagicPlatform_c : public dEn_c {
 	public:
-		static daEnMagicPlatform_c *build();
+		static dActor_c *build();
 
 		int onCreate();
 		int onExecute();
@@ -57,7 +58,12 @@ class daEnMagicPlatform_c : public dEn_c {
 
 /*****************************************************************************/
 // Glue Code
-daEnMagicPlatform_c *daEnMagicPlatform_c::build() {
+const char *MagicPlatformArcNameList[] = {0};
+const SpriteData MagicPlatformSpriteData = {ProfileId::MagicPlatform, 0, 0, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 2};
+// #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+Profile MagicPlatformProfile(&daEnMagicPlatform_c::build, SpriteId::MagicPlatform, &MagicPlatformSpriteData, ProfileId::EN_SLIP_PENGUIN, ProfileId::MagicPlatform, "MagicPlatform", MagicPlatformArcNameList);
+
+dActor_c *daEnMagicPlatform_c::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(daEnMagicPlatform_c));
 	daEnMagicPlatform_c *c = new(buffer) daEnMagicPlatform_c;
 	return c;

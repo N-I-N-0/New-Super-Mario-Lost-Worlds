@@ -910,6 +910,15 @@ enum Actors {
 	Meragon, //893
 	Goombrat, //894
 	Tenten, //895
+	Press, //896
+	FireLaser, //897
+	MSGBoxManager, //898
+	MSGBox, //899
+	Meteor, //900
+	Chestnut, //901
+	MagicPlatform, //902
+	MrSun, //903
+	
 
 };
 

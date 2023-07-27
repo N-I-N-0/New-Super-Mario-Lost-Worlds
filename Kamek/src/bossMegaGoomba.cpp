@@ -105,7 +105,7 @@ class daMegaGoomba_c : public dEn_c {
 	DECLARE_STATE(Turn);
 };
 
-const SpriteData MegaGoombaSpriteData = { ProfileId::MegaGoomba, 8, -8 , 0 , 0, 0x100, 0x100, 0, 0, 0, 0, 0 };
+const SpriteData MegaGoombaSpriteData = { ProfileId::MegaGoomba, -24, -16, 0, 0, 0x100, 0x100, 0, 0, 0, 0, 2 };
 Profile MegaGoombaProfile(&daMegaGoomba_c::build, SpriteId::MegaGoomba, &MegaGoombaSpriteData, ProfileId::MegaGoomba, ProfileId::MegaGoomba, "MegaGoomba", MegaGoombaFileList);
 
 dActor_c *daMegaGoomba_c::build() {

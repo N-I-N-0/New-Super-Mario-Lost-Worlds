@@ -1,8 +1,10 @@
 #include <common.h>
 #include <game.h>
 #include <g3dhax.h>
+#include <profileid.h>
 #include <sfx.h>
 #include "boss.h"
+#include <profile.h>
 
 class dMeteor : public dEn_c {
 	int onCreate();
@@ -10,7 +12,7 @@ class dMeteor : public dEn_c {
 	int onExecute();
 	int onDraw();
 
-	static dMeteor *build();
+	public: static dActor_c *build();
 
 	mHeapAllocator_c allocator;
 	m3d::mdl_c bodyModel;
@@ -31,27 +33,29 @@ class dMeteor : public dEn_c {
 	public:
 		void kill();
 };
+const char* MEarcNameList [] = {
+	"kazan_rock",
+	NULL
+};
+const SpriteData MeteorSpriteData = {ProfileId::Meteor, 8, 0, 8, 0, 0x200, 0x200, 0x30, 0x30, 0, 0, 8};
+// #      -ID- ----  -X Offs- -Y Offs-  -RectX1- -RectY1- -RectX2- -RectY2-  -1C- -1E- -20- -22-  Flag ----
+Profile MeteorProfile(&dMeteor::build, SpriteId::Meteor, &MeteorSpriteData, ProfileId::EN_TARZANROPE, ProfileId::Meteor, "Meteor", MEarcNameList);
 
-dMeteor *dMeteor::build() {
+dActor_c *dMeteor::build() {
 	void *buffer = AllocFromGameHeap1(sizeof(dMeteor));
 	return new(buffer) dMeteor;
 }
-
-const char* MEarcNameList [] = {
-	"kazan_rock",
-	NULL	
-};
 
 // extern "C" dStageActor_c *GetSpecificPlayerActor(int num);
 // extern "C" void *modifyPlayerPropertiesWithRollingObject(dStageActor_c *Player, float _52C);
 
 
-void dMeteor::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) { 
+void dMeteor::playerCollision(ActivePhysics *apThis, ActivePhysics *apOther) {
 	DamagePlayer(this, apThis, apOther);
 }
 
 void MeteorPhysicsCallback(dMeteor *self, dEn_c *other) {
-	if (other->name == 657) {
+	if (other->name == CustomClown) {
 		OSReport("CANNON COLLISION");
 
 		SpawnEffect("Wm_en_explosion", 0, &other->pos, &(S16Vec){0,0,0}, &(Vec){1.0, 1.0, 1.0});
@@ -73,7 +77,7 @@ void MeteorPhysicsCallback(dMeteor *self, dEn_c *other) {
 	}
 }
 
-bool dMeteor::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) { 
+bool dMeteor::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
 	DamagePlayer(this, apThis, apOther);
 	return true;
 }
@@ -121,7 +125,7 @@ int dMeteor::onCreate() {
 		elec.callback = &dEn_c::collisionCallback;
 
 		this->aPhysics.initWithStruct(this, &elec);
-		this->aPhysics.addToList();	
+		this->aPhysics.addToList();
 	}
 
 	MakeItRound.baseSetup(this, &MeteorPhysicsCallback, &MeteorPhysicsCallback, &MeteorPhysicsCallback, 1, 0);
@@ -137,7 +141,7 @@ int dMeteor::onCreate() {
 	MakeItRound.addToList();
 
 	this->pos.z = (settings & 0x1000000) ? -2000.0f : 3458.0f;
-		
+
 	this->onExecute();
 	return true;
 }
