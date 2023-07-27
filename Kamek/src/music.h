@@ -4,24 +4,46 @@ u8 hijackMusicWithSongName(const char *songName, int themeID, bool hasFast, int 
 int hijackSFX(int SFXNum);
 
 static const char* SongNameList [] = {
-	"SPACE", // 100
-	"STAR_HAVEN", // 101
-	"TAMASHI", // 102
-	"DRIPDROP", // 103
-	"SPEEDYCOMET", // 104
-	"TRAIN", // 105
-	"LAVA", // 106
-    "BONUS", // 107
-	"VOLCANO", // 108
-	"CHAMPION", // 109
-	"FINAL", // 110
-	"SHIP", // 111
-	"FINALA", // 112
-	"CAVE", // 113
-	"FLIPBOOK", // 114
-	"SINGALONG", // 115
-	"BOSS", // 116
-	"BOSS_ARENA", // 117
+	"BooWoods_1a", // 100
+	"BooWoods_1b",
+	"BooWoods_2a",
+	"BooWoods_2b",
+	"BooWoods_2c",
+	"BooWoods_Map", // 105
+	"DaisyDunes_1",
+	"DaisyDunes_2",
+	"DaisyDunes_Map",
+	"Observatory_1",
+	"Observatory_2", // 110
+	"Observatory_Map",
+	"AirshipFleet_1",
+	"AirshipFleet_2",
+	"AirshipFleet_Map",
+	"ParatroopaClouds_1", // 115
+	"ParatroopaClouds_2",
+	"ParatroopaClouds_Map",
+	"DKJungle_1",
+	"DKJungle_2",
+	"DKJungle_Map", // 120
+	"CheepCheepLake_1",
+	"CheepCheepLake_2",
+	"CheepCheepLake_Map",
+	"ShyGuyVillage_1",
+	"ShyGuyVillage_2", // 125
+	"ShyGuyVillage_Map",
+	"DaisyDunes_1",
+	"DaisyDunes_2",
+	"DaisyDunes_Map",
+	"Factory_1", // 130
+	"Factory_2",
+	"Factory_Map",
+	"Library_1",
+	"Library_2",
+	"Library_Map", // 135
+	"PeachsCastle_1",
+	"PeachsCastle_2",
+	"PeachsCastle_Map",
+	"BossIncomming_1",
 	//...
 	NULL
 };
@@ -42,6 +64,7 @@ static const char* SFXNameList [] = {
 	"barrelFly",				// 2011
 	"barrelIn",					// 2012
 	"barrelStartUp",			// 2013
+	"frog_get",			// 2014
 	NULL
 };
 
