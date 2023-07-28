@@ -292,6 +292,8 @@ SECTIONS {
 	yoshiSetEatAction = 0x8014ef50;
 	yoshiFinalizeEat = 0x8014f340;
 
+	returnFromUseDifferentSplashEffects3 = 0x80a1dd14;
+	returnFromUseDifferentSplashEffects4 = 0x80a1dcdc;
 	returnFromGetLavaWavesSubType = 0x80075524;
 	returnFromSaveLiquidSettings = 0x807b4d34;
 	continueBGpolyCreate = 0x807b4d14;

@@ -43,6 +43,18 @@ hooks:
     branch_type: b
     target_func: 'UseDifferentSplashEffects2'
 
+  - name: UseDifferentSplashEffects3
+    type: branch_insn
+    src_addr_pal: 0x80a1dd10
+    branch_type: b
+    target_func: 'UseDifferentSplashEffects3'
+
+  - name: UseDifferentSplashEffects4
+    type: branch_insn
+    src_addr_pal: 0x80a1dcd8
+    branch_type: b
+    target_func: 'UseDifferentSplashEffects4'
+
   - name: SaveGlobalWaterSubType
     type: branch_insn
     src_addr_pal: 0x807b5950

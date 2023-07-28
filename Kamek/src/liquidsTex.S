@@ -25,6 +25,16 @@ CheckRanOnce:
 	ori r5, r5, liquidSetting@l
 	stb r4, 0x0(r5)
 	
+	# fix spriteFlagMask so it only uses nybble 1-2
+	lbz r4, 0x354(r3)
+	cmpwi r4, 0
+	bne spriteFlagMaskCorrect 
+	#r4 is zero
+	stw r4, 0x358(r3)	#set spriteFlagMask to 0
+	stw r4, 0x35C(r3)	#set spriteFlagMask to 0
+	
+spriteFlagMaskCorrect:
+	
 	#restore
     lmw r2, 0x8 (sp)
     lwz r0, 0x4(sp)
@@ -201,6 +211,34 @@ IceUseLavaSplashSubType:
 	lwzx r3, r4, r6
 
 	b returnFromIceUseLavaSplashSubType
+
+.extern returnFromUseDifferentSplashEffects3
+.global UseDifferentSplashEffects3
+UseDifferentSplashEffects3:
+	lis r6, nextSplashSubType@h						#load last used sub type
+	ori r6, r6, nextSplashSubType@l
+	lbz r6, 0x0(r6)
+	mulli r6, r6, 4
+
+	lis r4, poisonbig01@h						#load last used sub type
+	ori r4, r4, poisonbig01@l
+	lwzx r3, r4, r6
+
+	b returnFromUseDifferentSplashEffects3
+
+.extern returnFromUseDifferentSplashEffects4
+.global UseDifferentSplashEffects4
+UseDifferentSplashEffects4:
+	lis r6, nextSplashSubType@h						#load last used sub type
+	ori r6, r6, nextSplashSubType@l
+	lbz r6, 0x0(r6)
+	mulli r6, r6, 4
+
+	lis r4, poisonbig02@h						#load last used sub type
+	ori r4, r4, poisonbig02@l
+	lwzx r3, r4, r6
+
+	b returnFromUseDifferentSplashEffects4
 
 .extern returnFromPodobooUseLavaSplashSetting
 .global PodobooUseLavaSplashSetting
@@ -455,6 +493,18 @@ PTR_aWm_en_waterwav_803118c8:
 	.long aWm_en_poisonin
 	.long aWm_en_poisonwa
 
+.global poisonbig01
+poisonbig01:
+	.long aWm_en_poisonin
+	.long Wm_en_poisoninbig01green
+	.long aWm_en_poisonin
+
+.global poisonbig02
+poisonbig02:
+	.long Wm_en_poisoninbig02
+	.long Wm_en_poisoninbig02green
+	.long Wm_en_poisoninbig02
+
 
 .extern obj_magmadeco
 .global PTR_ARRAY_8031bb30
@@ -576,3 +626,9 @@ Wm_ob_icepoison:
 
 Wm_ob_icegreenpoison:
 	.string "Wm_ob_icegreenpoison"
+
+Wm_en_poisoninbig02:
+	.string "Wm_en_poisoninbig02"
+
+Wm_en_poisoninbig02green:
+	.string "Wm_en_poisoninbig02green"
