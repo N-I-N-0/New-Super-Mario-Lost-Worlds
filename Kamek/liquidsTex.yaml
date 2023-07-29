@@ -13,6 +13,10 @@ hooks:
     branch_type: b
     target_func: 'SelectDifferentLiquidsSet'
 
+  - name: NoHardcodedWaterTopColor
+    type: nop_insn
+    area_pal: [0x800ec054, 0x800ec070]
+
   - name: SelectDifferentLiquidsSet2
     type: branch_insn
     src_addr_pal: 0x800ebe80
