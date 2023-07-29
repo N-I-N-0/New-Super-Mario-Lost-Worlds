@@ -645,6 +645,7 @@ enum
 	Chestnut = 620,
 	MagicPlatform = 621,
 	MrSun = 622,
+	TogeMetbo = 623,
 
 	Num
 };
@@ -1570,6 +1571,7 @@ enum
 	Chestnut, //901
 	MagicPlatform, //902
 	MrSun, //903
+	TogeMetbo, //904
 
 	Num
 };

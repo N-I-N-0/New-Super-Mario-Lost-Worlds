@@ -5198,5 +5198,15 @@ class StageC4 {
 		u8 flags, _19, _1A, willDisplay, _1C, _1D;
 };
 
+void getSpriteTexResName(char* buffer, int resID) {
+	sprintf(buffer, "g3d/t%02d.brres", resID);
+	buffer[strlen(buffer)] = 0;
+}
+
+void getSpriteTexResName255(char* buffer, int resID) {
+	sprintf(buffer, "g3d/t%03d.brres", resID);
+	buffer[strlen(buffer)] = 0;
+}
+
 #endif
 

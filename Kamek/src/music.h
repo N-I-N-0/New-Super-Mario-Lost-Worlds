@@ -64,7 +64,9 @@ static const char* SFXNameList [] = {
 	"barrelFly",				// 2011
 	"barrelIn",					// 2012
 	"barrelStartUp",			// 2013
-	"frog_get",			// 2014
+	"frog_get",					// 2014
+	"toge_metbo_jump",			// 2015
+	"toge_metbo_block",			// 2016
 	NULL
 };
 

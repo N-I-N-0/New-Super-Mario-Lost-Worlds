@@ -2560,6 +2560,25 @@ class SpriteImage_TentenWing(SLib.SpriteImage_StaticMultiple):  # YYY
 
         super().dataChanged()
 
+
+class SpriteImage_Prongo(SLib.SpriteImage_StaticMultiple):  # 623
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.offset = (-8, -24)
+
+    @staticmethod
+    def loadImages():
+        if 'Prongo0' in ImageCache: return
+        for i in range(8):
+            ImageCache[f'Prongo{i}'] = SLib.GetImg(f'prongo{i}.png')
+
+    def dataChanged(self):
+        color = (self.parent.spritedata[2] & 0xF) % 8
+
+        self.image = ImageCache[f'Prongo{color}']
+
+        super().dataChanged()
+
 ImageClasses = {
     12: SpriteImage_StarCollectable,
     13: SpriteImage_ClownCar,
@@ -2655,5 +2674,6 @@ ImageClasses = {
     619: SpriteImage_Meteor,
     620: SpriteImage_FallingChestnut,
     622: SpriteImage_AngrySun,
+    623: SpriteImage_Prongo,
 
 }

@@ -5065,5 +5065,11 @@
     <value nybble="7.2-8.4" title="Die on Triggering Event ID" comment="Disappears, when this Event ID is activated." idtype="Triggering Event"/>
     <checkbox nybble="5.4" title="Never Respawns" comment="When enabled, the enemy will not respawn after being defeated or after leaving the screen." comment2="If this is not enabled, the enemy will continue to respawn once loaded until the Triggering Event is activated. One way to manage this with locations is to use an IF controller that deactivates the Triggering Event while a player is inside the specified location."/>
   </sprite> <!-- #622: Angry Sun and Moon -->
+
+  <sprite id="623" name="Prongo" asmhacks="True" notes="A Prongo!">
+    <list nybble="6" title="Color">
+      <entry value="0">Normal</entry>
+    </list>
+  </sprite> <!-- #623: Prongo -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->
