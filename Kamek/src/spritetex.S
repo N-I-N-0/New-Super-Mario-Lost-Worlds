@@ -1099,6 +1099,8 @@ TEX_GhostDoor:
 TEX_BlooperNanny:
 .global TEX_IgaPuku
 TEX_IgaPuku:
+.global TEX_KazanRock
+TEX_KazanRock:
 .global TEX_MechaKoopa
 TEX_MechaKoopa:
 	lwz r5, 4(r29)
@@ -1236,6 +1238,21 @@ TEX_Podoboo:
 	andi. r5, r5, 0xF
 	b GetTexFilenameForR5
 
+
+.global TEX_KazanRockMgrSaveThis
+TEX_KazanRockMgrSaveThis:
+	or r31, r0, r6 #restore instruction
+	stw r3, 0x8(sp)
+	blr
+
+.global TEX_KazanRockMgr
+TEX_KazanRockMgr:
+	lwz r6, 0x8(sp)
+	lwz r6, 4(r6)
+	andis. r6, r6, 0x0F00
+	or r4, r4, r6
+	li r6, 0 #restore instruction
+	blr
 
 # All these vary
 .global TEX_BigIcicle
