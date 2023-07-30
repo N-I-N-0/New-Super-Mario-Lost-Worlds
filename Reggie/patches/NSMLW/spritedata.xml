@@ -2969,7 +2969,16 @@
       <entry value="3"/>
     </list>
   </sprite> <!-- #292: Heavy Para-Beetle -->
-  
+
+  <!-- This seems to have some sort of interaction with the volcano background. What is the extent of this? -->
+  <sprite id="293" name="Volcano Rock Spawn Area" notes="Assigns a spawn area where various sizes of Volcano Rocks will hurl down from the sky destroying certain types of terrain and blocks as well as attempting to hurt the player. However, a location is NOT required, and actually changes the fundamental effects of this sprite.">
+    <list nybble="6" title="Color">
+      <entry value="0">Red</entry>
+      <entry value="1">Blue</entry>
+    </list>
+    <value nybble="12" title="Location ID" comment="When set, large amounts of Volcano Rocks will spawn intermittently from the top of the screen only while the player is within this location. Additionally, if using the Volcano background, it will erupt prior to this wave of rocks." comment2="When not set, the Volcano Rocks will still spawn, but they will spawn infrequently and one at a time for the entire zone. It will also not cause an eruption from the Volcano background." idtype="Location"/>
+  </sprite> <!-- #293: Volcano Rock Spawn Area -->
+
   <!-- Retest 'Nybble 12' with loading tests, and see if he turns around properly when reaching a wall or not. Honestly, something about the current documentation sounds incorrect -->
   <sprite id="296" name="Giant Buzzy Beetle" notes="A very large Buzzy Beetle that isn't especially pretty, but will carry the player around on its back. It can still hurt the player from the side." advancednotes="Giant Buzz Beetles don't fall down if placed in the air. They will follow the ground and slopes, if snapped to the ground. Finally, they will move in a straight line if they reach a 90° drop.">
     <list nybble="6" title="Color" comment="This determines the color of the Giant Buzzy Beetle." advancedcomment="More colors and styles can be added for your hack.">
@@ -4962,6 +4971,10 @@
   </sprite> <!-- 618: Message Box -->
 
   <sprite id="619" name="Meteor" asmhacks="True" notes="A floating, spinning, usually safe to stand on Meteor.">
+    <list nybble="6" title="Color">
+      <entry value="0">Red</entry>
+      <entry value="1">Blue</entry>
+    </list>
     <value nybble="9-10" title="Size" comment="This determines how large the Meteor is." comment2="A setting of 0 is the same as a setting of 5. 1-255 provide general scaling from 20% to 5100% scaling."/>
     <checkbox nybble="11.4" title="Electrified" comment="When enabled, the Meteor will be electrified, and will hurt any player that touches it."/>
     <value nybble="7-8" title="Rotation Speed" comment="This determines how fast the Meteor will rotate, if at all."/>

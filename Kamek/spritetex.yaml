@@ -410,6 +410,24 @@ hooks:
     src_addr_pal: 0x809D8DB4
     target_func: 'TEX_Monty'
 
+  - name: TEX_KazanRock
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8081edf4
+    target_func: 'TEX_KazanRock'
+
+  - name: TEX_KazanRockMgr
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8081dbf4
+    target_func: 'TEX_KazanRockMgr'
+
+  - name: TEX_KazanRockMgrSaveThis
+    type: branch_insn
+    branch_type: bl
+    src_addr_pal: 0x8081dbbc
+    target_func: 'TEX_KazanRockMgrSaveThis'
+
   - name: TEX_Manta
     type: branch_insn
     branch_type: bl

@@ -84,14 +84,18 @@ bool dMeteor::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *ap
 
 
 int dMeteor::onCreate() {
+	int color = this->settings >> 24 & 0xF;
 
 	// Setup Model
 	allocator.link(-1, GameHeaps[0], 0, 0x20);
 
-	this->resFile.data = getResource("kazan_rock", "g3d/kazan_rock.brres");
+	char resName[80];
+	sprintf(resName, "g3d/t%02d.brres", color);
+
+	this->resFile.data = getResource("kazan_rock", resName);
 	nw4r::g3d::ResMdl mdl = this->resFile.GetResMdl("kazan_rock");
 	bodyModel.setup(mdl, &allocator, 0x224, 1, 0);
-	SetupTextures_Enemy(&bodyModel, 0);
+	SetupTextures_MapObj(&bodyModel, 0);
 
 	allocator.unlink();
 
