@@ -5071,5 +5071,29 @@
       <entry value="0">Normal</entry>
     </list>
   </sprite> <!-- #623: Prongo -->
+
+  <sprite id="624" name="Bone Coaster" asmhacks="True" notes="A bigger version of the Dragon Coaster.">
+    <list nybble="3" title="Color">
+      <entry value="0">Normal</entry>
+    </list>
+    <list nybble="4.1-4.2" title="Type">
+      <entry value="0">Head</entry>
+      <entry value="1">Large</entry>
+      <entry value="2">Small</entry>
+      <entry value="3">Medium</entry>
+    </list>
+    <list nybble="4.3-4.4" title="Behaviour">
+      <entry value="0">Start going up</entry>
+      <entry value="1">Start going down</entry>
+      <entry value="2">Doesn't move</entry>
+    </list>
+    <dualbox nybble="7" title1="Facing Right" title2="Facing Left" />
+    <value nybble="5-6" title="Group ID" comment="This pairs the sprite to a matching Group Controller for spawn synchronization with other Group controlled sprites."  idtype="Group" />
+    <value nybble="2" title="Triggered Event ID" comment="0-15 Value. This sprite starts to move when this is triggered." />
+    <value nybble="11-12" title="Path ID" comment="This determines the ID of the Path that the objects will be linked to." idtype="Path" />
+    <value nybble="9-10" title="Path Node" comment="This determines the Node of the Path that the objects will start moving from." idtype="Path Node" />
+    <value nybble="1" title="Ignore last nodes" comment="0-15 Value. This sprite will stop before the end node. This is usefull to prevent the sprite from merging at the end of the path. &lt;br&gt; &lt;br&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning:&lt;/b&gt; Do not use with a looping path.&lt;/font&gt;" />
+    <value nybble="8" title="Speed" comment2="Use 0 to use the path speed." />
+  </sprite> <!-- #624: Bone Coaster -->
 </sprites>
 <!-- Thank you so much for a-playing my game! -->

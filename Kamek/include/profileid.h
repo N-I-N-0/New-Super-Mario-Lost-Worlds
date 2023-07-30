@@ -646,6 +646,7 @@ enum
 	MagicPlatform = 621,
 	MrSun = 622,
 	TogeMetbo = 623,
+	YoganBone = 624,
 
 	Num
 };
@@ -1572,6 +1573,7 @@ enum
 	MagicPlatform, //902
 	MrSun, //903
 	TogeMetbo, //904
+	YoganBone, //905
 
 	Num
 };

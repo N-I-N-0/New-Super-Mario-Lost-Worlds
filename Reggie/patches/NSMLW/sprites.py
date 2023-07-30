@@ -2579,6 +2579,48 @@ class SpriteImage_Prongo(SLib.SpriteImage_StaticMultiple):  # 623
 
         super().dataChanged()
 
+
+class SpriteImage_YoganBone(SLib.SpriteImage_StaticMultiple):  # 624
+    _variants = ['head', 'body0', 'body1', 'body2']
+    _width = [5, 7, 4, 5]
+    _height = [5, 5.5, 5.5, 5.5]
+    _vdist = 32
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.aux.append(SLib.AuxiliaryTrackObject(parent, 0, 0, SLib.AuxiliaryTrackObject.Vertical))
+        self.aux.append(SLib.AuxiliaryRectOutline(parent, 24, 24))
+        self.aux[1].setIsBehindSprite(False)
+
+    @staticmethod
+    def loadImages():
+        for i in range(1):
+            for j in SpriteImage_YoganBone._variants:
+                ImageCache[f'YoganBone_{j}_{i}'] = SLib.GetImg(f'yoganbone_{j}_{i}.png')
+
+    def dataChanged(self):
+        color = ((self.parent.spritedata[1] & 0xF0) >> 4) % 1
+        _1 = self.parent.spritedata[1] & 0xF
+        type_ = (_1 & 0xC) >> 2
+        behaviour = _1 & 0x3
+        width, height = int(SpriteImage_YoganBone._width[type_] * 16), int(SpriteImage_YoganBone._height[type_] * 16)
+        facing_left = ((self.parent.spritedata[3] & 0xF0) >> 4) % 2
+        path = self.parent.spritedata[5] & 0xFF
+
+        self.image = ImageCache[f'YoganBone_{SpriteImage_YoganBone._variants[type_]}_{color}'].copy()
+        if facing_left: self.image = self.image.transformed(QtGui.QTransform().scale(-1, 1))
+
+        self.offset = (8, -16 if type_ == 0 else 0)
+
+        self.aux[0].setSize(width, (height + self._vdist) if behaviour < 2 else 0)
+        self.aux[0].setPos(0, (self._vdist * -1.5) // 2 + (-8 if type_ != 0 else 0))
+
+        self.aux[1].setSize(*((0, 0) if path == 0 else (24, 24)), 0, 36 if type_ == 0 else 0)
+
+        super().dataChanged()
+
+
 ImageClasses = {
     12: SpriteImage_StarCollectable,
     13: SpriteImage_ClownCar,
@@ -2675,5 +2717,5 @@ ImageClasses = {
     620: SpriteImage_FallingChestnut,
     622: SpriteImage_AngrySun,
     623: SpriteImage_Prongo,
-
+    624: SpriteImage_YoganBone,
 }
