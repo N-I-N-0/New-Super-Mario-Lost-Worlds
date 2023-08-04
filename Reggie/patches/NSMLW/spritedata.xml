@@ -4200,13 +4200,14 @@
       <entry value="0">Mushroom/Fire Flower</entry>
       <entry value="1">Star</entry>
       <entry value="2">Coin</entry>
-      <entry value="3">Fire Flower</entry>
-      <entry value="4">Mushroom/Ice Flower</entry>
-      <entry value="5">Penguin</entry>
-      <entry value="6">Propeller</entry>
-      <entry value="7">Mini Shroom</entry>
-      <entry value="8">Hammer</entry>
-      <entry value="9">10 Coins</entry>
+      <entry value="3">1-UP</entry>
+      <entry value="4">Fire Flower</entry>
+      <entry value="5">Mushroom/Ice Flower</entry>
+      <entry value="6">Penguin</entry>
+      <entry value="7">Propeller</entry>
+      <entry value="8">Mini Mushroom</entry>
+      <entry value="9">Hammer</entry>
+      <entry value="10">10 Coins</entry>
     </list>
   </sprite>
   
