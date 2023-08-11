@@ -6,3 +6,7 @@ hooks:
     branch_type: bl
     src_addr_pal: 0x808bf040
     target_func: 'selectLiftFromSettings'
+
+#  - name: NoOutOfBoundsCheck
+#    type: nop_insn
+#    area_pal: 0x808bf138
