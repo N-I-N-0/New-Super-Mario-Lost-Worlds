@@ -4212,7 +4212,7 @@
       <entry value="9">10 Coins</entry>
     </list>
   </sprite>
-  
+
   <sprite id="510" name="The Great Goal Pole" asmhacks="True" notes="A Goal Pole that flys along a path.">
     <value nybble="11-12" title="Path ID" comment="0 means that this goal pole won't ever fly as there is no path to follow." />
     <value nybble="9-10" title="Start Node" />
@@ -4220,11 +4220,19 @@
   </sprite> <!-- #510: The Great Goal Pole -->
 
   <sprite id="511" name="Water Lift" asmhacks="True" notes="A Water Lift that was left in the game as an actor but not as a sprite.">
+    <list nybble="11-12" title="Item">
+      <entry value="0">Normal</entry>
+      <entry value="1">Normal Silver</entry>
+      <entry value="2">Mushroom</entry>
+      <entry value="3">Player Platform</entry>
+      <entry value="4">Normal Boss</entry>
+      <entry value="5">Bone Coaster Platform</entry>
+    </list>
   </sprite> <!-- #511: Water Lift -->
-  
+
   <sprite id="512" name="Sidestepper Boss" asmhacks="True" notes="A Sidestepper boss.">
   </sprite> <!-- #512: Sidestepper Boss -->
-  
+
   <sprite id="513" name="Sidestepper" asmhacks="True" notes="A Sidestepper. TICK ONLY ONE BOX IN EACH CATEGORY!!!">
     <checkbox nybble="12.4" title="1 Spawn Point" comment="Number of the Spawn Points." />
     <checkbox nybble="12.3" title="2 Spawn Points" comment="Number of the Spawn Points." />
