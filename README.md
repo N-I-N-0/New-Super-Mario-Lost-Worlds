@@ -14,10 +14,9 @@ new New Super Mario Bros. Wii Mod with custom 3D maps, over 150 new levels, new 
 Like in the original repo, the source code and tools are released under the MIT license.
 See the `LICENSE` file in this repository for full details.
 
-Copyright (c) 2010-2013 Treeki, Tempus, megazig
+Copyright ©2010-2013 Treeki, Tempus, megazig
 
-Copyright (c) 2020-2022 Nin0, Baddy, Mihi, Bestimum, LiQ, RedStoneMatt, Grop, Asu-chan
-
+Copyright ©2020-2023 Nin0, Baddy, Mihi, Bestimum, LiQ, RedStoneMatt, Grop, Asu-chan
 
 ### Requirements
 
