@@ -337,11 +337,12 @@
     <checkbox nybble="11.4" title="Falls when POW is Used" comment="The Star Coin will fall to the ground if a POW effect is triggered."/>
     <value nybble="1.2-2.4" title="Target Event ID" comment="When the Star Coin is collected, the Target Event ID will be activated." idtype="Target Event"/>
     <dualbox nybble="7.4" title1="Triggers a Timed Event" title2="Permanently activates Target Event" comment="This determines if the Target Event is timed or permanent. Timed events will pause the music and replace it with ticking." requirednybble="1.2-2.4"/>
-    <value nybble="5.3-5.4" title="Unknown List 5" advanced="True" advancedcomment="ASM shows Nybble 5 might affect something."/>
+    <list nybble="5.3-5.4" title="Unknown List 5" advanced="True" advancedcomment="ASM shows Nybble 5 might affect something.">
       <entry value="0">???</entry>
       <entry value="1">???</entry>
       <entry value="2">???</entry>
       <entry value="3">???</entry>
+    </list>
     <value nybble="8" title="Unknown Value 8" advanced="True" advancedcomment="ASM shows Nybble 8 might affect something."/>
     <checkbox nybble="6" title="SMG Z Order" comment="When enabled, this changes the Z-Order of the Star Coin to Mario's pos."/>
   </sprite> <!-- #32: Star Coin -->
@@ -3730,9 +3731,10 @@
   </sprite> <!-- #447: Lighting - Underwater Lamp -->
 
   <sprite id="459" name="Crowd Clapping Controller for Coin Collection #1" notes="A controller that generates a clapping sound when the player collects the listed number of coins of both types from the Collection ID group.">
-    <dependency notes="You cannot use tileset coins for this to function."/>
+    <dependency notes="You cannot use tileset coins for this to function.">
       <suggested sprite="147"/>
       <suggested sprite="237"/>
+    </dependency>
     <value nybble="7-8" title="# of Blue Coins Required" comment="This determines the number of paired blue coins required to trigger the Crowd Clapper."/>
     <value nybble="9-10" title="# of Yellow Coins Required" comment="This determines the number of paired standard coins required to trigger the Crowd Clapper."/>
     <value nybble="5-6" title="# of Purple Coins Required" comment="This determines the number of paired purple coins required to trigger the Crowd Clapper. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
@@ -3743,9 +3745,10 @@
   </sprite> <!-- #459: Crowd Clapping Controller for Coin Collection #1 -->
 
   <sprite id="461" name="Crowd Clapping Controller for Coin Collection #2" notes="A controller that generates a clapping sound when the player collects the listed number of coins of both types from the Collection ID group. Seems to be identical to #1.">
-    <dependency notes="You cannot use tileset coins for this to function."/>
+    <dependency notes="You cannot use tileset coins for this to function.">
       <suggested sprite="147"/>
       <suggested sprite="237"/>
+    </dependency>
     <value nybble="7-8" title="# of Blue Coins Required" comment="This determines the number of paired blue coins required to trigger the Crowd Clapper."/>
     <value nybble="9-10" title="# of Yellow Coins Required" comment="This determines the number of paired standard coins required to trigger the Crowd Clapper."/>
     <value nybble="5-6" title="# of Purple Coins Required" comment="This determines the number of paired purple coins required to trigger the Crowd Clapper. &lt;font color=&quot;blue&quot;&gt;For use with &quot;New Super Mario Bros. Wii: The Prankster Comets&quot; Only!&lt;/font&gt;"/>
