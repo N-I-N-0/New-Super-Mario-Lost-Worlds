@@ -9,6 +9,12 @@
 	</head>
 	<body>
 		<div class="background"></div>
+		
+		<!-- Screenshot Lightbox Modal -->
+		<div id="screenshot-modal" class="modal">
+			<span class="modal-close">&times;</span>
+			<img class="modal-content" id="modal-img">
+		</div>
   
 			<nav>
 				<div class="pages">
@@ -63,7 +69,14 @@
 					<div class="pageparts">
 						<div class="container">
 							<h2>Screenshots</h2>
-							<p>Coming soon ...</p>
+							<div class="screenshot-grid">
+						<img src="Website/img/screenshots/BJAF.png" alt="Screenshot 1" class="screenshot-img" onclick="openModal(0)">
+						<img src="Website/img/screenshots/BL.png" alt="Screenshot 2" class="screenshot-img" onclick="openModal(1)">
+						<img src="Website/img/screenshots/BW.png" alt="Screenshot 3" class="screenshot-img" onclick="openModal(2)">
+						<img src="Website/img/screenshots/DKJ.png" alt="Screenshot 4" class="screenshot-img" onclick="openModal(3)">
+						<img src="Website/img/screenshots/DKJu.png" alt="Screenshot 5" class="screenshot-img" onclick="openModal(4)">
+						<img src="Website/img/screenshots/YI.png" alt="Screenshot 6" class="screenshot-img" onclick="openModal(5)">
+							</div>
 						</div>
 					</div>
 					<div class="playlisttext" id="videos" style="scroll-margin: 5vh;">
@@ -106,10 +119,6 @@
 									<div class="nameWrapper"><a class="memberName">Ogu_99</a></div>
 								</div>
 								<div class="team">
-									<img src="Website/img/team/Ryguy.png" class="member"></img>
-									<div class="nameWrapper"><a class="memberName">Ryguy</a></div>
-								</div>
-								<div class="team">
 									<img src="Website/img/team/wakanameko.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">wakanameko</a></div>
 								</div>
@@ -120,6 +129,10 @@
 								<div class="team">
 									<img src="Website/img/team/Captain%203.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">The Captain</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/krinkles.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">krinkles</a></div>
 								</div>
 								<div class="team">
 									<img src="Website/img/team/CubixL.png" class="member"></img>
@@ -138,6 +151,10 @@
 									<div class="nameWrapper"><a class="memberName">Atomic_bomb</a></div>
 								</div>
 								<div class="team">
+									<img src="Website/img/team/fuzzy.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">fuzzy</a></div>
+								</div>
+								<div class="team">
 									<img src="Website/img/team/aspect.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">aspect</a></div>
 								</div>
@@ -146,8 +163,16 @@
 									<div class="nameWrapper"><a class="memberName">Mone</a></div>
 								</div>
 								<div class="team">
-									<img src="Website/img/team/L-DEV.png" class="member"></img>
-									<div class="nameWrapper"><a class="memberName">L-DEV</a></div>
+									<img src="Website/img/team/Lavrenzy.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">🎼🎹Lavrenzy🎹</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/LucasD10.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">LucasD10</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/azumarine.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">azumarine</a></div>
 								</div>
 								<div class="team">
 									<img src="Website/img/team/WTails358.png" class="member"></img>
@@ -156,10 +181,6 @@
 								<div class="team">
 									<img src="Website/img/team/Microtransagolor.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">Microtransagolor</a></div>
-								</div>
-								<div class="team">
-									<img src="Website/img/team/chasical.png" class="member"></img>
-									<div class="nameWrapper"><a class="memberName">chasical</a></div>
 								</div>
 								<div class="team">
 									<img src="Website/img/team/G4L.png" class="member"></img>
@@ -293,8 +314,24 @@
 									<div class="nameWrapper"><a class="memberName">Pixel</a></div>
 								</div>
 								<div class="team">
+									<img src="Website/img/team/Tuxx.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">Tuxx</a></div>
+								</div>
+								<div class="team">
 									<img src="Website/img/team/MandyIGuess.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">MandyIGuess</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/Ryguy.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">Ryguy</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/L-DEV.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">L-DEV</a></div>
+								</div>
+								<div class="team">
+									<img src="Website/img/team/chasical.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">chasical</a></div>
 								</div>
 								<div class="team">
 									<img src="Website/img/team/Walid.png" class="member"></img>
@@ -409,6 +446,10 @@
 									<div class="nameWrapper"><a class="memberName">Danster64</a></div>
 								</div>
 								<div class="team">
+									<img src="Website/img/team/mkwcat.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">mkwcat</a></div>
+								</div>
+								<div class="team">
 									<img src="Website/img/team/Swift.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">Swift</a></div>
 								</div>
@@ -428,6 +469,10 @@
 									<img src="Website/img/team/Rimea.png" class="member"></img>
 									<div class="nameWrapper"><a class="memberName">Rimea</a></div>
 								</div>
+								<div class="team">
+									<img src="Website/img/team/domthewiz.png" class="member"></img>
+									<div class="nameWrapper"><a class="memberName">domthewiz</a></div>
+								</div>
 							</div>
 							<p></p>
 						</div>
@@ -445,7 +490,7 @@
 			<footer>
 				<div class="footer">
 				  <div class="footertext">
-					<p>©2021-2025 NSMLW Team</p>
+					<p>©2021-2026 NSMLW Team</p>
 				  </div>
 				</div>
 			</footer>
@@ -502,6 +547,113 @@
 				//$('.item').eq($('.team').index(this)).addClass('current-item');
 			});
 		});
+		
+		// Screenshot Modal Functions with Navigation
+		const screenshotImages = [
+			'Website/img/screenshots/BJAF.png',
+			'Website/img/screenshots/BL.png',
+			'Website/img/screenshots/BW.png',
+			'Website/img/screenshots/DKJ.png',
+			'Website/img/screenshots/DKJu.png',
+			'Website/img/screenshots/YI.png'
+		];
+		let currentImageIndex = 0;
+		
+		function openModal(imageIndex) {
+			const modal = document.getElementById('screenshot-modal');
+			const modalImg = document.getElementById('modal-img');
+			
+			// Set the current image index
+			currentImageIndex = imageIndex;
+			
+			modal.style.display = 'block';
+			modalImg.src = screenshotImages[currentImageIndex];
+			document.body.style.overflow = 'hidden';
+		}
+		
+		function closeModal() {
+			const modal = document.getElementById('screenshot-modal');
+			modal.style.display = 'none';
+			document.body.style.overflow = 'auto';
+		}
+		
+		function navigateImage(direction) {
+			// Circular navigation
+			currentImageIndex += direction;
+			if (currentImageIndex < 0) {
+				currentImageIndex = screenshotImages.length - 1;
+			} else if (currentImageIndex >= screenshotImages.length) {
+				currentImageIndex = 0;
+			}
+			
+			const modalImg = document.getElementById('modal-img');
+			modalImg.src = screenshotImages[currentImageIndex];
+		}
+		
+		// Close modal when clicking on X or background
+		document.getElementById('screenshot-modal').addEventListener('click', function(e) {
+			if (e.target.id === 'screenshot-modal' || e.target.className === 'modal-close') {
+				closeModal();
+			}
+		});
+		
+		// Click on image left/right half to navigate
+		document.getElementById('modal-img').addEventListener('click', function(e) {
+			e.stopPropagation(); // Prevent closing modal
+			const rect = this.getBoundingClientRect();
+			const clickX = e.clientX - rect.left;
+			const imageWidth = rect.width;
+			
+			if (clickX < imageWidth / 2) {
+				// Clicked left half - previous image
+				navigateImage(-1);
+			} else {
+				// Clicked right half - next image
+				navigateImage(1);
+			}
+		});
+		
+		// Keyboard navigation
+		document.addEventListener('keydown', function(e) {
+			const modal = document.getElementById('screenshot-modal');
+			if (modal.style.display === 'block') {
+				if (e.key === 'Escape') {
+					closeModal();
+				} else if (e.key === 'ArrowLeft') {
+					navigateImage(-1);
+				} else if (e.key === 'ArrowRight') {
+					navigateImage(1);
+				}
+			}
+		});
+		
+		// Touch/Swipe detection for mobile
+		let touchStartX = 0;
+		let touchEndX = 0;
+		
+		document.getElementById('screenshot-modal').addEventListener('touchstart', function(e) {
+			touchStartX = e.changedTouches[0].screenX;
+		}, false);
+		
+		document.getElementById('screenshot-modal').addEventListener('touchend', function(e) {
+			touchEndX = e.changedTouches[0].screenX;
+			handleSwipe();
+		}, false);
+		
+		function handleSwipe() {
+			const swipeThreshold = 50; // Minimum distance for a swipe
+			const diff = touchStartX - touchEndX;
+			
+			if (Math.abs(diff) > swipeThreshold) {
+				if (diff > 0) {
+					// Swiped left - show next image
+					navigateImage(1);
+				} else {
+					// Swiped right - show previous image
+					navigateImage(-1);
+				}
+			}
+		}
 	</script>
  
 </body><style type="text/css"></style></html>

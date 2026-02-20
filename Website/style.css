@@ -300,3 +300,87 @@ iframe {
 	text-shadow:  0 0 10px #000000;
 	z-index: 1000;
 }
+
+/* Screenshot Grid Styles */
+.screenshot-grid {
+	display: grid;
+	gap: 15px;
+	padding: 20px 0;
+	grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+}
+
+.screenshot-img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease;
+	cursor: pointer;
+}
+
+.screenshot-img:hover {
+	transform: scale(1.05);
+}
+
+/* Screenshot Modal/Lightbox */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 10000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(5px);
+	animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+	margin: auto;
+	display: block;
+	max-width: 90%;
+	max-height: 90%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 10px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	animation: zoomIn 0.3s ease;
+}
+
+.modal-close {
+	position: absolute;
+	top: 20px;
+	right: 35px;
+	color: #ffffff;
+	font-size: 50px;
+	font-weight: bold;
+	cursor: pointer;
+	z-index: 10001;
+	transition: color 0.3s ease;
+	text-shadow: 0 0 10px #000000;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+	color: #cccccc;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+	from { transform: translate(-50%, -50%) scale(0.8); }
+	to { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Desktop: 3 columns */
+@media screen and (min-width: 768px) {
+	.screenshot-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
